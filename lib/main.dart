@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(new App());
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Meshi',
       theme: new ThemeData(
+        fontFamily: "BettyLavea",
         primaryColor: Color(0xFF5E2531),
         primaryColorDark: Color(0xFF4B1822),
         primaryColorLight: Color(0xFF672836),
