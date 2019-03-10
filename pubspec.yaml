@@ -39,7 +39,6 @@ flutter:
     - res/images/
     - res/icons/
 
-
   fonts:
     - family: BettyLavea
       fonts:
