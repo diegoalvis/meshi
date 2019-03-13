@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/login.dart';
 import 'package:meshi/pages/splash.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(new App());
@@ -31,13 +34,13 @@ class App extends StatelessWidget {
             onBackground: Color(0xFF303030),
             onError: Colors.white,
             brightness: Brightness.dark),
-//        primarySwatch: Colors.blue,
-
         fontFamily: "Poppins",
         textTheme: TextTheme(
           headline: TextStyle(fontSize: 72.0, fontFamily: 'BettyLavea'),
-//          title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-//          body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+          subhead: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+          subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+          body1: TextStyle(fontSize: 14.0),
         ),
       ),
       home: new SplashPage(),
@@ -50,20 +53,32 @@ class App extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title, this.fbToken}) : super(key: key);
 
-  final String title;
+  final String title, fbToken;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => new _MyHomePageState(fbToken);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  var _profile;
+  final String _fbToken;
 
-  void _incrementCounter() {
+  _MyHomePageState(this._fbToken);
+
+  @override
+  void initState() {
+    super.initState();
+    loadFacebookProfile();
+  }
+
+  void loadFacebookProfile() async {
+    var graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=$_fbToken');
+
     setState(() {
-      _counter++;
+      _profile = json.decode(graphResponse.body);
     });
   }
 
@@ -71,24 +86,26 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(widget.title),
+        title: new Text("Meshi"),
       ),
       body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
+          child: _profile != null
+              ? Container(
+                  height: 200.0,
+                  width: 200.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(
+                        _profile['picture']['data']['url'],
+                      ),
+                    ),
+                  ),
+                )
+              : null),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: null,
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Meshi</string>
+    <string name="facebook_app_id">262133378022674</string>
+    <string name="fb_login_protocol_scheme">fb262133378022674</string>
+
+</resources>
