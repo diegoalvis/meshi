@@ -32,12 +32,14 @@ class MyLocalizations {
     'en': {
       'title': 'Hello World',
       'log_in_with': 'Log in with',
+      'find_perfect_date': 'Find your perfect date',
     },
 
     /* Spanish text resources */
     'es': {
       'title': 'Hola Mundo',
       'log_in_with': 'Ingresa con',
+      'find_perfect_date': 'Encuentra tu pareja ideal',
     },
   };
 
@@ -48,4 +50,9 @@ class MyLocalizations {
   String get logInWith {
     return _localizedValues[locale.languageCode]['log_in_with'];
   }
+
+  String get findPerfectDate {
+    return _localizedValues[locale.languageCode]['find_perfect_date'];
+  }
+
 }

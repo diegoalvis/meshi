@@ -58,8 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: 'BettyLavea',
                       ))),
               Expanded(
-                child: Text(
-                  'Encuentra tu pareja ideal',
+                child: Text(strings.findPerfectDate,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
