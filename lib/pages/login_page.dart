@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:meshi/blocs/login_bloc.dart';
 import 'package:meshi/main.dart';
-import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,34 +8,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  void _loggedIn(String token) {
+    if (token.isNotEmpty) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(fbToken: token)));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    loginBloc.fbToken.listen(_loggedIn);
   }
 
-  void initiateFacebookLogin() async {
-    var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email']);
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        print("Error"); //TODO: Handle error
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
-        break;
-      case FacebookLoginStatus.loggedIn:
-        var graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture&access_token=${facebookLoginResult.accessToken.token}');
-
-        var profile = json.decode(graphResponse.body);
-        debugPrint(profile.toString());
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyHomePage(fbToken: facebookLoginResult.accessToken.token)));
-        break;
-    }
+  @override
+  void dispose() {
+    loginBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.all(8.0),
                           textColor: Colors.white,
                           color: Color(0xFF4267B2),
-                          onPressed: initiateFacebookLogin,
+                          onPressed: loginBloc.initFacebookLogin,
                           child: new Text("Facebook"),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         ))),

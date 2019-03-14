@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:meshi/pages/login.dart';
-import 'package:meshi/pages/splash.dart';
 import 'package:http/http.dart' as http;
+import 'package:meshi/pages/login_page.dart';
+import 'package:meshi/pages/splash_page.dart';
 
 void main() {
   runApp(new App());
