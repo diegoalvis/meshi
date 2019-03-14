@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:meshi/pages/login_page.dart';
 import 'package:meshi/pages/splash_page.dart';
+import 'package:meshi/utils/localiztions.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(new App());
@@ -13,6 +15,15 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Meshi',
+      localizationsDelegates: [
+        const MyLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('es', ''),
+      ],
       theme: new ThemeData(
         primaryColor: Color(0xFF5E2531),
         primaryColorDark: Color(0xFF4B1822),
@@ -51,6 +62,13 @@ class App extends StatelessWidget {
   }
 }
 
+
+
+
+
+
+
+// TODO: Testing class
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key key, this.title, this.fbToken}) : super(key: key);
 

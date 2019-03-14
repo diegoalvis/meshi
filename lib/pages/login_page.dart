@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/login_bloc.dart';
 import 'package:meshi/main.dart';
+import 'package:meshi/utils/localiztions.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   void _loggedIn(String token) {
     if (token.isNotEmpty) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(fbToken: token)));
@@ -28,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return Scaffold(
         body: Container(
             decoration: const BoxDecoration(
@@ -64,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               Expanded(
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  child: Text('Ingresa con',
+                  child: Text(strings.logInWith,
                       style: TextStyle(
                         color: Colors.white,
                       )),
