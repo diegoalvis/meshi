@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:meshi/pages/login_page.dart';
+import 'package:meshi/pages/register_page.dart';
 import 'package:meshi/pages/splash_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -53,7 +54,7 @@ class App extends StatelessWidget {
           body1: TextStyle(fontSize: 14.0),
         ),
       ),
-      home: new SplashPage(),
+      home: new RegisterPage(), // SplashPage()
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => MyHomePage(title: 'Home'),
@@ -61,12 +62,6 @@ class App extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
 
 // TODO: Testing class
 class MyHomePage extends StatefulWidget {
