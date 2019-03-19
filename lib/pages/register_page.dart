@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  _buildPictureList(strings, int pos) {
+  _buildPictureList(MyLocalizations strings, int pos) {
     return Expanded(
       child: GestureDetector(
         onTap: () => showDialog(
@@ -75,12 +75,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget>[
                       ListTile(
                         leading: Icon(Icons.photo_camera),
-                        title: Text("Camara"),
+                        title: Text(strings.camera),
                         onTap: () => _getImage(pos, ImageSource.camera),
                       ),
                       ListTile(
                         leading: Icon(Icons.photo_library),
-                        title: Text("Galeria"),
+                        title: Text(strings.gallery),
                         onTap: () => _getImage(pos, ImageSource.gallery),
                       ),
                     ],
@@ -92,10 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
             borderRadius: new BorderRadius.circular(16.0),
             child: _images[pos] != null
                 ? Image.file(_images[pos], fit: BoxFit.cover)
-                : Container(
-                    color: Colors.grey[300],
-//                    constraints: BoxConstraints(minHeight: double.infinity),
-                    child: Icon(Icons.add_a_photo)),
+                : Container(color: Colors.grey[300], child: Icon(Icons.add_a_photo)),
           ),
         ),
       ),
@@ -142,7 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
       children: [
         Expanded(
           child: Text(
-            "Selecciona las fotos para que tus intereses puedan verte y conocerter.",
+            strings.pictureSelectCaption,
             textAlign: TextAlign.center,
           ),
         ),
@@ -178,12 +175,12 @@ class _RegisterPageState extends State<RegisterPage> {
     Widget _buildPageTwo = ListView(
       children: [
         Text(
-          "Cuentanos sobre ti.",
+          strings.tellUsAboutYou,
           textAlign: TextAlign.center,
         ),
         TextFormField(
           initialValue: _email != null ? _email : "",
-          decoration: InputDecoration(labelText: 'Correo', hintText: "usuario@example.com"),
+          decoration: InputDecoration(labelText: strings.email, hintText: "usuario@example.com"),
         ),
         SizedBox(height: 25),
         GestureDetector(
@@ -195,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: TextEditingController(
                     text: "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
                 decoration: InputDecoration(
-                  labelText: 'Fecha de nacimiento',
+                  labelText: strings.birthDate,
                   hintText: "dd/mm/aa",
                   fillColor: Theme.of(context).colorScheme.onPrimary,
                   suffixIcon: Icon(Icons.calendar_today),
@@ -208,7 +205,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Row(
           children: [
             Expanded(
-                child: Text('Soy',
+                child: Text(strings.self,
                     textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryColor))),
             Expanded(child: _buildGenderSelector(true))
           ],
@@ -217,7 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Expanded(
               child: Text(
-                'Me interesa',
+                strings.interested,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
@@ -233,35 +230,35 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Column(
         children: [
           Text(
-            "Cuentanos sobre ti.",
+            strings.tellUsAboutYou,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 40),
           TextFormField(
             decoration: InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Como te describes?',
+              labelText: strings.howDescribeYourself,
             ),
           ),
           SizedBox(height: 20),
           TextFormField(
             decoration: InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Que te gusta hacer en tus tiempos libres?',
+              labelText: strings.hobbiesCaption,
             ),
           ),
           SizedBox(height: 25),
           TextFormField(
             decoration: InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'A que te dedicas?',
+              labelText: strings.whatYouDo,
             ),
           ),
           SizedBox(height: 25),
           TextFormField(
             decoration: InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Que buscas en otra persona?',
+              labelText: strings.whatYouLookingFor,
             ),
           ),
           SizedBox(height: 25),
@@ -272,7 +269,7 @@ class _RegisterPageState extends State<RegisterPage> {
     /** Section 4 **/
     Widget _buildPageFour = Column(
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: 40),
         ClipOval(
           child: Container(
             height: 200.0,
@@ -283,7 +280,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         SizedBox(height: 20),
         Text(
-          'Bienvenido',
+          strings.welcome,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Theme.of(context).primaryColor,
@@ -304,12 +301,12 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Container(
             alignment: Alignment.center,
             child: Text(
-              "En Meshe queremos suferite los usuarios que cumplan con las características que tu deseas en tu pareja, para esto hacemos un cuestionario profundo para entender tus hábitos e intereses y lograr ser más asertivos a la hora de sugerirte otras personas.\n\n\nPuedes ingresar o completar tu perfil.",
+              strings.welcomeCaption,
               textAlign: TextAlign.center,
             ),
           ),
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 20),
       ],
     );
 
@@ -324,15 +321,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     currentPage--;
                     if (currentPage < 1) currentPage = 1;
                   }),
-              child: Text(
-                currentPage == 1 ? '' : 'Atras',
+              child: Text((currentPage == 4 ? strings.logIn : currentPage == 1 ? '' : strings.back).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),
             ),
           ),
         ),
-        Expanded(child: Text(currentPage != 4 ? "$currentPage de 3" : "", textAlign: TextAlign.center)),
+        Expanded(
+          flex: currentPage != 4 ? 1 : 0,
+          child: Container(
+              child: currentPage != 4
+                  ? Text("$currentPage ${strings.ofLabel} 3", textAlign: TextAlign.center)
+                  : null),
+        ),
         Expanded(
           child: Container(
             alignment: Alignment.center,
@@ -341,11 +343,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     currentPage++;
                     if (currentPage > 4) currentPage = 4;
                   }),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+              color: currentPage == 4 ? Theme.of(context).accentColor : Colors.transparent,
               child: Text(
-                currentPage == 3 ? 'Finalizar' : 'Siguiente',
+                (currentPage == 4
+                        ? strings.completeProfile
+                        : currentPage == 3 ? strings.finish : strings.next)
+                    .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: currentPage == 4 ? Colors.white : Theme.of(context).accentColor,
                 ),
               ),
             ),
@@ -375,12 +382,12 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: [
             Expanded(
-              flex: currentPage != 4 ? 2: 0,
+              flex: currentPage != 4 ? 2 : 0,
               child: Container(
                 alignment: Alignment.center,
                 child: currentPage != 4
                     ? Text(
-                        'Como Eres?',
+                        strings.asYouAre,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
