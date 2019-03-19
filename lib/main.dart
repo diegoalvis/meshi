@@ -50,12 +50,12 @@ class App extends StatelessWidget {
         textTheme: TextTheme(
           headline: TextStyle(fontSize: 72.0, fontFamily: 'BettyLavea'),
           title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-          subhead: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+          subhead: TextStyle(fontSize: 14.0, fontFamily: 'BettyLavea'),
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-          body1: TextStyle(fontSize: 14.0),
+//          body1: TextStyle(fontSize: 14.0),
         ),
       ),
-      home: new RegisterPage(), // SplashPage()
+      home: new SplashPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => MyHomePage(title: 'Home'),

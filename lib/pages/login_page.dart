@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/login_bloc.dart';
-import 'package:meshi/main.dart';
+import 'package:meshi/pages/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,10 +9,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   void _loggedIn(String token) {
     if (token.isNotEmpty) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(fbToken: token)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(fbToken: token)));
     }
   }
 
@@ -58,7 +57,8 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: 'BettyLavea',
                       ))),
               Expanded(
-                child: Text(strings.findPerfectDate,
+                child: Text(
+                  strings.findPerfectDate,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
