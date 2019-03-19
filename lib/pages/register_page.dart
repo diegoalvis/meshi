@@ -51,10 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   _selectDate() {
     showDatePicker(
-            context: context,
-            initialDate: selectedDate,
-            firstDate: DateTime(1950),
-            lastDate: DateTime.now())
+            context: context, initialDate: selectedDate, firstDate: DateTime(1950), lastDate: DateTime.now())
         .then<DateTime>((DateTime pickedDate) {
       if (pickedDate != null && pickedDate != selectedDate) {
         setState(() => selectedDate = pickedDate);
@@ -69,41 +66,40 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  _buildPictureList(strings) {
-    List<Widget> _imageList = new List();
-    for (var i = 0; i < _MAX_PICTURES; i++) {
-      _imageList.add(
-        GestureDetector(
-          onTap: () => showDialog(
-                context: context,
-                builder: (BuildContext context) => SimpleDialog(
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.photo_camera),
-                          title: Text("Camara"),
-                          onTap: () => _getImage(i, ImageSource.camera),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.photo_library),
-                          title: Text("Galeria"),
-                          onTap: () => _getImage(i, ImageSource.gallery),
-                        ),
-                      ],
-                    ),
-              ),
+  _buildPictureList(strings, int pos) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) => SimpleDialog(
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.photo_camera),
+                        title: Text("Camara"),
+                        onTap: () => _getImage(pos, ImageSource.camera),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.photo_library),
+                        title: Text("Galeria"),
+                        onTap: () => _getImage(pos, ImageSource.gallery),
+                      ),
+                    ],
+                  ),
+            ),
+        child: AspectRatio(
+          aspectRatio: 1,
           child: ClipRRect(
             borderRadius: new BorderRadius.circular(16.0),
-            child: _images[i] != null
-                ? Image.file(_images[i], fit: BoxFit.cover)
+            child: _images[pos] != null
+                ? Image.file(_images[pos], fit: BoxFit.cover)
                 : Container(
                     color: Colors.grey[300],
-                    child: Icon(Icons.add_a_photo),
-                  ),
+//                    constraints: BoxConstraints(minHeight: double.infinity),
+                    child: Icon(Icons.add_a_photo)),
           ),
         ),
-      );
-    }
-    return _imageList;
+      ),
+    );
   }
 
   _buildGenderSelector(bool isUserGender) {
@@ -118,8 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   else
                     this._userInterestedGender = Gender.male;
                 }),
-            child: Image.asset('res/icons/male.png',
-                color: gender == Gender.male ? Color(0xFF2ABEB6) : null),
+            child: Image.asset('res/icons/male.png', color: gender == Gender.male ? Color(0xFF2ABEB6) : null),
           ),
         ),
         Expanded(
@@ -152,25 +147,39 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         Expanded(
-          flex: 4,
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 5,
-            children: _buildPictureList(strings),
+          flex: 2,
+          child: Container(
+            child: Row(
+              children: [
+                _buildPictureList(strings, 0),
+                SizedBox(width: 12),
+                _buildPictureList(strings, 1),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 12),
+        Expanded(
+          flex: 2,
+          child: Container(
+            child: Row(
+              children: [
+                _buildPictureList(strings, 2),
+                SizedBox(width: 12),
+                _buildPictureList(strings, 3),
+              ],
+            ),
           ),
         ),
       ],
     );
 
     /** Section 2 **/
-    Widget _buildPageTwo = Column(
+    Widget _buildPageTwo = ListView(
       children: [
-        Expanded(
-          child: Text(
-            "Cuentanos sobre ti.",
-            textAlign: TextAlign.center,
-          ),
+        Text(
+          "Cuentanos sobre ti.",
+          textAlign: TextAlign.center,
         ),
         TextFormField(
           initialValue: _email != null ? _email : "",
@@ -183,7 +192,6 @@ class _RegisterPageState extends State<RegisterPage> {
             color: Colors.transparent,
             child: IgnorePointer(
               child: TextFormField(
-                enabled: false,
                 controller: TextEditingController(
                     text: "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
                 decoration: InputDecoration(
@@ -197,94 +205,83 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         SizedBox(height: 25),
-        Expanded(
-          flex: 2,
-          child: Row(
-            children: [
-              Expanded(
-                  child: Text('Soy',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Theme.of(context).primaryColor))),
-              Expanded(child: _buildGenderSelector(true))
-            ],
-          ),
+        Row(
+          children: [
+            Expanded(
+                child: Text('Soy',
+                    textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryColor))),
+            Expanded(child: _buildGenderSelector(true))
+          ],
         ),
-        Expanded(
-          flex: 2,
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Me interesa',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Me interesa',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Theme.of(context).primaryColor),
               ),
-              Expanded(child: _buildGenderSelector(false))
-            ],
-          ),
+            ),
+            Expanded(child: _buildGenderSelector(false))
+          ],
         ),
       ],
     );
 
     /** Section 3 **/
-    Widget _buildPageThree = Column(
-      children: [
-        Text(
-          "Cuentanos sobre ti.",
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 40),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Como te describes?',
-                ),
-              ),
-              SizedBox(height: 25),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Que te gusta hacer en tus tiempos libres?',
-                ),
-              ),
-              SizedBox(height: 25),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'A que te dedicas?',
-                ),
-              ),
-              SizedBox(height: 25),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Que buscas en otra persona?',
-                ),
-              ),
-              SizedBox(height: 25),
-            ],
+    Widget _buildPageThree = SingleChildScrollView(
+      child: Column(
+        children: [
+          Text(
+            "Cuentanos sobre ti.",
+            textAlign: TextAlign.center,
           ),
-        ),
-      ],
+          SizedBox(height: 40),
+          TextFormField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Como te describes?',
+            ),
+          ),
+          SizedBox(height: 20),
+          TextFormField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Que te gusta hacer en tus tiempos libres?',
+            ),
+          ),
+          SizedBox(height: 25),
+          TextFormField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'A que te dedicas?',
+            ),
+          ),
+          SizedBox(height: 25),
+          TextFormField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Que buscas en otra persona?',
+            ),
+          ),
+          SizedBox(height: 25),
+        ],
+      ),
     );
 
     /** Section 4 **/
     Widget _buildPageFour = Column(
       children: [
+        SizedBox(height: 20),
         ClipOval(
           child: Container(
             height: 200.0,
             width: 200.0,
             color: _images[0] != null ? Colors.transparent : Colors.grey[300],
-            child:
-                _images[0] != null ? Image.file(_images[0], fit: BoxFit.cover) : Icon(Icons.add_a_photo),
+            child: _images[0] != null ? Image.file(_images[0], fit: BoxFit.cover) : Icon(Icons.add_a_photo),
           ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 20),
         Text(
           'Bienvenido',
           textAlign: TextAlign.center,
@@ -377,24 +374,25 @@ class _RegisterPageState extends State<RegisterPage> {
         minimum: const EdgeInsets.all(28.0),
         child: Column(
           children: [
-            SizedBox(height: currentPage == 4 ? 0 : 70),
-            Container(
-              alignment: Alignment.center,
-              child: currentPage != 4
-                  ? Text(
-                      'Como Eres?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 45,
-                        fontFamily: 'BettyLavea',
-                      ),
-                    )
-                  : null,
-            ),
-            SizedBox(height: 50),
             Expanded(
-              flex: 3,
+              flex: currentPage != 4 ? 2: 0,
+              child: Container(
+                alignment: Alignment.center,
+                child: currentPage != 4
+                    ? Text(
+                        'Como Eres?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 34,
+                          fontFamily: 'BettyLavea',
+                        ),
+                      )
+                    : null,
+              ),
+            ),
+            Expanded(
+              flex: 7,
               child: _buildPage(),
             ),
             SizedBox(height: 20),
