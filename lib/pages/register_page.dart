@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final String _fbToken;
 
   var _profile;
+  String _name, _email;
   List<File> _images = new List(_MAX_PICTURES);
   DateTime selectedDate = DateTime.now();
   Gender _userDefineGender, _userInterestedGender;
@@ -37,20 +38,28 @@ class _RegisterPageState extends State<RegisterPage> {
         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=$_fbToken');
     setState(() {
       _profile = json.decode(graphResponse.body);
+      try {
+        _name = _profile['name'];
+        _email = _profile['email'];
+      } catch (e) {
+        print(e.toString());
+      }
     });
   }
 
   _RegisterPageState(this._fbToken);
 
-  _selectDate() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1950),
-        lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate) {
-      setState(() => selectedDate = picked);
-    }
+  _selectDate() {
+    showDatePicker(
+            context: context,
+            initialDate: selectedDate,
+            firstDate: DateTime(1950),
+            lastDate: DateTime.now())
+        .then<DateTime>((DateTime pickedDate) {
+      if (pickedDate != null && pickedDate != selectedDate) {
+        setState(() => selectedDate = pickedDate);
+      }
+    });
   }
 
   _getImage(index, source) async {
@@ -60,12 +69,28 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  _buildPictureList() {
+  _buildPictureList(strings) {
     List<Widget> _imageList = new List();
     for (var i = 0; i < _MAX_PICTURES; i++) {
       _imageList.add(
         GestureDetector(
-          onTap: () => _getImage(i, ImageSource.gallery),
+          onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => SimpleDialog(
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(Icons.photo_camera),
+                          title: Text("Camara"),
+                          onTap: () => _getImage(i, ImageSource.camera),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.photo_library),
+                          title: Text("Galeria"),
+                          onTap: () => _getImage(i, ImageSource.gallery),
+                        ),
+                      ],
+                    ),
+              ),
           child: ClipRRect(
             borderRadius: new BorderRadius.circular(16.0),
             child: _images[i] != null
@@ -132,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisCount: 2,
             mainAxisSpacing: 5,
             crossAxisSpacing: 5,
-            children: _buildPictureList(),
+            children: _buildPictureList(strings),
           ),
         ),
       ],
@@ -148,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         TextFormField(
-          initialValue: _profile != null ? _profile['email'] : "",
+          initialValue: _email != null ? _email : "",
           decoration: InputDecoration(labelText: 'Correo', hintText: "usuario@example.com"),
         ),
         SizedBox(height: 25),
@@ -271,7 +296,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         SizedBox(height: 20),
         Text(
-          _profile != null ? _profile['name'] : "",
+          _name != null ? _name : "",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 23.0,
