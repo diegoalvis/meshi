@@ -55,7 +55,7 @@ class App extends StatelessWidget {
 //          body1: TextStyle(fontSize: 14.0),
         ),
       ),
-      home: new RegisterPage(fbToken: "asd",),
+      home: new SplashPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => MyHomePage(title: 'Home'),

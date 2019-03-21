@@ -51,7 +51,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   _selectDate() {
     showDatePicker(
-            context: context, initialDate: selectedDate, firstDate: DateTime(1950), lastDate: DateTime.now())
+            context: context,
+            initialDate: selectedDate,
+            firstDate: DateTime(1950),
+            lastDate: DateTime.now())
         .then<DateTime>((DateTime pickedDate) {
       if (pickedDate != null && pickedDate != selectedDate) {
         setState(() => selectedDate = pickedDate);
@@ -66,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  _buildPictureList(MyLocalizations strings, int pos) {
+  _buildPictureSelector(MyLocalizations strings, int pos) {
     return Expanded(
       child: GestureDetector(
         onTap: () => showDialog(
@@ -111,7 +114,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   else
                     this._userInterestedGender = Gender.male;
                 }),
-            child: Image.asset('res/icons/male.png', color: gender == Gender.male ? Color(0xFF2ABEB6) : null),
+            child: Image.asset('res/icons/male.png',
+                color: gender == Gender.male ? Color(0xFF2ABEB6) : null),
           ),
         ),
         Expanded(
@@ -137,36 +141,25 @@ class _RegisterPageState extends State<RegisterPage> {
     /** Section 1 **/
     Widget _buildPageOne = Column(
       children: [
-        Expanded(
-          child: Text(
-            strings.pictureSelectCaption,
-            textAlign: TextAlign.center,
-          ),
+        Text(
+          strings.pictureSelectCaption,
+          textAlign: TextAlign.center,
         ),
-        Expanded(
-          flex: 2,
-          child: Container(
-            child: Row(
-              children: [
-                _buildPictureList(strings, 0),
-                SizedBox(width: 12),
-                _buildPictureList(strings, 1),
-              ],
-            ),
-          ),
+        SizedBox(height: 50),
+        Row(
+          children: [
+            _buildPictureSelector(strings, 0),
+            SizedBox(width: 12),
+            _buildPictureSelector(strings, 1),
+          ],
         ),
         SizedBox(height: 12),
-        Expanded(
-          flex: 2,
-          child: Container(
-            child: Row(
-              children: [
-                _buildPictureList(strings, 2),
-                SizedBox(width: 12),
-                _buildPictureList(strings, 3),
-              ],
-            ),
-          ),
+        Row(
+          children: [
+            _buildPictureSelector(strings, 2),
+            SizedBox(width: 12),
+            _buildPictureSelector(strings, 3),
+          ],
         ),
       ],
     );
@@ -206,8 +199,9 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Expanded(
                 child: Text(strings.self,
-                    textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryColor))),
-            Expanded(child: _buildGenderSelector(true))
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Theme.of(context).primaryColor))),
+            Expanded(flex: 2, child: _buildGenderSelector(true))
           ],
         ),
         Row(
@@ -219,7 +213,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ),
-            Expanded(child: _buildGenderSelector(false))
+            Expanded(flex: 2, child: _buildGenderSelector(false))
           ],
         ),
       ],
@@ -275,10 +269,11 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 200.0,
             width: 200.0,
             color: _images[0] != null ? Colors.transparent : Colors.grey[300],
-            child: _images[0] != null ? Image.file(_images[0], fit: BoxFit.cover) : Icon(Icons.add_a_photo),
+            child:
+                _images[0] != null ? Image.file(_images[0], fit: BoxFit.cover) : Icon(Icons.add_a_photo),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 30),
         Text(
           strings.welcome,
           textAlign: TextAlign.center,
@@ -290,7 +285,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         SizedBox(height: 20),
         Text(
-          _name != null ? _name : "",
+          _name != null ? _name : "Usuario",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 23.0,
@@ -321,7 +316,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     currentPage--;
                     if (currentPage < 1) currentPage = 1;
                   }),
-              child: Text((currentPage == 4 ? strings.logIn : currentPage == 1 ? '' : strings.back).toUpperCase(),
+              child: Text(
+                (currentPage == 4 ? strings.logIn : currentPage == 1 ? '' : strings.back).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),
