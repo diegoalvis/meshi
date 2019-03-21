@@ -49,6 +49,7 @@ class MyLocalizations {
   String get gallery => _localizedValues[locale.languageCode]['gallery'];
   String get completeProfile => _localizedValues[locale.languageCode]['complete_profile'];
   String get logIn => _localizedValues[locale.languageCode]['log_in'];
+  String get placeholderUser => _localizedValues[locale.languageCode]['placeholder_user'];
 
   static MyLocalizations of(BuildContext context) {
     return Localizations.of<MyLocalizations>(context, MyLocalizations);
@@ -71,7 +72,8 @@ class MyLocalizations {
       'what_you_do': 'What do you do?',
       'what_you_looking_for': 'What are you looking for in another person?',
       'welcome': 'Welcome',
-      'welcome_caption': 'In Meshi we want to suggest you people who meet the characteristics you wish in your partner, for this we do a deep form to understand your habits and interests and be more accurate when suggesting other people.',
+      'welcome_caption':
+          'In Meshi we want to suggest you people who meet the characteristics you wish in your partner, for this we do a deep form to understand your habits and interests and be more accurate when suggesting other people.',
       'back': 'Back',
       'of_label': 'of',
       'next': 'Next',
@@ -80,6 +82,7 @@ class MyLocalizations {
       'gallery': 'Album',
       'complete_profile': 'Complete profile',
       'log_in': 'Log In',
+      'placeholder_user': 'User',
     },
 
     /* Spanish text resources */
@@ -98,7 +101,8 @@ class MyLocalizations {
       'what_you_do': 'A que te dedicas?',
       'what_you_looking_for': 'Que buscas en otra persona?',
       'welcome': 'Bienvenido',
-      'welcome_caption': 'En Meshi queremos sugerite personas que cumplan con las características que tu deseas en tu pareja, para esto hacemos un cuestionario profundo para entender tus hábitos e intereses y lograr ser más asertivos a la hora de sugerirte otras personas.',
+      'welcome_caption':
+          'En Meshi queremos sugerite personas que cumplan con las características que tu deseas en tu pareja, para esto hacemos un cuestionario profundo para entender tus hábitos e intereses y lograr ser más asertivos a la hora de sugerirte otras personas.',
       'back': 'Atras',
       'of_label': 'de',
       'next': 'Siguiente',
@@ -107,6 +111,7 @@ class MyLocalizations {
       'gallery': 'Galeria',
       'complete_profile': 'Completar perfil',
       'log_in': 'Ingresar',
+      'placeholder_user': 'Usuario',
     },
   };
 }

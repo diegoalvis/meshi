@@ -5,6 +5,7 @@ import 'package:meshi/pages/Test.dart';
 import 'package:meshi/pages/login_page.dart';
 import 'package:meshi/pages/register_page.dart';
 import 'package:meshi/pages/splash_page.dart';
+import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

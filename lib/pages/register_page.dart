@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/gender.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -77,15 +78,19 @@ class _RegisterPageState extends State<RegisterPage> {
               builder: (BuildContext context) => SimpleDialog(
                     children: <Widget>[
                       ListTile(
-                        leading: Icon(Icons.photo_camera),
-                        title: Text(strings.camera),
-                        onTap: () => _getImage(pos, ImageSource.camera),
-                      ),
+                          leading: Icon(Icons.photo_camera),
+                          title: Text(strings.camera),
+                          onTap: () {
+                            _getImage(pos, ImageSource.camera);
+                            Navigator.pop(context);
+                          }),
                       ListTile(
-                        leading: Icon(Icons.photo_library),
-                        title: Text(strings.gallery),
-                        onTap: () => _getImage(pos, ImageSource.gallery),
-                      ),
+                          leading: Icon(Icons.photo_library),
+                          title: Text(strings.gallery),
+                          onTap: () {
+                            _getImage(pos, ImageSource.gallery);
+                            Navigator.pop(context);
+                          }),
                     ],
                   ),
             ),
@@ -260,51 +265,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    /** Section 4 **/
-    Widget _buildPageFour = Column(
-      children: [
-        SizedBox(height: 40),
-        ClipOval(
-          child: Container(
-            height: 200.0,
-            width: 200.0,
-            color: _images[0] != null ? Colors.transparent : Colors.grey[300],
-            child:
-                _images[0] != null ? Image.file(_images[0], fit: BoxFit.cover) : Icon(Icons.add_a_photo),
-          ),
-        ),
-        SizedBox(height: 30),
-        Text(
-          strings.welcome,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 45,
-            fontFamily: 'BettyLavea',
-          ),
-        ),
-        SizedBox(height: 20),
-        Text(
-          _name != null ? _name : "Usuario",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 23.0,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
-        Expanded(
-          child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              strings.welcomeCaption,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-      ],
-    );
-
     /** Navigation buttons **/
     Widget _buildBottomButtons = Row(
       children: [
@@ -317,7 +277,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (currentPage < 1) currentPage = 1;
                   }),
               child: Text(
-                (currentPage == 4 ? strings.logIn : currentPage == 1 ? '' : strings.back).toUpperCase(),
+                (currentPage == 1 ? '' : strings.back).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),
@@ -325,30 +285,31 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         Expanded(
-          flex: currentPage != 4 ? 1 : 0,
-          child: Container(
-              child: currentPage != 4
-                  ? Text("$currentPage ${strings.ofLabel} 3", textAlign: TextAlign.center)
-                  : null),
-        ),
+            child: Container(
+          child: Text("$currentPage ${strings.ofLabel} 3", textAlign: TextAlign.center),
+        )),
         Expanded(
           child: Container(
             alignment: Alignment.center,
             child: FlatButton(
               onPressed: () => setState(() {
                     currentPage++;
-                    if (currentPage > 4) currentPage = 4;
+                    if (currentPage > 3) {
+                      currentPage = 3;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WelcomePage(image: _images[0], name: _name)),
+                      );
+                    }
                   }),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
               color: currentPage == 4 ? Theme.of(context).accentColor : Colors.transparent,
               child: Text(
-                (currentPage == 4
-                        ? strings.completeProfile
-                        : currentPage == 3 ? strings.finish : strings.next)
-                    .toUpperCase(),
+                (currentPage == 3 ? strings.finish : strings.next).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: currentPage == 4 ? Colors.white : Theme.of(context).accentColor,
+                  color: Theme.of(context).accentColor,
                 ),
               ),
             ),
@@ -365,8 +326,6 @@ class _RegisterPageState extends State<RegisterPage> {
           return _buildPageTwo;
         case 3:
           return _buildPageThree;
-        case 4:
-          return _buildPageFour;
         default:
           return _buildPageOne;
       }
@@ -374,7 +333,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       body: SafeArea(
-        minimum: const EdgeInsets.all(28.0),
+        minimum: const EdgeInsets.all(24.0),
         child: Column(
           children: [
             Expanded(
