@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:meshi/pages/Test.dart';
+import 'package:meshi/pages/basic_form_page.dart';
 import 'package:meshi/pages/login_page.dart';
 import 'package:meshi/pages/register_page.dart';
 import 'package:meshi/pages/splash_page.dart';
@@ -56,7 +57,7 @@ class App extends StatelessWidget {
 //          body1: TextStyle(fontSize: 14.0),
         ),
       ),
-      home: new SplashPage(),
+      home: new BasicFormPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => MyHomePage(title: 'Home'),
