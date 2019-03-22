@@ -50,6 +50,8 @@ class MyLocalizations {
   String get completeProfile => _localizedValues[locale.languageCode]['complete_profile'];
   String get logIn => _localizedValues[locale.languageCode]['log_in'];
   String get placeholderUser => _localizedValues[locale.languageCode]['placeholder_user'];
+  String get educationalLevelCaption =>
+      _localizedValues[locale.languageCode]['educational_level_caption'];
 
   static MyLocalizations of(BuildContext context) {
     return Localizations.of<MyLocalizations>(context, MyLocalizations);
@@ -83,6 +85,7 @@ class MyLocalizations {
       'complete_profile': 'Complete profile',
       'log_in': 'Log In',
       'placeholder_user': 'User',
+      'educational_level_caption': 'What is your educational level?',
     },
 
     /* Spanish text resources */
@@ -112,6 +115,7 @@ class MyLocalizations {
       'complete_profile': 'Completar perfil',
       'log_in': 'Ingresar',
       'placeholder_user': 'Usuario',
+      'educational_level_caption': 'Cual es tu grado de escolaridad',
     },
   };
 }

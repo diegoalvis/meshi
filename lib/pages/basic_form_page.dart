@@ -15,6 +15,7 @@ class BasicFormPage extends StatefulWidget {
 
 class _BasicFormPageState extends State<BasicFormPage> {
   int currentPage = 1;
+  int educationalLevelSelected;
 
   @override
   void initState() {
@@ -24,10 +25,41 @@ class _BasicFormPageState extends State<BasicFormPage> {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
+    List<String> educationalLevels = ["Bachiller", "Tecnico", "Tecnologo", "Profesional", "Posrado"];
 
     /** Section 1 **/
     Widget _buildPageOne = Column(
-      children: [],
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        Text(strings.educationalLevelCaption, textAlign: TextAlign.center),
+        SizedBox(
+          height: 40,
+        ),
+        Expanded(
+          child: Container(
+            child: ListView.separated(
+              itemCount: educationalLevels.length,
+              separatorBuilder: (BuildContext context, int index) => Divider(),
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    educationalLevels[index] != null ? educationalLevels[index] : '',
+                    style: TextStyle(
+                        color: (educationalLevelSelected == index
+                            ? Theme.of(context).accentColor
+                            : Colors.black)),
+                  ),
+                  onTap: () => setState(() {
+                        educationalLevelSelected = index;
+                      }),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
 
     /** Navigation buttons **/
@@ -90,11 +122,26 @@ class _BasicFormPageState extends State<BasicFormPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Image.asset(
+                "res/icons/logo.png",
+                scale: 4,
+                color: Theme.of(context).primaryColor,
+              ),
+            );
+          },
+        ),
         title: Text(
           "Cuestionario",
-          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          textAlign: TextAlign.start,
+          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
-        elevation: 0,
+        elevation: 0.0,
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(24.0),
