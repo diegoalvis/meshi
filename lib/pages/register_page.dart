@@ -1,138 +1,101 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
+import 'package:meshi/blocs/register_bloc.dart';
+import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/welcome_page.dart';
+import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/gender.dart';
 import 'package:meshi/utils/localiztions.dart';
 
+class RegisterBlocProvider extends InheritedWidget {
+  final RegisterBloc bloc;
+  final Widget child;
+
+  RegisterBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
+
+  static RegisterBlocProvider of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(RegisterBlocProvider) as RegisterBlocProvider);
+  }
+
+  @override
+  bool updateShouldNotify(RegisterBlocProvider oldWidget) => true;
+}
+
+// Widget
 class RegisterPage extends StatefulWidget {
   final String fbToken;
 
-  RegisterPage({Key key, this.fbToken}) : super(key: key);
+  RegisterPage({Key key, @required this.fbToken}) : super(key: key);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState(fbToken);
+  _RegisterPageState createState() => _RegisterPageState(fbToken, RegisterBloc());
 }
 
 class _RegisterPageState extends State<RegisterPage> {
   static const _MAX_PICTURES = 4;
+  final RegisterBloc _bloc;
   final String _fbToken;
 
-  var _profile;
-  String _name, _email;
   List<File> _images = new List(_MAX_PICTURES);
   DateTime selectedDate = DateTime.now();
-  Gender _userDefineGender, _userInterestedGender;
+  Gender _userDefineGender;
+  Set<Gender> _userInterestedGender = Set<Gender>();
   int currentPage = 1;
+
+  _RegisterPageState(this._fbToken, this._bloc);
 
   @override
   void initState() {
     super.initState();
-    loadFacebookProfile();
+    _bloc.loadFacebookProfile(_fbToken);
   }
 
-  void loadFacebookProfile() async {
-    var graphResponse = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=$_fbToken');
-    setState(() {
-      _profile = json.decode(graphResponse.body);
-      try {
-        _name = _profile['name'];
-        _email = _profile['email'];
-      } catch (e) {
-        print(e.toString());
-      }
-    });
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
-  _RegisterPageState(this._fbToken);
-
-  _selectDate() {
-    showDatePicker(
-            context: context,
-            initialDate: selectedDate,
-            firstDate: DateTime(1950),
-            lastDate: DateTime.now())
-        .then<DateTime>((DateTime pickedDate) {
-      if (pickedDate != null && pickedDate != selectedDate) {
-        setState(() => selectedDate = pickedDate);
-      }
-    });
-  }
-
-  _getImage(index, source) async {
-    var image = await ImagePicker.pickImage(source: source);
-    if (image != null) {
-      setState(() => _images[index] = image);
-    }
-  }
-
-  _buildPictureSelector(MyLocalizations strings, int pos) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => showDialog(
-              context: context,
-              builder: (BuildContext context) => SimpleDialog(
-                    children: <Widget>[
-                      ListTile(
-                          leading: Icon(Icons.photo_camera),
-                          title: Text(strings.camera),
-                          onTap: () {
-                            _getImage(pos, ImageSource.camera);
-                            Navigator.pop(context);
-                          }),
-                      ListTile(
-                          leading: Icon(Icons.photo_library),
-                          title: Text(strings.gallery),
-                          onTap: () {
-                            _getImage(pos, ImageSource.gallery);
-                            Navigator.pop(context);
-                          }),
-                    ],
-                  ),
-            ),
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: ClipRRect(
-            borderRadius: new BorderRadius.circular(16.0),
-            child: _images[pos] != null
-                ? Image.file(_images[pos], fit: BoxFit.cover)
-                : Container(color: Colors.grey[300], child: Icon(Icons.add_a_photo)),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _buildGenderSelector(bool isUserGender) {
-    var gender = isUserGender ? _userDefineGender : _userInterestedGender;
+  _buildGenderSelector(bool isUnique) {
+    Color colorMale = isUnique
+        ? (_userDefineGender == Gender.male ? Color(Gender.male.color) : null)
+        : (_userInterestedGender?.contains(Gender.male) == true ? Color(Gender.male.color) : null);
+    Color colorFemale = isUnique
+        ? (_userDefineGender == Gender.female ? Color(Gender.female.color) : null)
+        : (_userInterestedGender?.contains(Gender.female) == true ? Color(Gender.female.color) : null);
     return Row(
       children: [
         Expanded(
           child: GestureDetector(
             onTap: () => setState(() {
-                  if (isUserGender)
-                    this._userDefineGender = Gender.male;
-                  else
-                    this._userInterestedGender = Gender.male;
+                  if (isUnique) {
+                    _userDefineGender = Gender.male;
+                  } else {
+                    if (_userInterestedGender.contains(Gender.male)) {
+                      _userInterestedGender.remove(Gender.male);
+                    } else {
+                      _userInterestedGender.add(Gender.male);
+                    }
+                  }
                 }),
-            child: Image.asset('res/icons/male.png',
-                color: gender == Gender.male ? Color(0xFF2ABEB6) : null),
+            child: Image.asset(Gender.male.icon, color: colorMale),
           ),
         ),
         Expanded(
           child: GestureDetector(
             onTap: () => setState(() {
-                  if (isUserGender)
-                    this._userDefineGender = Gender.female;
-                  else
-                    this._userInterestedGender = Gender.female;
+                  if (isUnique) {
+                    _userDefineGender = Gender.female;
+                  } else {
+                    if (_userInterestedGender.contains(Gender.female)) {
+                      _userInterestedGender.remove(Gender.female);
+                    } else {
+                      _userInterestedGender.add(Gender.female);
+                    }
+                  }
                 }),
-            child: Image.asset('res/icons/female.png',
-                color: gender == Gender.female ? Color(0xFF80065E) : null),
+            child: Image.asset(Gender.female.icon, color: colorFemale),
           ),
         ),
       ],
@@ -153,17 +116,17 @@ class _RegisterPageState extends State<RegisterPage> {
         SizedBox(height: 50),
         Row(
           children: [
-            _buildPictureSelector(strings, 0),
+            ImageSelector(_images[0], (image) => setState(() => _images[0] = image)),
             SizedBox(width: 12),
-            _buildPictureSelector(strings, 1),
+            ImageSelector(_images[1], (image) => setState(() => _images[1] = image)),
           ],
         ),
         SizedBox(height: 12),
         Row(
           children: [
-            _buildPictureSelector(strings, 2),
+            ImageSelector(_images[2], (image) => setState(() => _images[2] = image)),
             SizedBox(width: 12),
-            _buildPictureSelector(strings, 3),
+            ImageSelector(_images[3], (image) => setState(() => _images[3] = image)),
           ],
         ),
       ],
@@ -176,13 +139,27 @@ class _RegisterPageState extends State<RegisterPage> {
           strings.tellUsAboutYou,
           textAlign: TextAlign.center,
         ),
-        TextFormField(
-          initialValue: _email != null ? _email : "",
-          decoration: InputDecoration(labelText: strings.email, hintText: "usuario@example.com"),
+        StreamBuilder<User>(
+          stream: _bloc.user,
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+            return TextFormField(
+              initialValue: snapshot.data?.email != null ? snapshot.data.email : "",
+              decoration: InputDecoration(labelText: strings.email, hintText: "usuario@example.com"),
+            );
+          },
         ),
         SizedBox(height: 25),
         GestureDetector(
-          onTap: () => _selectDate(),
+          onTap: () => showDatePicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(1950),
+                      lastDate: DateTime.now())
+                  .then<DateTime>((DateTime pickedDate) {
+                if (pickedDate != null && pickedDate != selectedDate) {
+                  setState(() => selectedDate = pickedDate);
+                }
+              }),
           child: Container(
             color: Colors.transparent,
             child: IgnorePointer(
@@ -291,27 +268,33 @@ class _RegisterPageState extends State<RegisterPage> {
         Expanded(
           child: Container(
             alignment: Alignment.center,
-            child: FlatButton(
-              onPressed: () => setState(() {
-                    currentPage++;
-                    if (currentPage > 3) {
-                      currentPage = 3;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WelcomePage(image: _images[0], name: _name)),
-                      );
-                    }
-                  }),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-              color: currentPage == 4 ? Theme.of(context).accentColor : Colors.transparent,
-              child: Text(
-                (currentPage == 3 ? strings.finish : strings.next).toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context).accentColor,
-                ),
-              ),
+            child: StreamBuilder<User>(
+              stream: _bloc.user,
+              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                return FlatButton(
+                  onPressed: () => setState(() {
+                        currentPage++;
+                        if (currentPage > 3) {
+                          currentPage = 3;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    WelcomePage(image: _images[0], name: snapshot?.data?.name)),
+                          );
+                        }
+                      }),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                  color: currentPage == 4 ? Theme.of(context).accentColor : Colors.transparent,
+                  child: Text(
+                    (currentPage == 3 ? strings.finish : strings.next).toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -334,32 +317,35 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            Expanded(
-              flex: currentPage != 4 ? 2 : 0,
-              child: Container(
-                alignment: Alignment.center,
-                child: currentPage != 4
-                    ? Text(
-                        strings.asYouAre,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 34,
-                          fontFamily: 'BettyLavea',
-                        ),
-                      )
-                    : null,
+        child: RegisterBlocProvider(
+          bloc: _bloc,
+          child: Column(
+            children: [
+              Expanded(
+                flex: currentPage != 4 ? 2 : 0,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: currentPage != 4
+                      ? Text(
+                          strings.asYouAre,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 34,
+                            fontFamily: 'BettyLavea',
+                          ),
+                        )
+                      : null,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 7,
-              child: _buildPage(),
-            ),
-            SizedBox(height: 20),
-            _buildBottomButtons,
-          ],
+              Expanded(
+                flex: 7,
+                child: _buildPage(),
+              ),
+              SizedBox(height: 20),
+              _buildBottomButtons,
+            ],
+          ),
         ),
       ),
     );

@@ -3,7 +3,9 @@ import 'package:rxdart/rxdart.dart';
 
 class LoginBloc {
   final _fbTokenSubject = PublishSubject<String>();
-  Observable<String> get fbToken => _fbTokenSubject.stream;
+
+  // stream outputs
+  Stream<String> get fbToken => _fbTokenSubject.stream;
 
   void initFacebookLogin() async {
     var facebookLogin = FacebookLogin();
@@ -27,5 +29,3 @@ class LoginBloc {
     _fbTokenSubject.close();
   }
 }
-
-final loginBloc = LoginBloc();

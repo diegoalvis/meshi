@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:meshi/pages/basic_form_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -62,7 +63,9 @@ class WelcomePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       child: Text(
                         strings.logIn.toUpperCase(),
                         textAlign: TextAlign.center,
@@ -75,7 +78,8 @@ class WelcomePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => BasicFormPage())),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                       color: Theme.of(context).accentColor,
                       child: Text(

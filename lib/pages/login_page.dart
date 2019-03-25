@@ -9,27 +9,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  void _loggedIn(String token) {
-    if (token.isNotEmpty) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(fbToken: token)));
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loginBloc.fbToken.listen(_loggedIn);
-  }
+  final _bloc = LoginBloc();
 
   @override
   void dispose() {
-    loginBloc.dispose();
+    _bloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
+    _bloc.fbToken.takeWhile((token) => token.isNotEmpty).listen((token) =>
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(fbToken: token))));
     return Scaffold(
         body: Container(
             decoration: const BoxDecoration(
@@ -81,8 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.all(8.0),
                           textColor: Colors.white,
                           color: Color(0xFF4267B2),
-                          onPressed: loginBloc.initFacebookLogin,
-                          child: new Text("Facebook"),
+                          onPressed: _bloc.initFacebookLogin,
+                          child: Text("Facebook"),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         ))),
               )
