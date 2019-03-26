@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:meshi/data/models/user_model.dart';
@@ -10,7 +9,7 @@ class RegisterBloc {
   static const _MAX_PICTURES = 4;
 
   final _userSubject = PublishSubject<User>();
-  // stream outputs
+
   Stream<User> get user => _userSubject.stream;
 
   DateTime selectedDate = DateTime.now();
@@ -20,7 +19,7 @@ class RegisterBloc {
     var graphResponse = await http.get(
         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=$fbToken');
 
-    final user = User();
+    final user = User(fbToken: fbToken);
     var profile = json.decode(graphResponse.body);
     try {
       user.name = profile['name'];

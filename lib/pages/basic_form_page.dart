@@ -44,6 +44,7 @@ class _BasicFormPageState extends State<BasicFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    const TOTAL_PAGES = 5;
     final strings = MyLocalizations.of(context);
 
     /** Navigation buttons **/
@@ -67,7 +68,7 @@ class _BasicFormPageState extends State<BasicFormPage> {
         ),
         Expanded(
             child: Container(
-          child: Text("$currentPage ${strings.ofLabel} 3", textAlign: TextAlign.center),
+          child: Text("$currentPage ${strings.ofLabel} $TOTAL_PAGES", textAlign: TextAlign.center),
         )),
         Expanded(
           child: Container(
@@ -75,17 +76,17 @@ class _BasicFormPageState extends State<BasicFormPage> {
             child: FlatButton(
               onPressed: () => setState(() {
                     currentPage++;
-                    if (currentPage > 3) {
-                      currentPage = 3;
+                    if (currentPage > TOTAL_PAGES) {
+                      currentPage = TOTAL_PAGES;
                     }
                   }),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-              color: currentPage == 4 ? Theme.of(context).accentColor : Colors.transparent,
+              color: Theme.of(context).accentColor,
               child: Text(
-                (currentPage == 3 ? strings.finish : strings.next).toUpperCase(),
+                (currentPage == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -102,6 +103,8 @@ class _BasicFormPageState extends State<BasicFormPage> {
           return BasicFormPageTwo();
         case 3:
           return BasicFormPageThree();
+        case 4:
+          return BasicFormPageFour();
         default:
           return BasicFormPageOne();
       }
@@ -110,19 +113,10 @@ class _BasicFormPageState extends State<BasicFormPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: Image.asset(
-                "res/icons/logo.png",
-                scale: 4,
-                color: Theme.of(context).primaryColor,
-              ),
-            );
-          },
+        leading: Image.asset(
+          "res/icons/logo.png",
+          scale: 4,
+          color: Theme.of(context).primaryColor,
         ),
         title: Text(
           "Cuestionario",
@@ -131,6 +125,7 @@ class _BasicFormPageState extends State<BasicFormPage> {
         ),
         elevation: 0.0,
       ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         minimum: const EdgeInsets.all(24.0),
         child: FormBlocProvider(
@@ -151,6 +146,100 @@ class _BasicFormPageState extends State<BasicFormPage> {
   }
 }
 
+// Pages
+
+class BasicFormPageFour extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
+    final bloc = FormBlocProvider.of(context).bloc;
+
+    return Column(
+      children: [
+        SizedBox(height: 20),
+        Container(
+            alignment: Alignment.centerLeft,
+            child: Text("¿Que contextura fisica prefieres para tu pareja?")),
+        SizedBox(height: 40),
+        Container(
+          height: 40,
+          child: StreamBuilder<User>(
+            stream: bloc.userStream,
+            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+              return Row(
+                  children: BodyShapeList.map((item) {
+                return Expanded(
+                  child: FlatButton(
+                      onPressed: () => bloc.updateBodyShapePreferred(item),
+                      child: Text(item),
+                      textColor: snapshot?.data?.bodyShapePreferred?.contains(item) == true
+                          ? Theme.of(context).accentColor
+                          : Colors.grey[400]),
+                );
+              }).toList());
+            },
+          ),
+        ),
+        SizedBox(height: 50),
+        Container(alignment: Alignment.centerLeft, child: Text("Es importante el nivel de ingresos?")),
+        SizedBox(height: 20),
+        StreamBuilder<User>(
+          stream: bloc.userStream,
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+            return Column(
+              children: [
+                Row(children: [
+                  FlatButton(
+                      onPressed: () => bloc.isIncomeImportant = true,
+                      child: Text("SI"),
+                      textColor: snapshot?.data?.isIncomeImportant == true
+                          ? Theme.of(context).accentColor
+                          : Colors.grey[400]),
+                  FlatButton(
+                      onPressed: () => bloc.isIncomeImportant = false,
+                      child: Text("NO"),
+                      textColor: snapshot?.data?.isIncomeImportant != true
+                          ? Theme.of(context).accentColor
+                          : Colors.grey[400]),
+                ]),
+                SizedBox(height: 40),
+                snapshot?.data?.isIncomeImportant != true
+                    ? SizedBox()
+                    : Row(
+                        children: [
+                          Text("${FormBloc.MIN_INCOME.toInt()}\n o menos",
+                              textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
+                          Expanded(
+                            child: RangeSlider(
+                              min: FormBloc.MIN_INCOME,
+                              max: FormBloc.MAX_INCOME,
+                              lowerValue: (snapshot.data?.minIncomePreferred ??
+                                      (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME))
+                                  .toDouble(),
+                              upperValue: (snapshot.data?.maxIncomePreferred ??
+                                      (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME))
+                                  .toDouble(),
+                              showValueIndicator: true,
+                              divisions:
+                                  (FormBloc.MAX_INCOME - FormBloc.MIN_INCOME) ~/ FormBloc.STEP_INCOME,
+                              valueIndicatorMaxDecimals: 0,
+                              onChanged: (double newLowerValue, double newUpperValue) =>
+                                  bloc.incomeRangePreferred(newLowerValue, newUpperValue),
+                            ),
+                          ),
+                          Text("${FormBloc.MAX_INCOME.toInt()}\n o mas",
+                              textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
+                        ],
+                      ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
 class BasicFormPageThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -159,31 +248,31 @@ class BasicFormPageThree extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("Cual es tu nivle de ingresos?")),
+        Container(alignment: Alignment.centerLeft, child: Text("Cual es tu nivel de ingresos?")),
         SizedBox(height: 40),
         Container(
             height: 40,
             child: Row(
               children: [
-                Text("700000"),
+                Text("${FormBloc.MIN_INCOME.toInt()}\n o menos",
+                    textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
                 Expanded(
                   child: StreamBuilder<User>(
-                    stream: bloc.user,
+                    stream: bloc.userStream,
                     builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                       return Slider(
-                          min: 700000,
-                          max: 10000000,
-                          value: 107 / 2 * 100000,
-                          onChanged: (newUpperValue) {
-//                  setState(() {
-//                    _lowerValue = newLowerValue;
-//                    _upperValue = newUpperValue;
-//                  });
-                          });
+                          label: snapshot.data?.income?.toInt()?.toString() ?? "",
+                          min: FormBloc.MIN_INCOME,
+                          max: FormBloc.MAX_INCOME,
+                          divisions: (FormBloc.MAX_INCOME - FormBloc.MIN_INCOME) ~/ FormBloc.STEP_INCOME,
+                          value:
+                              snapshot.data?.income ?? (FormBloc.MIN_INCOME + FormBloc.MAX_INCOME) / 2,
+                          onChanged: (newUpperValue) => bloc.income = newUpperValue);
                     },
                   ),
                 ),
-                Text("+10000000"),
+                Text("${FormBloc.MAX_INCOME.toInt()}\n o mas",
+                    textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
               ],
             )),
         SizedBox(height: 80),
@@ -194,30 +283,26 @@ class BasicFormPageThree extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(width: 20),
-              Text("18"),
+              Text(FormBloc.MIN_AGE.toString()),
               Expanded(
                 child: StreamBuilder<User>(
-                  stream: bloc.user,
+                  stream: bloc.userStream,
                   builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                     return RangeSlider(
-                      min: 18.0,
-                      max: 50.0,
-                      lowerValue: 22,
-                      upperValue: 35,
+                      min: FormBloc.MIN_AGE.toDouble(),
+                      max: FormBloc.MAX_AGE.toDouble(),
+                      lowerValue: (snapshot.data?.minAgePreferred ?? (FormBloc.MIN_AGE + 5)).toDouble(),
+                      upperValue: (snapshot.data?.maxAgePreferred ?? (FormBloc.MAX_AGE - 5)).toDouble(),
                       showValueIndicator: true,
-                      divisions: (50 - 18),
+                      divisions: FormBloc.MAX_AGE - FormBloc.MIN_AGE,
                       valueIndicatorMaxDecimals: 0,
-                      onChanged: (double newLowerValue, double newUpperValue) {
-//                  setState(() {
-//                    _lowerValue = newLowerValue;
-//                    _upperValue = newUpperValue;
-//                  });
-                      },
+                      onChanged: (double newLowerValue, double newUpperValue) =>
+                          bloc.ageRangePreferred(newLowerValue.toInt(), newUpperValue.toInt()),
                     );
                   },
                 ),
               ),
-              Text("50"),
+              Text(FormBloc.MAX_AGE.toString()),
               SizedBox(width: 20),
             ],
           ),
@@ -232,6 +317,7 @@ class BasicFormPageTwo extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context).bloc;
+
     return Column(
       children: [
         SizedBox(height: 20),
@@ -239,46 +325,29 @@ class BasicFormPageTwo extends StatelessWidget {
         SizedBox(height: 40),
         Container(
           height: 40,
-          child: StreamBuilder<String>(
-            stream: bloc.shapeSelected,
-            initialData: "Delgad@",
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          child: StreamBuilder<User>(
+            stream: bloc.userStream,
+            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               return Row(
-                children: [
-                  Expanded(
-                    child: FlatButton(
-                        onPressed: () => bloc.shape = "Delgad@",
-                        child: Text("Delgad@"),
-                        textColor: snapshot.data == "Delgad@"
-                            ? Theme.of(context).accentColor
-                            : Colors.grey[400]),
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                        onPressed: () => bloc.shape = "Medio",
-                        child: Text("Medio"),
-                        textColor:
-                            snapshot.data == "Medio" ? Theme.of(context).accentColor : Colors.grey[400]),
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                        onPressed: () => bloc.shape = "Grande",
-                        child: Text("Grande"),
-                        textColor: snapshot.data == "Grande"
-                            ? Theme.of(context).accentColor
-                            : Colors.grey[400]),
-                  ),
-                ],
-              );
+                  children: BodyShapeList.map((item) {
+                return Expanded(
+                  child: FlatButton(
+                      onPressed: () => bloc.shape = item,
+                      child: Text(item),
+                      textColor: snapshot?.data?.bodyShape == item
+                          ? Theme.of(context).accentColor
+                          : Colors.grey[400]),
+                );
+              }).toList());
             },
           ),
         ),
         SizedBox(height: 50),
         Container(alignment: Alignment.centerLeft, child: Text("Cual es tu altura?")),
         SizedBox(height: 20),
-        StreamBuilder<int>(
-          stream: bloc.heightSelected,
-          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        StreamBuilder<User>(
+          stream: bloc.userStream,
+          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
             return TextFormField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(labelText: "Centimetros"),
@@ -298,24 +367,25 @@ class BasicFormPageOne extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 20),
-        Text(strings.educationalLevelCaption, textAlign: TextAlign.center),
+        Container(alignment: Alignment.centerLeft, child: Text(strings.educationalLevelCaption)),
         SizedBox(height: 40),
         Expanded(
           child: Container(
-            child: StreamBuilder<int>(
-              stream: bloc.eduLevelSelectedIndex,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            child: StreamBuilder<User>(
+              stream: bloc.userStream,
+              builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                 return ListView.separated(
-                  itemCount: FormBloc.educationalLevels.length,
+                  itemCount: EducationalLevels.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () => bloc.eduLevelIndex = index,
+                      onTap: () => bloc.eduLevelIndex = EducationalLevels[index],
                       title: Text(
-                        FormBloc.educationalLevels[index],
+                        EducationalLevels[index],
                         style: TextStyle(
-                            color:
-                                (snapshot.data == index ? Theme.of(context).accentColor : Colors.black)),
+                            color: (snapshot?.data?.eduLevel == EducationalLevels[index]
+                                ? Theme.of(context).accentColor
+                                : Colors.black)),
                       ),
                     );
                   },

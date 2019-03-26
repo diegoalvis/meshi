@@ -52,7 +52,6 @@ class App extends StatelessWidget {
           title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
           subhead: TextStyle(fontSize: 14.0, fontFamily: 'BettyLavea'),
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-//          body1: TextStyle(fontSize: 14.0),
         ),
       ),
       home: SplashPage(),
