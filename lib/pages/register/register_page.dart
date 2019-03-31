@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/register_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
-import 'package:meshi/pages/welcome_page.dart';
+import 'package:meshi/pages/register/welcome_page.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/gender.dart';
 import 'package:meshi/utils/localiztions.dart';

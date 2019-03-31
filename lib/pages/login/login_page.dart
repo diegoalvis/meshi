@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/login_bloc.dart';
-import 'package:meshi/pages/register_page.dart';
+import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class LoginPage extends StatefulWidget {

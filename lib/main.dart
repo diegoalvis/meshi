@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
-import 'package:meshi/pages/basic_form_page.dart';
-import 'package:meshi/pages/login_page.dart';
-import 'package:meshi/pages/splash_page.dart';
+import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -54,7 +53,7 @@ class App extends StatelessWidget {
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
         ),
       ),
-      home: SplashPage(),
+      home: FormPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => MyHomePage(title: 'Home'),
