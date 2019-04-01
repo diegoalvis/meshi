@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/pages/forms/basic/basic_page_four.dart';
+import 'package:meshi/pages/forms/basic/basic_page_one.dart';
+import 'package:meshi/pages/forms/basic/basic_page_three.dart';
+import 'package:meshi/pages/forms/basic/basic_page_two.dart';
+import 'package:meshi/pages/forms/habits/habits_page_one.dart';
+import 'package:meshi/pages/forms/habits/habits_page_two.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_one.dart';
+import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -27,7 +35,7 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final FormBloc _bloc;
-  static const TOTAL_PAGES = 10;
+  static const TOTAL_PAGES = 7;
 
   int currentPage = 1;
 
@@ -78,6 +86,8 @@ class _FormPageState extends State<FormPage> {
               onPressed: () => setState(() {
                     currentPage++;
                     if (currentPage > TOTAL_PAGES) {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => HomePage(fbToken: "")));
                       currentPage = TOTAL_PAGES;
                     }
                   }),
@@ -115,20 +125,31 @@ class _FormPageState extends State<FormPage> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        minimum: const EdgeInsets.all(24.0),
+        minimum: const EdgeInsets.all(15.0),
         child: FormBlocProvider(
           bloc: FormBloc(),
           child: Column(
             children: [
               SectionIndicator(
                   currentStep: currentPage,
-                  sections: formSections,
+                  sections: FormSections,
                   disabledColor: Theme.of(context).colorScheme.onPrimary,
                   completedColor: Theme.of(context).colorScheme.onPrimary,
                   enabledColor: Theme.of(context).accentColor),
               Expanded(
                 flex: 7,
-                child: PageSelector(currentPage: currentPage),
+                child: PageSelector(
+                  currentPage: currentPage,
+                  pages: [
+                    BasicFormPageOne(),
+                    BasicFormPageTwo(),
+                    BasicFormPageThree(),
+                    BasicFormPageFour(),
+                    HabitsFormPageOne(),
+                    HabitsFormPageTwo(),
+                    SpecificsFormPageOne(),
+                  ],
+                ),
               ),
               SizedBox(height: 20),
               _buildBottomButtons,

@@ -19,9 +19,12 @@ dependencies:
   flutter_launcher_icons: "^0.7.0"
 
 flutter_icons:
-  image_path: "res/icons/launcher_icon.png"
-  android: true
   ios: true
+  android: true
+  image_path_ios: "res/icons/launcher/app_launcher.png"
+  image_path_android: "res/icons/launcher/app_launcher.png"
+  adaptive_icon_background: "res/icons/launcher/background.png"
+  adaptive_icon_foreground: "res/icons/launcher/foreground.png"
 
 dev_dependencies:
   flutter_test:

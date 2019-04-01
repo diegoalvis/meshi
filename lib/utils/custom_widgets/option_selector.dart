@@ -13,7 +13,7 @@ class OptionSelector extends StatelessWidget {
     List<Widget> widgetListOptions = options
         .map<Widget>(
           (option) => Expanded(
-                flex: option.length ~/ (options.length + 1),
+                flex: option.length ~/ (options.length + 2),
                 child: Container(
                   child: FlatButton(
                       onPressed: () => onSelected(option),

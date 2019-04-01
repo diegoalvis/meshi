@@ -25,10 +25,10 @@ class User {
 
 // TODO create utils class for these
 
-const Map<String, List<int>> formSections = {
+const Map<String, List<int>> FormSections = {
   "BASIC": [1, 4],
   "HABITOS": [5, 6],
-  "PROFUNDIZACION": [7, 10],
+  "OTROS": [7, 10],
 };
 
 const List<String> YesNoOptions = [

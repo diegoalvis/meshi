@@ -19,19 +19,23 @@ class SectionIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetListOptions = sections?.keys
-        ?.map<Widget>((section) => Expanded(
-              flex: section.length ~/ (section.length + 1),
-              child: Container(
-                child: FlatButton(
-//              onPressed: () => onSelected(section),
-                  child: Text(section.toString(), textAlign: TextAlign.center),
-                  textColor: currentStep < sections[section][0]
-                      ? disabledColor
-                      : currentStep > sections[section][1] ? completedColor : enabledColor,
+        ?.map<Widget>(
+          (section) => Expanded(
+                flex: section.length ~/ (section.length),
+                child: Container(
+                  child: FlatButton.icon(
+                      icon: Icon(currentStep > sections[section][1] ? Icons.check : null, size: 10),
+                      onPressed: () {},
+                      label: Text(section.toString()),
+                      textColor: currentStep < sections[section][0]
+                          ? disabledColor
+                          : currentStep > sections[section][1] ? completedColor : enabledColor),
                 ),
               ),
-            ))
+        )
         ?.toList();
-    return widgetListOptions != null ? Row(children: widgetListOptions) : SizedBox();
+    return widgetListOptions != null
+        ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: widgetListOptions)
+        : SizedBox();
   }
 }
