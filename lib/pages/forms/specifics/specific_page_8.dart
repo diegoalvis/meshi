@@ -3,7 +3,7 @@ import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class SpecificsFormPageThree extends StatelessWidget {
+class SpecificsFormPageEight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -12,7 +12,8 @@ class SpecificsFormPageThree extends StatelessWidget {
       children: [
         SizedBox(height: 20),
         Container(
-            alignment: Alignment.centerLeft, child: Text("¿Qué estilo prefieres al momento de vestir?")),
+            alignment: Alignment.centerLeft,
+            child: Text("¿Cuáles son los temas de mayor interés para ti?")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -21,35 +22,38 @@ class SpecificsFormPageThree extends StatelessWidget {
               initialData: bloc.user.specifics,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 return ListView.separated(
-                  itemCount: DressStyle.length,
+                  itemCount: RelevantTopics.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = DressStyle[index];
-                        var hold = snapshot?.data[5]?.split(",") ?? [];
+                        String selected = RelevantTopics[index];
+                        var hold = snapshot?.data[11]?.split(",") ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
                         } else {
+                          if (hold.length == 3) {
+                            hold.removeAt(0);
+                          }
                           hold.add(selected);
                         }
-                        bloc.specifics(4, hold.join(","));
+                        bloc.specifics(11, hold.join(","));
                       },
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              snapshot?.data[5]?.contains(DressStyle[index]) == true
+                              snapshot?.data[11]?.contains(RelevantTopics[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: snapshot?.data[5]?.contains(DressStyle[index]) == true
+                              color: snapshot?.data[11]?.contains(RelevantTopics[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            DressStyle[index],
+                            RelevantTopics[index],
                             style: TextStyle(
-                                color: snapshot?.data[5]?.contains(DressStyle[index]) == true
+                                color: snapshot?.data[11]?.contains(RelevantTopics[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

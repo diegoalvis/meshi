@@ -18,7 +18,7 @@ class BasicFormPageFour extends StatelessWidget {
         Container(
             alignment: Alignment.centerLeft,
             child: Text("¿Que contextura fisica prefieres para tu pareja?")),
-        SizedBox(height: 40),
+        SizedBox(height: 20),
         Container(
           height: 40,
           child: StreamBuilder<User>(

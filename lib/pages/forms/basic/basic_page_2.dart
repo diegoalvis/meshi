@@ -14,7 +14,7 @@ class BasicFormPageTwo extends StatelessWidget {
       children: [
         SizedBox(height: 20),
         Container(alignment: Alignment.centerLeft, child: Text("¿Cual es tu contextura fisica?")),
-        SizedBox(height: 40),
+        SizedBox(height: 20),
         Container(
           height: 40,
           child: StreamBuilder<User>(

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
-import 'package:meshi/pages/forms/basic/basic_page_four.dart';
-import 'package:meshi/pages/forms/basic/basic_page_one.dart';
-import 'package:meshi/pages/forms/basic/basic_page_three.dart';
-import 'package:meshi/pages/forms/basic/basic_page_two.dart';
-import 'package:meshi/pages/forms/habits/habits_page_one.dart';
-import 'package:meshi/pages/forms/habits/habits_page_two.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_five.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_four.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_one.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_three.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_two.dart';
+import 'package:meshi/pages/forms/basic/basic_page_1.dart';
+import 'package:meshi/pages/forms/basic/basic_page_2.dart';
+import 'package:meshi/pages/forms/basic/basic_page_3.dart';
+import 'package:meshi/pages/forms/basic/basic_page_4.dart';
+import 'package:meshi/pages/forms/habits/habits_page_1.dart';
+import 'package:meshi/pages/forms/habits/habits_page_2.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_1.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_10.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_2.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_3.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_4.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_5.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_6.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_7.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_8.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_9.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
@@ -39,7 +44,7 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final FormBloc _bloc;
-  static const TOTAL_PAGES = 7;
+  static const TOTAL_PAGES = 16;
 
   int currentPage = 1;
 
@@ -143,7 +148,7 @@ class _FormPageState extends State<FormPage> {
               Expanded(
                 flex: 7,
                 child: PageSelector(
-                  currentPage: 11,
+                  currentPage: currentPage,
                   pages: [
                     BasicFormPageOne(), // 1
                     BasicFormPageTwo(), // 2
@@ -156,6 +161,11 @@ class _FormPageState extends State<FormPage> {
                     SpecificsFormPageThree(), // 9
                     SpecificsFormPageFour(), // 10
                     SpecificsFormPageFive(), // 11
+                    SpecificsFormPageSix(), // 12
+                    SpecificsFormPageSeven(), // 13
+                    SpecificsFormPageEight(), // 14
+                    SpecificsFormPageNine(), // 15
+                    SpecificsFormPageTen(), // 16
                   ],
                 ),
               ),

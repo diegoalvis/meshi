@@ -14,7 +14,7 @@ class BasicFormPageThree extends StatelessWidget {
       children: [
         SizedBox(height: 20),
         Container(alignment: Alignment.centerLeft, child: Text("¿Cual es tu nivel de ingresos?")),
-        SizedBox(height: 40),
+        SizedBox(height: 20),
         Container(
             height: 40,
             child: Row(

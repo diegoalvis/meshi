@@ -100,3 +100,43 @@ const List<String> CoupleActivities = [
   "Ver películas y series en casa",
   "Salir a tomar unos tragos y conversar",
 ];
+
+const List<String> ImportanceLevels = [
+  "Muy importante",
+  "Importante",
+  "No es crucial o decisiva",
+  "Nada importante",
+];
+
+const List<String> PlaceType = [
+  "Refinados",
+  "Convencionales",
+  "Sencillos",
+  "Cualquiera",
+];
+
+const List<String> RelevantTopics = [
+  "ARTE",
+  "EXPERIENCIAS",
+  "PROFESIONALES",
+  "SOCIALES",
+  "POLITICA",
+  "FARANDULA",
+  "HISTORIA",
+  "MUSICA",
+];
+
+const List<String> PoliticIdeology = [
+  "Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.",
+  "Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país",
+  "Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.",
+  "No tengo ideología política",
+];
+
+const List<String> MusicalGenre = [
+  "Urbano",
+  "Pop",
+  "Rock",
+  "Salsa",
+  "Crossover",
+];
