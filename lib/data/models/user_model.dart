@@ -72,3 +72,31 @@ const List<String> BodyShapeList = [
   "Medio",
   "Grande",
 ];
+
+const List<String> DressStyle = [
+  "Seductor",
+  "Suelto y ligero",
+  "Propio",
+  "Elegante",
+  "Casual",
+  "Deportivo",
+];
+
+const List<String> LifeGoals = [
+  "Familia",
+  "Trabajo",
+  "Conocimiento/estudio",
+  "Progreso",
+  "Amigos",
+];
+
+const List<String> CoupleActivities = [
+  "Viajar a otros países",
+  "Hacer deporte",
+  "Viajes locales",
+  "Cocinar",
+  "Ir a nuevos restaurantes",
+  "Salir a bailar",
+  "Ver películas y series en casa",
+  "Salir a tomar unos tragos y conversar",
+];

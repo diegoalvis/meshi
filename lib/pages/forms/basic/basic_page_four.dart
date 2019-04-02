@@ -3,6 +3,7 @@ import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BasicFormPageFour extends StatelessWidget {
@@ -47,20 +48,11 @@ class BasicFormPageFour extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
             return Column(
               children: [
-                Row(children: [
-                  FlatButton(
-                      onPressed: () => bloc.isIncomeImportant = true,
-                      child: Text("SI"),
-                      textColor: snapshot?.data?.isIncomeImportant == true
-                          ? Theme.of(context).accentColor
-                          : Colors.grey[400]),
-                  FlatButton(
-                      onPressed: () => bloc.isIncomeImportant = false,
-                      child: Text("NO"),
-                      textColor: snapshot?.data?.isIncomeImportant != true
-                          ? Theme.of(context).accentColor
-                          : Colors.grey[400]),
-                ]),
+                OptionSelector(
+                    options: YesNoOptions,
+                    optionSelected:
+                        (snapshot.data?.isIncomeImportant == true ? YesNoOptions[0] : YesNoOptions[1]),
+                    onSelected: (selected) => bloc.isIncomeImportant = (selected == YesNoOptions[0])),
                 SizedBox(height: 40),
                 snapshot?.data?.isIncomeImportant != true
                     ? SizedBox()

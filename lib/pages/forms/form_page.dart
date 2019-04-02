@@ -7,7 +7,11 @@ import 'package:meshi/pages/forms/basic/basic_page_three.dart';
 import 'package:meshi/pages/forms/basic/basic_page_two.dart';
 import 'package:meshi/pages/forms/habits/habits_page_one.dart';
 import 'package:meshi/pages/forms/habits/habits_page_two.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_five.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_four.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_one.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_three.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_two.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
@@ -139,15 +143,19 @@ class _FormPageState extends State<FormPage> {
               Expanded(
                 flex: 7,
                 child: PageSelector(
-                  currentPage: currentPage,
+                  currentPage: 11,
                   pages: [
-                    BasicFormPageOne(),
-                    BasicFormPageTwo(),
-                    BasicFormPageThree(),
-                    BasicFormPageFour(),
-                    HabitsFormPageOne(),
-                    HabitsFormPageTwo(),
-                    SpecificsFormPageOne(),
+                    BasicFormPageOne(), // 1
+                    BasicFormPageTwo(), // 2
+                    BasicFormPageThree(), // 3
+                    BasicFormPageFour(), // 4
+                    HabitsFormPageOne(), // 5
+                    HabitsFormPageTwo(), // 6
+                    SpecificsFormPageOne(), // 7
+                    SpecificsFormPageTwo(), // 8
+                    SpecificsFormPageThree(), // 9
+                    SpecificsFormPageFour(), // 10
+                    SpecificsFormPageFive(), // 11
                   ],
                 ),
               ),

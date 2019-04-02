@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_two.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -50,7 +52,7 @@ class App extends StatelessWidget {
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
         ),
       ),
-      home: LoginPage(),
+      home: FormPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => HomePage(title: 'Home'),
