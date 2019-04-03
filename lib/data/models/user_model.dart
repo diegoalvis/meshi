@@ -28,7 +28,7 @@ class User {
 const Map<String, List<int>> FormSections = {
   "BASIC": [1, 4],
   "HABITOS": [5, 6],
-  "OTROS": [7, 10],
+  "OTROS": [7, 16],
 };
 
 const List<String> YesNoOptions = [

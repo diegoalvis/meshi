@@ -51,7 +51,7 @@ class App extends StatelessWidget {
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
         ),
       ),
-      home: LoginPage(),
+      home: FormPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => HomePage(title: 'Home'),
