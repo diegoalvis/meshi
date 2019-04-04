@@ -4,6 +4,7 @@ import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BasicFormPageTwo extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);

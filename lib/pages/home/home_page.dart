@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
+import 'package:meshi/pages/home/menu_page.dart';
+import 'package:meshi/utils/custom_widgets/BackdropMenu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key, this.title, this.fbToken}) : super(key: key);
@@ -17,6 +19,13 @@ class HomePageState extends State<HomePage> {
   final String _fbToken;
 
   HomePageState(this._fbToken);
+  String _currentCategory = "all";
+
+  void _onCategoryTap(String category) {
+    setState(() {
+      _currentCategory = category;
+    });
+  }
 
   @override
   void initState() {
@@ -32,29 +41,18 @@ class HomePageState extends State<HomePage> {
       _profile = json.decode(graphResponse.body);
     });
   }
+//  Container(color: Theme.of(context).primaryColor),
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Meshi"),
+    return BackdropMenu(
+      backLayer: MenuPage(
+        currentCategory: _currentCategory,
+        onCategoryTap: _onCategoryTap,
       ),
-      body: new Center(
-          child: _profile != null
-              ? Container(
-                  height: 200.0,
-                  width: 200.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                        _profile['picture']['data']['url'],
-                      ),
-                    ),
-                  ),
-                )
-              : null),
+      frontTitle: Text('MESHI'),
+      backTitle: Text('MENU'),
+      frontLayer: SizedBox(),
       floatingActionButton: new FloatingActionButton(
         onPressed: null,
         tooltip: 'Increment',

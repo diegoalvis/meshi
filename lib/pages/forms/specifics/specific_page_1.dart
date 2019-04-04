@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
@@ -8,7 +9,7 @@ class SpecificsFormPageOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    final bloc = FormBlocProvider.of(context).bloc;
+    final bloc = FormBlocProvider.of(context)?.bloc ?? FormBloc();
     return StreamBuilder<List<String>>(
         stream: bloc.specificsStream,
         initialData: bloc.user.specifics,
