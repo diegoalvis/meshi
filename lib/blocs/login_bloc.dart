@@ -9,7 +9,7 @@ class LoginBloc {
 
   void initFacebookLogin() async {
     var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email']);
+    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'birthday']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         //TODO: Handle error
