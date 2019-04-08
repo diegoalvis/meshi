@@ -4,7 +4,6 @@ import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BasicFormPageTwo extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -45,7 +44,7 @@ class BasicFormPageTwo extends StatelessWidget {
             initialData: bloc.user,
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               return Padding(
-                padding: EdgeInsets.only(right: 200.0),
+                padding: EdgeInsets.only(right: 80.0),
                 child: TextField(
                   controller: _controller,
                   onChanged: (text) => bloc.height = int.tryParse(text) ?? snapshot.data.height,

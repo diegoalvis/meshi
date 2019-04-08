@@ -51,11 +51,6 @@ class _FormPageState extends State<FormPage> {
   _FormPageState(this._bloc);
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _bloc.dispose();
     super.dispose();
@@ -95,8 +90,7 @@ class _FormPageState extends State<FormPage> {
               onPressed: () => setState(() {
                     currentPage++;
                     if (currentPage > TOTAL_PAGES) {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => HomePage(fbToken: "")));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                       currentPage = TOTAL_PAGES;
                     }
                   }),
@@ -136,7 +130,7 @@ class _FormPageState extends State<FormPage> {
       body: SafeArea(
         minimum: const EdgeInsets.all(15.0),
         child: FormBlocProvider(
-          bloc: FormBloc(),
+          bloc: _bloc,
           child: Column(
             children: [
               SectionIndicator(

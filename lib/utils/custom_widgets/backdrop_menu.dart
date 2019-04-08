@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meshi/pages/home/home_page.dart';
+import 'package:meshi/pages/home/menu_page.dart';
 import 'package:meta/meta.dart';
 
 const double _kFlingVelocity = 2.0;
@@ -29,6 +31,7 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
 
   AnimationController _controller;
+  String lastCategorySelected;
 
   @override
   void initState() {
@@ -41,7 +44,6 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
   }
 
   // TODO: Add override for didUpdateWidget (104)
-
   @override
   void dispose() {
     _controller.dispose();
@@ -61,6 +63,11 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
     const double layerTitleHeight = 48.0;
     final Size layerSize = constraints.biggest / 2;
     final double layerTop = layerSize.height - layerTitleHeight;
+    final bloc = HomeBlocProvider.of(context).bloc;
+
+    bloc.categorySelectedStream.listen((category) {
+      _controller.fling(velocity: _kFlingVelocity);
+    });
 
     Animation<RelativeRect> layerAnimation = RelativeRectTween(
       begin: RelativeRect.fromLTRB(0.0, layerTop, 0.0, layerTop - layerSize.height),
@@ -99,25 +106,20 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
             "res/icons/logo.png",
             scale: 4,
             color: Colors.white,
-          ))),
-//      leading: IconButton(
-//        icon: Icon(Icons.menu),
-//        onPressed: _toggleBackdropLayerVisibility,
-//      ),
-      title: Text('Meshi'),
+          ),
+        ),
+      ),
+      title: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: Text('Meshi')),
     );
     return Scaffold(
       appBar: appBar,
-      // TODO: Return a LayoutBuilder widget (104)
       body: LayoutBuilder(builder: _buildStack),
       floatingActionButton: widget.floatingActionButton,
     );
   }
 }
 
-// TODO: Add _FrontLayer class (104)
 class _FrontLayer extends StatelessWidget {
-  // TODO: Add on-tap callback (104)
   const _FrontLayer({
     Key key,
     this.child,
@@ -135,7 +137,6 @@ class _FrontLayer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // TODO: Add a GestureDetector (104)
           Expanded(
             child: child,
           ),

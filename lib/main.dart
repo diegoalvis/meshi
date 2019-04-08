@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
-import 'package:meshi/utils/custom_widgets/BackdropMenu.dart';
+import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -54,8 +53,8 @@ class App extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => LoginPage(),
-        '/home': (BuildContext context) => HomePage(title: 'Home'),
+        '/login': (BuildContext context) => HomePage(),
+        '/home': (BuildContext context) => HomePage(),
       },
     );
   }

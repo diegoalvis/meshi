@@ -24,40 +24,69 @@ class MyLocalizations {
   final Locale locale;
 
   String get titleApp => 'Meshi';
+
   String get meshi => 'meshi';
 
-  String get pictureSelectCaption => _localizedValues[locale.languageCode]['picture_select_caption'];
-  String get logInWith => _localizedValues[locale.languageCode]['log_in_with'];
-  String get findPerfectDate => _localizedValues[locale.languageCode]['find_perfect_date'];
-  String get asYouAre => _localizedValues[locale.languageCode]['as_you_are'];
-  String get tellUsAboutYou => _localizedValues[locale.languageCode]['tell_us_about_you'];
-  String get email => _localizedValues[locale.languageCode]['email'];
-  String get birthDate => _localizedValues[locale.languageCode]['birth_date'];
-  String get self => _localizedValues[locale.languageCode]['self'];
-  String get interested => _localizedValues[locale.languageCode]['interested'];
-  String get howDescribeYourself => _localizedValues[locale.languageCode]['how_describe_yourself'];
-  String get hobbiesCaption => _localizedValues[locale.languageCode]['hobbies_caption'];
-  String get whatYouDo => _localizedValues[locale.languageCode]['what_you_do'];
-  String get whatYouLookingFor => _localizedValues[locale.languageCode]['what_you_looking_for'];
-  String get welcome => _localizedValues[locale.languageCode]['welcome'];
-  String get welcomeCaption => _localizedValues[locale.languageCode]['welcome_caption'];
-  String get back => _localizedValues[locale.languageCode]['back'];
-  String get ofLabel => _localizedValues[locale.languageCode]['of_label'];
-  String get next => _localizedValues[locale.languageCode]['next'];
-  String get finish => _localizedValues[locale.languageCode]['finish'];
-  String get camera => _localizedValues[locale.languageCode]['camera'];
-  String get gallery => _localizedValues[locale.languageCode]['gallery'];
-  String get completeProfile => _localizedValues[locale.languageCode]['complete_profile'];
-  String get logIn => _localizedValues[locale.languageCode]['log_in'];
-  String get placeholderUser => _localizedValues[locale.languageCode]['placeholder_user'];
+  String get pictureSelectCaption =>
+      _localizedSingleValues[locale.languageCode]['picture_select_caption'];
+
+  String get logInWith => _localizedSingleValues[locale.languageCode]['log_in_with'];
+
+  String get findPerfectDate => _localizedSingleValues[locale.languageCode]['find_perfect_date'];
+
+  String get asYouAre => _localizedSingleValues[locale.languageCode]['as_you_are'];
+
+  String get tellUsAboutYou => _localizedSingleValues[locale.languageCode]['tell_us_about_you'];
+
+  String get email => _localizedSingleValues[locale.languageCode]['email'];
+
+  String get birthDate => _localizedSingleValues[locale.languageCode]['birth_date'];
+
+  String get self => _localizedSingleValues[locale.languageCode]['self'];
+
+  String get interested => _localizedSingleValues[locale.languageCode]['interested'];
+
+  String get howDescribeYourself => _localizedSingleValues[locale.languageCode]['how_describe_yourself'];
+
+  String get hobbiesCaption => _localizedSingleValues[locale.languageCode]['hobbies_caption'];
+
+  String get whatYouDo => _localizedSingleValues[locale.languageCode]['what_you_do'];
+
+  String get whatYouLookingFor => _localizedSingleValues[locale.languageCode]['what_you_looking_for'];
+
+  String get welcome => _localizedSingleValues[locale.languageCode]['welcome'];
+
+  String get welcomeCaption => _localizedSingleValues[locale.languageCode]['welcome_caption'];
+
+  String get back => _localizedSingleValues[locale.languageCode]['back'];
+
+  String get ofLabel => _localizedSingleValues[locale.languageCode]['of_label'];
+
+  String get next => _localizedSingleValues[locale.languageCode]['next'];
+
+  String get finish => _localizedSingleValues[locale.languageCode]['finish'];
+
+  String get camera => _localizedSingleValues[locale.languageCode]['camera'];
+
+  String get gallery => _localizedSingleValues[locale.languageCode]['gallery'];
+
+  String get completeProfile => _localizedSingleValues[locale.languageCode]['complete_profile'];
+
+  String get logIn => _localizedSingleValues[locale.languageCode]['log_in'];
+
+  String get placeholderUser => _localizedSingleValues[locale.languageCode]['placeholder_user'];
+
   String get educationalLevelCaption =>
-      _localizedValues[locale.languageCode]['educational_level_caption'];
+      _localizedSingleValues[locale.languageCode]['educational_level_caption'];
+
+  // string-arrays
+  List<String> get homeSections => _localizedMultiValues[locale.languageCode]['home_sections'];
 
   static MyLocalizations of(BuildContext context) {
     return Localizations.of<MyLocalizations>(context, MyLocalizations);
   }
 
-  static Map<String, Map<String, String>> _localizedValues = {
+  static Map<String, Map<String, String>> _localizedSingleValues = {
     /* English text resources */
     'en': {
       'log_in_with': 'Log in with',
@@ -117,5 +146,29 @@ class MyLocalizations {
       'placeholder_user': 'Usuario',
       'educational_level_caption': 'Cual es tu grado de escolaridad',
     },
+  };
+
+  static Map<String, Map<String, List<String>>> _localizedMultiValues = {
+    /* English text resources */
+    'en': {
+      'home_sections': [
+        'Mis intereses',
+        'Participa por una cita real',
+        'Haste premiun',
+        'Ver perfil',
+        'Ajustes'
+      ],
+    },
+
+    /* Spanish text resources */
+    'es': {
+      'home_sections': [
+        'Mis intereses',
+        'Participa por una cita real',
+        'Haste premiun',
+        'Ver perfil',
+        'Ajustes'
+      ],
+    }
   };
 }

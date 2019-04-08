@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:meshi/utils/gender.dart';
+
+const MAX_PICTURES = 4;
 
 class User {
   String name;
   String email;
   int age;
-  List<String> photos;
+  DateTime birthday;
+  List<File> photos = new List(MAX_PICTURES);
   Gender gender;
   String fbToken;
   String eduLevel;
@@ -20,7 +25,7 @@ class User {
   List<String> habits = new List(6);
   List<String> specifics = new List(17);
 
-  User({this.name, this.email, this.age, this.photos, this.gender, this.fbToken});
+  User({this.name, this.email, this.age, this.gender, this.fbToken});
 }
 
 // TODO create utils class for these

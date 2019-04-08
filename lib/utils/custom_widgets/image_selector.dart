@@ -5,15 +5,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class ImageSelector extends StatelessWidget {
-  final Function(File image) func;
+  final Function(File image) onImageSelected;
   final File image;
 
-  const ImageSelector(this.image, this.func);
+  const ImageSelector(this.image, this.onImageSelected);
 
   _getImage(ImageSource source) async {
     var image = await ImagePicker.pickImage(source: source);
     if (image != null) {
-      func(image);
+      onImageSelected(image);
     }
   }
 
