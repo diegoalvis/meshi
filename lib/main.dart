@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/pages/home/home_page.dart';
-import 'package:meshi/pages/login/login_page.dart';
-import 'package:meshi/pages/register/register_page.dart';
-import 'package:meshi/pages/rewards/reward_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -52,7 +49,7 @@ class App extends StatelessWidget {
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
         ),
       ),
-      home: RewardPage(),
+      home: HomePage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => HomePage(),
         '/home': (BuildContext context) => HomePage(),

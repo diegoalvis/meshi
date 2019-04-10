@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_page.dart';
-import 'package:meshi/pages/home/menu_page.dart';
 import 'package:meta/meta.dart';
 
 const double _kFlingVelocity = 2.0;
@@ -84,7 +83,7 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
         PositionedTransition(
           rect: layerAnimation,
           child: _FrontLayer(
-            // TODO: Implement onTap property on _BackdropState (104)
+            title: widget.frontTitle,
             child: widget.frontLayer,
           ),
         ),
@@ -123,12 +122,15 @@ class _FrontLayer extends StatelessWidget {
   const _FrontLayer({
     Key key,
     this.child,
+    this.title,
   }) : super(key: key);
 
   final Widget child;
+  final Widget title;
 
   @override
   Widget build(BuildContext context) {
+    const cornerInclination = 35.0;
     return Material(
       elevation: 16.0,
       shape: BeveledRectangleBorder(
@@ -137,8 +139,16 @@ class _FrontLayer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Container(
+              height: cornerInclination,
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: 15.0),
+              child: title),
           Expanded(
-            child: child,
+            child: Container(
+              color: Colors.white,
+              child: child,
+            ),
           ),
         ],
       ),

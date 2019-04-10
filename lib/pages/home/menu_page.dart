@@ -29,7 +29,7 @@ class MenuPage extends StatelessWidget {
                   style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 14.0),
+                SizedBox(height: 12.0),
                 Container(
                   width: category.length * 8.0,
                   height: 2.0,

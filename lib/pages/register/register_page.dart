@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/register_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
