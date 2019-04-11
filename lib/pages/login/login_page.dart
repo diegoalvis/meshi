@@ -1,10 +1,12 @@
-import 'dart:async';
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
 
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/login_bloc.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/navigation.dart';
 
 class LoginPage extends StatefulWidget {
   @override

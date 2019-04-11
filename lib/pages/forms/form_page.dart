@@ -1,3 +1,8 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';

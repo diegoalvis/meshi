@@ -1,6 +1,11 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/material.dart';
 
-class Navigation {
+class NavigationController {
   /* Navigates to home page */
   static void goToHome(BuildContext context) {
     Navigator.pushNamed(context, '/home');

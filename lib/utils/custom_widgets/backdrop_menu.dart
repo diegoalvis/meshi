@@ -1,3 +1,8 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meta/meta.dart';
@@ -93,25 +98,24 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    var appBar = AppBar(
-      brightness: Brightness.light,
-      elevation: 0.0,
-      titleSpacing: 0.0,
-      leading: GestureDetector(
-        onTap: _toggleBackdropLayerVisibility,
-        child: Transform.rotate(
-          angle: -0.3,
-          child: Image.asset(
-            "res/icons/logo.png",
-            scale: 4,
-            color: Colors.white,
+    return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.dark,
+        elevation: 0.0,
+        titleSpacing: 0.0,
+        leading: GestureDetector(
+          onTap: _toggleBackdropLayerVisibility,
+          child: Transform.rotate(
+            angle: -0.3,
+            child: Image.asset(
+              "res/icons/logo.png",
+              scale: 4,
+              color: Colors.white,
+            ),
           ),
         ),
+        title: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: Text('Meshi')),
       ),
-      title: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: Text('Meshi')),
-    );
-    return Scaffold(
-      appBar: appBar,
       body: LayoutBuilder(builder: _buildStack),
       floatingActionButton: widget.floatingActionButton,
     );
@@ -130,11 +134,11 @@ class _FrontLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const cornerInclination = 35.0;
+    const cornerInclination = 40.0;
     return Material(
       elevation: 16.0,
       shape: BeveledRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(cornerInclination)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -145,10 +149,7 @@ class _FrontLayer extends StatelessWidget {
               padding: EdgeInsets.only(right: 15.0),
               child: title),
           Expanded(
-            child: Container(
-              color: Colors.white,
-              child: child,
-            ),
+            child: child,
           ),
         ],
       ),

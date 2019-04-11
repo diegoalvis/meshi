@@ -1,3 +1,8 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/blocs/form_bloc.dart';

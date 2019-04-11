@@ -1,3 +1,8 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,7 +14,7 @@ class LoginBloc {
 
   void initFacebookLogin() async {
     var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'birthday']);
+    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'user_birthday']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         //TODO: Handle error

@@ -1,6 +1,13 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
+import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -49,7 +56,8 @@ class App extends StatelessWidget {
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
         ),
       ),
-      home: HomePage(),
+      home: LoginPage(),
+      //TODO: update the routes to be handle here or in the navigation controller
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => HomePage(),
         '/home': (BuildContext context) => HomePage(),

@@ -1,10 +1,15 @@
+/*
+ * Created by Diego Alvis.
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meta/meta.dart';
 
 class MenuPage extends StatelessWidget {
   final String currentCategory;
-  final Function(String category) onCategoryTap;
+  final Function(String category, int pos) onCategoryTap;
   final List<String> categories;
 
   const MenuPage({
@@ -16,10 +21,10 @@ class MenuPage extends StatelessWidget {
         assert(onCategoryTap != null),
         assert(categories != null);
 
-  Widget _buildCategory(String category, BuildContext context) {
+  Widget _buildCategory(BuildContext context, String category, int pos) {
     final ThemeData theme = Theme.of(context);
     return GestureDetector(
-      onTap: () => onCategoryTap(category),
+      onTap: () => onCategoryTap(category, pos),
       child: category == currentCategory
           ? Column(
               children: <Widget>[
@@ -50,11 +55,14 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     return Center(
       child: Container(
-        color: theme.primaryColor,
-        child: ListView(children: categories.map((String c) => _buildCategory(c, context)).toList()),
+        color: Theme.of(context).primaryColor,
+        child: ListView(
+            children: categories
+                .map(
+                    (String category) => _buildCategory(context, category, categories.indexOf(category)))
+                .toList()),
       ),
     );
   }
