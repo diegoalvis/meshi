@@ -12,10 +12,10 @@ import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 // Widget
-class RegisterSectionOne extends StatelessWidget {
+class PhotosSection extends StatelessWidget {
   final List<File> images;
 
-  const RegisterSectionOne({Key key, this.images}) : super(key: key);
+  const PhotosSection({Key key, this.images}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

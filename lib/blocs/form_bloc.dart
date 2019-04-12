@@ -15,6 +15,7 @@ class FormBloc {
   static const int MIN_AGE = 18;
   static const int MAX_AGE = 50;
 
+  // Get from loca database
   final User user = SessionManager.instance.user;
 
   final _userSubject = PublishSubject<User>();

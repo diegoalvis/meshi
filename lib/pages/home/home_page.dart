@@ -8,6 +8,7 @@ import 'package:meshi/blocs/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/pages/home/menu_page.dart';
+import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
 import 'package:meshi/utils/custom_widgets/backdrop_menu.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -37,7 +38,7 @@ class HomePageState extends State<HomePage> {
   String _currentCategory;
 
   // TODO test purposes
-  List<HomeSection> homePages = [InterestsMainPage(), RewardPage()];
+  List<HomeSection> homePages = [InterestsMainPage(), RewardPage(), ProfilePage(), ProfilePage()];
   HomeSection _currentPage = InterestsMainPage();
 
   HomePageState(this._bloc);
@@ -68,7 +69,7 @@ class HomePageState extends State<HomePage> {
           backTitle: Text('MENU'),
           frontTitle: _currentPage.title,
           frontLayer: SafeArea(
-            child: _currentPage,
+            child: _currentPage as Widget,
           ),
         ),
       ),

@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/register_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
-import 'package:meshi/pages/register/register_section_1.dart';
+import 'package:meshi/pages/register/photos_section.dart';
 import 'package:meshi/pages/register/welcome_page.dart';
 import 'package:meshi/utils/custom_widgets/gender_selector.dart';
 import 'package:meshi/utils/gender.dart';
@@ -254,13 +254,13 @@ class _RegisterPageState extends State<RegisterPage> {
     Widget _buildPage() {
       switch (currentPage) {
         case 1:
-          return RegisterSectionOne();
+          return PhotosSection();
         case 2:
           return _buildPageTwo;
         case 3:
           return _buildPageThree;
         default:
-          return RegisterSectionOne();
+          return PhotosSection();
       }
     }
 

@@ -56,7 +56,7 @@ class App extends StatelessWidget {
           subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
         ),
       ),
-      home: LoginPage(),
+      home: HomePage(),
       //TODO: update the routes to be handle here or in the navigation controller
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => HomePage(),

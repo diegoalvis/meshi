@@ -5,10 +5,10 @@
 
 import 'package:flutter/material.dart';
 
-abstract class HomeSection extends StatefulWidget {
+abstract class HomeSection {
   Widget get title;
 
-  bool showFloatingButton();
+  bool showFloatingButton() => false;
 
-  onFloatingButtonPressed(BuildContext context) {}
+  onFloatingButtonPressed(BuildContext context) => null;
 }

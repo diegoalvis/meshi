@@ -24,7 +24,7 @@ class InterestsBlocProvider extends InheritedWidget {
   bool updateShouldNotify(InterestsBlocProvider oldWidget) => true;
 }
 
-class InterestsMainPage extends HomeSection {
+class InterestsMainPage extends StatefulWidget with HomeSection {
   @override
   Widget get title {
     return Text("Intereses");

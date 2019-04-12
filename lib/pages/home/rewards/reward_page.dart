@@ -9,7 +9,7 @@ import 'package:meshi/data/models/reward_model.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class RewardPage extends HomeSection {
+class RewardPage extends StatefulWidget with HomeSection {
   @override
   Widget get title {
     return Text("Cita de la semana");
