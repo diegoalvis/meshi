@@ -16,6 +16,7 @@ class User {
   DateTime birthday;
   List<File> photos = new List(MAX_PICTURES);
   Gender gender;
+  Set<Gender> userInterestedGender = Set();
   String fbToken;
   String eduLevel;
   String bodyShape;
@@ -31,6 +32,8 @@ class User {
   List<String> specifics = new List(17);
 
   User({this.name, this.email, this.age, this.gender, this.fbToken});
+
+  static Future<User> fromJson(decode) {}
 }
 
 // TODO create utils class for these

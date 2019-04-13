@@ -4,14 +4,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/blocs/register_bloc.dart';
-import 'package:meshi/blocs/rewards_bloc.dart';
-import 'package:meshi/data/models/reward_model.dart';
 import 'package:meshi/data/models/user_model.dart';
-import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/register/photos_section.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 

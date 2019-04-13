@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/utils/gender.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RegisterBloc {
@@ -49,6 +50,11 @@ class RegisterBloc {
     _userSubject.sink.add(user);
   }
 
+  set userGender(Gender gender) {
+    user.gender = gender;
+    _userSubject.sink.add(user);
+  }
+
   addImage(File image, int index) {
     user.photos[index] = image;
     _userSubject.sink.add(user);
@@ -56,5 +62,15 @@ class RegisterBloc {
 
   dispose() {
     _userSubject.close();
+  }
+
+  removeGender(Gender gender) {
+    user.userInterestedGender.remove(gender);
+    _userSubject.sink.add(user);
+  }
+
+  addGender(Gender gender) {
+    user.userInterestedGender.add(gender);
+    _userSubject.sink.add(user);
   }
 }

@@ -7,15 +7,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/register/register_page.dart';
+import 'package:meshi/pages/register/register_section.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 // Widget
-class PhotosSection extends StatelessWidget {
+class BasicInfoPageOne extends StatelessWidget with RegisterSection {
   final List<File> images;
 
-  const PhotosSection({Key key, this.images}) : super(key: key);
+  const BasicInfoPageOne({Key key, this.images}) : super(key: key);
+
+  @override
+  bool isInfoComplete() => true;
 
   @override
   Widget build(BuildContext context) {
