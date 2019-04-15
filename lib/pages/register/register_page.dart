@@ -29,30 +29,22 @@ class RegisterBlocProvider extends InheritedWidget {
 
 // Widget
 class RegisterPage extends StatefulWidget {
-  final String fbToken;
-
-  RegisterPage({Key key, @required this.fbToken}) : super(key: key);
-
   @override
-  _RegisterPageState createState() => _RegisterPageState(fbToken, RegisterBloc());
+  _RegisterPageState createState() => _RegisterPageState(RegisterBloc());
 }
 
 class _RegisterPageState extends State<RegisterPage> {
   final RegisterBloc _bloc;
-  final String _fbToken;
-
   RegisterSection currentPage;
   List<RegisterSection> pages = [BasicInfoPageOne(), BasicInfoPageTwo(), BasicInfoPageThree()];
 
-  _RegisterPageState(this._fbToken, this._bloc);
+  _RegisterPageState(this._bloc);
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      currentPage = pages[0];
-    });
-    _bloc.loadFacebookProfile(_fbToken);
+    setState(() => currentPage = pages[0]);
+    _bloc.loadFacebookProfile();
   }
 
   @override
@@ -89,35 +81,52 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Expanded(
               child: Container(
-            child: Text("$currentPageIndex ${strings.ofLabel} 3", textAlign: TextAlign.center),
+            child: Text("$currentPageIndex ${strings.ofLabel} ${pages.length}",
+                textAlign: TextAlign.center),
           )),
           Expanded(
             child: Container(
               alignment: Alignment.center,
-              child: FlatButton(
-                onPressed: () => !currentPage.isInfoComplete()
-                    ? null
-                    : setState(() {
-                        currentPageIndex++;
-                        if (currentPageIndex > pages.length) {
-                          currentPageIndex = pages.length;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => WelcomePage()),
+              child: StreamBuilder<bool>(
+                  stream: _bloc.progressSubject.stream,
+                  initialData: false,
+                  builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    return snapshot.data
+                        ? CircularProgressIndicator()
+                        : FlatButton(
+                            onPressed: () => !currentPage.isInfoComplete()
+                                ? null
+                                : setState(() {
+                                    currentPageIndex++;
+                                    if (currentPageIndex > pages.length) {
+                                      currentPageIndex = pages.length;
+                                      _bloc.updateUseInfo().listen((response) {
+                                        if (response.success) {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (context) => WelcomePage()));
+                                        } else {
+                                          // TODO mostrar mensaje error Snackbar
+                                        }
+                                      });
+                                    }
+                                    currentPage = pages[currentPageIndex - 1];
+                                  }),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                            color: currentPageIndex == 4
+                                ? Theme.of(context).accentColor
+                                : Colors.transparent,
+                            child: Text(
+                              (currentPageIndex == pages.length ? strings.finish : strings.next)
+                                  .toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: !currentPage.isInfoComplete()
+                                    ? Colors.grey
+                                    : Theme.of(context).accentColor,
+                              ),
+                            ),
                           );
-                        }
-                        currentPage = pages[currentPageIndex - 1];
-                      }),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                color: currentPageIndex == 4 ? Theme.of(context).accentColor : Colors.transparent,
-                child: Text(
-                  (currentPageIndex == pages.length ? strings.finish : strings.next).toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: !currentPage.isInfoComplete() ? Colors.grey : Theme.of(context).accentColor,
-                  ),
-                ),
-              ),
+                  }),
             ),
           ),
         ],

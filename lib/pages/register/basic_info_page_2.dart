@@ -44,16 +44,16 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
               GestureDetector(
                 onTap: () => showDatePicker(
                         context: context,
-                        initialDate: snapshot.data?.birthday ?? DateTime.now(),
+                        initialDate: snapshot.data?.birthDate ?? DateTime.now(),
                         firstDate: DateTime(1950),
                         lastDate: DateTime.now())
                     .then<DateTime>(
-                        (DateTime pickedDate) => bloc.birthday = pickedDate ?? snapshot.data.birthday),
+                        (DateTime pickedDate) => bloc.birthday = pickedDate ?? snapshot.data.birthDate),
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
                     child: TextFormField(
-                      controller: TextEditingController(text: formatDate(snapshot.data.birthday)),
+                      controller: TextEditingController(text: formatDate(snapshot.data?.birthDate)),
                       decoration: InputDecoration(
                         labelText: strings.birthDate,
                         hintText: "dd/mm/aa",
@@ -74,7 +74,7 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
-                      data: [snapshot.data.gender].toSet(),
+                      data: [snapshot.data?.gender]?.toSet(),
                       onGenderSelected: (gender) => bloc.userGender = gender,
                     ),
                   ),
@@ -92,9 +92,9 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
-                        data: snapshot.data.userInterestedGender,
+                        data: snapshot.data?.likeGenders,
                         onGenderSelected: (gender) {
-                          if (snapshot.data.userInterestedGender.contains(gender)) {
+                          if (snapshot.data?.likeGenders?.contains(gender) == true) {
                             bloc.removeGender(gender);
                           } else {
                             bloc.addGender(gender);

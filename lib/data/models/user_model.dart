@@ -7,17 +7,31 @@ import 'dart:io';
 
 import 'package:meshi/utils/gender.dart';
 
-const MAX_PICTURES = 4;
+const USER_PICTURE_NUMBER = 4;
 
 class User {
+  /// User states
+  static const String new_user = "new";
+  static const String basic_user = "basic";
+  static const String advanced_user = "advanced";
+
+  int id;
+  String createdDate;
+  String type;
+  String state;
   String name;
   String email;
-  int age;
-  DateTime birthday;
-  List<File> photos = new List(MAX_PICTURES);
+  String location;
+  String description;
+  String freeTime;
+  String occupation;
+  String interests;
+  String idFacebook;
+  String images;
+  DateTime birthDate;
+  List<File> pictures;
   Gender gender;
-  Set<Gender> userInterestedGender = Set();
-  String fbToken;
+  Set<Gender> likeGenders = Set();
   String eduLevel;
   String bodyShape;
   Set<String> bodyShapePreferred = new Set();
@@ -31,13 +45,66 @@ class User {
   List<String> habits = new List(6);
   List<String> specifics = new List(17);
 
-  User({this.name, this.email, this.age, this.gender, this.fbToken});
+  User(
+      {this.id,
+      this.createdDate,
+      this.type,
+      this.state,
+      this.name,
+      this.email,
+//        this.birthDate,
+//        this.gender,
+//        this.likeGenders,
+      this.location,
+      this.description,
+      this.freeTime,
+      this.occupation,
+      this.interests,
+      this.idFacebook,
+      this.images});
 
-  static Future<User> fromJson(decode) {}
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    createdDate = json['createdDate'];
+    type = json['type'];
+    state = json['state'];
+    name = json['name'];
+    email = json['email'];
+//    birthDate = json['birthdate'];
+//    gender = json['gender'];
+//    likeGenders = json['likeGender'];
+    location = json['location'];
+    description = json['description'];
+    freeTime = json['freeTime'];
+    occupation = json['occupation'];
+    interests = json['interests'];
+    idFacebook = json['idFacebook'];
+    images = json['images'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['createdDate'] = this.createdDate;
+    data['type'] = this.type;
+    data['state'] = this.state;
+    data['name'] = this.name;
+    data['email'] = this.email;
+//    data['birthdate'] = this.birthDate;
+//    data['gender'] = this.gender;
+//    data['likeGender'] = this.likeGenders;
+    data['location'] = this.location;
+    data['description'] = this.description;
+    data['freeTime'] = this.freeTime;
+    data['occupation'] = this.occupation;
+    data['interests'] = this.interests;
+    data['idFacebook'] = this.idFacebook;
+    data['images'] = this.images;
+    return data;
+  }
 }
 
 // TODO create utils class for these
-
 const Map<String, List<int>> FormSections = {
   "BASIC": [1, 4],
   "HABITOS": [5, 6],

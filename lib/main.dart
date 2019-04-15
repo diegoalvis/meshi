@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
+import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {

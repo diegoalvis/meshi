@@ -5,6 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/login_bloc.dart';
+import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -31,7 +34,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
+    controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
   }
@@ -39,8 +42,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    _bloc.fbToken.takeWhile((token) => token.isNotEmpty).listen((token) =>
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(fbToken: token))));
+    _bloc.userStream?.listen((user) {
+      switch (user.state) {
+        case User.new_user:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+          break;
+        case User.basic_user:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage()));
+          break;
+        case User.advanced_user:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          break;
+      }
+    });
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Column(children: [

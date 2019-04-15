@@ -10,6 +10,7 @@ class SessionManager {
   SessionManager._internal();
   static SessionManager get instance => _sessionManager;
 
-  final user = User();
-  String fbToken = "";
+  User user;
+  String fbToken;
+  String authToken;
 }

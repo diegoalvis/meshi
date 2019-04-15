@@ -3,14 +3,17 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:meshi/blocs/base_bloc.dart';
 import 'package:meshi/data/models/reward_model.dart';
 import 'package:rxdart/rxdart.dart';
 
-class RewardBloc {
+class RewardBloc extends BaseBloc {
   final _rewardSubject = PublishSubject<Reward>();
   Observable<Reward> get rewardStream => _rewardSubject.stream;
 
+  @override
   void dispose() {
+    super.dispose();
     _rewardSubject.close();
   }
 

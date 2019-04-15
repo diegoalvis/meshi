@@ -7,7 +7,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/register/register_section.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
@@ -17,7 +16,7 @@ import 'package:meshi/utils/localiztions.dart';
 class BasicInfoPageOne extends StatelessWidget with RegisterSection {
   final List<File> images;
 
-  const BasicInfoPageOne({Key key, this.images}) : super(key: key);
+  const BasicInfoPageOne({Key key, @required this.images}) : super(key: key);
 
   @override
   bool isInfoComplete() => true;
@@ -39,17 +38,21 @@ class BasicInfoPageOne extends StatelessWidget with RegisterSection {
               SizedBox(height: 50),
               Row(
                 children: [
-                  ImageSelector(snapshot.data?.photos[0] ?? null, (image) => bloc.addImage(image, 0)),
+                  ImageSelector(
+                      snapshot.data?.pictures?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0)),
                   SizedBox(width: 12),
-                  ImageSelector(snapshot.data?.photos[1] ?? null, (image) => bloc.addImage(image, 1)),
+                  ImageSelector(
+                      snapshot.data?.pictures?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1)),
                 ],
               ),
               SizedBox(height: 12),
               Row(
                 children: [
-                  ImageSelector(snapshot.data?.photos[2] ?? null, (image) => bloc.addImage(image, 2)),
+                  ImageSelector(
+                      snapshot.data?.pictures?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2)),
                   SizedBox(width: 12),
-                  ImageSelector(snapshot.data?.photos[3] ?? null, (image) => bloc.addImage(image, 3)),
+                  ImageSelector(
+                      snapshot.data?.pictures?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3)),
                 ],
               ),
             ],
