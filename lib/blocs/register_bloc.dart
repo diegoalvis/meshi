@@ -32,7 +32,32 @@ class RegisterBloc extends BaseBloc {
     _userSubject.close();
   }
 
-  set birthday(DateTime birthday) {
+  set description(String description) {
+    user.description = description;
+    _userSubject.sink.add(user);
+  }
+
+  set freeTime(String freeTime) {
+    user.freeTime = freeTime;
+    _userSubject.sink.add(user);
+  }
+
+  set occupation(String occupation) {
+    user.occupation = occupation;
+    _userSubject.sink.add(user);
+  }
+
+  set interests(String interests) {
+    user.interests = interests;
+    _userSubject.sink.add(user);
+  }
+
+  set email(String email) {
+    user.email = email;
+    _userSubject.sink.add(user);
+  }
+
+  set birthDate(DateTime birthday) {
     user.birthDate = birthday;
     _userSubject.sink.add(user);
   }
@@ -44,19 +69,20 @@ class RegisterBloc extends BaseBloc {
 
   addImage(File image, int index) {
     if (user.pictures == null) {
-      user.pictures = new List<File>(USER_PICTURE_NUMBER);
+      user.pictures = new List<String>(USER_PICTURE_NUMBER);
     }
-    user.pictures[index] = image;
+    // TODO hacer api call to save iamge and set value trhought bloc using a stream builder widget
+//    user.pictures[index] = image;
     _userSubject.sink.add(user);
   }
 
   removeGender(Gender gender) {
-    user.likeGenders.remove(gender);
+    user.likeGender.remove(gender);
     _userSubject.sink.add(user);
   }
 
   addGender(Gender gender) {
-    user.likeGenders.add(gender);
+    user.likeGender.add(gender);
     _userSubject.sink.add(user);
   }
 

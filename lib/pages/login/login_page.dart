@@ -37,11 +37,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final strings = MyLocalizations.of(context);
     _bloc.userStream?.listen((user) {
       switch (user.state) {
         case User.new_user:
@@ -55,6 +51,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           break;
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Column(children: [

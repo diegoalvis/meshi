@@ -11,6 +11,7 @@ class SessionManager {
   static SessionManager get instance => _sessionManager;
 
   User user;
+  String fbUserId;
   String fbToken;
   String authToken;
 }

@@ -30,14 +30,18 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
         stream: bloc.userStream,
         initialData: bloc.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          TextEditingController emailController = new TextEditingController();
+          emailController.text = snapshot.data?.email ?? "";
+
           return ListView(
             children: [
               Text(
                 strings.tellUsAboutYou,
                 textAlign: TextAlign.center,
               ),
-              TextFormField(
-                initialValue: snapshot.data?.email ?? "",
+              TextField(
+                controller: emailController,
+                onChanged: (text) => bloc.email = text,
                 decoration: InputDecoration(labelText: strings.email, hintText: "usuario@example.com"),
               ),
               SizedBox(height: 25),
@@ -48,7 +52,7 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
                         firstDate: DateTime(1950),
                         lastDate: DateTime.now())
                     .then<DateTime>(
-                        (DateTime pickedDate) => bloc.birthday = pickedDate ?? snapshot.data.birthDate),
+                        (DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthDate),
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
@@ -92,9 +96,9 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
-                        data: snapshot.data?.likeGenders,
+                        data: snapshot.data?.likeGender,
                         onGenderSelected: (gender) {
-                          if (snapshot.data?.likeGenders?.contains(gender) == true) {
+                          if (snapshot.data?.likeGender?.contains(gender) == true) {
                             bloc.removeGender(gender);
                           } else {
                             bloc.addGender(gender);

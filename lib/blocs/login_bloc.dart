@@ -19,30 +19,31 @@ class LoginBloc extends BaseBloc {
   // stream outputs
   Stream<User> get userStream => _userSubject.stream;
 
-  initFacebookLogin() async {
-//    var diegoId = "10219787681781369";
-//    repository.loginUser(diegoId).then((user) {
-//      SessionManager.instance.user = user;
-//      _userSubject.sink.add(user);
-//    });
+  void initFacebookLogin() async {
+    var diegoId = "10219787681781369";
+    repository.loginUser(diegoId).then((user) {
+      SessionManager.instance.user = user;
+      _userSubject.sink.add(user);
+    });
 
-    var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'user_birthday']);
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        errorSubject.sink.add("Error trying to log in in facebook");
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
-        break;
-      case FacebookLoginStatus.loggedIn:
-        // TODO: we must save this token using the user preferences
-        SessionManager.instance.fbToken = facebookLoginResult.accessToken.token;
-        _userSubject.sink.addStream(Stream.fromFuture(repository
-            .loginUser(facebookLoginResult.accessToken.userId)
-            .then((user) => SessionManager.instance.user = user)));
-        break;
-    }
+//    var facebookLogin = FacebookLogin();
+//    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'user_birthday']);
+//    switch (facebookLoginResult.status) {
+//      case FacebookLoginStatus.error:
+//        errorSubject.sink.add("Error trying to log in in facebook");
+//        break;
+//      case FacebookLoginStatus.cancelledByUser:
+//        print("CancelledByUser");
+//        break;
+//      case FacebookLoginStatus.loggedIn:
+//        // TODO: we must save this token using the user preferences
+//        SessionManager.instance.fbToken = facebookLoginResult.accessToken.token;
+//        SessionManager.instance.fbUserId = facebookLoginResult.accessToken.userId;
+//        _userSubject.sink.addStream(Stream.fromFuture(repository
+//            .loginUser(facebookLoginResult.accessToken.userId)
+//            .then((user) => SessionManager.instance.user = user)));
+//        break;
+//    }
   }
 
   @override
