@@ -12,9 +12,9 @@ import 'package:meshi/utils/localiztions.dart';
 class ImageSelector extends StatelessWidget {
   final Function(File image) onImageSelected;
   final String image;
-  final bool showLoader;
+  final Stream<bool> showLoader;
 
-  ImageSelector(this.image, this.onImageSelected, {this.showLoader = false});
+  ImageSelector(this.image, this.onImageSelected, {this.showLoader});
 
   _getImage(ImageSource source) async {
     var image = await ImagePicker.pickImage(source: source);
@@ -55,11 +55,15 @@ class ImageSelector extends StatelessWidget {
           child: ClipRRect(
             borderRadius: new BorderRadius.circular(16.0),
             child: Container(
-              color: Colors.grey[300],
-              child: showLoader
-                  ? Center(child: CircularProgressIndicator())
-                  : image != null ? Image.network(image, fit: BoxFit.cover) : Icon(Icons.add_a_photo),
-            ),
+                color: Colors.grey[300],
+                child: StreamBuilder<bool>(
+                    stream: showLoader,
+                    initialData: false,
+                    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                      return snapshot.data
+                          ? Center(child: CircularProgressIndicator())
+                          : image != null ? Image.network(image, fit: BoxFit.cover) : Icon(Icons.add_a_photo);
+                    })),
           ),
         ),
       ),

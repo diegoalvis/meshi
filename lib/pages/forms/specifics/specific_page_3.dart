@@ -24,7 +24,7 @@ class SpecificsFormPageThree extends StatelessWidget {
           child: Container(
             child: StreamBuilder<List<String>>(
               stream: bloc.specificsStream,
-              initialData: bloc.user.specifics,
+              initialData: bloc.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 return ListView.separated(
                   itemCount: DressStyle.length,

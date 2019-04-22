@@ -14,12 +14,11 @@ import 'package:meshi/utils/localiztions.dart';
 
 // Widget
 class BasicInfoPageOne extends StatelessWidget with RegisterSection {
-  final List<File> images;
 
-  const BasicInfoPageOne({Key key, @required this.images}) : super(key: key);
+  bool imagesNotEmpty;
 
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => imagesNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +28,7 @@ class BasicInfoPageOne extends StatelessWidget with RegisterSection {
         stream: bloc.userStream,
         initialData: bloc.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          imagesNotEmpty = snapshot.data?.images != null && snapshot.data?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null) != null;
           return Column(
             children: [
               Text(
@@ -39,20 +39,20 @@ class BasicInfoPageOne extends StatelessWidget with RegisterSection {
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.pictures?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0)),
+                      snapshot.data?.images?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.pictures?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1)),
+                      snapshot.data?.images?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1)),
                 ],
               ),
               SizedBox(height: 12),
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.pictures?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2)),
+                      snapshot.data?.images?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.pictures?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3)),
+                      snapshot.data?.images?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3)),
                 ],
               ),
             ],

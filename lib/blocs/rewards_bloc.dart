@@ -18,6 +18,7 @@ class RewardBloc extends BaseBloc {
   }
 
   getRewards() {
+    progressSubject.sink.add(true);
     //TODO: Make API call to the server to get data
     final reward = Reward.mock(
         "Cita",
@@ -26,5 +27,6 @@ class RewardBloc extends BaseBloc {
         "https://www.nhflavors.com/wp-content/uploads/2018/02/romantic-dinner-BVI-740X474.jpg",
         DateTime(2019, 2, 10));
     _rewardSubject.sink.add(reward);
+    progressSubject.sink.add(false);
   }
 }

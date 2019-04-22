@@ -26,9 +26,8 @@ class User {
   String occupation;
   String interests;
   String idFacebook;
-  String images;
   DateTime birthDate;
-  List<String> pictures;
+  List<String> images;
   Gender gender;
   Set<Gender> likeGender = Set();
   String eduLevel;
@@ -42,7 +41,7 @@ class User {
 
   // form questions
   List<String> habits = new List(6);
-  List<String> specifics = new List(17);
+  List<String> deepening = new List(17);
 
   User(
       {this.id,
@@ -91,14 +90,24 @@ class User {
     data['email'] = this.email;
     data['birthdate'] = this.birthDate;
     data['gender'] = this.gender.name;
-    data['likeGender'] = this.likeGender.map((gender) => gender.name).join(",");
+    data['likeGender'] = this.likeGender?.map((gender) => gender.name)?.join(",");
     data['location'] = this.location;
     data['description'] = this.description;
     data['freeTime'] = this.freeTime;
     data['occupation'] = this.occupation;
     data['interests'] = this.interests;
     data['idFacebook'] = this.idFacebook;
-    data['images'] = this.images;
+    data['images'] = this.images?.join(",");
     return data;
   }
+}
+
+
+class Habits {
+  String smoke;
+  String drink;
+  String sport;
+  String likeSmoke;
+  String likeDrink;
+  String likeSport;
 }

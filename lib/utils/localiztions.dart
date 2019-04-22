@@ -43,6 +43,8 @@ class MyLocalizations {
 
   String get tellUsAboutYou => _localizedSingleValues[locale.languageCode]['tell_us_about_you'];
 
+  String get name => _localizedSingleValues[locale.languageCode]['name'];
+
   String get email => _localizedSingleValues[locale.languageCode]['email'];
 
   String get birthDate => _localizedSingleValues[locale.languageCode]['birth_date'];
@@ -99,6 +101,7 @@ class MyLocalizations {
       'as_you_are': 'As you are?',
       'picture_select_caption': 'Select the pictures that you want to show others',
       'tell_us_about_you': 'Tell us about you',
+      'name': 'Name',
       'email': 'Email',
       'birth_date': 'BirthDate',
       'self': 'I am',
@@ -129,6 +132,7 @@ class MyLocalizations {
       'as_you_are': '¿Como Eres?',
       'picture_select_caption': 'Selecciona las fotos para que tus interes puedan verte y conocerte',
       'tell_us_about_you': 'Cuentanos de ti',
+      'name': 'Nombre',
       'email': 'Correo',
       'birth_date': 'Fecha de nacimiento',
       'self': 'Soy',

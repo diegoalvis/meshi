@@ -25,6 +25,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     _bloc.dispose();
+    _bloc.errorSubject.listen((message) {
+      final snackBar = SnackBar(content: Text(message));
+      Scaffold.of(context).showSnackBar(snackBar);
+    });
     super.dispose();
   }
 

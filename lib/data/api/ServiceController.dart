@@ -27,7 +27,10 @@ class ServiceController {
   }
 
   Future<BaseResponse> post(String endpointName, String body) {
-    return http.post(BASE_URL + endpointName, body: body).then((response) {
+    return http.post(BASE_URL + endpointName,
+        body: body,
+        headers: {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${SessionManager.instance?.authToken ?? ""}'}).then((response) {
       return BaseResponse.fromJson(jsonDecode(response.body));
     });
   }

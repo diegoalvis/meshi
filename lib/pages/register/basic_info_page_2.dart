@@ -12,10 +12,10 @@ import 'package:meshi/utils/custom_widgets/gender_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
+  bool infoComplete;
+
   @override
-  bool isInfoComplete() {
-    return true;
-  }
+  bool isInfoComplete() => infoComplete;
 
   formatDate(DateTime date) {
     DateTime currentDate = DateTime.now();
@@ -30,21 +30,32 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
         stream: bloc.userStream,
         initialData: bloc.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-          TextEditingController emailController = new TextEditingController();
+          TextEditingController emailController = TextEditingController();
           emailController.text = snapshot.data?.email ?? "";
+          emailController.addListener(() => bloc.email = emailController.text);
+
+          TextEditingController nameController = TextEditingController();
+          nameController.text = snapshot.data?.name ?? "";
+          nameController.addListener(() => bloc.name = nameController.text);
+
+          infoComplete = emailController.text.trim().length > 0 &&
+              nameController.text.trim().length > 0 &&
+              snapshot.data?.gender != null &&
+              snapshot.data?.likeGender != null &&
+              snapshot.data.likeGender.length > 0;
 
           return ListView(
             children: [
-              Text(
-                strings.tellUsAboutYou,
-                textAlign: TextAlign.center,
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: strings.name),
               ),
+              SizedBox(height: 18),
               TextField(
                 controller: emailController,
-                onChanged: (text) => bloc.email = text,
                 decoration: InputDecoration(labelText: strings.email, hintText: "usuario@example.com"),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 18),
               GestureDetector(
                 onTap: () => showDatePicker(
                         context: context,
@@ -68,7 +79,6 @@ class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
               Row(
                 children: [
                   Expanded(

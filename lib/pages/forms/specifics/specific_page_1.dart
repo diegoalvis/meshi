@@ -18,7 +18,7 @@ class SpecificsFormPageOne extends StatelessWidget {
     final bloc = FormBlocProvider.of(context)?.bloc ?? FormBloc();
     return StreamBuilder<List<String>>(
         stream: bloc.specificsStream,
-        initialData: bloc.user.specifics,
+        initialData: bloc.user.deepening,
         builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
           return Column(
             children: [

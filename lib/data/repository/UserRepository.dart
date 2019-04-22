@@ -5,6 +5,7 @@
 
 import 'package:meshi/data/api/BaseResponse.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class UserRepository {
   /// validates if the user already exists, if so, returns the user info,
@@ -15,5 +16,7 @@ abstract class UserRepository {
   Future<User> fetchUser();
 
   /// Updates the user basic info
-  Future<BaseResponse> updateUserBasicInfo(User user);
+  Observable<BaseResponse> updateUserBasicInfo(User user);
+
+  Observable<BaseResponse> uploadImage(String imageBase64);
 }

@@ -36,14 +36,17 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final RegisterBloc _bloc;
   RegisterSection currentPage;
-  List<RegisterSection> pages = [BasicInfoPageOne(), BasicInfoPageTwo(), BasicInfoPageThree()];
+  List<RegisterSection> pages;
 
   _RegisterPageState(this._bloc);
 
   @override
   void initState() {
     super.initState();
-    setState(() => currentPage = pages[0]);
+    setState(() {
+      pages = [BasicInfoPageOne(), BasicInfoPageTwo(), BasicInfoPageThree()];
+      currentPage = pages[0];
+    });
     _bloc.loadFacebookProfile();
   }
 
@@ -66,7 +69,8 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Container(
               alignment: Alignment.center,
               child: FlatButton(
-                onPressed: () => setState(() {
+                onPressed: () =>
+                    setState(() {
                       currentPageIndex--;
                       if (currentPageIndex < 1) currentPageIndex = 1;
                       currentPage = pages[currentPageIndex - 1];
@@ -74,16 +78,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Text(
                   (currentPageIndex == 1 ? '' : strings.back).toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Theme.of(context).accentColor),
+                  style: TextStyle(color: Theme
+                      .of(context)
+                      .accentColor),
                 ),
               ),
             ),
           ),
           Expanded(
               child: Container(
-            child: Text("$currentPageIndex ${strings.ofLabel} ${pages.length}",
-                textAlign: TextAlign.center),
-          )),
+                child: Text(
+                    "$currentPageIndex ${strings.ofLabel} ${pages.length}", textAlign: TextAlign.center),
+              )),
           Expanded(
             child: Container(
               alignment: Alignment.center,
@@ -94,38 +100,39 @@ class _RegisterPageState extends State<RegisterPage> {
                     return snapshot.data
                         ? CircularProgressIndicator()
                         : FlatButton(
-                            onPressed: () => !currentPage.isInfoComplete()
-                                ? null
-                                : setState(() {
-                                    currentPageIndex++;
-                                    if (currentPageIndex > pages.length) {
-                                      currentPageIndex = pages.length;
-                                      _bloc.updateUseInfo().listen((response) {
-                                        if (response.success) {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (context) => WelcomePage()));
-                                        } else {
-                                          // TODO mostrar mensaje error Snackbar
-                                        }
-                                      });
-                                    }
-                                    currentPage = pages[currentPageIndex - 1];
-                                  }),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                            color: currentPageIndex == 4
-                                ? Theme.of(context).accentColor
-                                : Colors.transparent,
-                            child: Text(
-                              (currentPageIndex == pages.length ? strings.finish : strings.next)
-                                  .toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: !currentPage.isInfoComplete()
-                                    ? Colors.grey
-                                    : Theme.of(context).accentColor,
-                              ),
-                            ),
-                          );
+                      onPressed: () =>
+                      !currentPage.isInfoComplete()
+                          ? null
+                          : setState(() {
+                        currentPageIndex++;
+                        if (currentPageIndex > pages.length) {
+                          currentPageIndex = pages.length;
+                          _bloc.updateUseInfo().listen((response) {
+                            if (response.success) {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => WelcomePage()));
+                            } else {
+                              _bloc.errorSubject.sink.add(response.error.toString());
+                            }
+                          }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
+                        }
+                        currentPage = pages[currentPageIndex - 1];
+                      }),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                      color: currentPageIndex == 4 ? Theme
+                          .of(context)
+                          .accentColor : Colors.transparent,
+                      child: Text(
+                        (currentPageIndex == pages.length ? strings.finish : strings.next)
+                            .toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .accentColor,
+                        ),
+                      ),
+                    );
                   }),
             ),
           ),
@@ -134,38 +141,48 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     return Scaffold(
-      body: SafeArea(
-        minimum: const EdgeInsets.all(24.0),
-        child: RegisterBlocProvider(
-          bloc: _bloc,
-          child: Column(
-            children: [
-              Expanded(
-                flex: pages.indexOf(currentPage) != (pages.length + 1) ? 2 : 0,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: pages.indexOf(currentPage) != (pages.length + 1)
-                      ? Text(
-                          strings.asYouAre,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 34,
-                            fontFamily: 'BettyLavea',
-                          ),
-                        )
-                      : null,
-                ),
+      body: Builder(
+        builder: (context) {
+        _bloc.errorSubject.stream.throttle(Duration(seconds: 5)).listen((message) {
+          final snackBar = SnackBar(content: Text(message));
+          Scaffold.of(context).showSnackBar(snackBar);
+        });
+          return SafeArea(
+            minimum: const EdgeInsets.all(24.0),
+            child: RegisterBlocProvider(
+              bloc: _bloc,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: pages.indexOf(currentPage) != (pages.length + 1) ? 2 : 0,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: pages.indexOf(currentPage) != (pages.length + 1)
+                          ? Text(
+                        strings.asYouAre,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme
+                              .of(context)
+                              .primaryColor,
+                          fontSize: 34,
+                          fontFamily: 'BettyLavea',
+                        ),
+                      )
+                          : null,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: currentPage as Widget,
+                  ),
+                  SizedBox(height: 20),
+                  _buildBottomButtons(),
+                ],
               ),
-              Expanded(
-                flex: 7,
-                child: currentPage as Widget,
-              ),
-              SizedBox(height: 20),
-              _buildBottomButtons(),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

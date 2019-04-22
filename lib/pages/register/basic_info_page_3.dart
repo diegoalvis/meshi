@@ -10,11 +10,10 @@ import 'package:meshi/pages/register/register_section.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BasicInfoPageThree extends StatelessWidget with RegisterSection {
+  bool infoComplete;
+
   @override
-  bool isInfoComplete() {
-    // TODO implement
-    return true;
-  }
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +23,26 @@ class BasicInfoPageThree extends StatelessWidget with RegisterSection {
         stream: bloc.userStream,
         initialData: bloc.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-          TextEditingController descriptionController = new TextEditingController();
-          TextEditingController occupationController = new TextEditingController();
-          TextEditingController freeTimeController = new TextEditingController();
-          TextEditingController interestsController = new TextEditingController();
+          TextEditingController descriptionController = TextEditingController();
           descriptionController.text = snapshot.data?.description ?? "";
-          freeTimeController.text = snapshot.data?.freeTime ?? "";
+          descriptionController.addListener(() => bloc.user.description = descriptionController.text);
+
+          TextEditingController occupationController = TextEditingController();
           occupationController.text = snapshot.data?.occupation ?? "";
+          occupationController.addListener(() => bloc.user.occupation = occupationController.text);
+
+          TextEditingController freeTimeController = TextEditingController();
+          freeTimeController.text = snapshot.data?.freeTime ?? "";
+          freeTimeController.addListener(() => bloc.user.freeTime = freeTimeController.text);
+
+          TextEditingController interestsController = TextEditingController();
           interestsController.text = snapshot.data?.interests ?? "";
+          interestsController.addListener(() => bloc.user.interests = interestsController.text);
+
+          infoComplete = descriptionController.text.trim().length > 0 &&
+              occupationController.text.trim().length > 0 &&
+              freeTimeController.text.trim().length > 0 &&
+              interestsController.text.trim().length > 0;
 
           return SingleChildScrollView(
             child: Column(
@@ -42,16 +53,14 @@ class BasicInfoPageThree extends StatelessWidget with RegisterSection {
                 ),
                 SizedBox(height: 40),
                 TextField(
-                  onChanged: (text) => bloc.description = text,
                   controller: descriptionController,
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: strings.howDescribeYourself,
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 25),
                 TextField(
-                  onChanged: (text) => bloc.freeTime = text,
                   controller: freeTimeController,
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
@@ -60,7 +69,6 @@ class BasicInfoPageThree extends StatelessWidget with RegisterSection {
                 ),
                 SizedBox(height: 25),
                 TextField(
-                  onChanged: (text) => bloc.occupation = text,
                   controller: occupationController,
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
@@ -69,7 +77,6 @@ class BasicInfoPageThree extends StatelessWidget with RegisterSection {
                 ),
                 SizedBox(height: 25),
                 TextField(
-                  onChanged: (text) => bloc.interests = text,
                   controller: interestsController,
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),

@@ -39,20 +39,20 @@ class ProfilePage extends StatelessWidget with HomeSection {
                   Row(
                     children: [
                       ImageSelector(
-                          snapshot.data?.pictures[0] ?? null, (image) => bloc.addImage(image, 0)),
+                          snapshot.data?.images[0] ?? null, (image) => bloc.addImage(image, 0)),
                       SizedBox(width: 12),
                       ImageSelector(
-                          snapshot.data?.pictures[1] ?? null, (image) => bloc.addImage(image, 1)),
+                          snapshot.data?.images[1] ?? null, (image) => bloc.addImage(image, 1)),
                     ],
                   ),
                   SizedBox(height: 12),
                   Row(
                     children: [
                       ImageSelector(
-                          snapshot.data?.pictures[2] ?? null, (image) => bloc.addImage(image, 2)),
+                          snapshot.data?.images[2] ?? null, (image) => bloc.addImage(image, 2)),
                       SizedBox(width: 12),
                       ImageSelector(
-                          snapshot.data?.pictures[3] ?? null, (image) => bloc.addImage(image, 3)),
+                          snapshot.data?.images[3] ?? null, (image) => bloc.addImage(image, 3)),
                     ],
                   ),
                 ],

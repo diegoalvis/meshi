@@ -85,8 +85,8 @@ class FormBloc {
   }
 
   specifics(int index, String answer) {
-    user.specifics[index] = answer;
-    _specificsSubject.sink.add(user.specifics);
+    user.deepening[index] = answer;
+    _specificsSubject.sink.add(user.deepening);
   }
 
   void dispose() {

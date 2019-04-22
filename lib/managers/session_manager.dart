@@ -10,8 +10,13 @@ class SessionManager {
   SessionManager._internal();
   static SessionManager get instance => _sessionManager;
 
-  User user;
-  String fbUserId;
-  String fbToken;
-  String authToken;
+  //User user;
+  //String fbUserId;
+  //String fbToken;
+  //String authToken;
+
+  User user = User();
+  String fbUserId = "10219787681781369";
+  String fbToken = "";
+  String authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDQsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTU1ODgxOTI0fQ.KMEYTO6lnaSQVeoFOUWQ8C9hsiJ46ax_i6KfXAXVpbM";
 }

@@ -6,19 +6,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class WelcomePage extends StatelessWidget {
-  final File image;
-  final String name;
-
-  WelcomePage({Key key, this.image, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-
+    final user = SessionManager.instance.user;
+    final userImage = user?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null);
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(24.0),
@@ -29,8 +28,8 @@ class WelcomePage extends StatelessWidget {
               child: Container(
                 height: 200.0,
                 width: 200.0,
-                color: image != null ? Colors.transparent : Colors.grey[300],
-                child: image != null ? Image.file(image, fit: BoxFit.cover) : Icon(Icons.add_a_photo),
+                color: user?.images?.first != null ? Colors.transparent : Colors.grey[300],
+                child: userImage != null ? Image.network(userImage, fit: BoxFit.cover) : Icon(Icons.add_a_photo),
               ),
             ),
             SizedBox(height: 30),
@@ -45,7 +44,7 @@ class WelcomePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              name != null ? name : strings.placeholderUser,
+              user?.name ?? strings.placeholderUser,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 23.0,

@@ -17,16 +17,6 @@ class RewardPage extends StatefulWidget with HomeSection {
 
   @override
   RewardPageState createState() => new RewardPageState(RewardBloc());
-
-  @override
-  bool showFloatingButton() {
-    return false;
-  }
-
-  @override
-  onFloatingButtonPressed(BuildContext context) {
-    return null;
-  }
 }
 
 class RewardPageState extends State<RewardPage> {
@@ -45,12 +35,8 @@ class RewardPageState extends State<RewardPage> {
   @override
   void initState() {
     super.initState();
-    _bloc.rewardStream.listen((reward) => setState(() {
-          this.reward = reward;
-          showProgress = false;
-        }));
-
-    setState(() => showProgress = true);
+    _bloc.rewardStream.listen((reward) => setState(() => this.reward = reward));
+    _bloc.progressSubject.listen((showProgress) => setState(() => this.showProgress = showProgress));
     _bloc.getRewards();
   }
 
@@ -63,7 +49,7 @@ class RewardPageState extends State<RewardPage> {
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return showProgress
-        ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.lightBlue)))
+        ? Center(child: CircularProgressIndicator())
         : Column(
             children: [
               Expanded(

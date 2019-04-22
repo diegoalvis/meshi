@@ -6,6 +6,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:meshi/blocs/base_bloc.dart';
 import 'package:meshi/data/api/BaseResponse.dart';
@@ -17,10 +18,12 @@ import 'package:meshi/utils/gender.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RegisterBloc extends BaseBloc {
+  static const IMAGE_BASE_URL = "https://meshi-app.herokuapp.com/images/";
   final UserRepository repository = UserRepositoryImp();
   final User user = SessionManager.instance.user;
 
   final _userSubject = PublishSubject<User>();
+
 
   Stream<User> get userStream => _userSubject.stream;
 
@@ -32,61 +35,64 @@ class RegisterBloc extends BaseBloc {
     _userSubject.close();
   }
 
-  set description(String description) {
-    user.description = description;
-    _userSubject.sink.add(user);
-  }
-
-  set freeTime(String freeTime) {
-    user.freeTime = freeTime;
-    _userSubject.sink.add(user);
-  }
-
-  set occupation(String occupation) {
-    user.occupation = occupation;
-    _userSubject.sink.add(user);
-  }
-
-  set interests(String interests) {
-    user.interests = interests;
-    _userSubject.sink.add(user);
+  set name(String name) {
+    user.name = name;
+    progressSubject.sink.add(false);
   }
 
   set email(String email) {
     user.email = email;
-    _userSubject.sink.add(user);
+    progressSubject.sink.add(false);
   }
 
   set birthDate(DateTime birthday) {
     user.birthDate = birthday;
     _userSubject.sink.add(user);
+    progressSubject.sink.add(false);
   }
 
   set userGender(Gender gender) {
     user.gender = gender;
     _userSubject.sink.add(user);
+    progressSubject.sink.add(false);
   }
 
-  addImage(File image, int index) {
-    if (user.pictures == null) {
-      user.pictures = new List<String>(USER_PICTURE_NUMBER);
-    }
-    // TODO hacer api call to save iamge and set value trhought bloc using a stream builder widget
-//    user.pictures[index] = image;
-    _userSubject.sink.add(user);
+  void addImage(File image, int index) {
+    progressSubject.add(true);
+    Observable.fromFuture(image.readAsBytes())
+        .map((imageBytes) => base64Encode(imageBytes))
+        .flatMap((base64Image) => repository.uploadImage(base64Image))
+        .doOnError(() => errorSubject.sink.add("Error trying to upload image"))
+        .doOnDone(() => progressSubject.add(false))
+        .listen((response) {
+      if (response.success) {
+        if (response.data != null) {
+          if (user.images == null) {
+            user.images = new List<String>(USER_PICTURE_NUMBER);
+          }
+          user.images[index] = IMAGE_BASE_URL + response.data.toString();
+          _userSubject.sink.add(user);
+        }
+      } else {
+        errorSubject.sink.add("Error trying to upload image");
+      }
+    });
   }
 
   removeGender(Gender gender) {
     user.likeGender.remove(gender);
     _userSubject.sink.add(user);
+    progressSubject.sink.add(false);
   }
 
   addGender(Gender gender) {
     user.likeGender.add(gender);
     _userSubject.sink.add(user);
+    progressSubject.sink.add(false);
   }
 
   void loadFacebookProfile() async {
+    progressSubject.sink.add(true);
     var graphResponse = await http.get(
         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200),age_range,birthday&access_token=${SessionManager.instance.fbToken}');
 
@@ -100,11 +106,12 @@ class RegisterBloc extends BaseBloc {
       print(e.toString());
     }
     _userSubject.sink.add(user);
+    progressSubject.sink.add(false);
   }
 
   Observable<BaseResponse> updateUseInfo() {
     progressSubject.sink.add(true);
-    return Observable.fromFuture(repository.updateUserBasicInfo(user))
+    return repository.updateUserBasicInfo(user)
         .doOnDone(() => progressSubject.sink.add(false));
   }
 }
