@@ -6,17 +6,17 @@
 import 'package:flutter/material.dart';
 
 class PageSelector extends StatelessWidget {
-  final int currentPage;
+  final int currentPagePos;
   final List<Widget> pages;
 
-  const PageSelector({Key key, this.currentPage, this.pages}) : super(key: key);
+  const PageSelector({Key key, this.currentPagePos, this.pages}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (currentPage > pages.length) {
+    if (currentPagePos > pages.length) {
       return pages.last;
     } else {
-      return pages[currentPage - 1];
+      return pages[currentPagePos - 1];
     }
   }
 }

@@ -5,20 +5,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class HabitsFormPageTwo extends StatelessWidget {
+class HabitsFormPageTwo extends StatelessWidget with FormSection {
+
+  bool infoComplete;
+
+  @override
+  bool isInfoComplete() => true;
+
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context).bloc;
-    return StreamBuilder<List<String>>(
+    return StreamBuilder<Habits>(
         stream: bloc.habitsStream,
         initialData: bloc.user.habits,
-        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<Habits> snapshot) {
           return Column(
             children: [
               SizedBox(height: 20),
@@ -31,8 +38,12 @@ class HabitsFormPageTwo extends StatelessWidget {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions2,
-                    optionSelected: snapshot.data[3],
-                    onSelected: (selected) => bloc.habits(3, selected)),
+                    optionSelected: snapshot.data.likeSmoke,
+                    onSelected: (selected) {
+                      final habits = snapshot.data;
+                      habits.likeSmoke = selected;
+                      bloc.habits(habits);
+                    }),
               ])),
               Expanded(
                   child: Column(children: [
@@ -43,8 +54,12 @@ class HabitsFormPageTwo extends StatelessWidget {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions2,
-                    optionSelected: snapshot.data[4],
-                    onSelected: (selected) => bloc.habits(4, selected)),
+                    optionSelected: snapshot.data.likeDrink,
+                    onSelected: (selected) {
+                      final habits = snapshot.data;
+                      habits.likeDrink = selected;
+                      bloc.habits(habits);
+                    }),
               ])),
               Expanded(
                   child: Column(children: [
@@ -55,8 +70,12 @@ class HabitsFormPageTwo extends StatelessWidget {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions1,
-                    optionSelected: snapshot.data[5],
-                    onSelected: (selected) => bloc.habits(5, selected)),
+                    optionSelected: snapshot.data.likeSport,
+                    onSelected: (selected) {
+                      final habits = snapshot.data;
+                      habits.likeSport = selected;
+                      bloc.habits(habits);
+                    }),
               ])),
             ],
           );

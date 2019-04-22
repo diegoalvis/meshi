@@ -17,6 +17,6 @@ class SessionManager {
 
   User user = User();
   String fbUserId = "10219787681781369";
-  String fbToken = "";
+  String fbToken = "EAADuaK7hfRIBAMkKI0yEfUUOCEgAwLSqz39hS7pcjtXP6gZB0rXQ5ZAZAiOJiZC0Fv3G8Y4ZAtPC2IGJBbHsMd06YZAnKb2EyfVIlIZAoNzZCoYUo1OstAHN6MsZA8VFtt9ItXoePXKxfUQcZCqW4Y3mt1rvK8VcGLCaCD5pRuhoaYL3lN8J0dIPqRRlUJHPy8ifgZD";
   String authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDQsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTU1ODgxOTI0fQ.KMEYTO6lnaSQVeoFOUWQ8C9hsiJ46ax_i6KfXAXVpbM";
 }

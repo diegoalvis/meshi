@@ -9,8 +9,8 @@ import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/register/basic_info_page_1.dart';
 import 'package:meshi/pages/register/basic_info_page_2.dart';
 import 'package:meshi/pages/register/basic_info_page_3.dart';
-import 'package:meshi/pages/register/register_section.dart';
-import 'package:meshi/pages/register/welcome_page.dart';
+import 'package:meshi/pages/base/form_section.dart';
+import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class RegisterBlocProvider extends InheritedWidget {
@@ -35,8 +35,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final RegisterBloc _bloc;
-  RegisterSection currentPage;
-  List<RegisterSection> pages;
+  FormSection currentPage;
+  List<FormSection> pages;
 
   _RegisterPageState(this._bloc);
 

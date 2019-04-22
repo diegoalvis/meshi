@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:meshi/blocs/interests_bloc.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/register/welcome_page.dart';
+import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class InterestsBlocProvider extends InheritedWidget {

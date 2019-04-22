@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/register/register_page.dart';
-import 'package:meshi/pages/register/register_section.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/utils/custom_widgets/gender_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class BasicInfoPageTwo extends StatelessWidget with RegisterSection {
+class BasicInfoPageTwo extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override

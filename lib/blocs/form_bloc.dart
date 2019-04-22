@@ -20,11 +20,11 @@ class FormBloc {
 
   final _userSubject = PublishSubject<User>();
   final _basicsSubject = PublishSubject<List<String>>();
-  final _habitsSubject = PublishSubject<List<String>>();
+  final _habitsSubject = PublishSubject<Habits>();
   final _specificsSubject = PublishSubject<List<String>>();
 
   Stream<User> get userStream => _userSubject.stream;
-  Stream<List<String>> get habitsStream => _habitsSubject.stream;
+  Stream<Habits> get habitsStream => _habitsSubject.stream;
   Stream<List<String>> get specificsStream => _specificsSubject.stream;
 
   set height(int height) {
@@ -79,8 +79,8 @@ class FormBloc {
   }
 
   // Form data
-  habits(int index, String answer) {
-    user.habits[index] = answer;
+  habits(Habits habits) {
+    user.habits = habits;
     _habitsSubject.sink.add(user.habits);
   }
 

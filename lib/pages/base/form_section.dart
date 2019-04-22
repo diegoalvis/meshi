@@ -3,6 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-abstract class RegisterSection {
+abstract class FormSection {
   bool isInfoComplete();
 }

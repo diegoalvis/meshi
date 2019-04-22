@@ -8,12 +8,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/register/register_page.dart';
-import 'package:meshi/pages/register/register_section.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 // Widget
-class BasicInfoPageOne extends StatelessWidget with RegisterSection {
+class BasicInfoPageOne extends StatelessWidget with FormSection {
 
   bool imagesNotEmpty;
 

@@ -5,11 +5,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class SpecificsFormPageFive extends StatelessWidget {
+class SpecificsFormPageFive extends StatelessWidget with FormSection {
+
+  bool infoComplete;
+
+  @override
+  bool isInfoComplete() => infoComplete;
+
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);

@@ -40,7 +40,7 @@ class User {
   bool isIncomeImportant = false;
 
   // form questions
-  List<String> habits = new List(6);
+  Habits habits = Habits();
   List<String> deepening = new List(17);
 
   User(
@@ -110,4 +110,16 @@ class Habits {
   String likeSmoke;
   String likeDrink;
   String likeSport;
+
+  Habits();
+
+  Habits.fromHabits(Habits habits) {
+    this.smoke = habits.smoke;
+    this.drink = habits.drink;
+    this.sport = habits.sport;
+    this.likeSmoke = habits.likeSmoke;
+    this.likeDrink = habits.likeDrink;
+    this.likeSport = habits.likeSport;
+  }
+
 }

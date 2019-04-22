@@ -8,11 +8,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class WelcomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -67,9 +67,7 @@ class WelcomePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())),
                       child: Text(
                         strings.logIn.toUpperCase(),
                         textAlign: TextAlign.center,
@@ -82,8 +80,7 @@ class WelcomePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () =>
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage())),
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage())),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                       color: Theme.of(context).accentColor,
                       child: Text(

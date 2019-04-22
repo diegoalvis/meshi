@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/blocs/form_bloc.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/basic/basic_page_1.dart';
 import 'package:meshi/pages/forms/basic/basic_page_2.dart';
 import 'package:meshi/pages/forms/basic/basic_page_3.dart';
@@ -52,7 +53,25 @@ class _FormPageState extends State<FormPage> {
   final FormBloc _bloc;
   static const TOTAL_PAGES = 16;
 
-  int currentPage = 1;
+  int currentPagePos = 1;
+  List<Widget> pages =  [
+    BasicFormPageOne(), // 1
+    BasicFormPageTwo(), // 2
+    BasicFormPageThree(), // 3
+    BasicFormPageFour(), // 4
+    HabitsFormPageOne(), // 5
+    HabitsFormPageTwo(), // 6
+    SpecificsFormPageOne(), // 7
+    SpecificsFormPageTwo(), // 8
+    SpecificsFormPageThree(), // 9
+    SpecificsFormPageFour(), // 10
+    SpecificsFormPageFive(), // 11
+    SpecificsFormPageSix(), // 12
+    SpecificsFormPageSeven(), // 13
+    SpecificsFormPageEight(), // 14
+    SpecificsFormPageNine(), // 15
+    SpecificsFormPageTen(), // 16
+  ];
 
   _FormPageState(this._bloc);
 
@@ -74,11 +93,11 @@ class _FormPageState extends State<FormPage> {
             alignment: Alignment.center,
             child: FlatButton(
               onPressed: () => setState(() {
-                    currentPage--;
-                    if (currentPage < 1) currentPage = 1;
+                    currentPagePos--;
+                    if (currentPagePos < 1) currentPagePos = 1;
                   }),
               child: Text(
-                (currentPage == 1 ? '' : strings.back).toUpperCase(),
+                (currentPagePos == 1 ? '' : strings.back).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).accentColor),
               ),
@@ -87,23 +106,26 @@ class _FormPageState extends State<FormPage> {
         ),
         Expanded(
             child: Container(
-          child: Text("$currentPage ${strings.ofLabel} $TOTAL_PAGES", textAlign: TextAlign.center),
+          child: Text("$currentPagePos ${strings.ofLabel} $TOTAL_PAGES", textAlign: TextAlign.center),
         )),
         Expanded(
           child: Container(
             alignment: Alignment.center,
             child: FlatButton(
-              onPressed: () => setState(() {
-                    currentPage++;
-                    if (currentPage > TOTAL_PAGES) {
+              onPressed: () =>
+                !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
+                  ? null
+                  : setState(() {
+                    currentPagePos++;
+                    if (currentPagePos > TOTAL_PAGES) {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                      currentPage = TOTAL_PAGES;
+                      currentPagePos = TOTAL_PAGES;
                     }
                   }),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
               color: Theme.of(context).accentColor,
               child: Text(
-                (currentPage == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
+                (currentPagePos == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -140,7 +162,7 @@ class _FormPageState extends State<FormPage> {
           child: Column(
             children: [
               SectionIndicator(
-                  currentStep: currentPage,
+                  currentStep: currentPagePos,
                   sections: FormSections,
                   disabledColor: Theme.of(context).colorScheme.onPrimary,
                   completedColor: Theme.of(context).colorScheme.onPrimary,
@@ -148,25 +170,8 @@ class _FormPageState extends State<FormPage> {
               Expanded(
                 flex: 7,
                 child: PageSelector(
-                  currentPage: currentPage,
-                  pages: [
-                    BasicFormPageOne(), // 1
-                    BasicFormPageTwo(), // 2
-                    BasicFormPageThree(), // 3
-                    BasicFormPageFour(), // 4
-                    HabitsFormPageOne(), // 5
-                    HabitsFormPageTwo(), // 6
-                    SpecificsFormPageOne(), // 7
-                    SpecificsFormPageTwo(), // 8
-                    SpecificsFormPageThree(), // 9
-                    SpecificsFormPageFour(), // 10
-                    SpecificsFormPageFive(), // 11
-                    SpecificsFormPageSix(), // 12
-                    SpecificsFormPageSeven(), // 13
-                    SpecificsFormPageEight(), // 14
-                    SpecificsFormPageNine(), // 15
-                    SpecificsFormPageTen(), // 16
-                  ],
+                  currentPagePos: currentPagePos,
+                  pages: pages,
                 ),
               ),
               SizedBox(height: 20),

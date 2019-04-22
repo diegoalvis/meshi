@@ -5,11 +5,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class BasicFormPageOne extends StatelessWidget {
+class BasicFormPageOne extends StatelessWidget with FormSection {
+
+  bool infoComplete;
+
+  @override
+  bool isInfoComplete() => infoComplete;
+
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -25,6 +32,7 @@ class BasicFormPageOne extends StatelessWidget {
               stream: bloc.userStream,
               initialData: bloc.user,
               builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                infoComplete = snapshot?.data?.eduLevel != null;
                 return ListView.separated(
                   itemCount: EducationalLevels.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
@@ -48,4 +56,6 @@ class BasicFormPageOne extends StatelessWidget {
       ],
     );
   }
+
+
 }

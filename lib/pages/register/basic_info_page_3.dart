@@ -6,10 +6,10 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_model.dart';
 import 'package:meshi/pages/register/register_page.dart';
-import 'package:meshi/pages/register/register_section.dart';
+import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class BasicInfoPageThree extends StatelessWidget with RegisterSection {
+class BasicInfoPageThree extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
