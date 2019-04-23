@@ -26,7 +26,7 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Container(
             alignment: Alignment.centerLeft,
-            child: Text("¿Cuáles son los temas de mayor interés para ti?")),
+            child: Text("¿Cuáles son los temas de mayor interés para ti?\nElige 3.")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -34,6 +34,7 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
               stream: bloc.specificsStream,
               initialData: bloc.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                infoComplete = snapshot?.data[11]?.split(",")?.length == 3;
                 return ListView.separated(
                   itemCount: RelevantTopics.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),

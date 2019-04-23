@@ -12,8 +12,6 @@ import 'package:meshi/utils/localiztions.dart';
 
 class SpecificsFormPageThree extends StatelessWidget with FormSection {
 
-  bool infoComplete;
-
   @override
   bool isInfoComplete() => true;
 

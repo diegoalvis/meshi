@@ -15,7 +15,7 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,7 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
               stream: bloc.specificsStream,
               initialData: bloc.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                infoComplete = snapshot?.data[4]?.split(",")?.length == 3;
                 return ListView.separated(
                   itemCount: LifeGoals.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),

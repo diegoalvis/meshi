@@ -26,7 +26,7 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Container(
             alignment: Alignment.centerLeft,
-            child: Text("¿Qué actividades prefieres compartir en pareja? Elige 3.")),
+            child: Text("¿Qué actividades prefieres compartir en pareja?\nElige 3.")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -34,6 +34,7 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
               stream: bloc.specificsStream,
               initialData: bloc.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                infoComplete = snapshot?.data[8]?.split(",")?.length == 3;
                 return ListView.separated(
                   itemCount: CoupleActivities.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),

@@ -32,6 +32,7 @@ class SpecificsFormPageNine extends StatelessWidget with FormSection {
               stream: bloc.specificsStream,
               initialData: bloc.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                infoComplete = snapshot?.data[12] != null;
                 return ListView.separated(
                   itemCount: PoliticIdeology.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),

@@ -37,7 +37,7 @@ class User {
   double income;
   int minAgePreferred, maxAgePreferred;
   double minIncomePreferred, maxIncomePreferred;
-  bool isIncomeImportant = false;
+  bool isIncomeImportant;
 
   // form questions
   Habits habits = Habits();

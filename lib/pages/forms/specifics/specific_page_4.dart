@@ -26,6 +26,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
       stream: bloc.specificsStream,
       initialData: bloc.user.deepening,
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        infoComplete = snapshot.data[6] != null && (snapshot.data[6] == YesNoOptions.elementAt(1) || snapshot?.data[7]?.isNotEmpty == true);
         return Column(
           children: [
             SizedBox(height: 20),

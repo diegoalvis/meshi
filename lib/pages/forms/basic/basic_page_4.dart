@@ -27,7 +27,10 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
       stream: bloc.userStream,
       initialData: bloc.user,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-        infoComplete = snapshot.data?.bodyShapePreferred != null && snapshot.data.bodyShapePreferred.isNotEmpty;
+        infoComplete = snapshot.data?.bodyShapePreferred != null &&
+            snapshot.data.bodyShapePreferred.isNotEmpty &&
+            (snapshot.data?.isIncomeImportant == false ||
+                (snapshot.data?.minIncomePreferred != null && snapshot.data?.maxIncomePreferred != null));
         return Column(
           children: [
             SizedBox(height: 20),
@@ -53,7 +56,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                 children: [
                   OptionSelector(
                       options: YesNoOptions,
-                      optionSelected: (snapshot.data?.isIncomeImportant == true ? YesNoOptions[0] : YesNoOptions[1]),
+                      optionSelected: (snapshot.data?.isIncomeImportant == null ? null : snapshot.data?.isIncomeImportant == true ? YesNoOptions[0] : YesNoOptions[1]),
                       onSelected: (selected) => bloc.isIncomeImportant = (selected == YesNoOptions[0])),
                   SizedBox(height: 40),
                   snapshot?.data?.isIncomeImportant != true

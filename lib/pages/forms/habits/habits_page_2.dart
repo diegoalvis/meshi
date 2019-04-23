@@ -16,7 +16,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
         stream: bloc.habitsStream,
         initialData: bloc.user.habits,
         builder: (BuildContext context, AsyncSnapshot<Habits> snapshot) {
+          infoComplete = snapshot.data?.likeSmoke != null && snapshot.data?.likeDrink != null && snapshot.data?.likeSport != null;
           return Column(
             children: [
               SizedBox(height: 20),
