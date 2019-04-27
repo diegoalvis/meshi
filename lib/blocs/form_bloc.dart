@@ -21,11 +21,11 @@ class FormBloc {
   final _userSubject = PublishSubject<User>();
   final _basicsSubject = PublishSubject<List<String>>();
   final _habitsSubject = PublishSubject<Habits>();
-  final _specificsSubject = PublishSubject<List<String>>();
+  final _deepeningSubject = PublishSubject<Deepening>();
 
   Stream<User> get userStream => _userSubject.stream;
   Stream<Habits> get habitsStream => _habitsSubject.stream;
-  Stream<List<String>> get specificsStream => _specificsSubject.stream;
+  Stream<Deepening> get deepeningStream => _deepeningSubject.stream;
 
   set height(int height) {
     user.height = height;
@@ -70,6 +70,10 @@ class FormBloc {
   }
 
   updateBodyShapePreferred(String bodyShapePreferred) {
+    if(user.bodyShapePreferred == null) {
+      user.bodyShapePreferred = Set();
+    }
+
     if (user.bodyShapePreferred.contains(bodyShapePreferred)) {
       user.bodyShapePreferred.remove(bodyShapePreferred);
     } else {
@@ -78,21 +82,20 @@ class FormBloc {
     _userSubject.sink.add(user);
   }
 
-  // Form data
-  habits(Habits habits) {
+  updateHabits(Habits habits) {
     user.habits = habits;
     _habitsSubject.sink.add(user.habits);
   }
 
-  specifics(int index, String answer) {
-    user.deepening[index] = answer;
-    _specificsSubject.sink.add(user.deepening);
+  updateDeepening(Deepening deepening) {
+    user.deepening = deepening;
+    _deepeningSubject.sink.add(user.deepening);
   }
 
   void dispose() {
     _userSubject.close();
     _basicsSubject.close();
     _habitsSubject.close();
-    _specificsSubject.close();
+    _deepeningSubject.close();
   }
 }

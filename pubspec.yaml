@@ -17,6 +17,7 @@ dependencies:
   image_picker: ^0.5.0+6
   flutter_range_slider: ^1.1.0
   flutter_launcher_icons: "^0.7.0"
+  flutter_counter: ^1.0.3
 
 flutter_icons:
   ios: true
@@ -39,7 +40,6 @@ flutter:
   uses-material-design: true
 
   assets:
-  - res/images/
   - res/icons/
 
   fonts:

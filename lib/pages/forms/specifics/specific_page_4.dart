@@ -22,11 +22,12 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context).bloc;
-    return StreamBuilder<List<String>>(
-      stream: bloc.specificsStream,
+    return StreamBuilder<Deepening>(
+      stream: bloc.deepeningStream,
       initialData: bloc.user.deepening,
-      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-        infoComplete = snapshot.data[6] != null && (snapshot.data[6] == YesNoOptions.elementAt(1) || snapshot?.data[7]?.isNotEmpty == true);
+      builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+        final deepening = snapshot.data;
+        infoComplete = deepening.isImportantClothing != null && (deepening.isImportantClothing != true || deepening.likeClothing?.isNotEmpty == true);
         return Column(
           children: [
             SizedBox(height: 20),
@@ -36,17 +37,20 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
             SizedBox(height: 20),
             OptionSelector(
                 options: YesNoOptions,
-                optionSelected: snapshot.data[6],
-                onSelected: (selected) => bloc.specifics(6, selected)),
+                optionSelected: (deepening?.isImportantClothing == null ? null : deepening?.isImportantClothing == true ? YesNoOptions[0] : YesNoOptions[1]),
+                onSelected: (selected) {
+                  deepening.isImportantClothing = selected == YesNoOptions.first;
+                  bloc.updateDeepening(deepening);
+                }),
             SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
-                child: snapshot.data[6] != YesNoOptions.first
+                child: deepening.isImportantClothing != true
                     ? SizedBox()
                     : Text("¿Qué estilo de vestir prefieres en tu pareja?")),
             SizedBox(height: 20),
             Expanded(
-              child: snapshot.data[6] != YesNoOptions.first
+              child: deepening.isImportantClothing != true
                   ? SizedBox()
                   : ListView.separated(
                       itemCount: DressStyle.length,
@@ -56,28 +60,29 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                           contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                           onTap: () {
                             String selected = DressStyle[index];
-                            var hold = snapshot?.data[7]?.split(",") ?? [];
+                            var hold = snapshot?.data?.likeClothing ?? [];
                             if (hold.contains(selected)) {
                               hold.remove(selected);
                             } else {
                               hold.add(selected);
                             }
-                            bloc.specifics(7, hold.join(","));
+                            deepening.likeClothing = hold;
+                            bloc.updateDeepening(deepening);
                           },
                           title: Row(
                             children: <Widget>[
                               Icon(
-                                  snapshot?.data[7]?.contains(DressStyle[index]) == true
+                                  snapshot?.data?.likeClothing?.contains(DressStyle[index]) == true
                                       ? Icons.check
                                       : null,
-                                  color: snapshot?.data[7]?.contains(DressStyle[index]) == true
+                                  color: snapshot?.data?.likeClothing?.contains(DressStyle[index]) == true
                                       ? Theme.of(context).accentColor
                                       : Colors.black),
                               SizedBox(width: 5),
                               Text(
                                 DressStyle[index],
                                 style: TextStyle(
-                                    color: snapshot?.data[7]?.contains(DressStyle[index]) == true
+                                    color: snapshot?.data?.likeClothing?.contains(DressStyle[index]) == true
                                         ? Theme.of(context).accentColor
                                         : Colors.black),
                               ),

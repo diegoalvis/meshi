@@ -21,25 +21,22 @@ class UserRepositoryImp extends UserRepository {
   }
 
   @override
-  Future<User> loginUser(String id) async {
-    var response = await api.post("auth/login-facebook", "{\"id\": \"$id\"}");
-    SessionManager.instance.authToken = response.data['token'];
-    if (response.data['user'] == null) {
-      return User(state: response.data['state']);
-    }
-
-    // TODO remove this
-    response.data['user']['state'] = "new";
-    return User.fromJson(response.data['user']);
+  Observable<User> loginUser(String id) {
+    return Observable(api.post("auth/login-facebook", "{\"id\": \"$id\"}").asStream().map((response) {
+      SessionManager.instance.authToken = response.data['token'];
+      if (response.data['user'] == null) {
+        return User(state: response.data['state']);
+      }
+      return User.fromJson(response.data['user']);
+    }));
   }
 
   @override
   Observable<BaseResponse> updateUserBasicInfo(User user) {
-    try {
-      return Observable.fromFuture(api.put("users/basic", user.toJson().toString()).catchError((error) => Observable.error(error.toString())));
-    } catch(e) {
-      return Observable.error("Incomplete user info");
-    }
+    return Observable(
+        api.put("users/basic", user.toJson().toString())
+            .catchError((error) => Observable.error(error.toString()))
+            .asStream());
   }
 
   @override

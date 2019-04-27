@@ -28,21 +28,25 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                infoComplete = snapshot?.data[10] != null;
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
+                infoComplete = deepening?.places != null;
                 return ListView.separated(
                   itemCount: PlaceType.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () => bloc.specifics(10, PlaceType[index]),
+                      onTap: () {
+                        deepening.places = PlaceType[index];
+                        bloc.updateDeepening(deepening);
+                      },
                       title: Text(
                         PlaceType[index],
                         style: TextStyle(
-                            color: (snapshot?.data[10] == PlaceType[index]
+                            color: (deepening?.places == PlaceType[index]
                                 ? Theme.of(context).accentColor
                                 : Colors.black)),
                       ),

@@ -11,9 +11,9 @@ import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:flutter_counter/flutter_counter.dart';
 
 class SpecificsFormPageOne extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -23,12 +23,16 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context)?.bloc ?? FormBloc();
-    return StreamBuilder<List<String>>(
-        stream: bloc.specificsStream,
+    return StreamBuilder<Deepening>(
+        stream: bloc.deepeningStream,
         initialData: bloc.user.deepening,
-        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-          var deeping = snapshot.data;
-          infoComplete = deeping != null && deeping.length > 3 && deeping.sublist(0, 4).firstWhere((answer) => answer == null, orElse: () => "") != null;
+        builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+          final deepening = snapshot.data;
+          infoComplete = deepening != null &&
+              deepening.marriage != null &&
+              deepening.children != null &&
+              deepening.planChildren != null &&
+              deepening.likeChildren != null;
           return Column(
             children: [
               SizedBox(height: 20),
@@ -41,32 +45,48 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions3,
-                    optionSelected: snapshot.data[0],
-                    onSelected: (selected) => bloc.specifics(0, selected)),
+                    optionSelected: deepening.marriage,
+                    onSelected: (selected) {
+                      deepening.marriage = selected;
+                      bloc.updateDeepening(deepening);
+                    }),
               ])),
               Expanded(
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Tienes hijos?"),
+                  child: Text("¿Cuantos hijos tienes?"),
                 ),
                 SizedBox(height: 20),
-                OptionSelector(
-                    options: YesNoOptions,
-                    optionSelected: snapshot.data[1],
-                    onSelected: (selected) => bloc.specifics(1, selected)),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Counter(
+                    initialValue: deepening.children,
+                    minValue: 0,
+                    maxValue: 99,
+                    decimalPlaces: 0,
+                    step: 1,
+                    onChanged: (selected) {
+                      deepening.children = selected;
+                      bloc.updateDeepening(deepening);
+                    },
+                  ),
+                ),
               ])),
               Expanded(
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te gustaria tener ${snapshot.data[1] == 'Si' ? 'mas ' : ''}hijos?"),
+                  child: Text("¿Te gustaria tener ${deepening.children == YesNoOptions.first ? 'mas ' : ''}hijos?"),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions3,
-                    optionSelected: snapshot.data[2],
-                    onSelected: (selected) => bloc.specifics(2, selected)),
+                    optionSelected: deepening.planChildren,
+                    onSelected: (selected) {
+                      deepening.planChildren = selected;
+                      bloc.updateDeepening(deepening);
+                    }),
               ])),
               Expanded(
                   child: Column(children: [
@@ -77,8 +97,13 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: YesNoOptions,
-                    optionSelected: snapshot.data[3],
-                    onSelected: (selected) => bloc.specifics(3, selected)),
+                    optionSelected: (deepening?.likeChildren == null
+                        ? null
+                        : deepening?.likeChildren == true ? YesNoOptions[0] : YesNoOptions[1]),
+                    onSelected: (selected) {
+                      deepening.likeChildren = selected == YesNoOptions.first;
+                      bloc.updateDeepening(deepening);
+                    }),
               ])),
             ],
           );

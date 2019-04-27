@@ -28,21 +28,25 @@ class SpecificsFormPageNine extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                infoComplete = snapshot?.data[12] != null;
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
+                infoComplete = deepening?.politics != null;
                 return ListView.separated(
                   itemCount: PoliticIdeology.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () => bloc.specifics(12, PoliticIdeology[index]),
+                      onTap: () {
+                        deepening?.politics = PoliticIdeology[index];
+                        bloc.updateDeepening(deepening);
+                      },
                       title: Text(
                         PoliticIdeology[index],
                         style: TextStyle(
-                            color: (snapshot?.data[12] == PoliticIdeology[index]
+                            color: (deepening?.politics == PoliticIdeology[index]
                                 ? Theme.of(context).accentColor
                                 : Colors.black)),
                       ),

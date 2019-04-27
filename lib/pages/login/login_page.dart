@@ -19,16 +19,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   final LoginBloc _bloc;
   final logged = false;
+  bool loading = false;
+  BuildContext buildContext;
 
   _LoginPageState(this._bloc);
 
   @override
   void dispose() {
     _bloc.dispose();
-    _bloc.errorSubject.listen((message) {
-      final snackBar = SnackBar(content: Text(message));
-      Scaffold.of(context).showSnackBar(snackBar);
-    });
     super.dispose();
   }
 
@@ -41,7 +39,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
-
     _bloc.userStream?.listen((user) {
       switch (user.state) {
         case User.new_user:
@@ -55,14 +52,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           break;
       }
     });
+    _bloc.progressSubject.listen((show) => setState(() => loading = show));
+    _bloc.errorSubject.listen((error) {
+      Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text("Ocurrio un error intentalo mas tarde.")));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Column(children: [
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Builder(builder: (context) {
+        buildContext = context;
+        return Column(children: [
           Expanded(
               flex: 3,
               child: Container(
@@ -76,10 +79,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           Expanded(
             child: Text(
               'meshi',
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 45,
-                  fontFamily: 'BettyLavea'),
+              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
             ),
           ),
           Expanded(
@@ -97,8 +97,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               alignment: Alignment.bottomCenter,
               child: FadeTransition(
                 opacity: animation,
-                child: Text(strings.logInWith,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                child: Text(strings.logInWith, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
               ),
             ),
           ),
@@ -106,20 +105,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             child: FadeTransition(
               opacity: animation,
               child: Container(
-                alignment: Alignment.topCenter,
-                child: ButtonTheme(
-                    minWidth: 180.0,
-                    child: FlatButton(
-                      padding: const EdgeInsets.all(8.0),
-                      textColor: Colors.white,
-                      color: Color(0xFF4267B2),
-                      onPressed: _bloc.initFacebookLogin,
-                      child: Text("Facebook"),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    )),
+                alignment: loading ? Alignment.center : Alignment.topCenter,
+                child: loading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
+                    : ButtonTheme(
+                        minWidth: 180.0,
+                        child: FlatButton(
+                          padding: const EdgeInsets.all(8.0),
+                          textColor: Colors.white,
+                          color: Color(0xFF4267B2),
+                          onPressed: _bloc.initFacebookLogin,
+                          child: Text("Facebook"),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                        )),
               ),
             ),
           )
-        ]));
+        ]);
+      }),
+    );
   }
 }

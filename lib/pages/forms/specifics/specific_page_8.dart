@@ -30,11 +30,12 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                infoComplete = snapshot?.data[11]?.split(",")?.length == 3;
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
+                infoComplete = deepening?.topics?.length == 3;
                 return ListView.separated(
                   itemCount: RelevantTopics.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
@@ -43,7 +44,7 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
                         String selected = RelevantTopics[index];
-                        var hold = snapshot?.data[11]?.split(",") ?? [];
+                        var hold = deepening?.topics ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
                         } else {
@@ -52,22 +53,23 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
                           }
                           hold.add(selected);
                         }
-                        bloc.specifics(11, hold.join(","));
+                        deepening.topics = hold;
+                        bloc.updateDeepening(deepening);
                       },
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              snapshot?.data[11]?.contains(RelevantTopics[index]) == true
+                              deepening?.topics?.contains(RelevantTopics[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: snapshot?.data[11]?.contains(RelevantTopics[index]) == true
+                              color: deepening?.topics?.contains(RelevantTopics[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
                             RelevantTopics[index],
                             style: TextStyle(
-                                color: snapshot?.data[11]?.contains(RelevantTopics[index]) == true
+                                color: deepening?.topics?.contains(RelevantTopics[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

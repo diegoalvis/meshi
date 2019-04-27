@@ -27,10 +27,11 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
                 return ListView.separated(
                   itemCount: DressStyle.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
@@ -39,28 +40,29 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
                         String selected = DressStyle[index];
-                        var hold = snapshot?.data[5]?.split(",") ?? [];
+                        var hold = snapshot?.data?.clothingStyle ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
                         } else {
                           hold.add(selected);
                         }
-                        bloc.specifics(5, hold.join(","));
+                        deepening.clothingStyle = hold;
+                        bloc.updateDeepening(deepening);
                       },
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              snapshot?.data[5]?.contains(DressStyle[index]) == true
+                              snapshot?.data?.clothingStyle?.contains(DressStyle[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: snapshot?.data[5]?.contains(DressStyle[index]) == true
+                              color: snapshot?.data?.clothingStyle?.contains(DressStyle[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
                             DressStyle[index],
                             style: TextStyle(
-                                color: snapshot?.data[5]?.contains(DressStyle[index]) == true
+                                color: snapshot?.data?.clothingStyle?.contains(DressStyle[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

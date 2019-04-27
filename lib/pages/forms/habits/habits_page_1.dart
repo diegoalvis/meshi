@@ -26,7 +26,8 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
         stream: bloc.habitsStream,
         initialData: bloc.user.habits,
         builder: (BuildContext context, AsyncSnapshot<Habits> snapshot) {
-          infoComplete = snapshot.data?.smoke != null && snapshot.data?.drink != null && snapshot.data?.sport != null;
+          final habits = snapshot.data;
+          infoComplete = habits?.smoke != null && habits?.drink != null && habits?.sport != null;
           return Column(
             children: [
               SizedBox(height: 20),
@@ -39,11 +40,10 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions1,
-                    optionSelected: snapshot.data?.smoke,
+                    optionSelected: habits?.smoke,
                     onSelected: (selected) {
-                      final habits = snapshot.data;
                       habits.smoke = selected;
-                      bloc.habits(habits);
+                      bloc.updateHabits(habits);
                     }),
               ])),
               Expanded(
@@ -55,11 +55,10 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions1,
-                    optionSelected: snapshot.data?.drink,
+                    optionSelected: habits?.drink,
                     onSelected: (selected) {
-                      final habits = snapshot.data;
                       habits.drink = selected;
-                      bloc.habits(habits);
+                      bloc.updateHabits(habits);
                     }),
               ])),
               Expanded(
@@ -71,11 +70,10 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions1,
-                    optionSelected: snapshot.data?.sport,
+                    optionSelected: habits?.sport,
                     onSelected: (selected) {
-                      final habits = snapshot.data;
                       habits.sport = selected;
-                      bloc.habits(habits);
+                      bloc.updateHabits(habits);
                     }),
               ])),
             ],

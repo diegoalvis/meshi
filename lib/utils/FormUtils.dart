@@ -42,7 +42,7 @@ const List<String> EducationalLevels = [
   "Tecnico",
   "Tecnologo",
   "Profesional",
-  "Posrado",
+  "Posgrado",
 ];
 
 const List<String> BodyShapeList = [

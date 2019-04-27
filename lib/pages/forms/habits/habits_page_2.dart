@@ -26,7 +26,8 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
         stream: bloc.habitsStream,
         initialData: bloc.user.habits,
         builder: (BuildContext context, AsyncSnapshot<Habits> snapshot) {
-          infoComplete = snapshot.data?.likeSmoke != null && snapshot.data?.likeDrink != null && snapshot.data?.likeSport != null;
+          final habits = snapshot.data;
+          infoComplete = habits?.likeSmoke != null && habits?.likeDrink != null && habits?.likeSport != null;
           return Column(
             children: [
               SizedBox(height: 20),
@@ -39,11 +40,10 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions2,
-                    optionSelected: snapshot.data.likeSmoke,
+                    optionSelected: habits.likeSmoke,
                     onSelected: (selected) {
-                      final habits = snapshot.data;
                       habits.likeSmoke = selected;
-                      bloc.habits(habits);
+                      bloc.updateHabits(habits);
                     }),
               ])),
               Expanded(
@@ -55,11 +55,10 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions2,
-                    optionSelected: snapshot.data.likeDrink,
+                    optionSelected: habits.likeDrink,
                     onSelected: (selected) {
-                      final habits = snapshot.data;
                       habits.likeDrink = selected;
-                      bloc.habits(habits);
+                      bloc.updateHabits(habits);
                     }),
               ])),
               Expanded(
@@ -71,11 +70,10 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 SizedBox(height: 20),
                 OptionSelector(
                     options: GenericFormOptions1,
-                    optionSelected: snapshot.data.likeSport,
+                    optionSelected: habits.likeSport,
                     onSelected: (selected) {
-                      final habits = snapshot.data;
                       habits.likeSport = selected;
-                      bloc.habits(habits);
+                      bloc.updateHabits(habits);
                     }),
               ])),
             ],

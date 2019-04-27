@@ -29,34 +29,37 @@ class BasicInfoPageOne extends StatelessWidget with FormSection {
         initialData: bloc.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           imagesNotEmpty = snapshot.data?.images != null && snapshot.data?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null) != null;
-          return Column(
+          return
+            SingleChildScrollView(
+              child:Column(
             children: [
               Text(
                 strings.pictureSelectCaption,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 30),
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0)),
+                      snapshot.data?.images?.elementAt(0), (image) => bloc.addImage(image, 0)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1)),
+                      snapshot.data?.images?.elementAt(1), (image) => bloc.addImage(image, 1)),
                 ],
               ),
               SizedBox(height: 12),
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2)),
+                      snapshot.data?.images?.elementAt(2), (image) => bloc.addImage(image, 2)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3)),
+                      snapshot.data?.images?.elementAt(3), (image) => bloc.addImage(image, 3)),
                 ],
               ),
             ],
-          );
+              ),
+            );
         });
   }
 }

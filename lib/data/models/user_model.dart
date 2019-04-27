@@ -29,10 +29,10 @@ class User {
   DateTime birthDate;
   List<String> images;
   Gender gender;
-  Set<Gender> likeGender = Set();
+  Set<Gender> likeGender;
   String eduLevel;
   String bodyShape;
-  Set<String> bodyShapePreferred = new Set();
+  Set<String> bodyShapePreferred;
   int height;
   double income;
   int minAgePreferred, maxAgePreferred;
@@ -41,7 +41,7 @@ class User {
 
   // form questions
   Habits habits = Habits();
-  List<String> deepening = new List(17);
+  Deepening deepening = Deepening();
 
   User(
       {this.id,
@@ -90,7 +90,7 @@ class User {
     data['email'] = this.email;
     data['birthdate'] = this.birthDate;
     data['gender'] = this.gender.name;
-    data['likeGender'] = this.likeGender?.map((gender) => gender.name)?.join(",");
+    data['likeGender'] = this.likeGender?.map((gender) => gender.name)?.toList();
     data['location'] = this.location;
     data['description'] = this.description;
     data['freeTime'] = this.freeTime;
@@ -101,7 +101,6 @@ class User {
     return data;
   }
 }
-
 
 class Habits {
   String smoke;
@@ -121,5 +120,40 @@ class Habits {
     this.likeDrink = habits.likeDrink;
     this.likeSport = habits.likeSport;
   }
+}
 
+class Deepening {
+  String marriage;
+  int children = 0;
+  String planChildren;
+  bool likeChildren;
+  List<String> priorities;
+  List<String> clothingStyle;
+  bool isImportantClothing;
+  List<String> likeClothing;
+  List<String> activities;
+  String isImportantAppearance;
+  String places;
+  List<String> topics;
+  String politics;
+  String music;
+
+  Deepening();
+
+  Deepening.fromDeepening(Deepening deepening) {
+    this.marriage = deepening.marriage;
+    this.children = deepening.children;
+    this.planChildren = deepening.planChildren;
+    this.likeChildren = deepening.likeChildren;
+    this.priorities = deepening.priorities;
+    this.clothingStyle = deepening.clothingStyle;
+    this.isImportantClothing = deepening.isImportantClothing;
+    this.likeClothing = deepening.likeClothing;
+    this.activities = deepening.activities;
+    this.isImportantAppearance = deepening.isImportantAppearance;
+    this.places = deepening.places;
+    this.topics = deepening.topics;
+    this.politics = deepening.politics;
+    this.music = deepening.music;
+  }
 }

@@ -11,7 +11,6 @@ import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class SpecificsFormPageTen extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -28,23 +27,25 @@ class SpecificsFormPageTen extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                infoComplete = snapshot?.data[13] != null;
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
+                infoComplete = deepening?.music != null;
                 return ListView.separated(
                   itemCount: MusicalGenre.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () => bloc.specifics(13, MusicalGenre[index]),
+                      onTap: () {
+                        deepening?.music = MusicalGenre[index];
+                        bloc.updateDeepening(deepening);
+                      },
                       title: Text(
                         MusicalGenre[index],
                         style: TextStyle(
-                            color: (snapshot?.data[13] == MusicalGenre[index]
-                                ? Theme.of(context).accentColor
-                                : Colors.black)),
+                            color: (deepening?.music == MusicalGenre[index] ? Theme.of(context).accentColor : Colors.black)),
                       ),
                     );
                   },

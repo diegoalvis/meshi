@@ -30,11 +30,12 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                infoComplete = snapshot?.data[8]?.split(",")?.length == 3;
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
+                infoComplete = deepening?.activities?.length == 3;
                 return ListView.separated(
                   itemCount: CoupleActivities.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
@@ -43,7 +44,7 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
                         String selected = CoupleActivities[index];
-                        var hold = snapshot?.data[8]?.split(",") ?? [];
+                        var hold = snapshot?.data?.activities ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
                         } else {
@@ -52,22 +53,23 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
                           }
                           hold.add(selected);
                         }
-                        bloc.specifics(8, hold.join(","));
+                        deepening.activities = hold;
+                        bloc.updateDeepening(deepening);
                       },
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              snapshot?.data[8]?.contains(CoupleActivities[index]) == true
+                              deepening?.activities?.contains(CoupleActivities[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: snapshot?.data[8]?.contains(CoupleActivities[index]) == true
+                              color: deepening?.activities?.contains(CoupleActivities[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
                             CoupleActivities[index],
                             style: TextStyle(
-                                color: snapshot?.data[8]?.contains(CoupleActivities[index]) == true
+                                color: deepening?.activities?.contains(CoupleActivities[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

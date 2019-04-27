@@ -31,11 +31,12 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Expanded(
           child: Container(
-            child: StreamBuilder<List<String>>(
-              stream: bloc.specificsStream,
+            child: StreamBuilder<Deepening>(
+              stream: bloc.deepeningStream,
               initialData: bloc.user.deepening,
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                infoComplete = snapshot?.data[4]?.split(",")?.length == 3;
+              builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
+                final deepening = snapshot.data;
+                infoComplete = deepening?.priorities?.length == 3;
                 return ListView.separated(
                   itemCount: LifeGoals.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
@@ -44,7 +45,7 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
                         String selected = LifeGoals[index];
-                        var hold = snapshot?.data[4]?.split(",") ?? [];
+                        var hold = deepening?.priorities ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
                         } else {
@@ -53,20 +54,21 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
                           }
                           hold.add(selected);
                         }
-                        bloc.specifics(4, hold.join(","));
+                        deepening.priorities = hold;
+                        bloc.updateDeepening(deepening);
                       },
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              snapshot?.data[4]?.contains(LifeGoals[index]) == true ? Icons.check : null,
-                              color: snapshot?.data[4]?.contains(LifeGoals[index]) == true
+                              deepening?.priorities?.contains(LifeGoals[index]) == true ? Icons.check : null,
+                              color: deepening?.priorities?.contains(LifeGoals[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
                             LifeGoals[index],
                             style: TextStyle(
-                                color: snapshot?.data[4]?.contains(LifeGoals[index]) == true
+                                color: deepening?.priorities?.contains(LifeGoals[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

@@ -24,7 +24,6 @@ class RegisterBloc extends BaseBloc {
 
   final _userSubject = PublishSubject<User>();
 
-
   Stream<User> get userStream => _userSubject.stream;
 
   DateTime selectedDate = DateTime.now();
@@ -86,6 +85,9 @@ class RegisterBloc extends BaseBloc {
   }
 
   addGender(Gender gender) {
+    if (user.likeGender == null) {
+      user.likeGender = Set();
+    }
     user.likeGender.add(gender);
     _userSubject.sink.add(user);
     progressSubject.sink.add(false);
@@ -111,7 +113,8 @@ class RegisterBloc extends BaseBloc {
 
   Observable<BaseResponse> updateUseInfo() {
     progressSubject.sink.add(true);
-    return repository.updateUserBasicInfo(user)
-        .doOnDone(() => progressSubject.sink.add(false));
+    return repository.updateUserBasicInfo(user).handleError((error) {
+      errorSubject.sink.add(error.toString());
+    }).doOnEach((data) => progressSubject.sink.add(false));
   }
 }
