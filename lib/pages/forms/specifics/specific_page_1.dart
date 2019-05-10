@@ -4,20 +4,20 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/form_bloc.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:flutter_counter/flutter_counter.dart';
+import 'package:meshi/bloc/form_bloc.dart';
+import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:flutter_counter/flutter_counter.dart';
 
 class SpecificsFormPageOne extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
-  bool isInfoComplete() => infoComplete;
+  bool isInfoComplete() => true;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Counter(
-                    initialValue: deepening.children,
+                    initialValue: deepening?.children ?? 0,
                     minValue: 0,
                     maxValue: 99,
                     decimalPlaces: 0,
@@ -77,7 +77,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te gustaria tener ${deepening.children == YesNoOptions.first ? 'mas ' : ''}hijos?"),
+                  child: Text("¿Te gustaria tener ${deepening?.children != null && (deepening.children  > 0) ? 'mas ' : ''}hijos?"),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(

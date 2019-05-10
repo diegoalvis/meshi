@@ -5,8 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
-import 'package:meshi/blocs/form_bloc.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/bloc/form_bloc.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/localiztions.dart';

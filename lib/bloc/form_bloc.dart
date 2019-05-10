@@ -3,20 +3,22 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/bloc/base_bloc.dart';
+import 'package:meshi/data/api/BaseResponse.dart';
+import 'package:meshi/data/models/deepening.dart';
+import 'package:meshi/data/models/habits.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
-class FormBloc {
+class FormBloc extends BaseBloc {
   static const MIN_INCOME = 1000000.0;
   static const MAX_INCOME = 10000000.0;
   static const STEP_INCOME = 500000.0; // step value for the slider
 
   static const int MIN_AGE = 18;
   static const int MAX_AGE = 50;
-
-  // Get from local database
-  final User user = SessionManager.instance.user;
 
   final _userSubject = PublishSubject<User>();
   final _basicsSubject = PublishSubject<List<String>>();
@@ -26,6 +28,11 @@ class FormBloc {
   Stream<User> get userStream => _userSubject.stream;
   Stream<Habits> get habitsStream => _habitsSubject.stream;
   Stream<Deepening> get deepeningStream => _deepeningSubject.stream;
+
+  UserRepository repository;
+
+  User user;// = session.user;
+
 
   set height(int height) {
     user.height = height;
@@ -57,19 +64,19 @@ class FormBloc {
     _userSubject.sink.add(user);
   }
 
-  ageRangePreferred(int minAgePreferred, int maxAgePreferred) {
+  void ageRangePreferred(int minAgePreferred, int maxAgePreferred) {
     user.minAgePreferred = minAgePreferred;
     user.maxAgePreferred = maxAgePreferred;
     _userSubject.sink.add(user);
   }
 
-  incomeRangePreferred(double minIncomePreferred, double maxIncomePreferred) {
+  void incomeRangePreferred(double minIncomePreferred, double maxIncomePreferred) {
     user.minIncomePreferred = minIncomePreferred;
     user.maxIncomePreferred = maxIncomePreferred;
     _userSubject.sink.add(user);
   }
 
-  updateBodyShapePreferred(String bodyShapePreferred) {
+  void updateBodyShapePreferred(String bodyShapePreferred) {
     if(user.bodyShapePreferred == null) {
       user.bodyShapePreferred = Set();
     }
@@ -82,17 +89,24 @@ class FormBloc {
     _userSubject.sink.add(user);
   }
 
-  updateHabits(Habits habits) {
+  void updateHabits(Habits habits) {
     user.habits = habits;
     _habitsSubject.sink.add(user.habits);
   }
 
-  updateDeepening(Deepening deepening) {
+  void updateDeepening(Deepening deepening) {
     user.deepening = deepening;
     _deepeningSubject.sink.add(user.deepening);
   }
 
-  void dispose() {
+  Observable<BaseResponse> updateUserInfo() {
+    progressSubject.sink.add(true);
+    return repository.updateUserAdvancedInfo(user).handleError((error) {
+      errorSubject.sink.add(error.toString());
+    }).doOnEach((data) => progressSubject.sink.add(false));
+  }
+
+  @override dispose() {
     _userSubject.close();
     _basicsSubject.close();
     _habitsSubject.close();

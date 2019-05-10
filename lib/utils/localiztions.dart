@@ -24,9 +24,10 @@ class MyLocalizationsDelegate extends LocalizationsDelegate<MyLocalizations> {
 }
 
 class MyLocalizations {
-  MyLocalizations(this.locale);
 
   final Locale locale;
+
+  MyLocalizations(this.locale);
 
   String get titleApp => 'Meshi';
 

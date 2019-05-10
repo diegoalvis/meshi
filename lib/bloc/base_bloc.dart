@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class BaseBloc {

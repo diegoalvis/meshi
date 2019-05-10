@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -21,23 +21,23 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
     final bloc = RegisterBlocProvider.of(context).bloc;
     return StreamBuilder<User>(
         stream: bloc.userStream,
-        initialData: bloc.user,
+        initialData: bloc.session.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           TextEditingController descriptionController = TextEditingController();
           descriptionController.text = snapshot.data?.description ?? "";
-          descriptionController.addListener(() => bloc.user.description = descriptionController.text);
+          descriptionController.addListener(() => bloc.session.user.description = descriptionController.text);
 
           TextEditingController occupationController = TextEditingController();
           occupationController.text = snapshot.data?.occupation ?? "";
-          occupationController.addListener(() => bloc.user.occupation = occupationController.text);
+          occupationController.addListener(() => bloc.session.user.occupation = occupationController.text);
 
           TextEditingController freeTimeController = TextEditingController();
           freeTimeController.text = snapshot.data?.freeTime ?? "";
-          freeTimeController.addListener(() => bloc.user.freeTime = freeTimeController.text);
+          freeTimeController.addListener(() => bloc.session.user.freeTime = freeTimeController.text);
 
           TextEditingController interestsController = TextEditingController();
           interestsController.text = snapshot.data?.interests ?? "";
-          interestsController.addListener(() => bloc.user.interests = interestsController.text);
+          interestsController.addListener(() => bloc.session.user.interests = interestsController.text);
 
           infoComplete = descriptionController.text.trim().length > 0 &&
               occupationController.text.trim().length > 0 &&

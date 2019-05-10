@@ -3,12 +3,12 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/bloc/base_bloc.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeBloc {
-  final User user = SessionManager.instance.user;
+class HomeBloc extends BaseBloc {
 
   final _categorySelectedSubject = PublishSubject<String>();
   final _userSubject = PublishSubject<User>();

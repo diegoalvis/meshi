@@ -3,12 +3,15 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/pages/register/register_page.dart';
+import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -18,51 +21,68 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Meshi',
-      localizationsDelegates: [
-        const MyLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en', ''),
-        const Locale('es', ''),
-      ],
-      theme: new ThemeData(
-        primaryColor: Color(0xFF5E2531),
-        primaryColorDark: Color(0xFF4B1822),
-        primaryColorLight: Color(0xFF672836),
-        accentColor: Color(0xFF80065E),
-        dividerColor: Color(0xFFCCCCCC),
-        colorScheme: ColorScheme(
-            primary: Color(0xFF5E2531),
-            primaryVariant: Color(0xFF672836),
-            secondary: Color(0xFF80065E),
-            secondaryVariant: Color(0xFF4f0034),
-            surface: Colors.white,
-            background: Colors.white,
-            error: Color(0xFFBA0000),
-            onPrimary: Color(0xFFCDB5AA),
-            onSecondary: Colors.white,
-            onSurface: Color(0xFF505050),
-            onBackground: Color(0xFF303030),
-            onError: Colors.white,
-            brightness: Brightness.dark),
-        fontFamily: "Poppins",
-        textTheme: TextTheme(
-          headline: TextStyle(fontSize: 72.0, fontFamily: 'BettyLavea'),
-          title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-          subhead: TextStyle(fontSize: 14.0, fontFamily: 'BettyLavea'),
-          subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-        ),
-      ),
-      home: LoginPage(),
-      //TODO: update the routes to be handle here or in the navigation controller
-      routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => HomePage(),
-        '/home': (BuildContext context) => HomePage(),
-      },
-    );
+    return InjectorWidget.bind(
+        bindFunc: (binder) {
+          binder.install(AppModule());
+        },
+        child: MaterialApp(
+          title: 'Meshi',
+          localizationsDelegates: [
+            const MyLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', ''),
+            const Locale('es', ''),
+          ],
+          theme: buildTheme(),
+          home: LoginPage(),
+          routes: <String, WidgetBuilder>{
+            LOGIN_ROUTE: (BuildContext context) => LoginPage(),
+            HOME_ROUTE: (BuildContext context) => HomePage(),
+            REGISTER_ROUTE: (BuildContext context) => RegisterPage(),
+            FORM_ROUTE: (BuildContext context) => FormPage(),
+            WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
+          },
+        ));
   }
 }
+
+// Route names
+const String LOGIN_ROUTE = '/login';
+const String HOME_ROUTE = '/home';
+const String REGISTER_ROUTE = '/register';
+const String FORM_ROUTE = '/form';
+const String WELCOME_ROUTE = "/welcome";
+
+
+// Themes
+ThemeData buildTheme() => ThemeData(
+  primaryColor: Color(0xFF5E2531),
+  primaryColorDark: Color(0xFF4B1822),
+  primaryColorLight: Color(0xFF672836),
+  accentColor: Color(0xFF80065E),
+  dividerColor: Color(0xFFCCCCCC),
+  colorScheme: ColorScheme(
+      primary: Color(0xFF5E2531),
+      primaryVariant: Color(0xFF672836),
+      secondary: Color(0xFF80065E),
+      secondaryVariant: Color(0xFF4f0034),
+      surface: Colors.white,
+      background: Colors.white,
+      error: Color(0xFFBA0000),
+      onPrimary: Color(0xFFCDB5AA),
+      onSecondary: Colors.white,
+      onSurface: Color(0xFF505050),
+      onBackground: Color(0xFF303030),
+      onError: Colors.white,
+      brightness: Brightness.dark),
+  fontFamily: "Poppins",
+  textTheme: TextTheme(
+    headline: TextStyle(fontSize: 72.0, fontFamily: 'BettyLavea'),
+    title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+    subhead: TextStyle(fontSize: 14.0, fontFamily: 'BettyLavea'),
+    subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+  ),
+);

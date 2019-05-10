@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/home_bloc.dart';
+import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/pages/home/menu_page.dart';
@@ -39,7 +39,7 @@ class HomePageState extends State<HomePage> {
 
   // TODO test purposes
   List<HomeSection> homePages = [InterestsMainPage(), RewardPage(), ProfilePage(), ProfilePage()];
-  HomeSection _currentPage = InterestsMainPage();
+  HomeSection _currentPage = ProfilePage();
 
   HomePageState(this._bloc);
 

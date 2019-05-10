@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/base/form_section.dart';
@@ -28,7 +28,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
     final bloc = RegisterBlocProvider.of(context).bloc;
     return StreamBuilder<User>(
         stream: bloc.userStream,
-        initialData: bloc.user,
+        initialData: bloc.session.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           TextEditingController emailController = TextEditingController();
           emailController.text = snapshot.data?.email ?? "";
@@ -59,16 +59,16 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
               GestureDetector(
                 onTap: () => showDatePicker(
                         context: context,
-                        initialDate: snapshot.data?.birthDate ?? DateTime.now(),
+                        initialDate: snapshot.data?.birthdate ?? DateTime.now(),
                         firstDate: DateTime(1950),
                         lastDate: DateTime.now())
                     .then<DateTime>(
-                        (DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthDate),
+                        (DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
                     child: TextFormField(
-                      controller: TextEditingController(text: formatDate(snapshot.data?.birthDate)),
+                      controller: TextEditingController(text: formatDate(snapshot.data?.birthdate)),
                       decoration: InputDecoration(
                         labelText: strings.birthDate,
                         hintText: "dd/mm/aa",
@@ -88,7 +88,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
-                      data: [snapshot.data?.gender]?.toSet(),
+                      data: [snapshot.data?.gender].toSet(),
                       onGenderSelected: (gender) => bloc.userGender = gender,
                     ),
                   ),

@@ -7,14 +7,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meshi/data/api/ServiceController.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageSelector extends StatelessWidget {
   final Function(File image) onImageSelected;
+  final Function(String image) onDeleteSelected;
   final String image;
   final Stream<bool> showLoader;
 
-  ImageSelector(this.image, this.onImageSelected, {this.showLoader});
+  ImageSelector(this.image, this.onImageSelected, this.onDeleteSelected, {this.showLoader});
 
   _getImage(ImageSource source) async {
     var image = await ImagePicker.pickImage(source: source);
@@ -55,15 +58,28 @@ class ImageSelector extends StatelessWidget {
           child: ClipRRect(
             borderRadius: new BorderRadius.circular(16.0),
             child: Container(
-                color: Colors.grey[300],
-                child: StreamBuilder<bool>(
-                    stream: showLoader,
-                    initialData: false,
-                    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                      return snapshot.data
-                          ? Center(child: CircularProgressIndicator())
-                          : image != null ? Image.network(image, fit: BoxFit.cover) : Icon(Icons.add_a_photo);
-                    })),
+              color: Colors.grey[300],
+              child: StreamBuilder<bool>(
+                  stream: showLoader,
+                  initialData: false,
+                  builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    return snapshot.data
+                        ? Center(child: CircularProgressIndicator())
+                        : image != null
+                            ? Stack(
+                                children: [
+                                  Image.network(ServiceController.BASE_URL + "/images/" + image, fit: BoxFit.cover,),
+                                  GestureDetector(
+                                    onTap: () => onDeleteSelected(image),
+                                    child: Container(
+                                      color: Colors.grey[300],
+                                        padding: EdgeInsets.all(5.0), alignment: Alignment.topRight, child: Icon(Icons.close)),
+                                  ),
+                                ],
+                              )
+                            : Icon(Icons.add_a_photo);
+                  }),
+            ),
           ),
         ),
       ),

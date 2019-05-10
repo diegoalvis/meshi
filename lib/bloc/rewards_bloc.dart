@@ -3,7 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:meshi/blocs/base_bloc.dart';
+import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/reward_model.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -4,8 +4,8 @@
  */
 
 class Gender {
-  final String icon;
   final int color;
+  final String icon;
   final String name;
 
   const Gender._internal({this.icon, this.color, this.name});

@@ -4,8 +4,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/form_bloc.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/bloc/form_bloc.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/main.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/basic/basic_page_1.dart';
 import 'package:meshi/pages/forms/basic/basic_page_2.dart';
@@ -54,7 +55,7 @@ class _FormPageState extends State<FormPage> {
   static const TOTAL_PAGES = 16;
 
   int currentPagePos = 1;
-  List<Widget> pages =  [
+  List<Widget> pages = [
     BasicFormPageOne(), // 1
     BasicFormPageTwo(), // 2
     BasicFormPageThree(), // 3
@@ -79,6 +80,12 @@ class _FormPageState extends State<FormPage> {
   void dispose() {
     _bloc.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc.errorSubject.listen((message) => Scaffold.of(context).showSnackBar(SnackBar(content: Text(message))));
   }
 
   @override
@@ -111,26 +118,41 @@ class _FormPageState extends State<FormPage> {
         Expanded(
           child: Container(
             alignment: Alignment.center,
-            child: FlatButton(
-              onPressed: () =>
-                !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
-                  ? null
-                  : setState(() {
-                    currentPagePos++;
-                    if (currentPagePos > TOTAL_PAGES) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                      currentPagePos = TOTAL_PAGES;
-                    }
-                  }),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-              color: Theme.of(context).accentColor,
-              child: Text(
-                (currentPagePos == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+            child: StreamBuilder<bool>(
+              stream: _bloc.progressSubject.stream,
+              initialData: false,
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                return snapshot.data
+                    ? CircularProgressIndicator()
+                    : Builder(
+                        builder: (contextInt) => FlatButton(
+                              onPressed: () => !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
+                                  ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text("Informacion incompleta")))
+                                  : setState(() {
+                                      currentPagePos++;
+                                      if (currentPagePos > TOTAL_PAGES) {
+                                        currentPagePos = TOTAL_PAGES;
+                                        _bloc.updateUserInfo().listen((response) {
+                                          if (!response.success) {
+                                            Navigator.of(this.context).pushReplacementNamed(HOME_ROUTE);
+                                          } else {
+                                            _bloc.errorSubject.sink.add(response.error.toString());
+                                          }
+                                        }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
+                                      }
+                                    }),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                              color: Theme.of(context).accentColor,
+                              child: Text(
+                                (currentPagePos == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                      );
+              },
             ),
           ),
         ),

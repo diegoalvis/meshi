@@ -7,26 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:meshi/utils/gender.dart';
 
 class GenderSelector extends StatelessWidget {
-  final Function(Gender gender) onGenderSelected;
-  final Set<Gender> data;
+  final Function(String gender) onGenderSelected;
+  final Set<String> data;
 
   const GenderSelector({Key key, this.onGenderSelected, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Color maleIconColor = data?.contains(Gender.male) == true ? Color(Gender.male.color) : null;
-    Color femaleIconColor = data?.contains(Gender.female) == true ? Color(Gender.female.color) : null;
+    Color maleIconColor = data?.contains(Gender.male.name) == true ? Color(Gender.male.color) : null;
+    Color femaleIconColor = data?.contains(Gender.female.name) == true ? Color(Gender.female.color) : null;
     return Row(
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () => onGenderSelected(Gender.male),
+            onTap: () => onGenderSelected(Gender.male.name),
             child: Image.asset(Gender.male.icon, color: maleIconColor),
           ),
         ),
         Expanded(
           child: GestureDetector(
-            onTap: () => onGenderSelected(Gender.female),
+            onTap: () => onGenderSelected(Gender.female.name),
             child: Image.asset(Gender.female.icon, color: femaleIconColor),
           ),
         ),

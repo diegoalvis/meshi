@@ -4,8 +4,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/register_bloc.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/bloc/register_bloc.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/main.dart';
 import 'package:meshi/pages/register/basic_info_page_1.dart';
 import 'package:meshi/pages/register/basic_info_page_2.dart';
 import 'package:meshi/pages/register/basic_info_page_3.dart';
@@ -98,16 +99,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     return snapshot.data
                         ? CircularProgressIndicator()
                         : Builder(
-                            builder: (context) => FlatButton(
+                            builder: (contextInt) => FlatButton(
                                   onPressed: () => !currentPage.isInfoComplete()
-                                      ? Scaffold.of(context).showSnackBar(SnackBar(content: Text("Informacion incompleta")))
+                                      ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text("Informacion incompleta")))
                                       : setState(() {
                                           currentPageIndex++;
                                           if (currentPageIndex > pages.length) {
                                             currentPageIndex = pages.length;
                                             _bloc.updateUseInfo().listen((response) {
-                                              if (response.success) {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
+                                              if (!response.success) {
+                                                Navigator.of(this.context).pushReplacementNamed(WELCOME_ROUTE);
                                               } else {
                                                 _bloc.errorSubject.sink.add(response.error.toString());
                                               }
@@ -133,43 +134,38 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     return Scaffold(
-      body: Builder(
-        builder: (context) {
-          buildContext = context;
-          return SafeArea(
-            minimum: const EdgeInsets.all(24.0),
-            child: RegisterBlocProvider(
-              bloc: _bloc,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: pages.indexOf(currentPage) != (pages.length + 1) ? 2 : 0,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: pages.indexOf(currentPage) != (pages.length + 1)
-                          ? Text(
-                              strings.asYouAre,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 34,
-                                fontFamily: 'BettyLavea',
-                              ),
-                            )
-                          : null,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: currentPage as Widget,
-                  ),
-                  SizedBox(height: 20),
-                  _buildBottomButtons(),
-                ],
+      body: SafeArea(
+        minimum: const EdgeInsets.all(24.0),
+        child: RegisterBlocProvider(
+          bloc: _bloc,
+          child: Column(
+            children: [
+              Expanded(
+                flex: pages.indexOf(currentPage) != (pages.length + 1) ? 2 : 0,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: pages.indexOf(currentPage) != (pages.length + 1)
+                      ? Text(
+                          strings.asYouAre,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 34,
+                            fontFamily: 'BettyLavea',
+                          ),
+                        )
+                      : null,
+                ),
               ),
-            ),
-          );
-        },
+              Expanded(
+                flex: 7,
+                child: currentPage as Widget,
+              ),
+              SizedBox(height: 20),
+              _buildBottomButtons(),
+            ],
+          ),
+        ),
       ),
     );
   }

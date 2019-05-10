@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/rewards_bloc.dart';
+import 'package:meshi/bloc/rewards_bloc.dart';
 import 'package:meshi/data/models/reward_model.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/localiztions.dart';

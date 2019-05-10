@@ -6,7 +6,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:meshi/data/models/user_model.dart';
+import 'package:meshi/data/api/ServiceController.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
@@ -26,7 +27,7 @@ class BasicInfoPageOne extends StatelessWidget with FormSection {
     final bloc = RegisterBlocProvider.of(context).bloc;
     return StreamBuilder<User>(
         stream: bloc.userStream,
-        initialData: bloc.user,
+        initialData: bloc.session.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           imagesNotEmpty = snapshot.data?.images != null && snapshot.data?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null) != null;
           return
@@ -41,20 +42,20 @@ class BasicInfoPageOne extends StatelessWidget with FormSection {
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(0), (image) => bloc.addImage(image, 0)),
+                      snapshot.data?.images?.elementAt(0), (image) => bloc.addImage(image, 0), (image) => bloc.deleteImage(image, 0)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(1), (image) => bloc.addImage(image, 1)),
+                      snapshot.data?.images?.elementAt(1), (image) => bloc.addImage(image, 1), (image) => bloc.deleteImage(image, 0)),
                 ],
               ),
               SizedBox(height: 12),
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(2), (image) => bloc.addImage(image, 2)),
+                      snapshot.data?.images?.elementAt(2), (image) => bloc.addImage(image, 2), (image) => bloc.deleteImage(image, 0)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(3), (image) => bloc.addImage(image, 3)),
+                      snapshot.data?.images?.elementAt(3), (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 0)),
                 ],
               ),
             ],

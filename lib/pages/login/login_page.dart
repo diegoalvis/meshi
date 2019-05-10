@@ -3,26 +3,36 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/blocs/login_bloc.dart';
-import 'package:meshi/data/models/user_model.dart';
-import 'package:meshi/pages/forms/form_page.dart';
-import 'package:meshi/pages/home/home_page.dart';
-import 'package:meshi/pages/register/register_page.dart';
+import 'package:meshi/bloc/login_bloc.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/main.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   @override
-  _LoginPageState createState() => _LoginPageState(LoginBloc());
+  Widget build(BuildContext context) {
+    return InjectorWidget.bind(
+      bindFunc: (binder) {
+        binder.bindSingleton(LoginBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+      },
+      child: LoginForm(),
+    );
+  }
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  final LoginBloc _bloc;
+class LoginForm extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   final logged = false;
   bool loading = false;
   BuildContext buildContext;
 
-  _LoginPageState(this._bloc);
+  LoginBloc _bloc;
 
   @override
   void dispose() {
@@ -39,16 +49,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _bloc = InjectorWidget.of(context).get<LoginBloc>();
     _bloc.userStream?.listen((user) {
       switch (user.state) {
         case User.new_user:
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+          Navigator.of(context).pushReplacementNamed(REGISTER_ROUTE);
           break;
         case User.basic_user:
-          Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage()));
+          Navigator.of(context).pushReplacementNamed(FORM_ROUTE);
+
           break;
         case User.advanced_user:
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          Navigator.of(context).pushReplacementNamed(HOME_ROUTE);
           break;
       }
     });
@@ -56,10 +72,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _bloc.errorSubject.listen((error) {
       Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text("Ocurrio un error intentalo mas tarde.")));
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,

@@ -6,6 +6,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
@@ -13,10 +15,14 @@ import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class WelcomePage extends StatelessWidget {
+
+  final User user;
+
+  const WelcomePage({Key key, this.user}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    final user = SessionManager.instance.user;
     final userImage = user?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null);
     return Scaffold(
       body: SafeArea(
@@ -67,7 +73,7 @@ class WelcomePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())),
+                      onPressed: () => Navigator.of(context).pushReplacementNamed(HOME_ROUTE),
                       child: Text(
                         strings.logIn.toUpperCase(),
                         textAlign: TextAlign.center,
@@ -80,7 +86,7 @@ class WelcomePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormPage())),
+                      onPressed: () => Navigator.of(context).pushReplacementNamed(FORM_ROUTE),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                       color: Theme.of(context).accentColor,
                       child: Text(
