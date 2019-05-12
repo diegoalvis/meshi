@@ -16,7 +16,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
     final bloc = FormBlocProvider.of(context).bloc;
     return StreamBuilder<Deepening>(
       stream: bloc.deepeningStream,
-      initialData: bloc.user.deepening,
+      initialData: bloc.session.user.deepening,
       builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
         final deepening = snapshot.data;
         infoComplete = deepening.isImportantClothing != null && (deepening.isImportantClothing != true || deepening.likeClothing?.isNotEmpty == true);

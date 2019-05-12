@@ -3,27 +3,22 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'dart:io';
-
+import 'package:dependencies/dependencies.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/pages/forms/form_page.dart';
-import 'package:meshi/pages/home/home_page.dart';
-import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class WelcomePage extends StatelessWidget {
-
-  final User user;
-
-  const WelcomePage({Key key, this.user}) : super(key: key);
-
+class WelcomePage extends StatelessWidget with InjectorWidgetMixin {
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    SessionManager session = injector.get<SessionManager>();
+    final User user = session.user;
     final strings = MyLocalizations.of(context);
-    final userImage = user?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null);
+    final userImage = user?.images?.firstWhere((image) => image != null && image != "null", orElse: () => null);
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(24.0),
@@ -35,7 +30,7 @@ class WelcomePage extends StatelessWidget {
                 height: 200.0,
                 width: 200.0,
                 color: user?.images?.first != null ? Colors.transparent : Colors.grey[300],
-                child: userImage != null ? Image.network(userImage, fit: BoxFit.cover) : Icon(Icons.add_a_photo),
+                child: userImage != null ? Image.network(BaseApi.BASE_URL_DEV + "/images/" + userImage, fit: BoxFit.cover) : Icon(Icons.add_a_photo),
               ),
             ),
             SizedBox(height: 30),

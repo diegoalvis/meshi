@@ -14,7 +14,7 @@ class SpecificsFormPageTen extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class SpecificsFormPageTen extends StatelessWidget with FormSection {
           child: Container(
             child: StreamBuilder<Deepening>(
               stream: bloc.deepeningStream,
-              initialData: bloc.user.deepening,
+              initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.music != null;

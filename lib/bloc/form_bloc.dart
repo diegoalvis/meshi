@@ -4,7 +4,6 @@
  */
 
 import 'package:meshi/bloc/base_bloc.dart';
-import 'package:meshi/data/api/BaseResponse.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/habits.dart';
 import 'package:meshi/data/models/user.dart';
@@ -26,87 +25,89 @@ class FormBloc extends BaseBloc {
   final _deepeningSubject = PublishSubject<Deepening>();
 
   Stream<User> get userStream => _userSubject.stream;
+
   Stream<Habits> get habitsStream => _habitsSubject.stream;
+
   Stream<Deepening> get deepeningStream => _deepeningSubject.stream;
 
-  UserRepository repository;
-
-  User user;// = session.user;
-
+  FormBloc(UserRepository repository, SessionManager session) : super(repository, session) {
+    if (session.user.deepening.children == null) session.user.deepening.children = 0;
+  }
 
   set height(int height) {
-    user.height = height;
-    _userSubject.sink.add(user);
+    session.user.height = height;
+    _userSubject.sink.add(session.user);
   }
 
   set eduLevel(String eduLevel) {
-    user.eduLevel = eduLevel;
-    _userSubject.sink.add(user);
+    session.user.eduLevel = eduLevel;
+    _userSubject.sink.add(session.user);
   }
 
   set eduLevelIndex(String eduLevel) {
-    user.eduLevel = eduLevel;
-    _userSubject.sink.add(user);
+    session.user.eduLevel = eduLevel;
+    _userSubject.sink.add(session.user);
   }
 
   set shape(String shapeBody) {
-    user.bodyShape = shapeBody;
-    _userSubject.sink.add(user);
+    session.user.bodyShape = shapeBody;
+    _userSubject.sink.add(session.user);
   }
 
   set income(double income) {
-    user.income = income;
-    _userSubject.sink.add(user);
+    session.user.income = income;
+    _userSubject.sink.add(session.user);
   }
 
   set isIncomeImportant(bool isIncomeImportant) {
-    user.isIncomeImportant = isIncomeImportant;
-    _userSubject.sink.add(user);
+    session.user.isIncomeImportant = isIncomeImportant;
+    _userSubject.sink.add(session.user);
   }
 
   void ageRangePreferred(int minAgePreferred, int maxAgePreferred) {
-    user.minAgePreferred = minAgePreferred;
-    user.maxAgePreferred = maxAgePreferred;
-    _userSubject.sink.add(user);
+    session.user.minAgePreferred = minAgePreferred;
+    session.user.maxAgePreferred = maxAgePreferred;
+    _userSubject.sink.add(session.user);
   }
 
   void incomeRangePreferred(double minIncomePreferred, double maxIncomePreferred) {
-    user.minIncomePreferred = minIncomePreferred;
-    user.maxIncomePreferred = maxIncomePreferred;
-    _userSubject.sink.add(user);
+    session.user.minIncomePreferred = minIncomePreferred;
+    session.user.maxIncomePreferred = maxIncomePreferred;
+    _userSubject.sink.add(session.user);
   }
 
   void updateBodyShapePreferred(String bodyShapePreferred) {
-    if(user.bodyShapePreferred == null) {
-      user.bodyShapePreferred = Set();
+    if (session.user.bodyShapePreferred == null) {
+      session.user.bodyShapePreferred = Set();
     }
 
-    if (user.bodyShapePreferred.contains(bodyShapePreferred)) {
-      user.bodyShapePreferred.remove(bodyShapePreferred);
+    if (session.user.bodyShapePreferred.contains(bodyShapePreferred)) {
+      session.user.bodyShapePreferred.remove(bodyShapePreferred);
     } else {
-      user.bodyShapePreferred.add(bodyShapePreferred);
+      session.user.bodyShapePreferred.add(bodyShapePreferred);
     }
-    _userSubject.sink.add(user);
+    _userSubject.sink.add(session.user);
   }
 
   void updateHabits(Habits habits) {
-    user.habits = habits;
-    _habitsSubject.sink.add(user.habits);
+    session.user.habits = habits;
+    _habitsSubject.sink.add(session.user.habits);
   }
 
   void updateDeepening(Deepening deepening) {
-    user.deepening = deepening;
-    _deepeningSubject.sink.add(user.deepening);
+    session.user.deepening = deepening;
+    _deepeningSubject.sink.add(session.user.deepening);
   }
 
-  Observable<BaseResponse> updateUserInfo() {
+  Observable<bool> updateUserInfo() {
     progressSubject.sink.add(true);
-    return repository.updateUserAdvancedInfo(user).handleError((error) {
+    return repository.updateUserAdvancedInfo(session.user).handleError((error) {
       errorSubject.sink.add(error.toString());
     }).doOnEach((data) => progressSubject.sink.add(false));
   }
 
-  @override dispose() {
+  @override
+  dispose() {
     _userSubject.close();
     _basicsSubject.close();
     _habitsSubject.close();

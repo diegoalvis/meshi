@@ -3,10 +3,14 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies/dependencies.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/basic/basic_page_1.dart';
 import 'package:meshi/pages/forms/basic/basic_page_2.dart';
@@ -30,6 +34,14 @@ import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
 
+class FormPage extends StatelessWidget with InjectorWidgetMixin {
+  @override
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    final bloc = FormBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
+    return FormContainer(bloc);
+  }
+}
+
 class FormBlocProvider extends InheritedWidget {
   final FormBloc bloc;
   final Widget child;
@@ -45,12 +57,15 @@ class FormBlocProvider extends InheritedWidget {
 }
 
 // Widget
-class FormPage extends StatefulWidget {
+class FormContainer extends StatefulWidget {
+  final FormBloc bloc;
+  const FormContainer(this.bloc) : super();
+
   @override
-  _FormPageState createState() => _FormPageState(FormBloc());
+  _FormPageState createState() => _FormPageState(bloc);
 }
 
-class _FormPageState extends State<FormPage> {
+class _FormPageState extends State<FormContainer> {
   final FormBloc _bloc;
   static const TOTAL_PAGES = 16;
 
@@ -132,11 +147,11 @@ class _FormPageState extends State<FormPage> {
                                       currentPagePos++;
                                       if (currentPagePos > TOTAL_PAGES) {
                                         currentPagePos = TOTAL_PAGES;
-                                        _bloc.updateUserInfo().listen((response) {
-                                          if (!response.success) {
+                                        _bloc.updateUserInfo().listen((success) {
+                                          if (!success) {
                                             Navigator.of(this.context).pushReplacementNamed(HOME_ROUTE);
                                           } else {
-                                            _bloc.errorSubject.sink.add(response.error.toString());
+                                            _bloc.errorSubject.sink.add("Ocurrio un problema al actualizar los datos");
                                           }
                                         }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
                                       }

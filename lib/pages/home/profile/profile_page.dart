@@ -3,26 +3,28 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies/dependencies.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/profile_bloc.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class ProfilePage extends StatelessWidget with HomeSection {
+class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
   Widget get title {
     return Text("Sobre mi");
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithInjector(BuildContext context, Injector injector) {
     final strings = MyLocalizations.of(context);
-
-    final bloc = ProfileBloc();
-
+    final bloc = ProfileBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
     return StreamBuilder<bool>(
         stream: bloc.progressSubject.stream,
         initialData: false,
@@ -31,7 +33,7 @@ class ProfilePage extends StatelessWidget with HomeSection {
               ? Center(child: CircularProgressIndicator())
               : StreamBuilder<User>(
                   stream: bloc.userStream,
-                  initialData: bloc.user,
+                  initialData: bloc.session.user,
                   builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                     return Padding(
                       padding: EdgeInsets.all(16.0),
@@ -45,22 +47,26 @@ class ProfilePage extends StatelessWidget with HomeSection {
                             SizedBox(height: 20),
                             Row(
                               children: [
-                                ImageSelector(snapshot.data?.images?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0), (image) => bloc.deleteImage(image, 0)),
+                                ImageSelector(snapshot.data?.images?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0),
+                                    (image) => bloc.deleteImage(image, 0)),
                                 SizedBox(width: 12),
-                                ImageSelector(snapshot.data?.images?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1), (image) => bloc.deleteImage(image, 0)),
+                                ImageSelector(snapshot.data?.images?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1),
+                                    (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
                             SizedBox(height: 12),
                             Row(
                               children: [
-                                ImageSelector(snapshot.data?.images?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2), (image) => bloc.deleteImage(image, 0)),
+                                ImageSelector(snapshot.data?.images?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2),
+                                    (image) => bloc.deleteImage(image, 0)),
                                 SizedBox(width: 12),
-                                ImageSelector(snapshot.data?.images?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 0)),
+                                ImageSelector(snapshot.data?.images?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3),
+                                    (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
                           ],
                         ),
-                        snapshot.data?.state != User.advanced_user
+                        snapshot.data?.state != User.ADVANCED_USER
                             ? buildCompleteProfileBanner(context, snapshot.data?.state)
                             : SizedBox(),
                         buildProfileDetails(context, snapshot?.data)
@@ -71,7 +77,7 @@ class ProfilePage extends StatelessWidget with HomeSection {
   }
 
   Widget buildCompleteProfileBanner(BuildContext context, String state) {
-    String route = state == User.basic_user ? FORM_ROUTE : REGISTER_ROUTE;
+    String route = state == User.BASIC_USER ? FORM_ROUTE : REGISTER_ROUTE;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(

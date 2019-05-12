@@ -30,7 +30,7 @@ class BasicFormPageOne extends StatelessWidget with FormSection {
           child: Container(
             child: StreamBuilder<User>(
               stream: bloc.userStream,
-              initialData: bloc.user,
+              initialData: bloc.session.user,
               builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                 infoComplete = snapshot?.data?.eduLevel != null;
                 return ListView.separated(

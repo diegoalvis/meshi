@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:convert';
 import 'package:meshi/data/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,15 +13,17 @@ class SessionManager {
   //String fbToken;
   //String authToken;
 
-  User user = User();
-  String fbUserId = "10219787681781369";
-  String fbToken = "EAADuaK7hfRIBAMkKI0yEfUUOCEgAwLSqz39hS7pcjtXP6gZB0rXQ5ZAZAiOJiZC0Fv3G8Y4ZAtPC2IGJBbHsMd06YZAnKb2EyfVIlIZAoNzZCoYUo1OstAHN6MsZA8VFtt9ItXoePXKxfUQcZCqW4Y3mt1rvK8VcGLCaCD5pRuhoaYL3lN8J0dIPqRRlUJHPy8ifgZD";
-  String authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzZXIiLCJpYXQiOjE1NTczNzIzOTR9.2wyx4EiP4X5Q5OlwaWF7ERJea1c1VoLoo5Kkv2Aq0hM";
-
+  User user;
+  String _fbUserId = "10219787681781369";
+  String _fbToken =
+      "EAADuaK7hfRIBAMkKI0yEfUUOCEgAwLSqz39hS7pcjtXP6gZB0rXQ5ZAZAiOJiZC0Fv3G8Y4ZAtPC2IGJBbHsMd06YZAnKb2EyfVIlIZAoNzZCoYUo1OstAHN6MsZA8VFtt9ItXoePXKxfUQcZCqW4Y3mt1rvK8VcGLCaCD5pRuhoaYL3lN8J0dIPqRRlUJHPy8ifgZD";
+  String _authToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzZXIiLCJpYXQiOjE1NTczNzIzOTR9.2wyx4EiP4X5Q5OlwaWF7ERJea1c1VoLoo5Kkv2Aq0hM";
 
   SharedPreferences _preferences;
-  Future<SharedPreferences> get preferences async{
-    if(_preferences != null) return _preferences;
+
+  Future<SharedPreferences> get preferences async {
+    if (_preferences != null) return _preferences;
     _preferences = await SharedPreferences.getInstance();
     return _preferences;
   }
@@ -31,88 +34,123 @@ class SessionManager {
     preferences.then((prefs) => prefs.setBool("logged", value));
   }
 
+  Future<User> initUser() {
+    return preferences.then((prefs) {
+      try {
+        _authToken = prefs.getString("authToken");
+        _fbToken = prefs.getString("fbToken");
+        _fbUserId = prefs.getString("fbUserId");
+        user = User.fromJson(jsonDecode(prefs.getString("user")));
+        return user;
+      } catch (error) {
+        return null;
+      }
+    });
+  }
 
-  Future<String> get token async{
+  void saveUser(User user) {
+    if (user != null) {
+      this.user = user;
+      preferences.then((prefs) => prefs.setString("user", jsonEncode(user.toJson())));
+    }
+  }
+
+  Future<String> get token async {
     final prefs = await preferences;
     String tk = prefs.getString("token");
     return "Bearer $tk";
   }
 
-  void setToken(String value) async{
+  void setToken(String value) async {
     final prefs = await preferences;
     await prefs.setString("token", value);
   }
 
-
-  Future<String> get name async{
+  Future<String> get name async {
     final prefs = await preferences;
     return prefs.getString("name");
   }
 
-  void setName(String value) async{
+  void setName(String value) async {
     final prefs = await preferences;
     await prefs.setString("name", value);
   }
 
-
-  Future<String> get id async{
+  Future<String> get id async {
     final prefs = await preferences;
     return prefs.getString("id");
   }
 
-  void setId(String value) async{
+  void setId(String value) async {
     final prefs = await preferences;
     await prefs.setString("id", value);
   }
 
-  Future<String> get phone async{
+  Future<String> get phone async {
     final prefs = await preferences;
     return prefs.getString("phone");
   }
 
-  void setPhone(String value) async{
+  void setPhone(String value) async {
     final prefs = await preferences;
     await prefs.setString("phone", value);
   }
 
-
-  Future<bool> get disability async{
+  Future<bool> get disability async {
     final prefs = await preferences;
     return prefs.getBool("disability") ?? false;
   }
 
-  void setDisability(bool value) async{
+  void setDisability(bool value) async {
     final prefs = await preferences;
     await prefs.setBool("disability", value);
   }
 
-
-  Future<int> get cash async{
+  Future<int> get cash async {
     final prefs = await preferences;
     return prefs.getInt("cash");
   }
 
-  void setCash(int value) async{
+  void setCash(int value) async {
     final prefs = await preferences;
     await prefs.setInt("cash", value);
   }
 
-
-  Future<DateTime> get lastTransaction async{
+  Future<DateTime> get lastTransaction async {
     final prefs = await preferences;
     String date = prefs.getString("lastTransaction");
     return date != null ? DateTime.parse(date) : null;
   }
 
-  void setLastTransaction(DateTime value) async{
+  void setLastTransaction(DateTime value) async {
     final prefs = await preferences;
     String date = value?.toIso8601String();
     await prefs.setString("lastTransaction", date);
   }
 
-  void clear() async{
+  void clear() async {
     final prefs = await preferences;
     prefs.clear();
   }
 
+  String get fbToken => _fbToken;
+
+  set fbToken(String value) {
+    preferences.then((prefs) => prefs.setString("fbToken", value));
+    _fbToken = value;
+  }
+
+  String get authToken => _authToken;
+
+  set authToken(String value) {
+    preferences.then((prefs) => prefs.setString("authToken", value));
+    _authToken = value;
+  }
+
+  String get fbUserId => _fbUserId;
+
+  set fbUserId(String value) {
+    preferences.then((prefs) => prefs.setString("fbUserId", value));
+    _fbUserId = value;
+  }
 }

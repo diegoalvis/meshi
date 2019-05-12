@@ -33,4 +33,20 @@ abstract class BaseApi {
       throw ServiceException(cause: 'Error');
     }
   }
+
+  BaseResponse<T> processBasicResponse<T>(Response response) {
+    if ((response.statusCode >= 200 && response.statusCode < 300) || response.statusCode == 304) {
+      final body = response.data;
+      bool success = body["success"] as bool;
+      int error = body["error"] as int;
+      T data = body["data"] as T;
+      return BaseResponse(success: success, data: data, error: error);
+    } else if (response.statusCode == 403) {
+      throw AuthorizationException(cause: "Unauthorized");
+    } else if (response.statusCode == 404) {
+      throw ServiceException(cause: "Not found");
+    } else {
+      throw ServiceException(cause: 'Error');
+    }
+  }
 }

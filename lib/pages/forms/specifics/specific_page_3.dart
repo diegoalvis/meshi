@@ -29,7 +29,7 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
           child: Container(
             child: StreamBuilder<Deepening>(
               stream: bloc.deepeningStream,
-              initialData: bloc.user.deepening,
+              initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
                 return ListView.separated(

@@ -14,26 +14,22 @@ class LoginBloc extends BaseBloc {
 
   Stream<User> get userStream => _userSubject.stream;
 
-  UserRepository repository;
-  SessionManager session;
-
-  LoginBloc(this.repository, this.session);
+  LoginBloc(UserRepository repository, SessionManager session) : super(repository, session) {
+    session.initUser().then((user) => _userSubject.sink.add(user));
+  }
 
   void initFacebookLogin() async {
     var diegoId = "10219787681781369";
     progressSubject.sink.add(true);
-    repository
-        .loginUser(diegoId)
-        .handleError((error) {
-          errorSubject.sink.add(error.toString());
-        })
-        .doOnEach((data) {
-          progressSubject.sink.add(false);
-        })
-        .takeWhile((success) => success)
-        .listen((success) {
-          _userSubject.sink.add(session.user);
-        });
+    repository.loginUser(diegoId).catchError((error) {
+      errorSubject.sink.add(error.toString());
+    }).whenComplete(() {
+      progressSubject.sink.add(false);
+    }).then((success) {
+      //TODO remover esto
+      session.user.state = User.NEW_USER;
+      _userSubject.sink.add(session.user);
+    });
 
     /*
     progressSubject.sink.add(true);

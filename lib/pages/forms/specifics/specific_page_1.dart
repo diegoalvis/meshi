@@ -17,15 +17,15 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    final bloc = FormBlocProvider.of(context)?.bloc ?? FormBloc();
+    final bloc = FormBlocProvider.of(context).bloc;
     return StreamBuilder<Deepening>(
         stream: bloc.deepeningStream,
-        initialData: bloc.user.deepening,
+        initialData: bloc.session.user.deepening,
         builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
           final deepening = snapshot.data;
           infoComplete = deepening != null &&

@@ -22,7 +22,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context).bloc;
     final TextEditingController _controller = TextEditingController();
-    _controller.text = bloc.user.height?.toString() ?? "";
+    _controller.text = bloc.session.user?.height?.toString() ?? "";
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -33,7 +33,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
             height: 40,
             child: StreamBuilder<User>(
               stream: bloc.userStream,
-              initialData: bloc.user,
+              initialData: bloc.session.user,
               builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                 infoComplete = snapshot.data?.bodyShape != null && snapshot.data?.height != null;
                 return Row(
@@ -55,7 +55,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
           SizedBox(height: 20),
           StreamBuilder<User>(
             stream: bloc.userStream,
-            initialData: bloc.user,
+            initialData: bloc.session.user,
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               return Padding(
                 padding: EdgeInsets.only(right: 80.0),

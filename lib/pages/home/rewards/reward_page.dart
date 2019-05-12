@@ -16,7 +16,7 @@ class RewardPage extends StatefulWidget with HomeSection {
   }
 
   @override
-  RewardPageState createState() => new RewardPageState(RewardBloc());
+  RewardPageState createState() => new RewardPageState(RewardBloc(null, null));
 }
 
 class RewardPageState extends State<RewardPage> {

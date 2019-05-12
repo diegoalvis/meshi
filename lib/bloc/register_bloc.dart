@@ -5,24 +5,18 @@
 
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:meshi/bloc/base_bloc.dart';
-import 'package:meshi/data/api/BaseResponse.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RegisterBloc extends BaseBloc {
-
   final _userSubject = PublishSubject<User>();
 
   Stream<User> get userStream => _userSubject.stream;
 
-  UserRepository repository;
-  SessionManager session;
-
-  DateTime selectedDate = DateTime.now();
+  RegisterBloc(repository, session) : super(repository, session);
 
   @override
   dispose() {
@@ -56,18 +50,12 @@ class RegisterBloc extends BaseBloc {
     progressSubject.add(true);
     Observable.fromFuture(image.readAsBytes())
         .map((imageBytes) => base64Encode(imageBytes))
-        .flatMap((base64Image) => repository.uploadImage(base64Image))
+        .flatMap((base64Image) => repository.uploadImage(base64Image, index).asStream())
         .doOnError(() => errorSubject.sink.add("Error trying to upload the image"))
         .doOnEach((data) => progressSubject.add(false))
-        .listen((response) {
-      if (response.success) {
-        if (response.data != null) {
-          if (session.user.images == null) {
-            session.user.images = new List<String>(USER_PICTURE_NUMBER);
-          }
-          session.user.images[index] = response.data.toString();
-          _userSubject.sink.add(session.user);
-        }
+        .listen((success) {
+      if (success) {
+        _userSubject.sink.add(session.user);
       } else {
         errorSubject.sink.add("Error trying to upload the image");
       }
@@ -77,18 +65,12 @@ class RegisterBloc extends BaseBloc {
   void deleteImage(String image, int index) {
     progressSubject.add(true);
     repository
-        .deleteImage(image)
-        .doOnError(() => errorSubject.sink.add("Error trying to delete the image"))
-        .doOnEach((data) => progressSubject.add(false))
-        .listen((response) {
-      if (response.success) {
-        if (response.data != null) {
-          if (session.user.images == null) {
-            session.user.images = new List<String>(USER_PICTURE_NUMBER);
-          }
-          session.user.images[index] = null;
-          _userSubject.sink.add(session.user);
-        }
+        .deleteImage(image, index)
+        .catchError((error) => errorSubject.sink.add("Error trying to delete the image"))
+        .whenComplete(() => progressSubject.add(false))
+        .then((success) {
+      if (success) {
+        _userSubject.sink.add(session.user);
       } else {
         errorSubject.sink.add("Error trying to delete the image");
       }
@@ -128,7 +110,7 @@ class RegisterBloc extends BaseBloc {
     progressSubject.sink.add(false);
   }
 
-  Observable<BaseResponse> updateUseInfo() {
+  Observable<bool> updateUseInfo() {
     progressSubject.sink.add(true);
     return repository.updateUserBasicInfo(session.user).handleError((error) {
       errorSubject.sink.add(error.toString());

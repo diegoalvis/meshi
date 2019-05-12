@@ -3,67 +3,91 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:meshi/data/api/BaseResponse.dart';
-import 'package:meshi/data/api/ServiceController.dart';
+import 'package:dio/dio.dart';
 import 'package:meshi/data/api/user_api.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class UserRepository {
-
   SessionManager _session;
   UserApi _api;
 
   UserRepository(this._session, this._api);
 
   /// Fetches user data
-  Observable<User> fetchUserData() {
-    return Observable.just(User());
-//    return Observable(api.get("/users/self").asStream().map((response) {
-//      if (response.data['user'] == null) {
-//        return User(state: response.data['state']);
-//      }
-//      return User.fromJson(response.data['user']);
-//    }));
-  }
-
-  /// validates if the user already exists, if so, returns the user info,
-  /// otherwise it creates a new record.
-  Observable<bool> loginUser(String id) {
-    return Observable(_api.loginUser(id)).map((response) {
-      _session.authToken = response.data.token;
-      _session.user = response.data.user;
+  Future<bool> fetchUserData() {
+    return _api.fetchUserData().then((response) {
+      _session.saveUser(response.data.user);
       return response.success;
     });
   }
 
+  /// validates if the user already exists, if so, returns the user info,
+  /// otherwise it creates a new record.
+  Future<bool> loginUser(String id) async {
+    return _api.loginUser(id).then((response) {
+      _session.authToken = response.data.token;
+      _session.saveUser(response.data.user);
+      return response.success;
+    }).catchError((error) {
+      return Observable.error(error.toString());
+    });
+  }
+
   /// Updates the user basic info
-  Observable<BaseResponse> updateUserBasicInfo(User user) {
-    return Observable.just(BaseResponse());
-//    return Observable(api.put("/users/basic", user.toJson().toString()).catchError((error) {
-//      return Observable.error(error.toString());
-//    }).asStream());
+  Observable<bool> updateUserBasicInfo(User user) {
+    return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
+      _session.saveUser(user);
+      return response.success;
+    }).handleError((error) {
+      return Observable.error(error.toString());
+    });
   }
 
   /// Updates the user advanced info
-  Observable<BaseResponse> updateUserAdvancedInfo(User user) {
-    return Observable.just(BaseResponse());
-//    return Observable(api.put("/users/advanced", user.toJson().toString()).catchError((error) {
-//      return Observable.error(error.toString());
-//    }).asStream());
+  Observable<bool> updateUserAdvancedInfo(User user) {
+    return Observable.fromFuture(_api.updateUserAdvancedInfo(user)).map((response) {
+      if (response.success) {
+        _session.saveUser(response.data.user);
+      }
+      return response.success;
+    }).handleError((error) {
+      return Observable.error(error.toString());
+    });
   }
 
   /// Upload user image
-  Observable<BaseResponse> uploadImage(String imageBase64) {
-    return Observable.just(BaseResponse());
-//    String body = "{\"base64\": \"$imageBase64\"}";
-//    return Observable.fromFuture(api.post("/img", body));
+  Future<bool> uploadImage(String imageBase64, int index) async {
+    final user = _session.user;
+    return _api.uploadImage(imageBase64).then((response) {
+      if (response.success && response.data != null) {
+        if (user.images == null) {
+          user.images = new List<String>(USER_PICTURE_NUMBER);
+        }
+        user.images[index] = response.data.toString();
+        _session.saveUser(user);
+      }
+      return response.success;
+    });
   }
 
   /// Deletes user image
-  Observable<BaseResponse> deleteImage(String imageName) {
-    return Observable.just(BaseResponse());
-//    return Observable.fromFuture(api.delete("/img" + imageName));
+  Future<bool> deleteImage(String imageName, int index) async {
+    final user = await _session.user;
+    return _api.deleteImage(imageName).then((response) {
+      if (response.success && response.data != null) {
+        user.images[index] = null;
+        _session.saveUser(user);
+      }
+      return response.success;
+    }).catchError((error) {
+      if ((error as DioError).response.statusCode == 404) {
+        user.images[index] = null;
+        _session.saveUser(user);
+        return true;
+      }
+      return Observable.error(error.toString());
+    });
   }
 }

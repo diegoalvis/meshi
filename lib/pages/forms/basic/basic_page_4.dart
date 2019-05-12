@@ -25,7 +25,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
     final bloc = FormBlocProvider.of(context).bloc;
     return StreamBuilder<User>(
       stream: bloc.userStream,
-      initialData: bloc.user,
+      initialData: bloc.session.user,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         infoComplete = snapshot.data?.bodyShapePreferred != null &&
             snapshot.data.bodyShapePreferred.isNotEmpty &&

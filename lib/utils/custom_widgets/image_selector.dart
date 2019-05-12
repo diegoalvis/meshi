@@ -60,25 +60,30 @@ class ImageSelector extends StatelessWidget {
             child: Container(
               color: Colors.grey[300],
               child: StreamBuilder<bool>(
-                  stream: showLoader,
-                  initialData: false,
-                  builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                    return snapshot.data
-                        ? Center(child: CircularProgressIndicator())
-                        : image != null
-                            ? Stack(
-                                children: [
-                                  Image.network(ServiceController.BASE_URL + "/images/" + image, fit: BoxFit.cover,),
-                                  GestureDetector(
-                                    onTap: () => onDeleteSelected(image),
-                                    child: Container(
-                                      color: Colors.grey[300],
-                                        padding: EdgeInsets.all(5.0), alignment: Alignment.topRight, child: Icon(Icons.close)),
-                                  ),
-                                ],
-                              )
-                            : Icon(Icons.add_a_photo);
-                  }),
+                stream: showLoader,
+                initialData: false,
+                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                  return snapshot.data
+                      ? Center(child: CircularProgressIndicator())
+                      : image != null && image.isNotEmpty && image != "null"
+                          ? DecoratedBox(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: NetworkImage(ServiceController.BASE_URL + "/images/" + image),
+                                fit: BoxFit.cover,
+                              )),
+                              child: GestureDetector(
+                                onTap: () => onDeleteSelected(image),
+                                child: Container(
+                                  padding: EdgeInsets.all(5.0),
+                                  alignment: Alignment.topRight,
+                                  child: Icon(Icons.close),
+                                ),
+                              ),
+                            )
+                          : Icon(Icons.add_a_photo);
+                },
+              ),
             ),
           ),
         ),

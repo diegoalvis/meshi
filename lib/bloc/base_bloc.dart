@@ -3,10 +3,18 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
-abstract class BaseBloc {
+class BaseBloc {
+
+  // Inject
+  UserRepository repository;
+  SessionManager session;
+
+  BaseBloc(this.repository, this.session);
+
   final errorSubject = PublishSubject<String>();
   final successSubject = PublishSubject<String>();
   final progressSubject = PublishSubject<bool>();

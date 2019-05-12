@@ -11,7 +11,7 @@ part 'deepening.g.dart';
 @JsonSerializable(nullable: true)
 class Deepening {
   String marriage;
-  int children = 0;
+  int children;
   String planChildren;
   bool likeChildren;
   @JsonSerializable(nullable: true) List<String> priorities;

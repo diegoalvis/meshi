@@ -29,7 +29,7 @@ class BasicInfoPageOne extends StatelessWidget with FormSection {
         stream: bloc.userStream,
         initialData: bloc.session.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-          imagesNotEmpty = snapshot.data?.images != null && snapshot.data?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: null) != null;
+          imagesNotEmpty = snapshot.data?.images != null && snapshot.data?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: () => null) != null;
           return
             SingleChildScrollView(
               child:Column(
@@ -45,17 +45,17 @@ class BasicInfoPageOne extends StatelessWidget with FormSection {
                       snapshot.data?.images?.elementAt(0), (image) => bloc.addImage(image, 0), (image) => bloc.deleteImage(image, 0)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(1), (image) => bloc.addImage(image, 1), (image) => bloc.deleteImage(image, 0)),
+                      snapshot.data?.images?.elementAt(1), (image) => bloc.addImage(image, 1), (image) => bloc.deleteImage(image, 1)),
                 ],
               ),
               SizedBox(height: 12),
               Row(
                 children: [
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(2), (image) => bloc.addImage(image, 2), (image) => bloc.deleteImage(image, 0)),
+                      snapshot.data?.images?.elementAt(2), (image) => bloc.addImage(image, 2), (image) => bloc.deleteImage(image, 2)),
                   SizedBox(width: 12),
                   ImageSelector(
-                      snapshot.data?.images?.elementAt(3), (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 0)),
+                      snapshot.data?.images?.elementAt(3), (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 3)),
                 ],
               ),
             ],
