@@ -4,14 +4,15 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/strings.dart';
 
 class BasicFormPageOne extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -34,15 +35,15 @@ class BasicFormPageOne extends StatelessWidget with FormSection {
               builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                 infoComplete = snapshot?.data?.eduLevel != null;
                 return ListView.separated(
-                  itemCount: EducationalLevels.length,
+                  itemCount: UserEducation.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () => bloc.eduLevel = EducationalLevels[index],
+                      onTap: () => bloc.eduLevel = enumName(UserEducation.values[index]),
                       title: Text(
-                        EducationalLevels[index],
+                        enumName(UserEducation.values[index]),
                         style: TextStyle(
-                            color: (snapshot?.data?.eduLevel == EducationalLevels[index]
+                            color: (snapshot?.data?.eduLevel == enumName(UserEducation.values[index])
                                 ? Theme.of(context).accentColor
                                 : Colors.black)),
                       ),
@@ -56,6 +57,4 @@ class BasicFormPageOne extends StatelessWidget with FormSection {
       ],
     );
   }
-
-
 }

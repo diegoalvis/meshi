@@ -10,6 +10,7 @@ import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/strings.dart';
 
 class HabitsFormPageOne extends StatelessWidget with FormSection {
 
@@ -39,7 +40,7 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions1,
+                    options: UserHabits.values,
                     optionSelected: habits?.smoke,
                     onSelected: (selected) {
                       habits.smoke = selected;
@@ -54,7 +55,7 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions1,
+                    options: UserHabits.values,
                     optionSelected: habits?.drink,
                     onSelected: (selected) {
                       habits.drink = selected;
@@ -69,7 +70,7 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions1,
+                    options: UserHabits.values,
                     optionSelected: habits?.sport,
                     onSelected: (selected) {
                       habits.sport = selected;

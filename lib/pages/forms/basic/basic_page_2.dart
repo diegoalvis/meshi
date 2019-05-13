@@ -4,14 +4,15 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/strings.dart';
 
 class BasicFormPageTwo extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -37,14 +38,13 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
               builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                 infoComplete = snapshot.data?.bodyShape != null && snapshot.data?.height != null;
                 return Row(
-                    children: BodyShapeList.map((item) {
+                  //TODO: (value) => strings.getEnum(enumName(value))
+                    children: UserShape.values.map((value) => enumName(value)).map((item) {
                   return Expanded(
                     child: FlatButton(
                         onPressed: () => bloc.shape = item,
                         child: Text(item),
-                        textColor: snapshot?.data?.bodyShape == item
-                            ? Theme.of(context).accentColor
-                            : Colors.grey[400]),
+                        textColor: snapshot?.data?.bodyShape == item ? Theme.of(context).accentColor : Colors.grey[400]),
                   );
                 }).toList());
               },

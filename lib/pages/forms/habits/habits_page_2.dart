@@ -12,7 +12,6 @@ import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class HabitsFormPageTwo extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -39,7 +38,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions1,
+                    options: UserHabits.values,
                     optionSelected: habits.likeSmoke,
                     onSelected: (selected) {
                       habits.likeSmoke = selected;
@@ -54,7 +53,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions1,
+                    options: UserHabits.values,
                     optionSelected: habits.likeDrink,
                     onSelected: (selected) {
                       habits.likeDrink = selected;
@@ -69,7 +68,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions1,
+                    options: UserHabits.values,
                     optionSelected: habits.likeSport,
                     onSelected: (selected) {
                       habits.likeSport = selected;

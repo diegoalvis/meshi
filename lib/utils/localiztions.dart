@@ -24,7 +24,6 @@ class MyLocalizationsDelegate extends LocalizationsDelegate<MyLocalizations> {
 }
 
 class MyLocalizations {
-
   final Locale locale;
 
   MyLocalizations(this.locale);
@@ -33,8 +32,7 @@ class MyLocalizations {
 
   String get meshi => 'meshi';
 
-  String get pictureSelectCaption =>
-      _localizedSingleValues[locale.languageCode]['picture_select_caption'];
+  String get pictureSelectCaption => _localizedSingleValues[locale.languageCode]['picture_select_caption'];
 
   String get logInWith => _localizedSingleValues[locale.languageCode]['log_in_with'];
 
@@ -84,8 +82,7 @@ class MyLocalizations {
 
   String get placeholderUser => _localizedSingleValues[locale.languageCode]['placeholder_user'];
 
-  String get educationalLevelCaption =>
-      _localizedSingleValues[locale.languageCode]['educational_level_caption'];
+  String get educationalLevelCaption => _localizedSingleValues[locale.languageCode]['educational_level_caption'];
 
   // string-arrays
   List<String> get homeSections => _localizedMultiValues[locale.languageCode]['home_sections'];
@@ -161,24 +158,12 @@ class MyLocalizations {
   static Map<String, Map<String, List<String>>> _localizedMultiValues = {
     /* English text resources */
     'en': {
-      'home_sections': [
-        'Mis intereses',
-        'Participa por una cita real',
-        'Haste premiun',
-        'Ver perfil',
-        'Ajustes'
-      ],
+      'home_sections': ['Mis intereses', 'Participa por una cita real', 'Haste premiun', 'Ver perfil', 'Ajustes'],
     },
 
     /* Spanish text resources */
     'es': {
-      'home_sections': [
-        'Mis intereses',
-        'Participa por una cita real',
-        'Haste premiun',
-        'Ver perfil',
-        'Ajustes'
-      ],
+      'home_sections': ['Mis intereses', 'Participa por una cita real', 'Haste premiun', 'Ver perfil', 'Ajustes'],
     }
   };
 }

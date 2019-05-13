@@ -6,12 +6,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/bloc/form_bloc.dart';
+import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/strings.dart';
 
 class BasicFormPageFour extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -37,7 +39,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
             Container(alignment: Alignment.centerLeft, child: Text("¿Que contextura fisica prefieres para tu pareja?")),
             SizedBox(height: 20),
             Row(
-                children: BodyShapeList.map((item) {
+                children: UserShape.values.map((value) => enumName(value)).map((item) {
               return Expanded(
                 flex: item.length,
                 child: FlatButton(
@@ -56,7 +58,9 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                 children: [
                   OptionSelector(
                       options: YesNoOptions,
-                      optionSelected: (snapshot.data?.isIncomeImportant == null ? null : snapshot.data?.isIncomeImportant == true ? YesNoOptions[0] : YesNoOptions[1]),
+                      optionSelected: (snapshot.data?.isIncomeImportant == null
+                          ? null
+                          : snapshot.data?.isIncomeImportant == true ? YesNoOptions[0] : YesNoOptions[1]),
                       onSelected: (selected) => bloc.isIncomeImportant = (selected == YesNoOptions[0])),
                   SizedBox(height: 40),
                   snapshot?.data?.isIncomeImportant != true

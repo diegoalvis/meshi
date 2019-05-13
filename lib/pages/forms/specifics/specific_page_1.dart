@@ -44,7 +44,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions3,
+                    options: UserMarriage.values,
                     optionSelected: deepening.marriage,
                     onSelected: (selected) {
                       deepening.marriage = selected;
@@ -81,7 +81,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions3,
+                    options: UserPlanChildren.values,
                     optionSelected: deepening.planChildren,
                     onSelected: (selected) {
                       deepening.planChildren = selected;

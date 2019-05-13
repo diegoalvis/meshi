@@ -36,7 +36,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                 child: Text("¿Es importante para ti la apariencia física de tu pareja?")),
             SizedBox(height: 10),
             OptionSelector(
-                options: ImportanceLevels,
+                options: UserLikeAppearance.values,
                 optionSelected: deepening?.isImportantAppearance,
                 onSelected: (selected) {
                   deepening.isImportantAppearance = selected;

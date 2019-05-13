@@ -14,21 +14,25 @@ class Deepening {
   int children;
   String planChildren;
   bool likeChildren;
-  @JsonSerializable(nullable: true) List<String> priorities;
-  @JsonSerializable(nullable: true) List<String> clothingStyle;
+  @JsonSerializable(nullable: true)
+  List<String> priorities;
+  @JsonSerializable(nullable: true)
+  List<String> clothingStyle;
   bool isImportantClothing;
-  @JsonSerializable(nullable: true) List<String> likeClothing;
-  @JsonSerializable(nullable: true) List<String> activities;
+  @JsonSerializable(nullable: true)
+  List<String> likeClothing;
+  @JsonSerializable(nullable: true)
+  List<String> activities;
   String isImportantAppearance;
   String places;
-  @JsonSerializable(nullable: true) List<String> topics;
+  @JsonSerializable(nullable: true)
+  List<String> topics;
   String politics;
   String music;
 
   factory Deepening.fromJson(Map<String, dynamic> json) => _$DeepeningFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeepeningToJson(this);
-
 
   Deepening();
 
@@ -49,3 +53,19 @@ class Deepening {
     this.music = deepening.music;
   }
 }
+
+enum UserEducation { bachelor, technical, technologist, professional, postgraduate }
+
+enum UserShape { thin, medium, big }
+
+enum UserMarriage { yes, no, maybe }
+
+enum UserPlanChildren { yes, no, maybe }
+
+enum UserLikeAppearance { important, normal, nothing }
+
+enum UserPlaces { refined, conventional, simple, any }
+
+enum UserPolitics { left, center, right, nothing }
+
+enum UserMusic { urban, pop, rock, salsa, crossover }

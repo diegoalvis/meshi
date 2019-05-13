@@ -14,44 +14,6 @@ const List<String> YesNoOptions = [
   "no",
 ];
 
-const List<String> GenericFormOptions1 = [
-  "yes",
-  "no",
-  "sporadically",
-];
-
-const List<String> GenericFormOptions3 = [
-  "yes",
-  "no",
-  "maybe",
-];
-
-const List<String> EducationalLevels = [
-  /*
-    "Bachiller",
-  "Tecnico",
-  "Tecnologo",
-  "Profesional",
-  "Posgrado",
-   */
-  "bachelor",
-  "technical",
-  "technologist",
-  "professional",
-  "postgraduate",
-];
-
-const List<String> BodyShapeList = [
-  /*
-  "Delgad@",
-  "Medio",
-  "Grande",
-   */
-  "thin",
-  "medium",
-  "big",
-];
-
 const List<String> DressStyle = [
   "Seductor",
   "Suelto y ligero",
@@ -80,31 +42,6 @@ const List<String> CoupleActivities = [
   "Salir a tomar unos tragos y conversar",
 ];
 
-const List<String> ImportanceLevels = [
-  /*
-  "Muy importante",
-  "Importante",
-  "No es crucial o decisiva",
-  "Nada importante",
-  */
-  "important",
-  "normal",
-  "nothing",
-];
-
-const List<String> PlaceType = [
-  /*
-  "Refinados",
-  "Convencionales",
-  "Sencillos",
-  "Cualquiera",
-  */
-  "refined",
-  "conventional",
-  "simple",
-  "any",
-];
-
 const List<String> RelevantTopics = [
   "ARTE",
   "EXPERIENCIAS",
@@ -117,12 +54,6 @@ const List<String> RelevantTopics = [
 ];
 
 
-const List<String> PoliticIdeology = [
-  "left",
-  "center",
-  "right",
-  "nothing",
-];
 /*
 const List<String> PoliticIdeology = [
   "Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.",
@@ -131,11 +62,3 @@ const List<String> PoliticIdeology = [
   "No tengo ideología política",
 ];
 */
-
-const List<String> MusicalGenre = [
-  "urban",
-  "pop",
-  "rock",
-  "salsa",
-  "crossover",
-];

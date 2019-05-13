@@ -9,9 +9,9 @@ import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/strings.dart';
 
 class SpecificsFormPageNine extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -35,20 +35,21 @@ class SpecificsFormPageNine extends StatelessWidget with FormSection {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.politics != null;
                 return ListView.separated(
-                  itemCount: PoliticIdeology.length,
+                  itemCount: UserPolitics.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       onTap: () {
-                        deepening?.politics = PoliticIdeology[index];
+                        deepening?.politics = enumName(UserPolitics.values[index]);
                         bloc.updateDeepening(deepening);
                       },
                       title: Text(
-                        PoliticIdeology[index],
+                        enumName(UserPolitics.values[index]),
                         style: TextStyle(
-                            color: (deepening?.politics == PoliticIdeology[index]
-                                ? Theme.of(context).accentColor
-                                : Colors.black)),
+                          color: (deepening?.politics == enumName(UserPolitics.values[index])
+                              ? Theme.of(context).accentColor
+                              : Colors.black),
+                        ),
                       ),
                     );
                   },

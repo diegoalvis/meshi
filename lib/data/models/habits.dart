@@ -32,3 +32,5 @@ class Habits {
     this.likeSport = habits.likeSport;
   }
 }
+
+enum UserHabits { yes, no, sporadically }

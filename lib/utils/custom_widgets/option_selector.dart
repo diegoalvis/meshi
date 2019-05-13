@@ -5,10 +5,12 @@
 
 import 'package:flutter/material.dart';
 
+import '../strings.dart';
+
 class OptionSelector extends StatelessWidget {
-  final List<String> options;
-  final String optionSelected;
-  final Function(dynamic) onSelected;
+  final List<Object> options;
+  final Object optionSelected;
+  final Function(Object) onSelected;
 
   const OptionSelector({@required this.options, @required this.optionSelected, @required this.onSelected});
 
@@ -17,11 +19,13 @@ class OptionSelector extends StatelessWidget {
     List<Widget> widgetListOptions = options
         .map<Widget>(
           (option) => Expanded(
-                flex: option.length ~/ (options.length + 2),
+                // TODO: strings.enumName(option)
+                flex: enumName(option).length ~/ (options.length + 2),
                 child: Container(
                   child: FlatButton(
-                      onPressed: () => onSelected(option),
-                      child: Text(option.toString(), textAlign: TextAlign.center),
+                      onPressed: () => onSelected(enumName(option)),
+                      // TODO: strings.enumName(option)
+                      child: Text(enumName(option), textAlign: TextAlign.center),
                       textColor: option == optionSelected ? Theme.of(context).accentColor : Colors.grey[400]),
                 ),
               ),
