@@ -7,7 +7,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/form_bloc.dart';
-import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
@@ -24,11 +23,9 @@ import 'package:meshi/pages/forms/specifics/specific_page_2.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_3.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_4.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_5.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_6.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_7.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_8.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_9.dart';
-import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
@@ -59,6 +56,7 @@ class FormBlocProvider extends InheritedWidget {
 // Widget
 class FormContainer extends StatefulWidget {
   final FormBloc bloc;
+
   const FormContainer(this.bloc) : super();
 
   @override
@@ -67,7 +65,7 @@ class FormContainer extends StatefulWidget {
 
 class _FormPageState extends State<FormContainer> {
   final FormBloc _bloc;
-  static const TOTAL_PAGES = 16;
+  static const TOTAL_PAGES = 15;
 
   int currentPagePos = 1;
   List<Widget> pages = [
@@ -82,11 +80,10 @@ class _FormPageState extends State<FormContainer> {
     SpecificsFormPageThree(), // 9
     SpecificsFormPageFour(), // 10
     SpecificsFormPageFive(), // 11
-    SpecificsFormPageSix(), // 12
-    SpecificsFormPageSeven(), // 13
-    SpecificsFormPageEight(), // 14
-    SpecificsFormPageNine(), // 15
-    SpecificsFormPageTen(), // 16
+    SpecificsFormPageSeven(), // 12
+    SpecificsFormPageEight(), // 13
+    SpecificsFormPageNine(), // 14
+    SpecificsFormPageTen(), // 15
   ];
 
   _FormPageState(this._bloc);
@@ -148,7 +145,7 @@ class _FormPageState extends State<FormContainer> {
                                       if (currentPagePos > TOTAL_PAGES) {
                                         currentPagePos = TOTAL_PAGES;
                                         _bloc.updateUserInfo().listen((success) {
-                                          if (!success) {
+                                          if (success) {
                                             Navigator.of(this.context).pushReplacementNamed(HOME_ROUTE);
                                           } else {
                                             _bloc.errorSubject.sink.add("Ocurrio un problema al actualizar los datos");

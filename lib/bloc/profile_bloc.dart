@@ -9,7 +9,6 @@ import 'dart:io';
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ProfileBloc extends BaseBloc {
@@ -17,7 +16,9 @@ class ProfileBloc extends BaseBloc {
 
   Stream<User> get userStream => _userSubject.stream;
 
-  ProfileBloc(UserRepository repository, SessionManager session) : super(repository, session);
+  UserRepository repository;
+
+  ProfileBloc(this.repository, session) : super(session);
 
   @override
   dispose() {

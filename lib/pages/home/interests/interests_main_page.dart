@@ -5,10 +5,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
+
+import 'mutual_page.dart';
 
 class InterestsBlocProvider extends InheritedWidget {
   final InterestsBloc bloc;
@@ -49,6 +50,9 @@ class InterestsMainPageState extends State<InterestsMainPage> {
 
   InterestsMainPageState(this._bloc);
 
+  List<Widget> interestSPages = [MutualPage()];
+  Widget _currentPage = MutualPage();
+
   @override
   void dispose() {
     _bloc.dispose();
@@ -58,29 +62,6 @@ class InterestsMainPageState extends State<InterestsMainPage> {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return InterestsBlocProvider(
-        bloc: _bloc,
-        child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (BuildContext ctxt, int index) {
-              return new Row(children: [
-                ClipOval(
-                  child: Container(
-                      height: 50.0,
-                      width: 50.0,
-                      child: Image.network(
-                          "https://image.shutterstock.com/image-photo/brunette-girl-long-shiny-wavy-260nw-639921919.jpg",
-                          fit: BoxFit.cover)),
-                ),
-                Column(
-                  children: [
-                    Text("Nombre"),
-                    Row(
-                      children: [Text("Ultimo mensaje"), Text("7:00 pm")],
-                    )
-                  ],
-                )
-              ]);
-            }));
+    return InterestsBlocProvider(bloc: _bloc, child: _currentPage);
   }
 }

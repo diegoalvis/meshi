@@ -30,8 +30,10 @@ class FormBloc extends BaseBloc {
 
   Stream<Deepening> get deepeningStream => _deepeningSubject.stream;
 
-  FormBloc(UserRepository repository, SessionManager session) : super(repository, session) {
-    if (session.user.deepening.children == null) session.user.deepening.children = 0;
+  UserRepository repository;
+
+  FormBloc(this.repository, session) : super(session) {
+    if (session.user?.deepening?.children == null) session.user?.deepening?.children = 0;
   }
 
   set height(int height) {

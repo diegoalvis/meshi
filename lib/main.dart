@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
+import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
@@ -44,6 +45,7 @@ class App extends StatelessWidget {
             REGISTER_ROUTE: (BuildContext context) => RegisterPage(),
             FORM_ROUTE: (BuildContext context) => FormPage(),
             WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
+            BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
           },
         ));
   }
@@ -55,6 +57,7 @@ const String HOME_ROUTE = '/home';
 const String REGISTER_ROUTE = '/register';
 const String FORM_ROUTE = '/form';
 const String WELCOME_ROUTE = "/welcome";
+const String BRANDS_ROUTE = "/brands";
 
 
 // Themes

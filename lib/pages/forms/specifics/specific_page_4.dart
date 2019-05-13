@@ -27,14 +27,26 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
       initialData: bloc.session.user.deepening,
       builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
         final deepening = snapshot.data;
-        infoComplete = deepening.isImportantClothing != null && (deepening.isImportantClothing != true || deepening.likeClothing?.isNotEmpty == true);
+        infoComplete = deepening.isImportantAppearance != null && deepening.isImportantClothing != null && (deepening.isImportantClothing != true || deepening.likeClothing?.isNotEmpty == true);
         return Column(
           children: [
             SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
-                child: Text("¿Es importante para ti el estilo de vestir de tu pareja?")),
+                child: Text("¿Es importante para ti la apariencia física de tu pareja?")),
+            SizedBox(height: 10),
+            OptionSelector(
+                options: ImportanceLevels,
+                optionSelected: deepening?.isImportantAppearance,
+                onSelected: (selected) {
+                  deepening.isImportantAppearance = selected;
+                  bloc.updateDeepening(deepening);
+                }),
             SizedBox(height: 20),
+            Container(
+                alignment: Alignment.centerLeft,
+                child: Text("¿Es importante para ti el estilo de vestir de tu pareja?")),
+            SizedBox(height: 10),
             OptionSelector(
                 options: YesNoOptions,
                 optionSelected: (deepening?.isImportantClothing == null ? null : deepening?.isImportantClothing == true ? YesNoOptions[0] : YesNoOptions[1]),
@@ -42,13 +54,12 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                   deepening.isImportantClothing = selected == YesNoOptions.first;
                   bloc.updateDeepening(deepening);
                 }),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Container(
                 alignment: Alignment.centerLeft,
                 child: deepening.isImportantClothing != true
                     ? SizedBox()
                     : Text("¿Qué estilo de vestir prefieres en tu pareja?")),
-            SizedBox(height: 20),
             Expanded(
               child: deepening.isImportantClothing != true
                   ? SizedBox()

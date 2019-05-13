@@ -8,17 +8,21 @@ import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class LoginBloc extends BaseBloc {
   final _userSubject = PublishSubject<User>();
 
   Stream<User> get userStream => _userSubject.stream;
 
-  LoginBloc(UserRepository repository, SessionManager session) : super(repository, session) {
+  UserRepository repository;
+
+  LoginBloc(this.repository, session) : super(session) {
     session.initUser().then((user) => _userSubject.sink.add(user));
   }
 
   void initFacebookLogin() async {
+    /*
     var diegoId = "10219787681781369";
     progressSubject.sink.add(true);
     repository.loginUser(diegoId).catchError((error) {
@@ -27,11 +31,11 @@ class LoginBloc extends BaseBloc {
       progressSubject.sink.add(false);
     }).then((success) {
       //TODO remover esto
-      session.user.state = User.NEW_USER;
+      //session.user.state = User.NEW_USER;
       _userSubject.sink.add(session.user);
     });
+    */
 
-    /*
     progressSubject.sink.add(true);
 
     var facebookLogin = FacebookLogin();
@@ -47,19 +51,18 @@ class LoginBloc extends BaseBloc {
         break;
       case FacebookLoginStatus.loggedIn:
         // TODO: we must save this token using the user preferences
-        SessionManager.instance.fbToken = facebookLoginResult.accessToken.token;
-        SessionManager.instance.fbUserId = facebookLoginResult.accessToken.userId;
-        repository.loginUser(diegoId).handleError((error) {
-      errorSubject.sink.add(error.toString());
-    }).doOnEach((data) {
-      progressSubject.sink.add(false);
-    }).listen((user) {
-      SessionManager.instance.user = user;
-      _userSubject.sink.add(user);
-    });
+        final String fbId = facebookLoginResult.accessToken.userId;
+        session.fbToken = facebookLoginResult.accessToken.token;
+        session.fbUserId = facebookLoginResult.accessToken.userId;
+        repository.loginUser(fbId).catchError((error) {
+          errorSubject.sink.add(error.toString());
+        }).whenComplete(() {
+          progressSubject.sink.add(false);
+        }).then((success) {
+          _userSubject.sink.add(session.user);
+        });
         break;
     }
-    */
   }
 
   @override

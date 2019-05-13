@@ -9,14 +9,16 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RegisterBloc extends BaseBloc {
   final _userSubject = PublishSubject<User>();
-
   Stream<User> get userStream => _userSubject.stream;
 
-  RegisterBloc(repository, session) : super(repository, session);
+  UserRepository repository;
+
+  RegisterBloc(this.repository, session) : super(session);
 
   @override
   dispose() {

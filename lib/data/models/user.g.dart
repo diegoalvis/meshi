@@ -71,8 +71,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'income': instance.income,
       'minAgePreferred': instance.minAgePreferred,
       'maxAgePreferred': instance.maxAgePreferred,
-      'minIncomePreferred': instance.minIncomePreferred ?? 0,
-      'maxIncomePreferred': instance.maxIncomePreferred ?? 0,
+      'minIncomePreferred': instance.minIncomePreferred,
+      'maxIncomePreferred': instance.maxIncomePreferred,
       'isIncomeImportant': instance.isIncomeImportant,
       'habits': instance.habits,
       'deepening': instance.deepening

@@ -39,7 +39,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions2,
+                    options: GenericFormOptions1,
                     optionSelected: habits.likeSmoke,
                     onSelected: (selected) {
                       habits.likeSmoke = selected;
@@ -54,7 +54,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
-                    options: GenericFormOptions2,
+                    options: GenericFormOptions1,
                     optionSelected: habits.likeDrink,
                     onSelected: (selected) {
                       habits.likeDrink = selected;

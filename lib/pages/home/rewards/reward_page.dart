@@ -3,24 +3,43 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies/dependencies.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/rewards_bloc.dart';
 import 'package:meshi/data/models/reward_model.dart';
+import 'package:meshi/data/repository/reward_repository.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class RewardPage extends StatefulWidget with HomeSection {
+import 'brands_page.dart';
+
+class RewardPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
   Widget get title {
     return Text("Cita de la semana");
   }
 
   @override
-  RewardPageState createState() => new RewardPageState(RewardBloc(null, null));
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    final bloc = RewardBloc(injector.get<RewardRepository>(), injector.get<SessionManager>());
+    return RewardContainer(bloc);
+  }
 }
 
-class RewardPageState extends State<RewardPage> {
+class RewardContainer extends StatefulWidget {
   final RewardBloc _bloc;
+
+  const RewardContainer(this._bloc) : super();
+
+  @override
+  RewardPageState createState() => new RewardPageState(_bloc);
+}
+
+class RewardPageState extends State<RewardContainer> {
+  final RewardBloc _bloc;
+
   Reward reward;
   bool showProgress = false;
 
@@ -58,8 +77,7 @@ class RewardPageState extends State<RewardPage> {
                   child: reward == null
                       ? ListView()
                       : ListView(children: [
-                          Image.network(reward?.image ?? "",
-                              height: reward?.image != null ? 280 : 0, fit: BoxFit.cover),
+                          Image.network(reward?.image ?? "", height: reward?.image != null ? 280 : 0, fit: BoxFit.cover),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Column(children: [
@@ -73,8 +91,13 @@ class RewardPageState extends State<RewardPage> {
                                 children: [
                                   Icon(Icons.attach_money),
                                   SizedBox(width: 8.0),
-                                  Column(
-                                    children: [Text("Valor"), Text("7000")],
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Align(alignment: Alignment.centerLeft, child: Text("Valor")),
+                                        Align(alignment: Alignment.centerLeft, child: Text("7000")),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -83,8 +106,13 @@ class RewardPageState extends State<RewardPage> {
                                 children: [
                                   Icon(Icons.date_range),
                                   SizedBox(width: 8.0),
-                                  Column(
-                                    children: [Text("Participa hasta"), Text("10/05/2019")],
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Align(alignment: Alignment.centerLeft, child: Text("Participa hasta")),
+                                        Align(alignment: Alignment.centerLeft, child: Text("7000")),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -94,11 +122,16 @@ class RewardPageState extends State<RewardPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.all(10.0),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BrandsPage()),
+                      );
+                    },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     color: Theme.of(context).accentColor,
                     child: Text(

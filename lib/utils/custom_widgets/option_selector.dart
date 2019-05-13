@@ -10,8 +10,7 @@ class OptionSelector extends StatelessWidget {
   final String optionSelected;
   final Function(dynamic) onSelected;
 
-  const OptionSelector(
-      {@required this.options, @required this.optionSelected, @required this.onSelected});
+  const OptionSelector({@required this.options, @required this.optionSelected, @required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,7 @@ class OptionSelector extends StatelessWidget {
                   child: FlatButton(
                       onPressed: () => onSelected(option),
                       child: Text(option.toString(), textAlign: TextAlign.center),
-                      textColor:
-                          option == optionSelected ? Theme.of(context).accentColor : Colors.grey[400]),
+                      textColor: option == optionSelected ? Theme.of(context).accentColor : Colors.grey[400]),
                 ),
               ),
         )

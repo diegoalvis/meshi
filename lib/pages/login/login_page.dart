@@ -13,6 +13,7 @@ import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/localiztions.dart';
 
+
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
@@ -64,7 +65,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
           break;
         case User.BASIC_USER:
           Navigator.of(context).pushReplacementNamed(FORM_ROUTE);
-
           break;
         case User.ADVANCED_USER:
           Navigator.of(context).pushReplacementNamed(HOME_ROUTE);

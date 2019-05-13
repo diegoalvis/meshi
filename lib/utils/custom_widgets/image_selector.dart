@@ -7,9 +7,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meshi/data/api/ServiceController.dart';
+import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageSelector extends StatelessWidget {
   final Function(File image) onImageSelected;
@@ -69,7 +68,7 @@ class ImageSelector extends StatelessWidget {
                           ? DecoratedBox(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                image: NetworkImage(ServiceController.BASE_URL + "/images/" + image),
+                                image: NetworkImage(BaseApi.BASE_URL_DEV + "/images/" + image),
                                 fit: BoxFit.cover,
                               )),
                               child: GestureDetector(

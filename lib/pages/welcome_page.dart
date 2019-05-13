@@ -29,7 +29,7 @@ class WelcomePage extends StatelessWidget with InjectorWidgetMixin {
               child: Container(
                 height: 200.0,
                 width: 200.0,
-                color: user?.images?.first != null ? Colors.transparent : Colors.grey[300],
+                color: userImage != null ? Colors.transparent : Colors.grey[300],
                 child: userImage != null ? Image.network(BaseApi.BASE_URL_DEV + "/images/" + userImage, fit: BoxFit.cover) : Icon(Icons.add_a_photo),
               ),
             ),

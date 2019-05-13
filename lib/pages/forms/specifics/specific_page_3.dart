@@ -12,8 +12,10 @@ import 'package:meshi/utils/localiztions.dart';
 
 class SpecificsFormPageThree extends StatelessWidget with FormSection {
 
+  bool infoComplete;
+
   @override
-  bool isInfoComplete() => true;
+  bool isInfoComplete() => infoComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
               initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
+                infoComplete = deepening?.clothingStyle != null;
                 return ListView.separated(
                   itemCount: DressStyle.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),

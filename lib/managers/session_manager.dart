@@ -4,6 +4,7 @@
  */
 
 import 'dart:convert';
+import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,8 +18,6 @@ class SessionManager {
   String _fbUserId = "10219787681781369";
   String _fbToken =
       "EAADuaK7hfRIBAMkKI0yEfUUOCEgAwLSqz39hS7pcjtXP6gZB0rXQ5ZAZAiOJiZC0Fv3G8Y4ZAtPC2IGJBbHsMd06YZAnKb2EyfVIlIZAoNzZCoYUo1OstAHN6MsZA8VFtt9ItXoePXKxfUQcZCqW4Y3mt1rvK8VcGLCaCD5pRuhoaYL3lN8J0dIPqRRlUJHPy8ifgZD";
-  String _authToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzZXIiLCJpYXQiOjE1NTczNzIzOTR9.2wyx4EiP4X5Q5OlwaWF7ERJea1c1VoLoo5Kkv2Aq0hM";
 
   SharedPreferences _preferences;
 
@@ -37,7 +36,6 @@ class SessionManager {
   Future<User> initUser() {
     return preferences.then((prefs) {
       try {
-        _authToken = prefs.getString("authToken");
         _fbToken = prefs.getString("fbToken");
         _fbUserId = prefs.getString("fbUserId");
         user = User.fromJson(jsonDecode(prefs.getString("user")));
@@ -53,12 +51,6 @@ class SessionManager {
       this.user = user;
       preferences.then((prefs) => prefs.setString("user", jsonEncode(user.toJson())));
     }
-  }
-
-  Future<String> get token async {
-    final prefs = await preferences;
-    String tk = prefs.getString("token");
-    return "Bearer $tk";
   }
 
   void setToken(String value) async {
@@ -140,11 +132,15 @@ class SessionManager {
     _fbToken = value;
   }
 
-  String get authToken => _authToken;
+  Future<String> get authToken async {
+    final prefs = await preferences;
+    String tk = prefs.getString("authToken");
+    return "Bearer $tk";
+  }
 
-  set authToken(String value) {
-    preferences.then((prefs) => prefs.setString("authToken", value));
-    _authToken = value;
+  void setAuhToken(String authToken) async {
+    final prefs = await preferences;
+    await prefs.setString("authToken", authToken);
   }
 
   String get fbUserId => _fbUserId;

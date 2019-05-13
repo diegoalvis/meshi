@@ -15,7 +15,7 @@ class UserRepository {
 
   UserRepository(this._session, this._api);
 
-  /// Fetches user data
+  /// Fetch user data
   Future<bool> fetchUserData() {
     return _api.fetchUserData().then((response) {
       _session.saveUser(response.data.user);
@@ -27,7 +27,7 @@ class UserRepository {
   /// otherwise it creates a new record.
   Future<bool> loginUser(String id) async {
     return _api.loginUser(id).then((response) {
-      _session.authToken = response.data.token;
+      _session.setAuhToken(response.data.token);
       _session.saveUser(response.data.user);
       return response.success;
     }).catchError((error) {
@@ -38,8 +38,11 @@ class UserRepository {
   /// Updates the user basic info
   Observable<bool> updateUserBasicInfo(User user) {
     return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
-      _session.saveUser(user);
-      return response.success;
+      if (response?.success == true) {
+        user.state = User.BASIC_USER;
+        _session.saveUser(user);
+      }
+      return response?.success ?? false;
     }).handleError((error) {
       return Observable.error(error.toString());
     });
@@ -48,10 +51,11 @@ class UserRepository {
   /// Updates the user advanced info
   Observable<bool> updateUserAdvancedInfo(User user) {
     return Observable.fromFuture(_api.updateUserAdvancedInfo(user)).map((response) {
-      if (response.success) {
-        _session.saveUser(response.data.user);
+      if (response?.success == true) {
+        user.state = User.ADVANCED_USER;
+        _session.saveUser(user);
       }
-      return response.success;
+      return response?.success ?? false;
     }).handleError((error) {
       return Observable.error(error.toString());
     });

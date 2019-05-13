@@ -16,6 +16,7 @@ class User {
   static const String NEW_USER = "new";
   static const String BASIC_USER = "basic";
   static const String ADVANCED_USER = "advanced";
+  static const String DISABLED_USER = "disabled";
 
   int id;
   String createdDate;

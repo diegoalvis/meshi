@@ -30,7 +30,7 @@ class HomeBlocProvider extends InheritedWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  HomePageState createState() => new HomePageState(HomeBloc(null, null));
+  HomePageState createState() => new HomePageState(HomeBloc(null));
 }
 
 class HomePageState extends State<HomePage> {
@@ -39,7 +39,7 @@ class HomePageState extends State<HomePage> {
 
   // TODO test purposes
   List<HomeSection> homePages = [InterestsMainPage(), RewardPage(), ProfilePage(), ProfilePage()];
-  HomeSection _currentPage = ProfilePage();
+  HomeSection _currentPage = InterestsMainPage();
 
   HomePageState(this._bloc);
 

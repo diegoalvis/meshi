@@ -10,45 +10,46 @@ const Map<String, List<int>> FormSections = {
 };
 
 const List<String> YesNoOptions = [
-  "Si",
-  "No",
+  "yes",
+  "no",
 ];
 
 const List<String> GenericFormOptions1 = [
-  "Si",
-  "No",
-  "Ocasionalmente",
-];
-
-const List<String> GenericFormOptions2 = [
-  "Si",
-  "No",
-  "No si es ocasionalmente",
+  "yes",
+  "no",
+  "sporadically",
 ];
 
 const List<String> GenericFormOptions3 = [
-  "Si",
-  "No",
-  "No he decidido",
-];
-
-const List<String> GenericFormOptions4 = [
-  "Si, a corto plazo",
-  "Si, a largo plazo",
+  "yes",
+  "no",
+  "maybe",
 ];
 
 const List<String> EducationalLevels = [
-  "Bachiller",
+  /*
+    "Bachiller",
   "Tecnico",
   "Tecnologo",
   "Profesional",
   "Posgrado",
+   */
+  "bachelor",
+  "technical",
+  "technologist",
+  "professional",
+  "postgraduate",
 ];
 
 const List<String> BodyShapeList = [
+  /*
   "Delgad@",
   "Medio",
   "Grande",
+   */
+  "thin",
+  "medium",
+  "big",
 ];
 
 const List<String> DressStyle = [
@@ -80,17 +81,28 @@ const List<String> CoupleActivities = [
 ];
 
 const List<String> ImportanceLevels = [
+  /*
   "Muy importante",
   "Importante",
   "No es crucial o decisiva",
   "Nada importante",
+  */
+  "important",
+  "normal",
+  "nothing",
 ];
 
 const List<String> PlaceType = [
+  /*
   "Refinados",
   "Convencionales",
   "Sencillos",
   "Cualquiera",
+  */
+  "refined",
+  "conventional",
+  "simple",
+  "any",
 ];
 
 const List<String> RelevantTopics = [
@@ -104,17 +116,26 @@ const List<String> RelevantTopics = [
   "MUSICA",
 ];
 
+
+const List<String> PoliticIdeology = [
+  "left",
+  "center",
+  "right",
+  "nothing",
+];
+/*
 const List<String> PoliticIdeology = [
   "Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.",
   "Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país",
   "Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.",
   "No tengo ideología política",
 ];
+*/
 
 const List<String> MusicalGenre = [
-  "Urbano",
-  "Pop",
-  "Rock",
-  "Salsa",
-  "Crossover",
+  "urban",
+  "pop",
+  "rock",
+  "salsa",
+  "crossover",
 ];

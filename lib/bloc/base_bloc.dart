@@ -10,10 +10,9 @@ import 'package:rxdart/rxdart.dart';
 class BaseBloc {
 
   // Inject
-  UserRepository repository;
   SessionManager session;
 
-  BaseBloc(this.repository, this.session);
+  BaseBloc(this.session);
 
   final errorSubject = PublishSubject<String>();
   final successSubject = PublishSubject<String>();
