@@ -10,7 +10,7 @@ import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
 class HabitsFormPageOne extends StatelessWidget with FormSection {
 

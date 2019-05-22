@@ -6,12 +6,14 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/bloc/profile_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
+import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -109,7 +111,8 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           Align(
             alignment: Alignment.centerRight,
             child: FlatButton(
-              onPressed: () => Navigator.of(context).pushNamed(REGISTER_ROUTE),
+              onPressed: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
               child: Text("EDITAR", style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),

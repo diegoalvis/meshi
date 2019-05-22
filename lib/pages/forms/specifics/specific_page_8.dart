@@ -9,9 +9,9 @@ import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
 class SpecificsFormPageEight extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -24,9 +24,7 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(
-            alignment: Alignment.centerLeft,
-            child: Text("¿Cuáles son los temas de mayor interés para ti?\nElige 3.")),
+        Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu ideología política?")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -35,45 +33,23 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
               initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
-                infoComplete = deepening?.topics?.length == 3;
+                infoComplete = deepening?.politics != null;
                 return ListView.separated(
-                  itemCount: RelevantTopics.length,
+                  itemCount: UserPolitics.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = RelevantTopics[index];
-                        var hold = deepening?.topics ?? [];
-                        if (hold.contains(selected)) {
-                          hold.remove(selected);
-                        } else {
-                          if (hold.length == 3) {
-                            hold.removeAt(0);
-                          }
-                          hold.add(selected);
-                        }
-                        deepening.topics = hold;
+                        deepening?.politics = enumValue(UserPolitics.values[index]);
                         bloc.updateDeepening(deepening);
                       },
-                      title: Row(
-                        children: <Widget>[
-                          Icon(
-                              deepening?.topics?.contains(RelevantTopics[index]) == true
-                                  ? Icons.check
-                                  : null,
-                              color: deepening?.topics?.contains(RelevantTopics[index]) == true
-                                  ? Theme.of(context).accentColor
-                                  : Colors.black),
-                          SizedBox(width: 5),
-                          Text(
-                            RelevantTopics[index],
-                            style: TextStyle(
-                                color: deepening?.topics?.contains(RelevantTopics[index]) == true
-                                    ? Theme.of(context).accentColor
-                                    : Colors.black),
-                          ),
-                        ],
+                      title: Text(
+                        strings.getEnumDisplayName(enumValue(UserPolitics.values[index])),
+                        style: TextStyle(
+                          color: (deepening?.politics == enumValue(UserPolitics.values[index])
+                              ? Theme.of(context).accentColor
+                              : Colors.black),
+                        ),
                       ),
                     );
                   },

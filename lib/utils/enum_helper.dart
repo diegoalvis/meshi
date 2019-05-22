@@ -4,6 +4,4 @@
  */
 
 
-
-String enumName(Object o) => o.toString().split('.').last;
-
+String enumValue(Object o) => o.toString().split('.').last;

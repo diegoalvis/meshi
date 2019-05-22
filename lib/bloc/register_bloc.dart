@@ -14,11 +14,14 @@ import 'package:rxdart/rxdart.dart';
 
 class RegisterBloc extends BaseBloc {
   final _userSubject = PublishSubject<User>();
+
+  final int doWhenFinish;
+
   Stream<User> get userStream => _userSubject.stream;
 
   UserRepository repository;
 
-  RegisterBloc(this.repository, session) : super(session);
+  RegisterBloc(this.repository, session, this.doWhenFinish) : super(session);
 
   @override
   dispose() {
@@ -112,9 +115,11 @@ class RegisterBloc extends BaseBloc {
     progressSubject.sink.add(false);
   }
 
-  Observable<bool> updateUseInfo() {
+  Observable<int> updateUseInfo() {
     progressSubject.sink.add(true);
-    return repository.updateUserBasicInfo(session.user).handleError((error) {
+    return repository.updateUserBasicInfo(session.user).map((success) {
+      if (success) return doWhenFinish;
+    }).handleError((error) {
       errorSubject.sink.add(error.toString());
     }).doOnEach((data) => progressSubject.sink.add(false));
   }

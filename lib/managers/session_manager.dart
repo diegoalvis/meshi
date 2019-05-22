@@ -4,7 +4,6 @@
  */
 
 import 'dart:convert';
-import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

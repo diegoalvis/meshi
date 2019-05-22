@@ -7,9 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
-import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
 class SpecificsFormPageNine extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -24,7 +23,7 @@ class SpecificsFormPageNine extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu ideología política?")),
+        Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu género musical favorito?")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -33,23 +32,22 @@ class SpecificsFormPageNine extends StatelessWidget with FormSection {
               initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
-                infoComplete = deepening?.politics != null;
+                infoComplete = deepening?.music != null;
                 return ListView.separated(
-                  itemCount: UserPolitics.values.length,
+                  itemCount: UserMusic.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       onTap: () {
-                        deepening?.politics = enumName(UserPolitics.values[index]);
+                        deepening?.music = enumValue(UserMusic.values[index]);
                         bloc.updateDeepening(deepening);
                       },
                       title: Text(
-                        enumName(UserPolitics.values[index]),
+                        strings.getEnumDisplayName(enumValue(UserMusic.values[index])),
                         style: TextStyle(
-                          color: (deepening?.politics == enumName(UserPolitics.values[index])
-                              ? Theme.of(context).accentColor
-                              : Colors.black),
-                        ),
+                            color: (deepening?.music == enumValue(UserMusic.values[index])
+                                ? Theme.of(context).accentColor
+                                : Colors.black)),
                       ),
                     );
                   },

@@ -8,7 +8,6 @@ import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/habits.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FormBloc extends BaseBloc {

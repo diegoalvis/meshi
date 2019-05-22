@@ -7,8 +7,6 @@ import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/models/reward_model.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
-import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RewardBloc extends BaseBloc {

@@ -13,7 +13,7 @@ import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
 class BasicFormPageFour extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -39,12 +39,12 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
             Container(alignment: Alignment.centerLeft, child: Text("¿Que contextura fisica prefieres para tu pareja?")),
             SizedBox(height: 20),
             Row(
-                children: UserShape.values.map((value) => enumName(value)).map((item) {
+                children: UserShape.values.map((value) => enumValue(value)).map((item) {
               return Expanded(
                 flex: item.length,
                 child: FlatButton(
                     onPressed: () => bloc.updateBodyShapePreferred(item),
-                    child: Text(item),
+                    child: Text(strings.getEnumDisplayName(item)),
                     textColor: snapshot?.data?.bodyShapePreferred?.contains(item) == true
                         ? Theme.of(context).accentColor
                         : Colors.grey[400]),

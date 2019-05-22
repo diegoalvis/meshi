@@ -5,7 +5,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../strings.dart';
+import '../enum_helper.dart';
+import '../localiztions.dart';
 
 class OptionSelector extends StatelessWidget {
   final List<Object> options;
@@ -16,17 +17,17 @@ class OptionSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     List<Widget> widgetListOptions = options
         .map<Widget>(
           (option) => Expanded(
                 // TODO: strings.enumName(option)
-                flex: enumName(option).length ~/ (options.length + 2),
+                flex: strings.getEnumDisplayName(enumValue(option)).length ~/ (strings.getEnumDisplayName(enumValue(option)).length + 2),
                 child: Container(
                   child: FlatButton(
-                      onPressed: () => onSelected(enumName(option)),
-                      // TODO: strings.enumName(option)
-                      child: Text(enumName(option), textAlign: TextAlign.center),
-                      textColor: option == optionSelected ? Theme.of(context).accentColor : Colors.grey[400]),
+                      onPressed: () => onSelected(enumValue(option)),
+                      child: Text(strings.getEnumDisplayName(enumValue(option)), textAlign: TextAlign.center),
+                      textColor: enumValue(option) == optionSelected ? Theme.of(context).accentColor : Colors.grey[400]),
                 ),
               ),
         )

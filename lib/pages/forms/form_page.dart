@@ -18,14 +18,14 @@ import 'package:meshi/pages/forms/basic/basic_page_4.dart';
 import 'package:meshi/pages/forms/habits/habits_page_1.dart';
 import 'package:meshi/pages/forms/habits/habits_page_2.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_1.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_10.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_9.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_2.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_3.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_4.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_5.dart';
+import 'package:meshi/pages/forms/specifics/specific_page_6.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_7.dart';
 import 'package:meshi/pages/forms/specifics/specific_page_8.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_9.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
@@ -80,10 +80,10 @@ class _FormPageState extends State<FormContainer> {
     SpecificsFormPageThree(), // 9
     SpecificsFormPageFour(), // 10
     SpecificsFormPageFive(), // 11
-    SpecificsFormPageSeven(), // 12
-    SpecificsFormPageEight(), // 13
-    SpecificsFormPageNine(), // 14
-    SpecificsFormPageTen(), // 15
+    SpecificsFormPageSix(), // 12
+    SpecificsFormPageSeven(), // 13
+    SpecificsFormPageEight(), // 14
+    SpecificsFormPageNine(), // 15
   ];
 
   _FormPageState(this._bloc);

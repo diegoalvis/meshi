@@ -9,9 +9,9 @@ import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
 
 class SpecificsFormPageSeven extends StatelessWidget with FormSection {
+
   bool infoComplete;
 
   @override
@@ -24,7 +24,9 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("¿A qué tipo de lugares te gusta ir?")),
+        Container(
+            alignment: Alignment.centerLeft,
+            child: Text("¿Cuáles son los temas de mayor interés para ti?\nElige 3.")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -33,22 +35,45 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
               initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
-                infoComplete = deepening?.places != null;
+                infoComplete = deepening?.topics?.length == 3;
                 return ListView.separated(
-                  itemCount: UserPlaces.values.length,
+                  itemCount: RelevantTopics.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        deepening.places = enumName(UserPlaces.values[index]);
+                        String selected = RelevantTopics[index];
+                        var hold = deepening?.topics ?? [];
+                        if (hold.contains(selected)) {
+                          hold.remove(selected);
+                        } else {
+                          if (hold.length == 3) {
+                            hold.removeAt(0);
+                          }
+                          hold.add(selected);
+                        }
+                        deepening.topics = hold;
                         bloc.updateDeepening(deepening);
                       },
-                      title: Text(
-                        enumName(UserPlaces.values[index]),
-                        style: TextStyle(
-                            color: (deepening?.places == enumName(UserPlaces.values[index])
-                                ? Theme.of(context).accentColor
-                                : Colors.black)),
+                      title: Row(
+                        children: <Widget>[
+                          Icon(
+                              deepening?.topics?.contains(RelevantTopics[index]) == true
+                                  ? Icons.check
+                                  : null,
+                              color: deepening?.topics?.contains(RelevantTopics[index]) == true
+                                  ? Theme.of(context).accentColor
+                                  : Colors.black),
+                          SizedBox(width: 5),
+                          Text(
+                            RelevantTopics[index],
+                            style: TextStyle(
+                                color: deepening?.topics?.contains(RelevantTopics[index]) == true
+                                    ? Theme.of(context).accentColor
+                                    : Colors.black),
+                          ),
+                        ],
                       ),
                     );
                   },

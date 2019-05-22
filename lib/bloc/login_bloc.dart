@@ -30,8 +30,7 @@ class LoginBloc extends BaseBloc {
     }).whenComplete(() {
       progressSubject.sink.add(false);
     }).then((success) {
-      //TODO remover esto
-      //session.user.state = User.NEW_USER;
+      session.user.state = User.NEW_USER;
       _userSubject.sink.add(session.user);
     });
     */
@@ -50,7 +49,6 @@ class LoginBloc extends BaseBloc {
         progressSubject.sink.add(false);
         break;
       case FacebookLoginStatus.loggedIn:
-        // TODO: we must save this token using the user preferences
         final String fbId = facebookLoginResult.accessToken.userId;
         session.fbToken = facebookLoginResult.accessToken.token;
         session.fbUserId = facebookLoginResult.accessToken.userId;
@@ -63,6 +61,7 @@ class LoginBloc extends BaseBloc {
         });
         break;
     }
+
   }
 
   @override

@@ -10,7 +10,7 @@ import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
 class BasicFormPageTwo extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -39,11 +39,11 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
                 infoComplete = snapshot.data?.bodyShape != null && snapshot.data?.height != null;
                 return Row(
                   //TODO: (value) => strings.getEnum(enumName(value))
-                    children: UserShape.values.map((value) => enumName(value)).map((item) {
+                    children: UserShape.values.map((value) => enumValue(value)).map((item) {
                   return Expanded(
                     child: FlatButton(
                         onPressed: () => bloc.shape = item,
-                        child: Text(item),
+                        child: Text(strings.getEnumDisplayName(item)),
                         textColor: snapshot?.data?.bodyShape == item ? Theme.of(context).accentColor : Colors.grey[400]),
                   );
                 }).toList());

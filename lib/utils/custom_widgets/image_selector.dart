@@ -28,7 +28,6 @@ class ImageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-
     return Expanded(
       child: GestureDetector(
         onTap: () => showDialog(

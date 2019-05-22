@@ -10,7 +10,7 @@ import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
 class BasicFormPageOne extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -39,11 +39,11 @@ class BasicFormPageOne extends StatelessWidget with FormSection {
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () => bloc.eduLevel = enumName(UserEducation.values[index]),
+                      onTap: () => bloc.eduLevel = enumValue(UserEducation.values[index]),
                       title: Text(
-                        enumName(UserEducation.values[index]),
+                        strings.getEnumDisplayName(enumValue(UserEducation.values[index])),
                         style: TextStyle(
-                            color: (snapshot?.data?.eduLevel == enumName(UserEducation.values[index])
+                            color: (snapshot?.data?.eduLevel == enumValue(UserEducation.values[index])
                                 ? Theme.of(context).accentColor
                                 : Colors.black)),
                       ),

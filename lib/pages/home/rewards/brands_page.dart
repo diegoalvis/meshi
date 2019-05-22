@@ -62,12 +62,19 @@ class BrandPageState extends State<BrandContainer> {
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return Scaffold(
+      appBar: AppBar(title: Text("Convenios")),
       body: SafeArea(
-        minimum: const EdgeInsets.all(24.0),
         child: showProgress
             ? Center(child: CircularProgressIndicator())
             : Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Text(
+                      "Reclama tu bono en los siguientes establecimientso",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: _fetchBrands,
@@ -76,14 +83,17 @@ class BrandPageState extends State<BrandContainer> {
                             ? Text("ola")
                             : GridView.count(
                                 crossAxisCount: 2,
-                                children: List.generate(brands.length, (index) =>
-                                    DecoratedBox(
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(BaseApi.BASE_URL_DEV + "/images/" + brands?.elementAt(index)?.image ?? ""),
+                                children: List.generate(
+                                    brands.length * 2,
+                                    (index) => DecoratedBox(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                            image: NetworkImage(
+                                                'http://www.ticketfactura.com/wp-content/uploads/2018/07/Facturacion-crepes-y-wafles.jpg' ??
+                                                    ""),
                                             fit: BoxFit.cover,
                                           )),
-                                    )
+                                        )
                                     /*
                                         Image.network(
                                         BaseApi.BASE_URL_DEV + "/images/" + brands?.elementAt(index)?.image ?? "",
@@ -91,6 +101,40 @@ class BrandPageState extends State<BrandContainer> {
                                        */
                                     ),
                               ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => SimpleDialog(
+                              children: <Widget>[
+                                ListTile(title: Text("Comunicate con nosotros para saber como reclamar tu premio")),
+                                ListTile(
+                                    leading: Icon(Icons.phone),
+                                    title: Text("31234567890"),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    }),
+                                ListTile(
+                                    leading: Icon(Icons.email),
+                                    title: Text("info@meshi.com"),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    }),
+                              ],
+                            ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Text("No tengo esos establecimientos en mi ciudad", textAlign: TextAlign.center),
+                          SizedBox(width: 8.0),
+                          Icon(Icons.info_outline),
+                        ],
                       ),
                     ),
                   ),

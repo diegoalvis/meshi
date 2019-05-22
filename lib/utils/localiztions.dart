@@ -84,6 +84,8 @@ class MyLocalizations {
 
   String get educationalLevelCaption => _localizedSingleValues[locale.languageCode]['educational_level_caption'];
 
+  String getEnumDisplayName(String enumValue) => _localizedEnumValues[locale.languageCode][enumValue] ?? enumValue;
+
   // string-arrays
   List<String> get homeSections => _localizedMultiValues[locale.languageCode]['home_sections'];
 
@@ -164,6 +166,72 @@ class MyLocalizations {
     /* Spanish text resources */
     'es': {
       'home_sections': ['Mis intereses', 'Participa por una cita real', 'Haste premiun', 'Ver perfil', 'Ajustes'],
+    }
+  };
+
+  static Map<String, Map<String, String>> _localizedEnumValues = {
+    /* English text resources */
+    'en': {
+      'yes': 'Yes',
+      'no': 'No',
+      'sporadically': 'Sporadically',
+      'bachelor': 'Bachelor',
+      'technical': 'Technical',
+      'technologist': 'Technologist',
+      'professional': 'Professional',
+      'postgraduate': 'Postgraduate',
+      'thin': 'Thin',
+      'medium': 'Medium',
+      'big': 'Big',
+      'maybe': 'Maybe',
+      'important': 'Important',
+      'normal': 'Normal',
+      'nothing': 'Nothing',
+      'refined': 'Refined',
+      'conventional': 'Conventional',
+      'simple': 'Simple',
+      'any': 'Any',
+      'left': 'Left',
+      'center': 'Center',
+      'right': 'Right',
+      'nothing': 'Nothing',
+      'urban': 'Urban',
+      'pop': 'Pop',
+      'rock': 'Rock',
+      'salsa': 'Salsa',
+      'crossover': 'Crossover',
+    },
+
+    /* Spanish text resources */
+    'es': {
+      'yes': 'Si',
+      'no': 'No',
+      'sporadically': 'Esporadicamente',
+      'bachelor': 'Bachiller',
+      'technical': 'Tecnico',
+      'technologist': 'Tecnologo',
+      'professional': 'Profesional',
+      'postgraduate': 'Postgrado',
+      'thin': 'Delogad@',
+      'medium': 'Madian@',
+      'big': 'Grande',
+      'maybe': 'No he decidico',
+      'important': 'Importante',
+      'normal': 'Normal',
+      'nothing': 'No es importante',
+      'refined': 'Refinados',
+      'conventional': 'Convencionales',
+      'simple': 'Sencillos',
+      'any': 'Cualquiera',
+      'left': 'Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país',
+      'center': 'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
+      'right': 'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
+      'nothing': 'No es importante',
+      'urban': 'Urbano',
+      'pop': 'Pop',
+      'rock': 'Rock',
+      'salsa': 'Salsa',
+      'crossover': 'Crossover',
     }
   };
 }

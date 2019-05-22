@@ -39,7 +39,7 @@ class UserRepository {
   Observable<bool> updateUserBasicInfo(User user) {
     return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
       if (response?.success == true) {
-        user.state = User.BASIC_USER;
+        if(user.state != User.ADVANCED_USER) user.state = User.BASIC_USER;
         _session.saveUser(user);
       }
       return response?.success ?? false;

@@ -3,11 +3,13 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BaseBloc {
+
+  static const int POP_PAGE = 1;
+  static const int REPLACE_PAGE = 2;
 
   // Inject
   SessionManager session;

@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/pages/base/form_section.dart';
 import 'package:meshi/pages/forms/form_page.dart';
+import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/strings.dart';
+import 'package:meshi/utils/enum_helper.dart';
 
-class SpecificsFormPageTen extends StatelessWidget with FormSection {
+class SpecificsFormPageSix extends StatelessWidget with FormSection {
   bool infoComplete;
 
   @override
@@ -23,7 +24,7 @@ class SpecificsFormPageTen extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu género musical favorito?")),
+        Container(alignment: Alignment.centerLeft, child: Text("¿A qué tipo de lugares te gusta ir?")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -32,20 +33,20 @@ class SpecificsFormPageTen extends StatelessWidget with FormSection {
               initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
-                infoComplete = deepening?.music != null;
+                infoComplete = deepening?.places != null;
                 return ListView.separated(
-                  itemCount: UserMusic.values.length,
+                  itemCount: UserPlaces.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       onTap: () {
-                        deepening?.music = enumName(UserMusic.values[index]);
+                        deepening.places = enumValue(UserPlaces.values[index]);
                         bloc.updateDeepening(deepening);
                       },
                       title: Text(
-                        enumName(UserMusic.values[index]),
+                        strings.getEnumDisplayName(enumValue(UserPlaces.values[index])),
                         style: TextStyle(
-                            color: (deepening?.music == enumName(UserMusic.values[index])
+                            color: (deepening?.places == enumValue(UserPlaces.values[index])
                                 ? Theme.of(context).accentColor
                                 : Colors.black)),
                       ),

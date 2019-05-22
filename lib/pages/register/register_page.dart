@@ -6,6 +6,7 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/bloc/register_bloc.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
@@ -17,9 +18,14 @@ import 'package:meshi/pages/register/basic_info_page_3.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class RegisterPage extends StatelessWidget with InjectorWidgetMixin {
+
+  final doWhenFinish;
+
+  const RegisterPage({Key key, this.doWhenFinish}) : super(key: key);
+
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = RegisterBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
+    final bloc = RegisterBloc(injector.get<UserRepository>(), injector.get<SessionManager>(), doWhenFinish);
     return RegisterContainer(bloc: bloc);
   }
 }
@@ -156,8 +162,10 @@ class _RegisterPageState extends State<RegisterContainer> {
                                         currentPageIndex++;
                                         if (currentPageIndex > pages.length) {
                                           currentPageIndex = pages.length;
-                                          _bloc.updateUseInfo().listen((success) {
-                                            if (success) {
+                                          _bloc.updateUseInfo().listen((doWhenFinish) {
+                                            if (doWhenFinish == BaseBloc.POP_PAGE) {
+                                              Navigator.of(this.context).pop();
+                                            } else {
                                               Navigator.of(this.context).pushReplacementNamed(WELCOME_ROUTE);
                                             }
                                           }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
