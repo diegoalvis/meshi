@@ -13,8 +13,9 @@ import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
-import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/pages/home/interests/my_insterests_page.dart';
+import 'package:meshi/pages/home/interests/interests_main_page.dart';
 
 void main() {
   runApp(new App());
@@ -39,7 +40,8 @@ class App extends StatelessWidget {
             const Locale('es', ''),
           ],
           theme: buildTheme(),
-          home: CompatibilityIndicator(),
+          home: LoginPage(),
+          initialRoute: INTERESTS_MAIN_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
@@ -47,6 +49,8 @@ class App extends StatelessWidget {
             FORM_ROUTE: (BuildContext context) => FormPage(),
             WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
             BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
+            MY_INTERESTS_ROUTE: (BuildContext context) => MyInterestsPage(),
+            INTERESTS_MAIN_ROUTE: (BuildContext context) => InterestsMainPage(),
           },
         ));
   }
@@ -59,6 +63,8 @@ const String REGISTER_ROUTE = '/register';
 const String FORM_ROUTE = '/form';
 const String WELCOME_ROUTE = "/welcome";
 const String BRANDS_ROUTE = "/brands";
+const String MY_INTERESTS_ROUTE = "/my-interests";
+const String INTERESTS_MAIN_ROUTE = "/interests";
 
 // Themes
 ThemeData buildTheme() => ThemeData(

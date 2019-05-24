@@ -40,7 +40,15 @@ class MutualPage extends StatelessWidget {
                     ])
                   ],
                 ),
-              )
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.all(5.0),
+                  child: Icon(Icons.close, size: 17.0, color: Theme.of(context).disabledColor),
+                ),
+              ),
             ]),
           );
         });

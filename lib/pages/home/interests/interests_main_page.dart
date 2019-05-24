@@ -8,6 +8,9 @@ import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/pages/home/interests/mutual_page.dart';
+import 'package:meshi/pages/home/interests/my_insterests_page.dart';
+import 'package:meshi/pages/home/interests/their_interests.dart';
 
 import 'mutual_page.dart';
 
@@ -50,7 +53,7 @@ class InterestsMainPageState extends State<InterestsMainPage> {
 
   InterestsMainPageState(this._bloc);
 
-  List<Widget> interestSPages = [MutualPage()];
+  List<Widget> interestSPages = [MutualPage(), MyInterestsPage()];
   Widget _currentPage = MutualPage();
 
   @override
@@ -62,6 +65,32 @@ class InterestsMainPageState extends State<InterestsMainPage> {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return InterestsBlocProvider(bloc: _bloc, child: _currentPage);
+    return InterestsBlocProvider(
+      bloc: _bloc,
+      child: MaterialApp(
+        home: DefaultTabController(
+            length: 3,
+            child: Scaffold(
+                appBar: AppBar(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    title: Text('Meshi'),
+                    bottom: TabBar(
+                      indicatorColor: Colors.white,
+                      tabs: [
+                        Tab(
+                          text: 'MUTUOS',
+                        ),
+                        Tab(
+                          text: 'ME INTERESA',
+                        ),
+                        Tab(
+                          text: 'LE INTERESO',
+                        ),
+                      ],
+                      isScrollable: false,
+                    )),
+                body: TabBarView(children: [MutualPage(), MyInterestsPage(), TheirInterestsPage()]))),
+      ),
+    );
   }
 }
