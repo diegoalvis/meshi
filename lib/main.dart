@@ -13,6 +13,7 @@ import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/pages/register/register_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
+import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -38,7 +39,7 @@ class App extends StatelessWidget {
             const Locale('es', ''),
           ],
           theme: buildTheme(),
-          home: LoginPage(),
+          home: CompatibilityIndicator(),
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
@@ -59,33 +60,32 @@ const String FORM_ROUTE = '/form';
 const String WELCOME_ROUTE = "/welcome";
 const String BRANDS_ROUTE = "/brands";
 
-
 // Themes
 ThemeData buildTheme() => ThemeData(
-  primaryColor: Color(0xFF5E2531),
-  primaryColorDark: Color(0xFF4B1822),
-  primaryColorLight: Color(0xFF672836),
-  accentColor: Color(0xFF80065E),
-  dividerColor: Color(0xFFCCCCCC),
-  colorScheme: ColorScheme(
-      primary: Color(0xFF5E2531),
-      primaryVariant: Color(0xFF672836),
-      secondary: Color(0xFF80065E),
-      secondaryVariant: Color(0xFF4f0034),
-      surface: Colors.white,
-      background: Colors.white,
-      error: Color(0xFFBA0000),
-      onPrimary: Color(0xFFCDB5AA),
-      onSecondary: Colors.white,
-      onSurface: Color(0xFF505050),
-      onBackground: Color(0xFF303030),
-      onError: Colors.white,
-      brightness: Brightness.dark),
-  fontFamily: "Poppins",
-  textTheme: TextTheme(
-    headline: TextStyle(fontSize: 72.0, fontFamily: 'BettyLavea'),
-    title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-    subhead: TextStyle(fontSize: 14.0, fontFamily: 'BettyLavea'),
-    subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
-  ),
-);
+      primaryColor: Color(0xFF5E2531),
+      primaryColorDark: Color(0xFF4B1822),
+      primaryColorLight: Color(0xFF672836),
+      accentColor: Color(0xFF80065E),
+      dividerColor: Color(0xFFCCCCCC),
+      colorScheme: ColorScheme(
+          primary: Color(0xFF5E2531),
+          primaryVariant: Color(0xFF672836),
+          secondary: Color(0xFF80065E),
+          secondaryVariant: Color(0xFF4f0034),
+          surface: Colors.white,
+          background: Colors.white,
+          error: Color(0xFFBA0000),
+          onPrimary: Color(0xFFCDB5AA),
+          onSecondary: Colors.white,
+          onSurface: Color(0xFF505050),
+          onBackground: Color(0xFF303030),
+          onError: Colors.white,
+          brightness: Brightness.dark),
+      fontFamily: "Poppins",
+      textTheme: TextTheme(
+        headline: TextStyle(fontSize: 72.0, fontFamily: 'BettyLavea'),
+        title: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+        subhead: TextStyle(fontSize: 14.0, fontFamily: 'BettyLavea'),
+        subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
+      ),
+    );
