@@ -5,9 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/pages/register/register_page.dart';
-import 'package:meshi/pages/base/form_section.dart';
+import 'package:meshi/pages/register/advance/form_section.dart';
+import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/custom_widgets/gender_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -62,8 +61,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                         initialDate: snapshot.data?.birthdate ?? DateTime.now(),
                         firstDate: DateTime(1950),
                         lastDate: DateTime.now())
-                    .then<DateTime>(
-                        (DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
+                    .then<DateTime>((DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
@@ -83,8 +81,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                 children: [
                   Expanded(
                       child: Text(strings.self,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Theme.of(context).primaryColor))),
+                          textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryColor))),
                   Expanded(
                     flex: 2,
                     child: GenderSelector(

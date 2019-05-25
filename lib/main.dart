@@ -7,11 +7,11 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
-import 'package:meshi/pages/login/login_page.dart';
-import 'package:meshi/pages/register/register_page.dart';
+import 'package:meshi/pages/login_page.dart';
+import 'package:meshi/pages/register/advance/advanced_register_page.dart';
+import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -43,8 +43,8 @@ class App extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
-            REGISTER_ROUTE: (BuildContext context) => RegisterPage(),
-            FORM_ROUTE: (BuildContext context) => FormPage(),
+            REGISTER_ROUTE: (BuildContext context) => BasicRegisterPage(),
+            FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
             WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
             BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
           },

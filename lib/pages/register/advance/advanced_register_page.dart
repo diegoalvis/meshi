@@ -10,28 +10,29 @@ import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/basic/basic_page_1.dart';
-import 'package:meshi/pages/forms/basic/basic_page_2.dart';
-import 'package:meshi/pages/forms/basic/basic_page_3.dart';
-import 'package:meshi/pages/forms/basic/basic_page_4.dart';
-import 'package:meshi/pages/forms/habits/habits_page_1.dart';
-import 'package:meshi/pages/forms/habits/habits_page_2.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_1.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_9.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_2.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_3.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_4.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_5.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_6.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_7.dart';
-import 'package:meshi/pages/forms/specifics/specific_page_8.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_1.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_2.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_3.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_4.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_5.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_6.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_7.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_8.dart';
+import 'package:meshi/pages/register/advance/specifics/specific_page_9.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class FormPage extends StatelessWidget with InjectorWidgetMixin {
+import 'basic/basic_page_1.dart';
+import 'basic/basic_page_2.dart';
+import 'basic/basic_page_3.dart';
+import 'basic/basic_page_4.dart';
+import 'form_section.dart';
+import 'habits/habits_page_1.dart';
+import 'habits/habits_page_2.dart';
+
+class AdvancedRegisterPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     final bloc = FormBloc(injector.get<UserRepository>(), injector.get<SessionManager>());

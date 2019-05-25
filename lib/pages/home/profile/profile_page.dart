@@ -13,7 +13,7 @@ import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/register/register_page.dart';
+import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -112,7 +112,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
             alignment: Alignment.centerRight,
             child: FlatButton(
               onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
               child: Text("EDITAR", style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),

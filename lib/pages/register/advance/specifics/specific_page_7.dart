@@ -5,12 +5,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/form_page.dart';
+import '../advanced_register_page.dart';
+import '../form_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class SpecificsFormPageThree extends StatelessWidget with FormSection {
+class SpecificsFormPageSeven extends StatelessWidget with FormSection {
 
   bool infoComplete;
 
@@ -25,7 +25,8 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
       children: [
         SizedBox(height: 20),
         Container(
-            alignment: Alignment.centerLeft, child: Text("¿Qué estilo prefieres al momento de vestir?")),
+            alignment: Alignment.centerLeft,
+            child: Text("¿Cuáles son los temas de mayor interés para ti?\nElige 3.")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -34,38 +35,41 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
               initialData: bloc.session.user.deepening,
               builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
                 final deepening = snapshot.data;
-                infoComplete = deepening?.clothingStyle != null;
+                infoComplete = deepening?.topics?.length == 3;
                 return ListView.separated(
-                  itemCount: DressStyle.length,
+                  itemCount: RelevantTopics.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = DressStyle[index];
-                        var hold = snapshot?.data?.clothingStyle ?? [];
+                        String selected = RelevantTopics[index];
+                        var hold = deepening?.topics ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
                         } else {
+                          if (hold.length == 3) {
+                            hold.removeAt(0);
+                          }
                           hold.add(selected);
                         }
-                        deepening.clothingStyle = hold;
+                        deepening.topics = hold;
                         bloc.updateDeepening(deepening);
                       },
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              snapshot?.data?.clothingStyle?.contains(DressStyle[index]) == true
+                              deepening?.topics?.contains(RelevantTopics[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: snapshot?.data?.clothingStyle?.contains(DressStyle[index]) == true
+                              color: deepening?.topics?.contains(RelevantTopics[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            DressStyle[index],
+                            RelevantTopics[index],
                             style: TextStyle(
-                                color: snapshot?.data?.clothingStyle?.contains(DressStyle[index]) == true
+                                color: deepening?.topics?.contains(RelevantTopics[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

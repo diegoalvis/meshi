@@ -8,12 +8,13 @@ import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
-import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/enum_helper.dart';
+import 'package:meshi/utils/localiztions.dart';
+
+import '../advanced_register_page.dart';
+import '../form_section.dart';
 
 class BasicFormPageFour extends StatelessWidget with FormSection {
   bool infoComplete;

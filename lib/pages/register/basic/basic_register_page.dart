@@ -11,17 +11,16 @@ import 'package:meshi/bloc/register_bloc.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/register/basic_info_page_1.dart';
-import 'package:meshi/pages/register/basic_info_page_2.dart';
-import 'package:meshi/pages/register/basic_info_page_3.dart';
+import 'package:meshi/pages/register/advance/form_section.dart';
+import 'package:meshi/pages/register/basic/basic_info_page_1.dart';
+import 'package:meshi/pages/register/basic/basic_info_page_2.dart';
+import 'package:meshi/pages/register/basic/basic_info_page_3.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-class RegisterPage extends StatelessWidget with InjectorWidgetMixin {
-
+class BasicRegisterPage extends StatelessWidget with InjectorWidgetMixin {
   final doWhenFinish;
 
-  const RegisterPage({Key key, this.doWhenFinish}) : super(key: key);
+  const BasicRegisterPage({Key key, this.doWhenFinish}) : super(key: key);
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {

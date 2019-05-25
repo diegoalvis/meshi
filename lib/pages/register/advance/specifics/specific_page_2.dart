@@ -5,13 +5,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
+import '../advanced_register_page.dart';
+import '../form_section.dart';
 
 class SpecificsFormPageTwo extends StatelessWidget with FormSection {
-
   bool infoComplete;
 
   @override
@@ -26,8 +25,7 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Container(
             alignment: Alignment.centerLeft,
-            child: Text(
-                "Escoge tres de estas opciones para determinar qué es lo más importante en tu vida en este momento")),
+            child: Text("Escoge tres de estas opciones para determinar qué es lo más importante en tu vida en este momento")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -59,8 +57,7 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
                       },
                       title: Row(
                         children: <Widget>[
-                          Icon(
-                              deepening?.priorities?.contains(LifeGoals[index]) == true ? Icons.check : null,
+                          Icon(deepening?.priorities?.contains(LifeGoals[index]) == true ? Icons.check : null,
                               color: deepening?.priorities?.contains(LifeGoals[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),

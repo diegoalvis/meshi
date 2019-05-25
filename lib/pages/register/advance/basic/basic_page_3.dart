@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/localiztions.dart';
+
+import '../advanced_register_page.dart';
+import '../form_section.dart';
 
 class BasicFormPageThree extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -25,7 +26,8 @@ class BasicFormPageThree extends StatelessWidget with FormSection {
       stream: bloc.userStream,
       initialData: bloc.session.user,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-        infoComplete = snapshot.data?.income != null && snapshot.data?.minAgePreferred != null && snapshot.data?.maxAgePreferred != null;
+        infoComplete =
+            snapshot.data?.income != null && snapshot.data?.minAgePreferred != null && snapshot.data?.maxAgePreferred != null;
         return Column(
           children: [
             SizedBox(height: 20),

@@ -5,13 +5,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_counter/flutter_counter.dart';
-import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/deepening.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/form_page.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
+
+import '../advanced_register_page.dart';
+import '../form_section.dart';
 
 class SpecificsFormPageOne extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -77,7 +77,8 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te gustaria tener ${deepening?.children != null && (deepening.children  > 0) ? 'mas ' : ''}hijos?"),
+                  child:
+                      Text("¿Te gustaria tener ${deepening?.children != null && (deepening.children > 0) ? 'mas ' : ''}hijos?"),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(

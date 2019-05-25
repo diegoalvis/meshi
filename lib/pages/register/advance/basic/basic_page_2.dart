@@ -6,11 +6,11 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/forms/form_page.dart';
-import 'package:meshi/utils/FormUtils.dart';
-import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/enum_helper.dart';
+import 'package:meshi/utils/localiztions.dart';
+
+import '../advanced_register_page.dart';
+import '../form_section.dart';
 
 class BasicFormPageTwo extends StatelessWidget with FormSection {
   bool infoComplete;
@@ -38,7 +38,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
               builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                 infoComplete = snapshot.data?.bodyShape != null && snapshot.data?.height != null;
                 return Row(
-                  //TODO: (value) => strings.getEnum(enumName(value))
+                    //TODO: (value) => strings.getEnum(enumName(value))
                     children: UserShape.values.map((value) => enumValue(value)).map((item) {
                   return Expanded(
                     child: FlatButton(

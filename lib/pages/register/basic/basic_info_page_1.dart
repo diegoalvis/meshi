@@ -5,8 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/pages/base/form_section.dart';
-import 'package:meshi/pages/register/register_page.dart';
+import 'package:meshi/pages/register/advance/form_section.dart';
+import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
