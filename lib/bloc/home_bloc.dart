@@ -22,6 +22,7 @@ class HomeBloc extends BaseBloc {
   }
 
   void dispose() {
+    super.dispose();
     _categorySelectedSubject.close();
     _userSubject.close();
   }

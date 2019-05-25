@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
+import 'package:meshi/pages/home/rewards/select_partner_page.dart';
 import 'package:meshi/pages/login_page.dart';
 import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
@@ -47,7 +48,8 @@ class App extends StatelessWidget {
             FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
             WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
             BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
-          },
+            SELECT_PARTNER_ROUTE : (BuildContext context) => SelectPartnerPage(),
+        },
         ));
   }
 }
@@ -59,6 +61,7 @@ const String REGISTER_ROUTE = '/register';
 const String FORM_ROUTE = '/form';
 const String WELCOME_ROUTE = "/welcome";
 const String BRANDS_ROUTE = "/brands";
+const String SELECT_PARTNER_ROUTE = "/select_partner";
 
 // Themes
 ThemeData buildTheme() => ThemeData(

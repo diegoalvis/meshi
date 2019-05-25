@@ -13,7 +13,7 @@ import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-import 'brands_page.dart';
+import '../../../main.dart';
 
 class RewardPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
@@ -127,10 +127,7 @@ class RewardPageState extends State<RewardContainer> {
                   alignment: Alignment.centerRight,
                   child: FlatButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BrandsPage()),
-                      );
+                      Navigator.pushNamed(context, SELECT_PARTNER_ROUTE);
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     color: Theme.of(context).accentColor,
