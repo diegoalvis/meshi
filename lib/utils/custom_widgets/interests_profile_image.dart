@@ -72,8 +72,7 @@ class InterestsProfileImage extends StatefulWidget {
   InterestsProfileImage({this.image, this.widget1, this.widget2});
 
   @override
-  State<StatefulWidget> createState() =>
-      InterestsProfileImageState(image: image, widget1: widget1, widget2: widget2);
+  State<StatefulWidget> createState() => InterestsProfileImageState(image: image, widget1: widget1, widget2: widget2);
 }
 
 class InterestsProfileImageState extends State<InterestsProfileImage> {
@@ -87,12 +86,10 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
   InterestsProfileImageState({this.image, this.widget1, this.widget2});
 
   List<Widget> _images = <Widget>[
-    sliderImage(
-        'https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-sm.jpg?bust=1536935086'),
+    sliderImage('https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-sm.jpg?bust=1536935086'),
     sliderImage(
         'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg'),
-    sliderImage(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyrSTCSKG8Uv16A9C3-3pqB1-E15dFVCqrwv61sw_TM7y1TSkp'),
+    sliderImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyrSTCSKG8Uv16A9C3-3pqB1-E15dFVCqrwv61sw_TM7y1TSkp'),
     sliderImage(
         'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg'),
   ];
@@ -100,62 +97,60 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 250.0,
-                floating: false,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
-                  title: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("Ana",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )),
-                  ),
-                  background: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      PageView.builder(
-                          controller: _controller,
-                          physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: 4,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _images[index % _images.length];
-                          }),
-                      Positioned(
-                        bottom: 20.0,
-                        right: 20.0,
-                        child: DotsIndicator(
-                          controller: _controller,
-                          itemCount: 4,
-                          onPageSelected: (int page) {
-                            _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+        body: NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            expandedHeight: 250.0,
+            floating: true,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
+              title: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text("Ana",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    )),
               ),
-              SliverPersistentHeader(
-                delegate: _SliverAppBarDelegate(Column(
-                  children: <Widget>[
-                    this.widget1,
-                    this.widget2,
-                  ],
-                )),
-              )
-            ];
-          },
-          body: Text('')),
-    );
+              background: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  PageView.builder(
+                      controller: _controller,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _images[index % _images.length];
+                      }),
+                  Positioned(
+                    bottom: 20.0,
+                    right: 20.0,
+                    child: DotsIndicator(
+                      controller: _controller,
+                      itemCount: 4,
+                      onPageSelected: (int page) {
+                        _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ];
+      },
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 80),
+          widget1,
+          widget2,
+        ],
+      ),
+    ));
   }
 }
 
@@ -170,27 +165,4 @@ Widget sliderImage(String url) {
       )),
     ),
   );
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._column);
-
-  final Column _column;
-
-  @override
-  double get minExtent => 600;
-  @override
-  double get maxExtent => 600;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      child: _column,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
-  }
 }
