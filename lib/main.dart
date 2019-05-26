@@ -40,7 +40,7 @@ class App extends StatelessWidget {
             const Locale('es', ''),
           ],
           theme: buildTheme(),
-          home: CompatibilityIndicator(),
+          home: SelectPartnerPage(),
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),

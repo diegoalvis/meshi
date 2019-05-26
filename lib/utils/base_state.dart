@@ -1,23 +1,45 @@
 import 'package:equatable/equatable.dart';
+import 'package:meshi/data/api/exceptions/exceptions.dart';
 
-class BaseState extends Equatable{}
-class InitialState extends BaseState{
+abstract class BaseState extends Equatable {
+  BaseState({List props}): super(props);
+}
+
+class InitialState extends BaseState {
   @override
   String toString() => 'state-initial';
 }
-class LoadingState extends BaseState{
+
+class LoadingState extends BaseState {
   @override
   String toString() => 'state-loading';
 }
-class SuccessState<T> extends BaseState{
+
+class SuccessState<T> extends BaseState {
   T data;
+
   SuccessState({this.data});
+
   @override
   String toString() => 'state-success';
 }
-class ErrorState extends BaseState{
-  String msg;
-  ErrorState(this.msg);
+
+class ErrorState extends BaseState {
+  String get msg {
+    if (exception is AuthorizationException) {
+      return "Error al verificar autenticacion.";
+    }
+    if (exception is ConnectivityException) {
+      return "No se pudo establecer la conexion.";
+    }
+
+    return "Ocurrio un error, por favor intentalo mas tarde.";
+  }
+
+  Exception exception;
+
+  ErrorState({this.exception});
+
   @override
   String toString() => 'state-error';
 }
