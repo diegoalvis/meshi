@@ -16,6 +16,7 @@ import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/pages/home/interests/my_insterests_page.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
+import 'package:meshi/pages/interests_profile_page.dart';
 
 void main() {
   runApp(new App());
@@ -41,7 +42,7 @@ class App extends StatelessWidget {
           ],
           theme: buildTheme(),
           home: LoginPage(),
-          initialRoute: INTERESTS_MAIN_ROUTE,
+          initialRoute: INTERESTS_PROFILE_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
@@ -51,6 +52,7 @@ class App extends StatelessWidget {
             BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
             MY_INTERESTS_ROUTE: (BuildContext context) => MyInterestsPage(),
             INTERESTS_MAIN_ROUTE: (BuildContext context) => InterestsMainPage(),
+            INTERESTS_PROFILE_ROUTE: (BuildContext context) => InterestsProfilePage(),
           },
         ));
   }
@@ -65,6 +67,7 @@ const String WELCOME_ROUTE = "/welcome";
 const String BRANDS_ROUTE = "/brands";
 const String MY_INTERESTS_ROUTE = "/my-interests";
 const String INTERESTS_MAIN_ROUTE = "/interests";
+const String INTERESTS_PROFILE_ROUTE = "/interests-profile";
 
 // Themes
 ThemeData buildTheme() => ThemeData(
