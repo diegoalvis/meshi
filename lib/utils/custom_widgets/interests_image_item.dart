@@ -4,12 +4,13 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:meshi/data/models/user.dart';
 
 class InterestsItemPage extends StatelessWidget {
-  String name;
-  String url;
+  int index;
+  User user;
 
-  InterestsItemPage(this.name, this.url);
+  InterestsItemPage(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class InterestsItemPage extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: NetworkImage(this.url),
+                image: NetworkImage(user.images.first),
                 fit: BoxFit.cover,
               )),
             ),
@@ -35,7 +36,7 @@ class InterestsItemPage extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               height: 30,
               child: Text(
-                this.name,
+                user.name,
                 style: TextStyle(color: Colors.white),
               ),
             ),

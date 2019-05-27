@@ -6,13 +6,10 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-import 'interests_main_page.dart';
-
 class MutualPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    final bloc = InterestsBlocProvider.of(context).bloc;
     return ListView.separated(
         itemCount: 10,
         separatorBuilder: (BuildContext context, int index) => Divider(height: 20),

@@ -11,8 +11,8 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
 import 'package:meshi/pages/home/interests/my_insterests_page.dart';
 import 'package:meshi/pages/home/interests/their_interests.dart';
-
 import 'mutual_page.dart';
+import 'package:meshi/pages/home/home_page.dart';
 
 class InterestsBlocProvider extends InheritedWidget {
   final InterestsBloc bloc;
@@ -53,8 +53,7 @@ class InterestsMainPageState extends State<InterestsMainPage> {
 
   InterestsMainPageState(this._bloc);
 
-  List<Widget> interestSPages = [MutualPage(), MyInterestsPage()];
-  Widget _currentPage = MutualPage();
+  List<Widget> interestSPages = [MutualPage(), MyInterestsPage(), TheirInterestsPage()];
 
   @override
   void dispose() {
@@ -65,32 +64,31 @@ class InterestsMainPageState extends State<InterestsMainPage> {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return InterestsBlocProvider(
-      bloc: _bloc,
-      child: MaterialApp(
-        home: DefaultTabController(
-            length: 3,
-            child: Scaffold(
-                appBar: AppBar(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    title: Text('Meshi'),
-                    bottom: TabBar(
-                      indicatorColor: Colors.white,
-                      tabs: [
-                        Tab(
-                          text: 'MUTUOS',
-                        ),
-                        Tab(
-                          text: 'ME INTERESA',
-                        ),
-                        Tab(
-                          text: 'LE INTERESO',
-                        ),
-                      ],
-                      isScrollable: false,
-                    )),
-                body: TabBarView(children: [MutualPage(), MyInterestsPage(), TheirInterestsPage()]))),
-      ),
-    );
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(kToolbarHeight),
+              child: Container(
+                color: Theme.of(context).primaryColor,
+                height: 50,
+                child: TabBar(
+                  indicatorColor: Colors.white,
+                  tabs: [
+                    Tab(
+                      text: 'MUTUOS',
+                    ),
+                    Tab(
+                      text: 'ME INTERESA',
+                    ),
+                    Tab(
+                      text: 'LE INTERESO',
+                    ),
+                  ],
+                  isScrollable: false,
+                ),
+              ),
+            ),
+            body: TabBarView(children: [MutualPage(), MyInterestsPage(), TheirInterestsPage()])));
   }
 }

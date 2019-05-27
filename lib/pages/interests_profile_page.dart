@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/icon_utils.dart';
+import 'package:meshi/pages/home/home_section.dart';
 
-class InterestsProfilePage extends StatelessWidget {
+class InterestsProfilePage extends StatelessWidget with HomeSection {
   final String url = "https://i.pinimg.com/736x/80/19/23/8019236d731d30f451493fc884f685d6.jpg";
 
   @override
@@ -18,7 +19,7 @@ class InterestsProfilePage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-              height: 600,
+              height: 724,
               child: InterestsProfileImage(
                 widget1: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -77,5 +78,10 @@ class InterestsProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  Widget get title {
+    return Text("Perfil de intereses");
   }
 }

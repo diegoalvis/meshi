@@ -4,7 +4,6 @@
  */
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 class DotsIndicator extends AnimatedWidget {
@@ -100,14 +99,15 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverStickyHeader(
-          header: SliverAppBar(
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
             expandedHeight: 250.0,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
               titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
               title: Align(
                 alignment: Alignment.bottomLeft,
@@ -143,14 +143,15 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
               ),
             ),
           ),
-          sliver: Column(
-            children: <Widget>[
-              this.widget2,
-              this.widget1,
-            ],
-          ),
-        ),
-      ],
+        ];
+      },
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 90),
+          widget1,
+          widget2,
+        ],
+      ),
     );
   }
 }

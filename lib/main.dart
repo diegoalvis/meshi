@@ -42,7 +42,7 @@ class App extends StatelessWidget {
           ],
           theme: buildTheme(),
           home: LoginPage(),
-          initialRoute: INTERESTS_PROFILE_ROUTE,
+          initialRoute: HOME_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
