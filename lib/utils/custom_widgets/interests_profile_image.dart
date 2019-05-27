@@ -4,6 +4,7 @@
  */
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 class DotsIndicator extends AnimatedWidget {
@@ -99,62 +100,57 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 250.0,
-                floating: false,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
-                  title: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("Ana",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )),
-                  ),
-                  background: Stack(
-                    fit: StackFit.expand,
-                    children: <Widget>[
-                      PageView.builder(
-                          controller: _controller,
-                          physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: 4,
-                          itemBuilder: (BuildContext context, int index) {
-                            return _images[index % _images.length];
-                          }),
-                      Positioned(
-                        bottom: 20.0,
-                        right: 20.0,
-                        child: DotsIndicator(
-                          controller: _controller,
-                          itemCount: 4,
-                          onPageSelected: (int page) {
-                            _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverStickyHeader(
+          header: SliverAppBar(
+            expandedHeight: 250.0,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
+              title: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text("Ana",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    )),
               ),
-              SliverPersistentHeader(
-                delegate: _SliverAppBarDelegate(Column(
-                  children: <Widget>[
-                    this.widget1,
-                    this.widget2,
-                  ],
-                )),
-              )
-            ];
-          },
-          body: Text('')),
+              background: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  PageView.builder(
+                      controller: _controller,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: 4,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _images[index % _images.length];
+                      }),
+                  Positioned(
+                    bottom: 20.0,
+                    right: 20.0,
+                    child: DotsIndicator(
+                      controller: _controller,
+                      itemCount: 4,
+                      onPageSelected: (int page) {
+                        _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          sliver: Column(
+            children: <Widget>[
+              this.widget2,
+              this.widget1,
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -170,27 +166,4 @@ Widget sliderImage(String url) {
       )),
     ),
   );
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._column);
-
-  final Column _column;
-
-  @override
-  double get minExtent => 600;
-  @override
-  double get maxExtent => 600;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      child: _column,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
-  }
 }
