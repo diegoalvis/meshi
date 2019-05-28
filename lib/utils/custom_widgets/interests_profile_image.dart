@@ -4,7 +4,7 @@
  */
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:meshi/data/models/user.dart';
 
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
@@ -68,12 +68,13 @@ class InterestsProfileImage extends StatefulWidget {
   final String image;
   final Widget widget1;
   final Widget widget2;
+  User user;
 
-  InterestsProfileImage({this.image, this.widget1, this.widget2});
+  InterestsProfileImage({this.image, this.widget1, this.widget2, this.user});
 
   @override
   State<StatefulWidget> createState() =>
-      InterestsProfileImageState(image: image, widget1: widget1, widget2: widget2);
+      InterestsProfileImageState(image: image, widget1: widget1, widget2: widget2, user: user);
 }
 
 class InterestsProfileImageState extends State<InterestsProfileImage> {
@@ -83,19 +84,9 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
   final String image;
   final Widget widget1;
   final Widget widget2;
+  User user;
 
-  InterestsProfileImageState({this.image, this.widget1, this.widget2});
-
-  List<Widget> _images = <Widget>[
-    sliderImage(
-        'https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-sm.jpg?bust=1536935086'),
-    sliderImage(
-        'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg'),
-    sliderImage(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyrSTCSKG8Uv16A9C3-3pqB1-E15dFVCqrwv61sw_TM7y1TSkp'),
-    sliderImage(
-        'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg'),
-  ];
+  InterestsProfileImageState({this.image, this.widget1, this.widget2, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +102,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
               titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
               title: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text("Ana",
+                child: Text(user.name,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.white,
@@ -126,14 +117,14 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                       physics: AlwaysScrollableScrollPhysics(),
                       itemCount: 4,
                       itemBuilder: (BuildContext context, int index) {
-                        return _images[index % _images.length];
+                        return sliderImage(user.images[index]);
                       }),
                   Positioned(
                     bottom: 20.0,
                     right: 20.0,
                     child: DotsIndicator(
                       controller: _controller,
-                      itemCount: 4,
+                      itemCount: user.images.length,
                       onPageSelected: (int page) {
                         _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
                       },

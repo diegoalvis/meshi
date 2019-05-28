@@ -6,8 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meta/meta.dart';
-import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/home/interests/interests_main_page.dart';
 
 const double _kFlingVelocity = 2.0;
 
