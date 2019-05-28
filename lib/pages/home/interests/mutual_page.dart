@@ -3,51 +3,82 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:meshi/bloc/interests_bloc.dart';
+import 'package:meshi/data/models/match.dart';
+import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/widget_util.dart';
 
 class MutualPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _bloc = InjectorWidget.of(context).get<InterestsBloc>();
     final strings = MyLocalizations.of(context);
-    return ListView.separated(
-        itemCount: 10,
-        separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            onTap: () {},
-            title: Row(children: [
-              ClipOval(
-                child: Container(
-                    height: 50.0,
-                    width: 50.0,
-                    child: Image.network(
-                        "https://image.shutterstock.com/image-photo/brunette-girl-long-shiny-wavy-260nw-639921919.jpg",
-                        fit: BoxFit.cover)),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  children: [
-                    Align(alignment: Alignment.topLeft, child: Text("Nombre")),
-                    Row(children: [
-                      Text("7:00 pm", style: TextStyle(color: Theme.of(context).accentColor)),
-                      SizedBox(width: 10),
-                      Expanded(child: Text("Ultimo mensajesad", overflow: TextOverflow.ellipsis)),
-                    ])
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  alignment: Alignment.topRight,
-                  padding: EdgeInsets.all(5.0),
-                  child: Icon(Icons.close, size: 17.0, color: Theme.of(context).disabledColor),
-                ),
-              ),
-            ]),
-          );
+    List<Matches> matches;
+    return BlocBuilder(
+        bloc: _bloc,
+        builder: (context, state) {
+          if (state is LoadingState) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (state is SuccessState<List<Matches>>) {
+            matches = state.data;
+          }
+          if (state is ErrorState) {
+            onWidgetDidBuild(() {
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+            });
+          }
+          if (state is InitialState) {
+            _bloc.dispatch(InterestsEventType.getMutals);
+          }
+
+          return ListView.separated(
+              itemCount: matches.length,
+              separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
+              itemBuilder: (BuildContext context, int index) {
+                final match = matches.elementAt(index);
+                return ListTile(
+                  onTap: () {},
+                  title: Row(children: [
+                    ClipOval(
+                      child: Container(
+                          height: 50.0,
+                          width: 50.0,
+                          child: Image.network(match?.images?.firstWhere((image) => image != null) ?? "", fit: BoxFit.cover)),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(alignment: Alignment.topLeft, child: Text(match?.name ?? "")),
+                          Row(children: [
+                            Text(
+                                DateTime.now().difference(match.lastDate).inDays > 0
+                                    ? DateFormat.yMd().format(match.lastDate)
+                                    : DateFormat.jm().format(match.lastDate),
+                                style: TextStyle(color: Theme.of(context).accentColor)),
+                            SizedBox(width: 10),
+                            Expanded(child: Text(match?.lastMessage ?? "", overflow: TextOverflow.ellipsis)),
+                          ])
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        padding: EdgeInsets.all(5.0),
+                        child: Icon(Icons.close, size: 17.0, color: Theme.of(context).disabledColor),
+                      ),
+                    ),
+                  ]),
+                );
+              });
         });
   }
 }

@@ -16,7 +16,7 @@ class MatchApi extends BaseApi {
     return get("/users/likes-me").then((response) => processListResponse(response, parseMyLikes));
   }
 
-  Future<BaseResponse<List<Matchs>>> getMatchs() async {
+  Future<BaseResponse<List<Matches>>> getMatches() async {
     return get("/users/matchs").then((response) => processListResponse(response, parseMatch));
   }
 
@@ -24,7 +24,7 @@ class MatchApi extends BaseApi {
     return get("/users/$id").then((response) => processResponse(response, parseSingleUser));
   }
 
-  Future<BaseResponse<List<User>>> getRecomendations({int limit = 0, int skip = 0}) async {
+  Future<BaseResponse<List<User>>> getRecommendations({int limit = 0, int skip = 0}) async {
     return get("/users").then((response) => processListResponse(response, parseUser));
   }
 
@@ -35,6 +35,6 @@ class MatchApi extends BaseApi {
 
 
 List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) => json.map((element) => MyLikes.fromJson(element)).toList();
-List<Matchs> parseMatch(List<Map<String, dynamic>> json) => json.map((element) => Matchs.fromJson(element)).toList();
+List<Matches> parseMatch(List<Map<String, dynamic>> json) => json.map((element) => Matches.fromJson(element)).toList();
 List<User> parseUser(List<Map<String, dynamic>> json) => json.map((element) => User.fromJson(element)).toList();
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);

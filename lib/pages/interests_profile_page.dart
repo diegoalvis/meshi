@@ -8,12 +8,12 @@ import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/icon_utils.dart';
 import 'package:meshi/pages/home/home_section.dart';
+import 'package:meshi/data/models/user.dart';
 
 class InterestsProfilePage extends StatelessWidget with HomeSection {
-  final String url = "https://i.pinimg.com/736x/80/19/23/8019236d731d30f451493fc884f685d6.jpg";
-
   @override
   Widget build(BuildContext context) {
+    UserDetail user = ModalRoute.of(context).settings.arguments;
     return Container(
       color: Color.fromARGB(255, 245, 245, 245),
       child: Column(
@@ -21,6 +21,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
           Container(
               height: 724,
               child: InterestsProfileImage(
+                user: user.user,
                 widget1: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CompatibilityIndicator(),
@@ -30,8 +31,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
                   child: Card(
                     child: ListTile(
                       title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(
-                          'Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit ullamcorper mauris, posuere nisi imperdiet convallis suspendisse dapibus'),
+                      subtitle: Text(user.user.description),
                     ),
                   ),
                 ),
@@ -84,4 +84,9 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
   Widget get title {
     return Text("Perfil de intereses");
   }
+}
+
+class UserDetail {
+  final User user;
+  UserDetail(this.user);
 }

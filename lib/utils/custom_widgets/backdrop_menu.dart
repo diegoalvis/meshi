@@ -6,8 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meta/meta.dart';
-import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/home/interests/interests_main_page.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -26,7 +24,6 @@ class BackdropMenu extends StatefulWidget {
     this.floatingActionButton,
   })  : assert(frontLayer != null),
         assert(backLayer != null),
-        assert(frontTitle != null),
         assert(backTitle != null);
 
   @override
@@ -145,11 +142,13 @@ class _FrontLayer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-              height: cornerInclination,
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(right: 15.0),
-              child: title),
+          title == null
+              ? SizedBox()
+              : Container(
+                  height: cornerInclination,
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 15.0),
+                  child: title),
           Expanded(
             child: child,
           ),

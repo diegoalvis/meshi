@@ -19,13 +19,13 @@ class MatchRepository{
     return result.data;
   }
 
-  Future<List<Matchs>> getMatchs() async{
-    final result =  await this._api.getMatchs();
+  Future<List<Matches>> getMatches() async{
+    final result =  await this._api.getMatches();
     return result.data;
   }
 
-  Future<List<User>> getRecomendations({int limit, int skip}) async{
-    final result =  await this._api.getRecomendations(limit: limit, skip: skip);
+  Future<List<User>> getRecommendations({int limit, int skip}) async{
+    final result =  await this._api.getRecommendations(limit: limit, skip: skip);
     return result.data;
   }
 

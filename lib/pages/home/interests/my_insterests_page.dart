@@ -5,15 +5,20 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/utils/custom_widgets/interests_image_item.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/pages/interests_profile_page.dart';
 
 class MyInterestsPage extends StatelessWidget {
   List<User> users = <User>[
-    User(name: 'Paco', images: [
-      'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg'
-    ]),
-    User(name: 'Ana', images: [
-      'https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13002253/GettyImages-521536928-_1_.jpg'
-    ]),
+    User(
+        name: 'Juana',
+        images: [
+          'https://www.24horas.cl/tendencias/espectaculosycultura/article869018.ece/ALTERNATES/BASE_LANDSCAPE/Katy%20Perry%20revela%20que%20pens%C3%B3%20en%20suicidarse%20tras%20quiebre%20matrimonial',
+        ],
+        description: 'djfkfnnvre jhfuowfirhf ajdhbnreidncd jfuwfnfhuh'),
+    User(
+        name: 'Ana',
+        images: ['http://es.web.img3.acsta.net/pictures/15/05/15/16/30/134942.jpg'],
+        description: 'djfkfnnvre jhfuowfirhf ajdhbnreidncd jfuwfnfhuh'),
   ];
 
   @override
@@ -31,11 +36,15 @@ class MyInterestsPage extends StatelessWidget {
         ),
         Flexible(
           child: GridView.builder(
-            scrollDirection: Axis.vertical,
             itemCount: users.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemBuilder: (BuildContext context, int index) {
-              return InterestsItemPage(users[index]);
+              return InterestsItemPage(
+                  user: users[index],
+                  onUserTap: (user) {
+                    Navigator.pushNamed(context, '/interests-profile',
+                        arguments: UserDetail(users[index]));
+                  });
             },
           ),
         ),
