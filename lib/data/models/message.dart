@@ -9,11 +9,11 @@ class Message{
   int id;
   String content;
   DateTime date;
-  int from;
-  int to;
+  int fromUser;
+  int toUser;
   int matchId;
 
-  Message({this.id, this.content, this.date, this.from, this.to, this.matchId});
+  Message({this.id, this.content, this.date, this.fromUser, this.toUser, this.matchId});
 
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
   Map<String, dynamic> toJson() => _$MessageToJson(this);

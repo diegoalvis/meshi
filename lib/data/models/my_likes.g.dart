@@ -8,9 +8,13 @@ part of 'my_likes.dart';
 
 MyLikes _$MyLikesFromJson(Map<String, dynamic> json) {
   return MyLikes(
+      id: json['id'] as int,
       name: json['name'] as String,
       images: (json['images'] as List)?.map((e) => e as String)?.toList());
 }
 
-Map<String, dynamic> _$MyLikesToJson(MyLikes instance) =>
-    <String, dynamic>{'name': instance.name, 'images': instance.images};
+Map<String, dynamic> _$MyLikesToJson(MyLikes instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'images': instance.images
+    };

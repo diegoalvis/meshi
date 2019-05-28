@@ -4,10 +4,11 @@ part 'my_likes.g.dart';
 
 @JsonSerializable(nullable: true)
 class MyLikes{
+  int id;
   String name;
   List<String> images;
 
-  MyLikes({this.name, this.images});
+  MyLikes({this.id, this.name, this.images});
 
   factory MyLikes.fromJson(Map<String, dynamic> json) => _$MyLikesFromJson(json);
   Map<String, dynamic> toJson() => _$MyLikesToJson(this);
