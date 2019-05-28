@@ -3,11 +3,12 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:bloc/bloc.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/utils/base_state.dart';
 import 'package:rxdart/rxdart.dart';
 
-class BaseBloc {
-
+class BaseBloc<E, S> extends Bloc<E, S> {
   static const int POP_PAGE = 1;
   static const int REPLACE_PAGE = 2;
 
@@ -21,8 +22,19 @@ class BaseBloc {
   final progressSubject = PublishSubject<bool>();
 
   void dispose() {
+    super.dispose();
     errorSubject.close();
     successSubject.close();
     progressSubject.close();
   }
+
+  @override
+  S get initialState => null;
+
+  @override
+  Stream<S> mapEventToState(E event) {
+    return null;
+  }
+
+
 }

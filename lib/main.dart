@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/home/home_page.dart';
+import 'package:meshi/pages/home/interests/interests_main_page.dart';
+import 'package:meshi/pages/home/interests/my_insterests_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
+import 'package:meshi/pages/home/rewards/select_partner_page.dart';
+import 'package:meshi/pages/interests_profile_page.dart';
 import 'package:meshi/pages/login_page.dart';
 import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
-import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 void main() {
@@ -39,7 +42,8 @@ class App extends StatelessWidget {
             const Locale('es', ''),
           ],
           theme: buildTheme(),
-          home: CompatibilityIndicator(),
+          home: LoginPage(),
+          initialRoute: HOME_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
@@ -47,6 +51,10 @@ class App extends StatelessWidget {
             FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
             WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
             BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
+            SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
+            MY_INTERESTS_ROUTE: (BuildContext context) => MyInterestsPage(),
+            INTERESTS_MAIN_ROUTE: (BuildContext context) => InterestsMainPage(),
+            INTERESTS_PROFILE_ROUTE: (BuildContext context) => InterestsProfilePage(),
           },
         ));
   }
@@ -59,6 +67,10 @@ const String REGISTER_ROUTE = '/register';
 const String FORM_ROUTE = '/form';
 const String WELCOME_ROUTE = "/welcome";
 const String BRANDS_ROUTE = "/brands";
+const String SELECT_PARTNER_ROUTE = "/select_partner";
+const String MY_INTERESTS_ROUTE = "/my-interests";
+const String INTERESTS_MAIN_ROUTE = "/interests";
+const String INTERESTS_PROFILE_ROUTE = "/interests-profile";
 
 // Themes
 ThemeData buildTheme() => ThemeData(

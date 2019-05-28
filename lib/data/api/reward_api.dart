@@ -6,6 +6,7 @@
 import 'package:dio/dio.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/brand.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
 
 class RewardApi extends BaseApi {
@@ -15,8 +16,14 @@ class RewardApi extends BaseApi {
     return get("/brands").then((response) => processListResponse(response, parseBrand)).catchError((error) {
       print(error);
     });
+  }
 
+  Future<BaseResponse<List<User>>> getMatches() {
+    return get("/maches").then((response) => processListResponse(response, parseMatches)).catchError((error) {
+      print(error);
+    });
   }
 }
 
 List<Brand> parseBrand(List<Map<String, dynamic>> json) => json.map((element) => Brand.fromJson(element)).toList();
+List<User> parseMatches(List<Map<String, dynamic>> json) => json.map((element) => User.fromJson(element)).toList();

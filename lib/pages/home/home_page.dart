@@ -38,7 +38,12 @@ class HomePageState extends State<HomePage> {
   String _currentCategory;
 
   // TODO test purposes
-  List<HomeSection> homePages = [InterestsMainPage(), RewardPage(), ProfilePage(), ProfilePage()];
+  List<HomeSection> homePages = [
+    InterestsMainPage(),
+    RewardPage(),
+    ProfilePage(),
+    ProfilePage(),
+  ];
   HomeSection _currentPage = InterestsMainPage();
 
   HomePageState(this._bloc);

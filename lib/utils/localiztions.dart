@@ -32,7 +32,8 @@ class MyLocalizations {
 
   String get meshi => 'meshi';
 
-  String get pictureSelectCaption => _localizedSingleValues[locale.languageCode]['picture_select_caption'];
+  String get pictureSelectCaption =>
+      _localizedSingleValues[locale.languageCode]['picture_select_caption'];
 
   String get logInWith => _localizedSingleValues[locale.languageCode]['log_in_with'];
 
@@ -82,9 +83,11 @@ class MyLocalizations {
 
   String get placeholderUser => _localizedSingleValues[locale.languageCode]['placeholder_user'];
 
-  String get educationalLevelCaption => _localizedSingleValues[locale.languageCode]['educational_level_caption'];
+  String get educationalLevelCaption =>
+      _localizedSingleValues[locale.languageCode]['educational_level_caption'];
 
-  String getEnumDisplayName(String enumValue) => _localizedEnumValues[locale.languageCode][enumValue] ?? enumValue;
+  String getEnumDisplayName(String enumValue) =>
+      _localizedEnumValues[locale.languageCode][enumValue] ?? enumValue;
 
   // string-arrays
   List<String> get homeSections => _localizedMultiValues[locale.languageCode]['home_sections'];
@@ -160,12 +163,24 @@ class MyLocalizations {
   static Map<String, Map<String, List<String>>> _localizedMultiValues = {
     /* English text resources */
     'en': {
-      'home_sections': ['Mis intereses', 'Participa por una cita real', 'Haste premiun', 'Ver perfil', 'Ajustes'],
+      'home_sections': [
+        'Mis intereses',
+        'Participa por una cita real',
+        'Haste premiun',
+        'Ver perfil',
+        'Ajustes'
+      ],
     },
 
     /* Spanish text resources */
     'es': {
-      'home_sections': ['Mis intereses', 'Participa por una cita real', 'Haste premiun', 'Ver perfil', 'Ajustes'],
+      'home_sections': [
+        'Mis intereses',
+        'Participa por una cita real',
+        'Haste premiun',
+        'Ver perfil',
+        'Ajustes'
+      ],
     }
   };
 
@@ -194,7 +209,6 @@ class MyLocalizations {
       'left': 'Left',
       'center': 'Center',
       'right': 'Right',
-      'nothing': 'Nothing',
       'urban': 'Urban',
       'pop': 'Pop',
       'rock': 'Rock',
@@ -218,14 +232,16 @@ class MyLocalizations {
       'maybe': 'No he decidico',
       'important': 'Importante',
       'normal': 'Normal',
-      'nothing': 'No es importante',
       'refined': 'Refinados',
       'conventional': 'Convencionales',
       'simple': 'Sencillos',
       'any': 'Cualquiera',
-      'left': 'Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país',
-      'center': 'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
-      'right': 'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
+      'left':
+          'Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país',
+      'center':
+          'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
+      'right':
+          'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
       'nothing': 'No es importante',
       'urban': 'Urbano',
       'pop': 'Pop',

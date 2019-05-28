@@ -49,6 +49,8 @@ class BaseApi {
     return Options(headers: {HttpHeaders.authorizationHeader: token});
   }
 
+
+  //process responses
   Future<BaseResponse<T>> processResponse<T>(Response response, ComputeCallback<Map<String, dynamic>, T> callback) async {
     if ((response.statusCode >= 200 && response.statusCode < 300) || response.statusCode == 304) {
       final body = response.data;

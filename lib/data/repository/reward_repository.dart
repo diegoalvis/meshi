@@ -21,4 +21,10 @@ class RewardRepository {
       return response.success ? response.data : throw Error();
     });
   }
+
+  Future<List<User>> getMatchesList() {
+    return _api.getMatches().then((response) {
+      return response.success ? response.data : throw Error();
+    });
+  }
 }
