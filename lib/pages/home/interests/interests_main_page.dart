@@ -3,44 +3,35 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/welcome_page.dart';
-import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
 import 'package:meshi/pages/home/interests/my_insterests_page.dart';
 import 'package:meshi/pages/home/interests/their_interests.dart';
+import 'package:meshi/pages/welcome_page.dart';
+import 'package:meshi/utils/localiztions.dart';
+
 import 'mutual_page.dart';
-import 'package:meshi/pages/home/home_page.dart';
 
-class InterestsBlocProvider extends InheritedWidget {
-  final InterestsBloc bloc;
-  final Widget child;
-
-  InterestsBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
-
-  static InterestsBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(InterestsBlocProvider) as InterestsBlocProvider);
+class InterestsMainPage extends StatelessWidget with HomeSection {
+  @override
+  Widget build(BuildContext context) {
+    return InjectorWidget.bind(
+      bindFunc: (binder) {
+        binder.bindSingleton(InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+      },
+      child: InterestsMainPageContainer(),
+    );
   }
 
-  @override
-  bool updateShouldNotify(InterestsBlocProvider oldWidget) => true;
-}
-
-class InterestsMainPage extends StatefulWidget with HomeSection {
-  @override
-  Widget get title {
-    return Text("Intereses");
-  }
 
   @override
-  InterestsMainPageState createState() => new InterestsMainPageState(InterestsBloc());
+  Widget get title => null;
 
   @override
-  bool showFloatingButton() {
-    return true;
-  }
+  bool showFloatingButton() => true;
 
   @override
   onFloatingButtonPressed(BuildContext context) {
@@ -48,47 +39,32 @@ class InterestsMainPage extends StatefulWidget with HomeSection {
   }
 }
 
-class InterestsMainPageState extends State<InterestsMainPage> {
-  final InterestsBloc _bloc;
-
-  InterestsMainPageState(this._bloc);
-
-  List<Widget> interestSPages = [MutualPage(), MyInterestsPage(), TheirInterestsPage()];
-
-  @override
-  void dispose() {
-    _bloc.dispose();
-    super.dispose();
-  }
+class InterestsMainPageContainer extends StatelessWidget {
+  final List<Widget> interestSPages = [MutualPage(), MyInterestsPage(), TheirInterestsPage()];
 
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(kToolbarHeight),
-              child: Container(
-                color: Theme.of(context).primaryColor,
-                height: 50,
-                child: TabBar(
-                  indicatorColor: Colors.white,
-                  tabs: [
-                    Tab(
-                      text: 'MUTUOS',
-                    ),
-                    Tab(
-                      text: 'ME INTERESA',
-                    ),
-                    Tab(
-                      text: 'LE INTERESO',
-                    ),
-                  ],
-                  isScrollable: false,
-                ),
+      length: 3,
+      child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            child: Container(
+              color: Theme.of(context).primaryColor,
+              height: 50,
+              child: TabBar(
+                indicatorColor: Colors.white,
+                tabs: [
+                  Tab(text: 'MUTUOS'),
+                  Tab(text: 'ME INTERESA'),
+                  Tab(text: 'LE INTERESO'),
+                ],
+                isScrollable: false,
               ),
             ),
-            body: TabBarView(children: [MutualPage(), MyInterestsPage(), TheirInterestsPage()])));
+          ),
+          body: TabBarView(children: [MutualPage(), MyInterestsPage(), TheirInterestsPage()])),
+    );
   }
 }

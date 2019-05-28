@@ -3,7 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -48,7 +47,6 @@ class BaseApi {
     final token = await session.authToken;
     return Options(headers: {HttpHeaders.authorizationHeader: token});
   }
-
 
   //process responses
   Future<BaseResponse<T>> processResponse<T>(Response response, ComputeCallback<Map<String, dynamic>, T> callback) async {

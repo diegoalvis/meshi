@@ -24,7 +24,6 @@ class BackdropMenu extends StatefulWidget {
     this.floatingActionButton,
   })  : assert(frontLayer != null),
         assert(backLayer != null),
-        assert(frontTitle != null),
         assert(backTitle != null);
 
   @override
@@ -143,11 +142,13 @@ class _FrontLayer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-              height: cornerInclination,
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(right: 15.0),
-              child: title),
+          title == null
+              ? SizedBox()
+              : Container(
+                  height: cornerInclination,
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 15.0),
+                  child: title),
           Expanded(
             child: child,
           ),

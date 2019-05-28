@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 
 abstract class HomeSection {
-  Widget get title;
+  Widget get title => null;
 
   bool showFloatingButton() => false;
 
