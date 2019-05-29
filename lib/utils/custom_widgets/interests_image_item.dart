@@ -31,15 +31,18 @@ class InterestsItemPage extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.all(10.0),
-              color: Colors.transparent.withOpacity(0.20),
-              alignment: Alignment.bottomLeft,
-              height: 30,
-              child: Text(
-                myLikes.name,
-                style: TextStyle(color: Colors.white),
-              ),
+            child: Wrap(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  color: Colors.transparent.withOpacity(0.20),
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    myLikes.name,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ),
           GestureDetector(

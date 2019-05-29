@@ -133,14 +133,14 @@ class ChatBodyState extends State<ChatBody> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 55,
-                  height: 55,
-                  child: Icon(Icons.image),
-                ),
-              ),
+//              InkWell(
+//                onTap: () {},
+//                child: Container(
+//                  width: 55,
+//                  height: 55,
+//                  child: Icon(Icons.image),
+//                ),
+//              ),
               InkWell(
                 onTap: () {
                   _handleSubmit();
