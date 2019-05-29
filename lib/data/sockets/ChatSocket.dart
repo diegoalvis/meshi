@@ -5,23 +5,28 @@ import 'package:rxdart/rxdart.dart';
 
 class ChatSocket {
 
-  String _url;
+  static const BASE_URL_SOCKET = "https://meshi-app.herokuapp.com/socket/chat";
+
+
   SocketIOManager _manager;
   PublishSubject<Message> _messageSubject;
 
-
-  ChatSocket(this._url) {
+  ChatSocket() {
     _manager = SocketIOManager();
     _messageSubject = PublishSubject();
   }
 
-  Future<PublishSubject<Message>> count(int matchId) async {
-    SocketIO _socket = await _manager.createInstance(_url);
-    _socket.emit('subscribe', [{'match': matchId}]);
+  Future<Observable<Message>> connect(int matchId) async {
+    SocketIO _socket = await _manager.createInstance(BASE_URL_SOCKET, enableLogging: true);
+    _socket.connect();
 
-    _socket.on('reserves', (data) {
-      final obj = data[0] as Map<String, dynamic>;
-      _messageSubject.add(Message.fromJson(obj));
+    _socket.onConnect((d){
+      _socket.emit('subscribe', [{'match': matchId}]);
+    });
+
+    _socket.on('messages', (data) {
+      final msg = Message.fromJson(data);
+      _messageSubject.add(msg);
     });
 
     return _messageSubject.doOnCancel(() {

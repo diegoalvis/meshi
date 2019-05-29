@@ -14,7 +14,7 @@ Matches _$MatchsFromJson(Map<String, dynamic> json) {
       lastDate: json['lastDate'] == null
           ? null
           : DateTime.parse(json['lastDate'] as String),
-      idMatch: json['idMatch'] as String,
+      idMatch: json['idMatch'] as int,
       lastMessage: json['lastMessage'] as String);
 }
 

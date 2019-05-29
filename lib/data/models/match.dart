@@ -9,7 +9,7 @@ class Matches{
   String name;
   List<String> images;
   String lastMessage;
-  String idMatch;
+  int idMatch;
   DateTime lastDate;
 
   Matches({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage});
