@@ -27,6 +27,11 @@ class BasicInfoPageOne extends StatelessWidget with FormSection {
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           imagesNotEmpty = snapshot.data?.images != null &&
               snapshot.data?.images?.firstWhere((image) => image?.isNotEmpty ?? false, orElse: () => null) != null;
+
+          if(snapshot.data?.images != null) {
+            List.generate(4 - (snapshot.data?.images?.length ?? 0), (index) => null).forEach((item) => snapshot.data?.images?.add(item));
+          }
+
           return SingleChildScrollView(
             child: Column(
               children: [

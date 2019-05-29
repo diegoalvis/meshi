@@ -22,18 +22,19 @@ class LoginBloc extends BaseBloc {
   }
 
   void initFacebookLogin() async {
-    /*
-    var diegoId = "10219787681781369";
+
+    var diegoId = "123445";
     progressSubject.sink.add(true);
     repository.loginUser(diegoId).catchError((error) {
       errorSubject.sink.add(error.toString());
     }).whenComplete(() {
       progressSubject.sink.add(false);
     }).then((success) {
-      session.user.state = User.NEW_USER;
+      //session.user.state = User.NEW_USER;
       _userSubject.sink.add(session.user);
     });
-    */
+
+    /*
 
     progressSubject.sink.add(true);
 
@@ -61,6 +62,8 @@ class LoginBloc extends BaseBloc {
         });
         break;
     }
+
+    */
 
   }
 

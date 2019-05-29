@@ -12,6 +12,7 @@ import 'package:meshi/managers/session_manager.dart';
 
 class BaseApi {
   static const BASE_URL_DEV = "https://meshi-app.herokuapp.com";
+  static const IMAGES_URL_DEV = "https://meshi-app.herokuapp.com/images/";
   static const API_URL_DEV = "https://meshi-app.herokuapp.com/api";
 
   Dio _dio;

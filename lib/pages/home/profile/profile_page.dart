@@ -37,6 +37,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                   stream: bloc.userStream,
                   initialData: bloc.session.user,
                   builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                    if(snapshot.data?.images != null) {
+                      List.generate(4 - (snapshot.data?.images?.length ?? 0), (index) => null).forEach((item) => snapshot.data?.images?.add(item));
+                    }
                     return Padding(
                       padding: EdgeInsets.all(16.0),
                       child: ListView(children: [

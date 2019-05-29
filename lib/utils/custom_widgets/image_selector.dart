@@ -65,9 +65,8 @@ class ImageSelector extends StatelessWidget {
                       ? Center(child: CircularProgressIndicator())
                       : image != null && image.isNotEmpty && image != "null"
                           ? DecoratedBox(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image: NetworkImage(BaseApi.BASE_URL_DEV + "/images/" + image),
+                              decoration: BoxDecoration(image: DecorationImage(
+                                image: NetworkImage(BaseApi.IMAGES_URL_DEV + image),
                                 fit: BoxFit.cover,
                               )),
                               child: GestureDetector(

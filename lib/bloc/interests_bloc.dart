@@ -5,6 +5,7 @@
 
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -23,15 +24,27 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
       switch (event) {
         case InterestsEventType.getMutals:
           yield LoadingState();
-          //final matches = await repository.getMatches();
-          final matches = List.generate(10, (index) => Matches(name: "Grilla $index", lastDate: DateTime.now().subtract(Duration(days: index)), lastMessage: "msg $index", images: ["https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"]));
+          final matches = await repository.getMatches();
           yield SuccessState<List<Matches>>(data: matches);
           break;
         case InterestsEventType.getLikesMe:
-          // TODO: Handle this case.
+          yield LoadingState();
+          final myLikes = await repository.getLikesMe();
+          yield LikesFetchedState(myLikes);
           break;
         case InterestsEventType.getMyLikes:
-          // TODO: Handle this case.
+          yield LoadingState();
+          final myLikes = await repository.getMyLikes();
+          yield LikesFetchedState(myLikes);
+          break;
+        case InterestsEventType.onMyLikesPageSelected:
+          yield InitialState<InterestsEventType>(initialData: InterestsEventType.getMyLikes);
+          break;
+        case InterestsEventType.onLikesMePageSelected:
+          yield InitialState<InterestsEventType>(initialData: InterestsEventType.getLikesMe);
+          break;
+        case InterestsEventType.onMutualPageSelected:
+          yield InitialState();
           break;
       }
     } on Exception catch (e) {
@@ -40,6 +53,20 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
   }
 }
 
-enum InterestsEventType { getMutals, getLikesMe, getMyLikes }
+enum InterestsEventType { getMutals, getLikesMe, getMyLikes, onMyLikesPageSelected, onLikesMePageSelected, onMutualPageSelected }
 
-class InterestsEvent {}
+class InterestsEvent {
+  final InterestsEventType type;
+  dynamic data;
+
+  InterestsEvent(this.type, {this.data});
+}
+
+class LikesFetchedState extends BaseState {
+  List<MyLikes> myLikes;
+
+  LikesFetchedState(this.myLikes): super(props: [myLikes]);
+
+  @override
+  String toString() => 'state-likes-fetched';
+}
