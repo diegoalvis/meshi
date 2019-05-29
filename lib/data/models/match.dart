@@ -17,4 +17,15 @@ class Matches{
   factory Matches.fromJson(Map<String, dynamic> json) => _$MatchsFromJson(json);
   Map<String, dynamic> toJson() => _$MatchsToJson(this);
 
+  factory Matches.fromDatabase(Map<String, dynamic> json){
+    json["images"] = (json["images"] as String)?.split(",") ?? [];
+    return _$MatchsFromJson(json);
+  }
+
+  Map<String, dynamic> toDatabase(){
+    final json =  _$MatchsToJson(this);
+    json["images"] = (json['images'] as List)?.join(",") ?? null;
+    return json;
+  }
+
 }

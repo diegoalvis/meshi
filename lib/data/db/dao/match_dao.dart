@@ -28,7 +28,7 @@ class MatchDao {
     final db = await _db;
     final batch = db.batch();
     matches.forEach((m) {
-      batch.insert("match", m.toJson());
+      batch.insert("match", m.toDatabase());
     });
     return await batch.commit(noResult: true);
   }
@@ -40,5 +40,4 @@ class MatchDao {
 
 }
 
-List<Matches> parseList(List<Map<String, dynamic>> json) =>
-    json.map((x) => Matches.fromJson(x)).toList();
+List<Matches> parseList(List<Map<String, dynamic>> json) => json.map((x) => Matches.fromDatabase(x)).toList();

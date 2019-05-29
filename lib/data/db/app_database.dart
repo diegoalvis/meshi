@@ -14,7 +14,7 @@ class AppDatabase {
     return await openDatabase(
       join(await getDatabasesPath(), 'meshi.db'),
       onCreate: _onCreate,
-      version: 2,
+      version: 3,
     );
   }
 
@@ -26,7 +26,7 @@ class AppDatabase {
     name VARCHAR(255), 
     images VARCHAR(555),
     lastMessage TEXT, 
-    matchId INTEGER,
+    idMatch INTEGER,
     lastDate VARCHAR(255)
     )
     ''');
