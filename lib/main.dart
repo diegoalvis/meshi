@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/chat/chat_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
-import 'package:meshi/pages/home/recommendations_page.dart';
+import 'package:meshi/pages/home/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/pages/home/interests/my_insterests_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';

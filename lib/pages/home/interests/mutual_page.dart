@@ -5,11 +5,11 @@
 
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/data/models/match.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -49,7 +49,8 @@ class MutualPage extends StatelessWidget {
                       child: Container(
                           height: 50.0,
                           width: 50.0,
-                          child: Image.network(match?.images?.firstWhere((image) => image != null) ?? "", fit: BoxFit.cover)),
+                          child: Image.network(match?.images?.firstWhere((image) => image != null) ?? "",
+                              fit: BoxFit.cover)),
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -63,7 +64,8 @@ class MutualPage extends StatelessWidget {
                                     : DateFormat.jm().format(match.lastDate),
                                 style: TextStyle(color: Theme.of(context).accentColor)),
                             SizedBox(width: 10),
-                            Expanded(child: Text(match?.lastMessage ?? "", overflow: TextOverflow.ellipsis)),
+                            Expanded(
+                                child: Text(match?.lastMessage ?? "", overflow: TextOverflow.ellipsis)),
                           ])
                         ],
                       ),
