@@ -21,11 +21,11 @@ class MatchRepository{
     return result.data;
   }
 
-  Future<List<Matches>> getLocalMatches() async{
+  Future<List<Match>> getLocalMatches() async{
     return _dao.getAll();
   }
 
-  Future<List<Matches>> getMatches() async{
+  Future<List<Match>> getMatches() async{
     final result =  await this._api.getMatches();
     await _dao.removeAll();
     await _dao.insertAll(result.data);

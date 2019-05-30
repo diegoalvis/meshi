@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
-import 'package:meshi/pages/home/interests/my_insterests_page.dart';
-import 'package:meshi/pages/home/interests/their_interests.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
+import 'base_insterests_page.dart';
 import 'mutual_page.dart';
 
 class InterestsMainPage extends StatelessWidget with HomeSection {
@@ -25,7 +24,6 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
       child: InterestsMainPageContainer(),
     );
   }
-
 
   @override
   Widget get title => null;
@@ -40,10 +38,15 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
 }
 
 class InterestsMainPageContainer extends StatelessWidget {
-  final List<Widget> interestSPages = [MutualPage(), MyInterestsPage(), TheirInterestsPage()];
+  final List<Widget> interestSPages = [
+    MutualPage(),
+    BaseInterestsPage(title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
+    BaseInterestsPage(title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final _bloc = InjectorWidget.of(context).get<InterestsBloc>();
     final strings = MyLocalizations.of(context);
     return DefaultTabController(
       length: 3,
@@ -55,6 +58,13 @@ class InterestsMainPageContainer extends StatelessWidget {
               height: 50,
               child: TabBar(
                 indicatorColor: Colors.white,
+                onTap: (pos) {
+                  if (interestSPages[pos] is BaseInterestsPage) {
+                    _bloc.dispatch((interestSPages[pos] as BaseInterestsPage).eventType);
+                  } else {
+                    _bloc.dispatch(InterestsEventType.onMutualPageSelected);
+                  }
+                },
                 tabs: [
                   Tab(text: 'MUTUOS'),
                   Tab(text: 'ME INTERESA'),
@@ -64,7 +74,8 @@ class InterestsMainPageContainer extends StatelessWidget {
               ),
             ),
           ),
-          body: TabBarView(children: [MutualPage(), MyInterestsPage(), TheirInterestsPage()])),
+          body: TabBarView(
+              children: interestSPages)),
     );
   }
 }

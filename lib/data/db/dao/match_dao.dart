@@ -13,7 +13,7 @@ class MatchDao {
     _db = appDatabase.database;
   }
 
-  Future<List<Matches>> getAll() async{
+  Future<List<Match>> getAll() async{
     final db = await _db;
     final result = await db.query('match');
     return compute(parseList, result);
@@ -24,21 +24,20 @@ class MatchDao {
     await db.delete('match');
   }
 
-  Future insertAll(List<Matches> matches) async{
+  Future insertAll(List<Match> matches) async{
     final db = await _db;
     final batch = db.batch();
     matches.forEach((m) {
-      batch.insert("match", m.toJson());
+      batch.insert("match", m.toDatabase());
     });
     return await batch.commit(noResult: true);
   }
 
   Future updateMatch(int matchId, Message msg) async {
     final db = await _db;
-    await db.update('match', {'lastMessage':msg.content, "lastDate":msg.date.toIso8601String()}, where:'matchId = ?', whereArgs: [matchId]);
+    await db.update('match', {'lastMessage':msg.content, "lastDate":msg.date.toIso8601String()}, where:'idMatch = ?', whereArgs: [matchId]);
   }
 
 }
 
-List<Matches> parseList(List<Map<String, dynamic>> json) =>
-    json.map((x) => Matches.fromJson(x)).toList();
+List<Match> parseList(List<Map<String, dynamic>> json) => json.map((x) => Match.fromDatabase(x)).toList();

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'my_likes.g.dart';
 
 @JsonSerializable(nullable: true)
-class MyLikes{
+class MyLikes {
   int id;
   String name;
   List<String> images;

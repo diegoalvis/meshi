@@ -88,5 +88,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
 
 class UserDetail {
   final User user;
-  UserDetail(this.user);
+  final int id;
+  final bool isMyLike;
+  UserDetail({this.user, this.id, this.isMyLike});
 }

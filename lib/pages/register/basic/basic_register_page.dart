@@ -16,6 +16,7 @@ import 'package:meshi/pages/register/basic/basic_info_page_1.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_2.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_3.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/widget_util.dart';
 
 class BasicRegisterPage extends StatelessWidget with InjectorWidgetMixin {
   final doWhenFinish;
@@ -110,7 +111,7 @@ class _RegisterPageState extends State<RegisterContainer> {
                 child: currentPage as Widget,
               ),
               SizedBox(height: 20),
-              _buildBottomButtons(strings),
+              _buildBottomButtons(strings, context),
             ],
           ),
         ),
@@ -119,7 +120,7 @@ class _RegisterPageState extends State<RegisterContainer> {
   }
 
   /// Navigation buttons
-  Widget _buildBottomButtons(MyLocalizations strings) {
+  Widget _buildBottomButtons(MyLocalizations strings, BuildContext context) {
     int currentPageIndex = pages.indexOf(currentPage) + 1;
     return Row(
       children: [
@@ -167,7 +168,11 @@ class _RegisterPageState extends State<RegisterContainer> {
                                             } else {
                                               Navigator.of(this.context).pushReplacementNamed(WELCOME_ROUTE);
                                             }
-                                          }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
+                                          }, onError: (error) {
+                                            onWidgetDidBuild(() {
+                                              Scaffold.of(this.context).showSnackBar(SnackBar(content: Text(error)));
+                                            });
+                                          });
                                         }
                                         currentPage = pages[currentPageIndex - 1];
                                       }),
