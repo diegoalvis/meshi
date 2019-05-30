@@ -11,6 +11,7 @@ import 'package:meshi/pages/home/interests/mutual_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
+import '../../../main.dart';
 import 'base_insterests_page.dart';
 import 'mutual_page.dart';
 
@@ -33,7 +34,7 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
 
   @override
   onFloatingButtonPressed(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    Navigator.pushNamed(context, RECOMMENDATIONS_ROUTE);
   }
 }
 
