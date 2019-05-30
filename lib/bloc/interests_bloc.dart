@@ -25,7 +25,7 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
         case InterestsEventType.getMutals:
           yield LoadingState();
           final matches = await repository.getMatches();
-          yield SuccessState<List<Matches>>(data: matches);
+          yield SuccessState<List<Match>>(data: matches);
           break;
         case InterestsEventType.getLikesMe:
           yield LoadingState();

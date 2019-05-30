@@ -56,7 +56,7 @@ class BaseInterestsPage extends StatelessWidget {
 
             return RefreshIndicator(
                 onRefresh: _fetchRewardData,
-                child: myLikes == null
+                child: myLikes == null || myLikes.length == 0
                     ? ListView(children: <Widget>[SizedBox(height: 100), Center(child: Text("No se encontrar datos"))])
                     : Column(
                         children: <Widget>[

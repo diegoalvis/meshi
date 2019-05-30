@@ -33,10 +33,10 @@ class User {
   @JsonSerializable(nullable: true) DateTime birthdate;
   @JsonSerializable(nullable: true) List<String> images;
   String gender;
-  @JsonSerializable(nullable: true) Set<String> likeGender;
+  @JsonSerializable(nullable: true) List<String> likeGender;
   String eduLevel;
   String bodyShape;
-  @JsonSerializable(nullable: true) Set<String> bodyShapePreferred;
+  @JsonSerializable(nullable: true) List<String> bodyShapePreferred;
   int height;
   double income;
   int minAgePreferred, maxAgePreferred;

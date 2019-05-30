@@ -103,7 +103,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
-                        data: snapshot.data?.likeGender,
+                        data: snapshot.data?.likeGender?.toSet(),
                         onGenderSelected: (gender) {
                           if (snapshot.data?.likeGender?.contains(gender) == true) {
                             bloc.removeGender(gender);

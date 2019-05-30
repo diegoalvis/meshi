@@ -26,12 +26,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
       images: (json['images'] as List)?.map((e) => e as String)?.toList(),
       gender: json['gender'] as String,
       likeGender:
-          (json['likeGender'] as List)?.map((e) => e as String)?.toSet(),
+          (json['likeGender'] as List)?.map((e) => e as String)?.toList(),
       eduLevel: json['eduLevel'] as String,
       bodyShape: json['bodyShape'] as String,
       bodyShapePreferred: (json['bodyShapePreferred'] as List)
           ?.map((e) => e as String)
-          ?.toSet(),
+          ?.toList(),
       height: json['height'] as int,
       income: (json['income'] as num)?.toDouble(),
       minAgePreferred: json['minAgePreferred'] as int,
@@ -63,10 +63,10 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'birthdate': instance.birthdate?.toIso8601String(),
       'images': instance.images,
       'gender': instance.gender,
-      'likeGender': instance.likeGender?.toList(),
+      'likeGender': instance.likeGender,
       'eduLevel': instance.eduLevel,
       'bodyShape': instance.bodyShape,
-      'bodyShapePreferred': instance.bodyShapePreferred?.toList(),
+      'bodyShapePreferred': instance.bodyShapePreferred,
       'height': instance.height,
       'income': instance.income,
       'minAgePreferred': instance.minAgePreferred,

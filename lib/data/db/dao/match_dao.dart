@@ -13,7 +13,7 @@ class MatchDao {
     _db = appDatabase.database;
   }
 
-  Future<List<Matches>> getAll() async{
+  Future<List<Match>> getAll() async{
     final db = await _db;
     final result = await db.query('match');
     return compute(parseList, result);
@@ -24,7 +24,7 @@ class MatchDao {
     await db.delete('match');
   }
 
-  Future insertAll(List<Matches> matches) async{
+  Future insertAll(List<Match> matches) async{
     final db = await _db;
     final batch = db.batch();
     matches.forEach((m) {
@@ -40,4 +40,4 @@ class MatchDao {
 
 }
 
-List<Matches> parseList(List<Map<String, dynamic>> json) => json.map((x) => Matches.fromDatabase(x)).toList();
+List<Match> parseList(List<Map<String, dynamic>> json) => json.map((x) => Match.fromDatabase(x)).toList();

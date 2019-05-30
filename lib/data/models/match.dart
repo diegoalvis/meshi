@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'match.g.dart';
 
 @JsonSerializable(nullable: true)
-class Matches{
+class Match{
   int id;
   String name;
   List<String> images;
@@ -12,18 +12,18 @@ class Matches{
   int idMatch;
   DateTime lastDate;
 
-  Matches({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage});
+  Match({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage});
 
-  factory Matches.fromJson(Map<String, dynamic> json) => _$MatchesFromJson(json);
-  Map<String, dynamic> toJson() => _$MatchesToJson(this);
+  factory Match.fromJson(Map<String, dynamic> json) => _$MatchFromJson(json);
+  Map<String, dynamic> toJson() => _$MatchToJson(this);
 
-  factory Matches.fromDatabase(Map<String, dynamic> json){
+  factory Match.fromDatabase(Map<String, dynamic> json){
     json["images"] = (json["images"] as String)?.split(",") ?? [];
-    return _$MatchesFromJson(json);
+    return _$MatchFromJson(json);
   }
 
   Map<String, dynamic> toDatabase(){
-    final json =  _$MatchesToJson(this);
+    final json =  _$MatchToJson(this);
     json["images"] = (json['images'] as List)?.join(",") ?? null;
     return json;
   }

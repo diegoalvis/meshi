@@ -18,7 +18,7 @@ import '../../../main.dart';
 
 class MutualPage extends StatelessWidget {
   InterestsBloc _bloc;
-  List<Matches> matches;
+  List<Match> matches;
 
   Future<Null> _fetchRewardData() async {
     _bloc.dispatch(InterestsEventType.getMutals);
@@ -41,7 +41,7 @@ class MutualPage extends StatelessWidget {
             if (state is LoadingState) {
               return Center(child: CircularProgressIndicator());
             }
-            if (state is SuccessState<List<Matches>>) {
+            if (state is SuccessState<List<Match>>) {
               matches = state.data;
             }
             if (state is ErrorState) {
@@ -63,7 +63,6 @@ class MutualPage extends StatelessWidget {
                             onTap: () {
                               Navigator.pushNamed(context, CHAT_ROUTE,
                                   arguments: match);
-
                             },
                             title: Row(children: [
                               ClipOval(

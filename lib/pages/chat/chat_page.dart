@@ -14,7 +14,7 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Matches match = ModalRoute.of(context).settings.arguments;
+    final Match match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
         bindFunc: (binder) {
@@ -31,7 +31,7 @@ class ChatPage extends StatelessWidget {
 }
 
 class ChatBody extends StatefulWidget {
-  final Matches _matches;
+  final Match _matches;
 
   ChatBody(this._matches) : super(key: ValueKey("chat-body"));
 
@@ -44,7 +44,7 @@ class ChatBodyState extends State<ChatBody> {
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
 
-  final Matches _matches;
+  final Match _matches;
 
   int _me;
 

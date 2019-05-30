@@ -90,7 +90,7 @@ class RegisterBloc extends BaseBloc {
 
   void addGender(String gender) {
     if (session.user.likeGender == null) {
-      session.user.likeGender = Set();
+      session.user.likeGender = List();
     }
     session.user.likeGender.add(gender);
     _userSubject.sink.add(session.user);
@@ -118,7 +118,11 @@ class RegisterBloc extends BaseBloc {
   Observable<int> updateUseInfo() {
     progressSubject.sink.add(true);
     return repository.updateUserBasicInfo(session.user).map((success) {
-      if (success) return doWhenFinish;
+      if (success) {
+        return doWhenFinish;
+      } else {
+        throw Exception();
+      }
     }).handleError((error) {
       errorSubject.sink.add(error.toString());
     }).doOnEach((data) => progressSubject.sink.add(false));

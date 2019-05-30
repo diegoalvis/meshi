@@ -80,7 +80,7 @@ class FormBloc extends BaseBloc {
 
   void updateBodyShapePreferred(String bodyShapePreferred) {
     if (session.user.bodyShapePreferred == null) {
-      session.user.bodyShapePreferred = Set();
+      session.user.bodyShapePreferred = List();
     }
 
     if (session.user.bodyShapePreferred.contains(bodyShapePreferred)) {
