@@ -53,7 +53,10 @@ class MutualPage extends StatelessWidget {
             return RefreshIndicator(
                 onRefresh: _fetchRewardData,
                 child: matches == null
-                    ? ListView(children: <Widget>[SizedBox(height: 100), Center(child: Text("No tienes mutuos aun"))])
+                    ? ListView(children: <Widget>[
+                        SizedBox(height: 100),
+                        Center(child: Text("No tienes mutuos aun"))
+                      ])
                     : ListView.separated(
                         itemCount: matches.length,
                         separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
@@ -61,15 +64,17 @@ class MutualPage extends StatelessWidget {
                           final match = matches.elementAt(index);
                           return ListTile(
                             onTap: () {
-                              Navigator.pushNamed(context, CHAT_ROUTE,
-                                  arguments: match);
+                              Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
                             },
                             title: Row(children: [
                               ClipOval(
                                 child: Container(
                                     height: 50.0,
                                     width: 50.0,
-                                    child: Image.network(BaseApi.IMAGES_URL_DEV + match?.images?.firstWhere((image) => image != null) ?? "",
+                                    child: Image.network(
+                                        BaseApi.IMAGES_URL_DEV +
+                                                match?.images?.firstWhere((image) => image != null) ??
+                                            "",
                                         fit: BoxFit.cover)),
                               ),
                               SizedBox(width: 10),
@@ -84,7 +89,9 @@ class MutualPage extends StatelessWidget {
                                               : DateFormat.jm().format(match.lastDate),
                                           style: TextStyle(color: Theme.of(context).accentColor)),
                                       SizedBox(width: 10),
-                                      Expanded(child: Text(match?.lastMessage ?? "", overflow: TextOverflow.ellipsis)),
+                                      Expanded(
+                                          child: Text(match?.lastMessage ?? "",
+                                              overflow: TextOverflow.ellipsis)),
                                     ])
                                   ],
                                 ),
@@ -94,7 +101,8 @@ class MutualPage extends StatelessWidget {
                                 child: Container(
                                   alignment: Alignment.topRight,
                                   padding: EdgeInsets.all(5.0),
-                                  child: Icon(Icons.close, size: 17.0, color: Theme.of(context).disabledColor),
+                                  child: Icon(Icons.close,
+                                      size: 17.0, color: Theme.of(context).disabledColor),
                                 ),
                               ),
                             ]),

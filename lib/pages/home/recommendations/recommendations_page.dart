@@ -6,27 +6,14 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/utils/icon_utils.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/widget_util.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
-
-List<User> users = <User>[
-  User(
-      name: 'Juana',
-      images: [
-        'https://www.24horas.cl/tendencias/espectaculosycultura/article869018.ece/ALTERNATES/BASE_LANDSCAPE/Katy%20Perry%20revela%20que%20pens%C3%B3%20en%20suicidarse%20tras%20quiebre%20matrimonial',
-      ],
-      description: 'djfkfnnvre jhfuowfirhf ajdhbnreidncd jfuwfnfhuh'),
-  User(
-      name: 'Ana',
-      images: ['http://es.web.img3.acsta.net/pictures/15/05/15/16/30/134942.jpg'],
-      description: 'djfkfnnvre jhfuowfirhf ajdhbnreidncd jfuwfnfhuh'),
-  User(
-      name: 'Juana',
-      images: [
-        'https://www.24horas.cl/tendencias/espectaculosycultura/article869018.ece/ALTERNATES/BASE_LANDSCAPE/Katy%20Perry%20revela%20que%20pens%C3%B3%20en%20suicidarse%20tras%20quiebre%20matrimonial',
-      ],
-      description: 'djfkfnnvre jhfuowfirhf ajdhbnreidncd jfuwfnfhuh'),
-];
+import 'package:meshi/pages/home/recommendations/recommendations__bloc.dart';
+import 'package:meshi/pages/home/recommendations/recommendations_event.dart';
 
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
@@ -39,17 +26,68 @@ List<T> map<T>(List list, Function handler) {
 class RecommendationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return InjectorWidget.bind(
+        bindFunc: (binder) {
+          binder.bindSingleton(RecommendationsBloc(InjectorWidget.of(context).get()));
+        },
+        child: RecommendationsList());
+  }
+}
+
+class RecommendationsList extends StatelessWidget {
+  List<User> users = [];
+  RecommendationsBloc _bloc;
+  bool isUser;
+
+  @override
+  Widget build(BuildContext context) {
+    _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Text('Recomendaciones', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: Container(color: Theme.of(context).primaryColor, child: recommendationsCarousel(context, 0)),
+      body: Column(
+        children: <Widget>[
+          BlocBuilder(
+              bloc: _bloc,
+              builder: (context, state) {
+                if (state is LoadingState) {
+                  return Flexible(
+                    child: Container(
+                        color: Theme.of(context).primaryColor,
+                        child: Center(child: CircularProgressIndicator())),
+                  );
+                }
+                if (state is SuccessState<List<User>>) {
+                  users = state.data;
+                }
+                if (state is ErrorState) {
+                  onWidgetDidBuild(() {
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+                  });
+                }
+                if (state is InitialState) {
+                  _bloc.dispatch(GetRecommendationsEvent());
+                }
+                return Flexible(
+                  child: Container(
+                      //height: 625,
+                      color: Theme.of(context).primaryColor,
+                      child: users.length > 0
+                          ? Container(child: recommendationsCarousel(context))
+                          : Center(
+                              child: Text('No hay usuarios disponibles',
+                                  style: TextStyle(color: Colors.white)))),
+                );
+              }),
+        ],
+      ),
     );
   }
 
-  CarouselSlider recommendationsCarousel(BuildContext context, int index) {
+  Widget recommendationsCarousel(BuildContext context) {
     return CarouselSlider(
       viewportFraction: 0.85,
       autoPlayCurve: Curves.easeIn,
@@ -60,13 +98,15 @@ class RecommendationsPage extends StatelessWidget {
           return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
-              child: carouselWidget(context, index));
+              child: carouselWidget(context, user));
         },
       ).toList(),
     );
   }
 
-  Widget carouselWidget(BuildContext context, int index) {
+  Widget carouselWidget(BuildContext context, User user) {
+    RecommendationsBloc _bloc;
+    _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
     return Container(
       color: Color.fromARGB(255, 245, 245, 245),
       child: Column(
@@ -81,7 +121,7 @@ class RecommendationsPage extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                      image: NetworkImage(users[0].images[0]),
+                      image: NetworkImage(user.images[0]),
                       fit: BoxFit.cover,
                     )),
                   ),
@@ -90,7 +130,7 @@ class RecommendationsPage extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text(users[0].name,
+                    child: Text(user.name,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: Colors.white,
@@ -112,7 +152,7 @@ class RecommendationsPage extends StatelessWidget {
             child: Card(
               child: ListTile(
                 title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text('jsdshduihdui ucdhuhuif ducbdsbdsiufhd'),
+                subtitle: Text(user.description),
               ),
             ),
           ),
@@ -123,7 +163,9 @@ class RecommendationsPage extends StatelessWidget {
               children: <Widget>[
                 Spacer(),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _bloc.dispatch(AddMatchEvent(user));
+                  },
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                   color: Theme.of(context).accentColor,
                   child: Row(
