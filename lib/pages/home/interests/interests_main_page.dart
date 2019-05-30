@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
+import 'package:meshi/pages/home/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -19,7 +20,8 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
   Widget build(BuildContext context) {
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindSingleton(InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+        binder.bindSingleton(
+            InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
       },
       child: InterestsMainPageContainer(),
     );
@@ -33,15 +35,17 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
 
   @override
   onFloatingButtonPressed(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => RecommendationsPage()));
   }
 }
 
 class InterestsMainPageContainer extends StatelessWidget {
   final List<Widget> interestSPages = [
     MutualPage(),
-    BaseInterestsPage(title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
-    BaseInterestsPage(title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
+    BaseInterestsPage(
+        title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
+    BaseInterestsPage(
+        title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
   ];
 
   @override
@@ -74,8 +78,7 @@ class InterestsMainPageContainer extends StatelessWidget {
               ),
             ),
           ),
-          body: TabBarView(
-              children: interestSPages)),
+          body: TabBarView(children: interestSPages)),
     );
   }
 }
