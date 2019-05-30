@@ -27,16 +27,22 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindSingleton(
-              InterestsProfileBloc(userDetails.id, InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+          binder.bindSingleton(InterestsProfileBloc(
+              userDetails.id, InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
         },
-        child: Scaffold(body: InterestsProfileBody()));
+        child: Scaffold(body: InterestsProfileBody(userDetails)));
   }
 }
 
 class InterestsProfileBody extends StatelessWidget {
+  UserDetail userDetail;
+
+  InterestsProfileBody(this.userDetail);
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height * 0.85;
+
     User user;
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return BlocBuilder(
@@ -58,71 +64,100 @@ class InterestsProfileBody extends StatelessWidget {
           }
 
           return user == null
-              ? Center(child: Text("No tienes mutuos aun"))
-              : Container(
-                  color: Color.fromARGB(255, 245, 245, 245),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                          height: 724,
-                          child: InterestsProfileImage(
-                            user: user,
-                            widget1: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CompatibilityIndicator(),
-                            ),
-                            widget2: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                              child: Card(
-                                child: ListTile(
-                                  title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  subtitle: Text(user?.description ?? ""),
-                                ),
-                              ),
-                            ),
-                          )),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            FlatButton(
-                              onPressed: () {},
-                              child: Row(
-                                children: <Widget>[
-                                  Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'NO ME INTERESA',
-                                      style: TextStyle(color: Theme.of(context).primaryColor),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                              color: Theme.of(context).accentColor,
-                              child: Row(
-                                children: <Widget>[
-                                  Image.asset(IconUtils.heart, scale: 8.0, color: Colors.white),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('ME INTERESA'),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+              ? Center(child: Text("No hay informacion disponible"))
+              : Column(
+                  children: <Widget>[
+                    Container(
+                      height: height,
+                      child: InterestsProfileImage(
+                        user: user,
+                        widget1: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CompatibilityIndicator(),
                         ),
-                      )
-                    ],
-                  ),
+                        widget2: Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: Card(
+                            child: ListTile(
+                              title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.description ?? ""),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    userDetail.isMyLike ? isMyLike(context) : likesMe(context),
+                  ],
                 );
         });
+  }
+
+  Widget likesMe(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FlatButton(
+            onPressed: () {},
+            child: Row(
+              children: <Widget>[
+                Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'NO ME INTERESA',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {},
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+            color: Theme.of(context).accentColor,
+            child: Row(
+              children: <Widget>[
+                Image.asset(IconUtils.heart, scale: 8.0, color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('ME INTERESA'),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget isMyLike(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Spacer(),
+          FlatButton(
+            onPressed: () {},
+            child: Row(
+              children: <Widget>[
+                Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'YA NO ME INTERESA',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

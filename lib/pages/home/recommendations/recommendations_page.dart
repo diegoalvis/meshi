@@ -73,7 +73,6 @@ class RecommendationsList extends StatelessWidget {
                 }
                 return Flexible(
                   child: Container(
-                      //height: 625,
                       color: Theme.of(context).primaryColor,
                       child: users.length > 0
                           ? Container(child: recommendationsCarousel(context))

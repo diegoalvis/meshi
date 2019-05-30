@@ -115,7 +115,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                   PageView.builder(
                       controller: _controller,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: 4,
+                      itemCount: user.images.length > 4 ? 4 : user.images.length,
                       itemBuilder: (BuildContext context, int index) {
                         return sliderImage(user.images[index]);
                       }),
