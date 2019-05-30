@@ -35,7 +35,7 @@ class MatchDao {
 
   Future updateMatch(int matchId, Message msg) async {
     final db = await _db;
-    await db.update('match', {'lastMessage':msg.content, "lastDate":msg.date.toIso8601String()}, where:'matchId = ?', whereArgs: [matchId]);
+    await db.update('match', {'lastMessage':msg.content, "lastDate":msg.date.toIso8601String()}, where:'idMatch = ?', whereArgs: [matchId]);
   }
 
 }

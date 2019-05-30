@@ -6,7 +6,7 @@ part of 'match.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Matches _$MatchsFromJson(Map<String, dynamic> json) {
+Matches _$MatchesFromJson(Map<String, dynamic> json) {
   return Matches(
       id: json['id'] as int,
       name: json['name'] as String,
@@ -18,7 +18,7 @@ Matches _$MatchsFromJson(Map<String, dynamic> json) {
       lastMessage: json['lastMessage'] as String);
 }
 
-Map<String, dynamic> _$MatchsToJson(Matches instance) => <String, dynamic>{
+Map<String, dynamic> _$MatchesToJson(Matches instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'images': instance.images,
