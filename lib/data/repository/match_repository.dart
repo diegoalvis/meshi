@@ -41,4 +41,9 @@ class MatchRepository{
     await this._api.addMatch(toUserId);
   }
 
+  Future getProfile(int toUserId) async{
+    final result = await this._api.getProfile(toUserId);
+    return result.data;
+  }
+
 }

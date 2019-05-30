@@ -102,7 +102,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
               titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
               title: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(user.name,
+                child: Text(user?.name ?? "",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.white,
