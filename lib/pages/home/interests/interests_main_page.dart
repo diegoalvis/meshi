@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
-import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 import '../../../main.dart';
@@ -20,8 +19,8 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
   Widget build(BuildContext context) {
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindSingleton(
-            InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+        binder.bindLazySingleton(
+            (injector, params) => InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
       },
       child: InterestsMainPageContainer(),
     );
@@ -42,15 +41,12 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
 class InterestsMainPageContainer extends StatelessWidget {
   final List<Widget> interestSPages = [
     MutualPage(),
-    BaseInterestsPage(
-        title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
-    BaseInterestsPage(
-        title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
+    BaseInterestsPage(title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
+    BaseInterestsPage(title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final _bloc = InjectorWidget.of(context).get<InterestsBloc>();
     final strings = MyLocalizations.of(context);
     return DefaultTabController(
       length: 3,

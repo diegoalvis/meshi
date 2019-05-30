@@ -18,11 +18,6 @@ class RewardApi extends BaseApi {
     });
   }
 
-  Future<BaseResponse<List<User>>> getMatches() {
-    return get("/maches").then((response) => processListResponse(response, parseMatches)).catchError((error) {
-      print(error);
-    });
-  }
 }
 
 List<Brand> parseBrand(List<Map<String, dynamic>> json) => json.map((element) => Brand.fromJson(element)).toList();

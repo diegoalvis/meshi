@@ -6,18 +6,18 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/rewards_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/models/reward_model.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/pages/home/rewards/rewards_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = RewardBloc(injector.get<RewardRepository>(), injector.get<SessionManager>());
+    final bloc = RewardBloc(injector.get<SessionManager>(), injector.get<RewardRepository>());
     return BrandContainer(bloc);
   }
 }
@@ -48,14 +48,13 @@ class BrandPageState extends State<BrandContainer> {
   @override
   void initState() {
     super.initState();
-    _bloc.brandStream.listen((brands) => setState(() => this.brands = brands));
+    //_bloc.brandStream.listen((brands) => setState(() => this.brands = brands));
     _bloc.progressSubject.listen((showProgress) => setState(() => this.showProgress = showProgress));
-    _bloc.getBrands();
+    //_bloc.getBrands();
   }
 
   Future<Null> _fetchBrands() async {
-    setState(() => showProgress = true);
-    _bloc.getBrands();
+
   }
 
   @override
