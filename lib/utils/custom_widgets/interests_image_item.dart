@@ -45,23 +45,6 @@ class InterestsItemPage extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {},
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ClipOval(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    color: Colors.transparent.withOpacity(0.20),
-                    child: Icon(Icons.close, color: Colors.white, size: 17.0),
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
