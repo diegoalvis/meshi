@@ -59,13 +59,6 @@ class InterestsMainPageContainer extends StatelessWidget {
               height: 50,
               child: TabBar(
                 indicatorColor: Colors.white,
-                onTap: (pos) {
-                  if (interestSPages[pos] is BaseInterestsPage) {
-                    _bloc.dispatch((interestSPages[pos] as BaseInterestsPage).eventType);
-                  } else {
-                    _bloc.dispatch(InterestsEventType.onMutualPageSelected);
-                  }
-                },
                 tabs: [
                   Tab(text: 'MUTUOS'),
                   Tab(text: 'ME INTERESA'),
@@ -75,8 +68,7 @@ class InterestsMainPageContainer extends StatelessWidget {
               ),
             ),
           ),
-          body: TabBarView(
-              children: interestSPages)),
+          body: TabBarView(children: interestSPages)),
     );
   }
 }
