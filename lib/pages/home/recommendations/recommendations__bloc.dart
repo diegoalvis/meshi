@@ -37,7 +37,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
           10,
           (index) => User(
                   id: int.parse('$index'),
-                  name: "Grilla $index",
+                  name: "Juanita $index",
                   description: 'Descripcion $index',
                   images: [
                     "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
