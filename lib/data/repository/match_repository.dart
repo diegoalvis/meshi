@@ -26,7 +26,7 @@ class MatchRepository{
   }
 
   Future<List<Match>> getMatches() async{
-    final result =  await this._api.getMatches();
+    final result =  await this._api.getMatches().catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);
     return result.data;

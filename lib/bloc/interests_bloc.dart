@@ -11,7 +11,7 @@ import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 
 class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
-  MatchRepository repository;
+  final MatchRepository repository;
 
   InterestsBloc(SessionManager session, this.repository) : super(session);
 

@@ -109,11 +109,13 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
             child: Image.asset(
               "res/icons/logo.png",
               scale: 4,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
         ),
-        title: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: Text('Meshi')),
+        title: GestureDetector(
+            onTap: _toggleBackdropLayerVisibility,
+            child: Text('Meshi', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary))),
       ),
       body: LayoutBuilder(builder: _buildStack),
       floatingActionButton: widget.floatingActionButton,
@@ -133,7 +135,7 @@ class _FrontLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const cornerInclination = 40.0;
+    const cornerInclination = 35.0;
     return Material(
       elevation: 16.0,
       shape: BeveledRectangleBorder(
