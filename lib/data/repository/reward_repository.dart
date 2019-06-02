@@ -17,21 +17,13 @@ class RewardRepository {
   RewardRepository(this._api);
 
   /// Fetch agreement companies
-  Future<List<Brand>> getBrands() {
-    return _api.getBrands().then((response) {
-      return response.success ? response.data : throw Error();
-    });
+  Future<List<Brand>> getBrands() async {
+    final result = await _api.getBrands();
+    return result.data;
   }
 
-  Future<List<User>> getMatchesList() {
-    return _api.getMatches().then((response) {
-      return response.success ? response.data : throw Error();
-    });
-  }
-
-  Future<Reward> getCurrent(){
-    return _api.getCurrentReward().then((response) {
-      return response.success ? response.data : throw Error();
-    });
+  Future<Reward> getCurrent() async{
+    final result = await _api.getCurrentReward();
+    return result.data;
   }
 }

@@ -102,7 +102,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
               titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
               title: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(user.name,
+                child: Text(user?.name ?? "",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.white,
@@ -115,7 +115,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                   PageView.builder(
                       controller: _controller,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: 4,
+                      itemCount: user.images.length > 4 ? 4 : user.images.length,
                       itemBuilder: (BuildContext context, int index) {
                         return sliderImage(user.images[index]);
                       }),

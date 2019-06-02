@@ -19,12 +19,6 @@ class RewardApi extends BaseApi {
     });
   }
 
-  Future<BaseResponse<List<User>>> getMatches() {
-    return get("/maches").then((response) => processListResponse(response, parseMatches)).catchError((error) {
-      print(error);
-    });
-  }
-
   Future<BaseResponse<Reward>> getCurrentReward(){
     return get("/rewards/current").then((response) => processResponse(response, parseReward)).catchError((error) {
       print(error);

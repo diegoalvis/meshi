@@ -37,8 +37,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                   stream: bloc.userStream,
                   initialData: bloc.session.user,
                   builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                    if(snapshot.data?.images != null) {
-                      List.generate(4 - (snapshot.data?.images?.length ?? 0), (index) => null).forEach((item) => snapshot.data?.images?.add(item));
+                    if (snapshot.data?.images != null) {
+                      List.generate(4 - (snapshot.data?.images?.length ?? 0), (index) => null)
+                          .forEach((item) => snapshot.data?.images?.add(item));
                     }
                     return Padding(
                       padding: EdgeInsets.all(16.0),
@@ -52,44 +53,50 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                             SizedBox(height: 20),
                             Row(
                               children: [
-                                ImageSelector(snapshot.data?.images?.elementAt(0) ?? null, (image) => bloc.addImage(image, 0),
+                                ImageSelector(
+                                    snapshot.data?.images?.elementAt(0) ?? null,
+                                    (image) => bloc.addImage(image, 0),
                                     (image) => bloc.deleteImage(image, 0)),
                                 SizedBox(width: 12),
-                                ImageSelector(snapshot.data?.images?.elementAt(1) ?? null, (image) => bloc.addImage(image, 1),
+                                ImageSelector(
+                                    snapshot.data?.images?.elementAt(1) ?? null,
+                                    (image) => bloc.addImage(image, 1),
                                     (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
                             SizedBox(height: 12),
                             Row(
                               children: [
-                                ImageSelector(snapshot.data?.images?.elementAt(2) ?? null, (image) => bloc.addImage(image, 2),
+                                ImageSelector(
+                                    snapshot.data?.images?.elementAt(2) ?? null,
+                                    (image) => bloc.addImage(image, 2),
                                     (image) => bloc.deleteImage(image, 0)),
                                 SizedBox(width: 12),
-                                ImageSelector(snapshot.data?.images?.elementAt(3) ?? null, (image) => bloc.addImage(image, 3),
+                                ImageSelector(
+                                    snapshot.data?.images?.elementAt(3) ?? null,
+                                    (image) => bloc.addImage(image, 3),
                                     (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
                           ],
                         ),
-                        snapshot.data?.state != User.ADVANCED_USER
-                            ? buildCompleteProfileBanner(context, snapshot.data?.state)
-                            : SizedBox(),
-                        buildProfileDetails(context, snapshot?.data)
+                        buildProfileDetails(context, snapshot?.data),
+                        buildCompleteProfileBanner(context),
                       ]),
                     );
                   });
         });
   }
 
-  Widget buildCompleteProfileBanner(BuildContext context, String state) {
-    String route = state == User.BASIC_USER ? FORM_ROUTE : REGISTER_ROUTE;
+  Widget buildCompleteProfileBanner(BuildContext context) {
+    String route = FORM_ROUTE;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
           Divider(height: 50.0, color: Colors.grey),
           Text(
-            "Completa tu perfil para que Meshi pueda encontrar tu parej aideal",
+            "Completa tu perfil para que Meshi pueda encontrar tu pareja ideal",
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -114,8 +121,10 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           Align(
             alignment: Alignment.centerRight,
             child: FlatButton(
-              onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
               child: Text("EDITAR", style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),
@@ -128,7 +137,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
             ),
           ),
           SizedBox(height: 8.0),
-          Text(user?.description ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
+          Text(
+              user?.description ??
+                  "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
               textAlign: TextAlign.left),
           SizedBox(height: 30.0),
           Align(
@@ -140,7 +151,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
             ),
           ),
           SizedBox(height: 8.0),
-          Text(user?.freeTime ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
+          Text(
+              user?.freeTime ??
+                  "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
               textAlign: TextAlign.left),
           SizedBox(height: 16.0),
         ],

@@ -11,7 +11,7 @@ import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 
 class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
-  MatchRepository repository;
+  final MatchRepository repository;
 
   InterestsBloc(SessionManager session, this.repository) : super(session);
 
@@ -30,12 +30,12 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
         case InterestsEventType.getLikesMe:
           yield LoadingState();
           final myLikes = await repository.getLikesMe();
-          yield LikesFetchedState(myLikes);
+          yield LikesFetchedState(myLikes, event);
           break;
         case InterestsEventType.getMyLikes:
           yield LoadingState();
           final myLikes = await repository.getMyLikes();
-          yield LikesFetchedState(myLikes);
+          yield LikesFetchedState(myLikes, event);
           break;
         case InterestsEventType.onMyLikesPageSelected:
           yield InitialState<InterestsEventType>(initialData: InterestsEventType.getMyLikes);
@@ -63,9 +63,10 @@ class InterestsEvent {
 }
 
 class LikesFetchedState extends BaseState {
-  List<MyLikes> myLikes;
+  final List<MyLikes> myLikes;
+  final InterestsEventType eventGenerator;
 
-  LikesFetchedState(this.myLikes): super(props: [myLikes]);
+  LikesFetchedState(this.myLikes, this.eventGenerator): super(props: [myLikes, eventGenerator]);
 
   @override
   String toString() => 'state-likes-fetched';

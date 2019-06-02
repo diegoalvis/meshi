@@ -29,12 +29,14 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<int>> addMatch(int id) async {
-    return get("/users/match/$id").then((response) => processBasicResponse(response));
+    return post("/users/match/$id").then((response) => processBasicResponse(response));
   }
 }
 
-
-List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) => json.map((element) => MyLikes.fromJson(element)).toList();
-List<Match> parseMatch(List<Map<String, dynamic>> json) => json.map((element) => Match.fromJson(element)).toList();
-List<User> parseUser(List<Map<String, dynamic>> json) => json.map((element) => User.fromJson(element)).toList();
+List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>
+    json.map((element) => MyLikes.fromJson(element)).toList();
+List<Match> parseMatch(List<Map<String, dynamic>> json) =>
+    json.map((element) => Match.fromJson(element)).toList();
+List<User> parseUser(List<Map<String, dynamic>> json) =>
+    json.map((element) => User.fromJson(element)).toList();
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);

@@ -26,7 +26,7 @@ class MatchRepository{
   }
 
   Future<List<Match>> getMatches() async{
-    final result =  await this._api.getMatches();
+    final result =  await this._api.getMatches().catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);
     return result.data;
@@ -39,6 +39,11 @@ class MatchRepository{
 
   Future addMatch(int toUserId) async{
     await this._api.addMatch(toUserId);
+  }
+
+  Future getProfile(int toUserId) async{
+    final result = await this._api.getProfile(toUserId);
+    return result.data;
   }
 
 }

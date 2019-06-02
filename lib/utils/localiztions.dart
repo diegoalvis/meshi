@@ -166,7 +166,7 @@ class MyLocalizations {
       'home_sections': [
         'Mis intereses',
         'Participa por una cita real',
-        'Haste premiun',
+        'Hazte premiun',
         'Ver perfil',
         'Ajustes'
       ],
@@ -177,7 +177,7 @@ class MyLocalizations {
       'home_sections': [
         'Mis intereses',
         'Participa por una cita real',
-        'Haste premiun',
+        'Hazte premiun',
         'Ver perfil',
         'Ajustes'
       ],

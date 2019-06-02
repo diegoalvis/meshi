@@ -28,22 +28,23 @@ class MenuPage extends StatelessWidget {
       child: category == currentCategory
           ? Column(
               children: <Widget>[
-                SizedBox(height: 16.0),
+                SizedBox(height: 8.0),
                 Text(
                   category,
                   style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 12.0),
+                SizedBox(height: 6.0),
                 Container(
                   width: category.length * 8.0,
                   height: 2.0,
                   color: theme.colorScheme.onPrimary,
                 ),
+                SizedBox(height: 8.0),
               ],
             )
           : Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
                 category,
                 style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 18.0),
@@ -55,15 +56,10 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: Theme.of(context).primaryColor,
-        child: ListView(
-            children: categories
-                .map(
-                    (String category) => _buildCategory(context, category, categories.indexOf(category)))
-                .toList()),
-      ),
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: ListView(
+          children: categories.map((String category) => _buildCategory(context, category, categories.indexOf(category))).toList()),
     );
   }
 }
