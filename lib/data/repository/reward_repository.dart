@@ -6,6 +6,7 @@
 import 'package:dio/dio.dart';
 import 'package:meshi/data/api/reward_api.dart';
 import 'package:meshi/data/models/brand.dart';
+import 'package:meshi/data/models/reward.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
@@ -24,6 +25,12 @@ class RewardRepository {
 
   Future<List<User>> getMatchesList() {
     return _api.getMatches().then((response) {
+      return response.success ? response.data : throw Error();
+    });
+  }
+
+  Future<Reward> getCurrent(){
+    return _api.getCurrentReward().then((response) {
       return response.success ? response.data : throw Error();
     });
   }
