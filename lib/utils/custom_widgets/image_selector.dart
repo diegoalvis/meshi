@@ -65,16 +65,30 @@ class ImageSelector extends StatelessWidget {
                       ? Center(child: CircularProgressIndicator())
                       : image != null && image.isNotEmpty && image != "null"
                           ? DecoratedBox(
-                              decoration: BoxDecoration(image: DecorationImage(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
                                 image: NetworkImage(BaseApi.IMAGES_URL_DEV + image),
                                 fit: BoxFit.cover,
                               )),
                               child: GestureDetector(
                                 onTap: () => onDeleteSelected(image),
-                                child: Container(
-                                  padding: EdgeInsets.all(5.0),
+                                child: Align(
                                   alignment: Alignment.topRight,
-                                  child: Icon(Icons.close),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: ClipOval(
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        color: Colors.transparent.withOpacity(0.20),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                          size: 17,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
