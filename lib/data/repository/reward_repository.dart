@@ -3,13 +3,10 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:dio/dio.dart';
 import 'package:meshi/data/api/reward_api.dart';
 import 'package:meshi/data/models/brand.dart';
-import 'package:meshi/data/models/reward.dart';
-import 'package:meshi/data/models/user.dart';
-import 'package:meshi/managers/session_manager.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/reward_info.dart';
 
 class RewardRepository {
   RewardApi _api;
@@ -22,8 +19,12 @@ class RewardRepository {
     return result.data;
   }
 
-  Future<Reward> getCurrent() async{
+  Future<RewardInfo> getCurrent() async{
     final result = await _api.getCurrentReward();
     return result.data;
+  }
+
+  Future join(int rewardId, List<Match> couples) async{
+    await _api.joinReward(rewardId, couples);
   }
 }

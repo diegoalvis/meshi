@@ -31,6 +31,10 @@ class MatchApi extends BaseApi {
   Future<BaseResponse<int>> addMatch(int id) async {
     return post("/users/match/$id").then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<int>> disLike(int id) async {
+    return post("/users/dislike/$id").then((response) => processBasicResponse(response));
+  }
 }
 
 List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>
