@@ -33,7 +33,6 @@ class LoginForm extends StatefulWidget {
 class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   bool loading = false;
   BuildContext buildContext;
-  SessionManager _session;
 
   final LoginBloc _bloc;
 
@@ -53,7 +52,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     super.initState();
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
-    _session = InjectorWidget.of(context).get();
     _bloc.userStream?.listen((user) async {
       if (user == null) {
         controller.forward();
