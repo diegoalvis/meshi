@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/*Text(
+'meshi',
+style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
+),*/
+
 class ContactPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -60,8 +65,5 @@ class ContactPage extends StatelessWidget {
     );
   }
 }
-/*Text(
-'meshi',
-style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
-),*/
+
 
