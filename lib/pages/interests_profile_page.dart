@@ -103,7 +103,7 @@ class InterestsProfileBody extends StatelessWidget {
             onPressed: () {},
             child: Row(
               children: <Widget>[
-                Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
+                //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -120,7 +120,7 @@ class InterestsProfileBody extends StatelessWidget {
             color: Theme.of(context).accentColor,
             child: Row(
               children: <Widget>[
-                Image.asset(IconUtils.heart, scale: 8.0, color: Colors.white),
+                Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text('ME INTERESA'),
@@ -144,7 +144,7 @@ class InterestsProfileBody extends StatelessWidget {
             onPressed: () {},
             child: Row(
               children: <Widget>[
-                Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
+                //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

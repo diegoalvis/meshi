@@ -54,7 +54,10 @@ class BaseInterestsPage extends StatelessWidget {
           return RefreshIndicator(
               onRefresh: _fetchRewardData,
               child: myLikes == null //|| myLikes.length == 0
-                  ? ListView(children: <Widget>[SizedBox(height: 100), Center(child: Text("No se encontrar datos"))])
+                  ? ListView(children: <Widget>[
+                      SizedBox(height: 100),
+                      Center(child: Text("No se encontraron datos"))
+                    ])
                   : Column(
                       children: <Widget>[
                         Padding(
@@ -62,7 +65,8 @@ class BaseInterestsPage extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.centerRight,
                             child: Text(title ?? "",
-                                textAlign: TextAlign.end, style: TextStyle(color: ThemeData.light().colorScheme.onSurface)),
+                                textAlign: TextAlign.end,
+                                style: TextStyle(color: ThemeData.light().colorScheme.onSurface)),
                           ),
                         ),
                         Flexible(
@@ -73,7 +77,8 @@ class BaseInterestsPage extends StatelessWidget {
                               return GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(context, '/interests-profile',
-                                        arguments: UserDetail(id: myLikes[index].id, isMyLike: isMyLike));
+                                        arguments:
+                                            UserDetail(id: myLikes[index].id, isMyLike: isMyLike));
                                   },
                                   child: InterestsItemPage(
                                     myLikes: myLikes[index],

@@ -19,8 +19,8 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
   Widget build(BuildContext context) {
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindLazySingleton(
-            (injector, params) => InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+        binder.bindLazySingleton((injector, params) =>
+            InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
       },
       child: InterestsMainPageContainer(),
     );
@@ -41,8 +41,10 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
 class InterestsMainPageContainer extends StatelessWidget {
   final List<Widget> interestSPages = [
     MutualPage(),
-    BaseInterestsPage(title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
-    BaseInterestsPage(title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
+    BaseInterestsPage(
+        title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
+    BaseInterestsPage(
+        title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
   ];
 
   @override
