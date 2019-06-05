@@ -10,9 +10,10 @@ import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/chat/chat_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/pages/home/recommendations/recommendations_page.dart';
+import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
+import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/home/rewards/select_partner_page.dart';
 import 'package:meshi/pages/interests_profile_page.dart';
 import 'package:meshi/pages/login_page.dart';
@@ -59,6 +60,7 @@ class App extends StatelessWidget {
             CHAT_ROUTE: (BuildContext context) => ChatPage(),
             RECOMMENDATIONS_ROUTE: (BuildContext context) => RecommendationsPage(),
             PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
+            SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
           },
         ));
   }
@@ -77,6 +79,7 @@ const String INTERESTS_PROFILE_ROUTE = "/interests-profile";
 const String CHAT_ROUTE = "/chat";
 const String RECOMMENDATIONS_ROUTE = "/recommendations";
 const String PROFILE_ROUTE = "/profile";
+const String SETTINGS_ROUTE = "/settings";
 
 // Themes
 ThemeData buildTheme() => ThemeData(

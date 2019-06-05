@@ -8,6 +8,7 @@ import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/pages/home/menu_page.dart';
+import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
 import 'package:meshi/utils/custom_widgets/backdrop_menu.dart';
@@ -43,6 +44,7 @@ class HomePageState extends State<HomePage> {
     RewardPage(),
     ProfilePage(),
     ProfilePage(),
+    SettingsPage(),
   ];
   HomeSection _currentPage = InterestsMainPage();
 
