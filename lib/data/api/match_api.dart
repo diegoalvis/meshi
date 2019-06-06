@@ -25,7 +25,7 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<List<User>>> getRecommendations({int limit = 0, int skip = 0}) async {
-    return get("/users").then((response) => processListResponse(response, parseUser));
+    return get("/users/recomendations").then((response) => processListResponse(response, parseUser));
   }
 
   Future<BaseResponse<int>> addMatch(int id) async {
