@@ -6,9 +6,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/data/repository/match_repository.dart';
-import 'package:meshi/pages/home/recommendations/recommendations_event.dart';
+import 'package:meshi/pages/recommendations/recommendations_event.dart';
 
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   final MatchRepository _repository;

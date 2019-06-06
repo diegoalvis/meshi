@@ -6,7 +6,6 @@
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
@@ -22,7 +21,6 @@ class LoginBloc extends BaseBloc {
   }
 
   void initFacebookLogin() async {
-
     var diegoId = "123445";
     progressSubject.sink.add(true);
     repository.loginUser(diegoId).catchError((error) {
@@ -31,6 +29,7 @@ class LoginBloc extends BaseBloc {
       progressSubject.sink.add(false);
     }).then((success) {
       //session.user.state = User.NEW_USER;
+      session.setLogged(true);
       _userSubject.sink.add(session.user);
     });
 
@@ -64,7 +63,6 @@ class LoginBloc extends BaseBloc {
     }
 
     */
-
   }
 
   @override

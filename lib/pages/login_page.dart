@@ -13,7 +13,6 @@ import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
@@ -71,7 +70,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     });
     _bloc.progressSubject.listen((show) => setState(() => loading = show));
     _bloc.errorSubject.listen((error) {
-      Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text("Ocurrio un error intentalo mas tarde.")));
+      Scaffold.of(buildContext)
+          .showSnackBar(SnackBar(content: Text("Ocurrio un error intentalo mas tarde.")));
     });
   }
 
@@ -96,7 +96,10 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
           Expanded(
             child: Text(
               'meshi',
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 45,
+                  fontFamily: 'BettyLavea'),
             ),
           ),
           Expanded(
@@ -114,7 +117,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
               alignment: Alignment.bottomCenter,
               child: FadeTransition(
                 opacity: animation,
-                child: Text(strings.logInWith, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                child: Text(strings.logInWith,
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
               ),
             ),
           ),
@@ -125,7 +129,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                 alignment: loading ? Alignment.center : Alignment.topCenter,
                 child: loading
                     ? CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
                     : ButtonTheme(
                         minWidth: 180.0,
                         child: FlatButton(

@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
-import 'package:meshi/pages/home/recommendations/recommendations__bloc.dart';
-import 'package:meshi/pages/home/recommendations/recommendations_event.dart';
+import 'package:meshi/pages/recommendations/recommendations__bloc.dart';
+import 'package:meshi/pages/recommendations/recommendations_event.dart';
 
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
