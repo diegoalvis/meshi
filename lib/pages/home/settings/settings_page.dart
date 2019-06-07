@@ -41,8 +41,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
         Divider(
           color: Theme.of(context).dividerColor,
         ),
-        settingItem(context, 'Contactanos', 'Contáctanos'),
-        settingItem(context, 'Términos y condiciones', 'Términos y condiciones'),
+        settingItem(context, CONTACT_ROUTE, 'Contáctanos'),
+        settingItem(context, TERM_AND_CONDITIONS, 'Terminos y conidiciones'),
         Align(
           alignment: Alignment.centerLeft,
           child: InkWell(
@@ -95,7 +95,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
           alignment: Alignment.centerLeft,
           child: InkWell(
             onTap: () {
-              //Navigator.pushReplacementNamed(context, route);
+              Navigator.pushReplacementNamed(context, route);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),

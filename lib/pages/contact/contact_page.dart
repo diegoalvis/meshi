@@ -71,11 +71,6 @@ class ContactPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                FlatButton(
-                    onPressed: null,
-                    child: Text('Terminos y condiciones',
-                      style: TextStyle(color: Theme.of(context).primaryColorDark),
-                        ))
               ],
             ),
           ),
