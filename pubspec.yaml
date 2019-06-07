@@ -7,6 +7,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  url_launcher: ^5.0.3
   webview_flutter: ^0.3.9+1
   adhara_socket_io: ^0.1.10
   dio: 2.1.3

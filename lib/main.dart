@@ -48,7 +48,7 @@ class App extends StatelessWidget {
           ],
           theme: buildTheme(),
           home: HomePage(),
-          initialRoute: HOME_ROUTE,
+          initialRoute: LOGIN_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
@@ -66,7 +66,8 @@ class App extends StatelessWidget {
             PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
             SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
             CONTACT_ROUTE: (BuildContext context) => ContactPage(),
-            TERM_AND_CONDITIONS: (BuildContext context) => Term()
+            TERM_AND_CONDITIONS: (BuildContext context) => Term(),
+
           },
         ));
   }
@@ -88,6 +89,7 @@ const String PROFILE_ROUTE = "/profile";
 const String SETTINGS_ROUTE = "/settings";
 const String CONTACT_ROUTE = "/contact";
 const String TERM_AND_CONDITIONS = "/term";
+
 
 // Themes
 ThemeData buildTheme() => ThemeData(
