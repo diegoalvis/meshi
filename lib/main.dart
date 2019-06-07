@@ -20,6 +20,7 @@ import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/pages/contact/contact_page.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   runApp(new App());
@@ -108,3 +109,4 @@ ThemeData buildTheme() => ThemeData(
         subtitle: TextStyle(fontSize: 36.0, fontFamily: 'BettyLavea'),
       ),
     );
+

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 /*Text(
 'meshi',
@@ -19,15 +20,15 @@ class ContactPage extends StatelessWidget {
                 Text(
                   'meshi',
                   style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .secondary,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 45,
                       fontFamily: 'BettyLavea'),
                 ),
                 Text(
                   'Medellin - Colombia',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -35,10 +36,19 @@ class ContactPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 8.0),
-                        child: Icon(Icons.phone),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 8.0),
+                        child: Icon(
+                          Icons.phone,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
-                      Text('301 234 56 78'),
+                      Text(
+                        '301 234 56 78',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -46,12 +56,26 @@ class ContactPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 8.0),
-                      child: Icon(Icons.email),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 8.0),
+                      child: Icon(
+                        Icons.email,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
-                    Text('info@mesh-e.com'),
+                    Text(
+                      'info@mesh-e.com',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
                   ],
                 ),
+                FlatButton(
+                    onPressed: null,
+                    child: Text('Terminos y condiciones',
+                      style: TextStyle(color: Theme.of(context).primaryColorDark),
+                        ))
               ],
             ),
           ),
@@ -65,5 +89,3 @@ class ContactPage extends StatelessWidget {
     );
   }
 }
-
-
