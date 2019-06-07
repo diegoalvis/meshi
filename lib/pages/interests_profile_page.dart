@@ -104,7 +104,7 @@ class InterestsProfileBody extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          success == null
+          success == 0
               ? CircularProgressIndicator()
               : FlatButton(
                   onPressed: () {
@@ -123,7 +123,7 @@ class InterestsProfileBody extends StatelessWidget {
                     ],
                   ),
                 ),
-          success == null
+          success == 0
               ? CircularProgressIndicator()
               : RaisedButton(
                   onPressed: () {
@@ -163,7 +163,7 @@ class InterestsProfileBody extends StatelessWidget {
                 //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: success == null
+                  child: success == 0
                       ? CircularProgressIndicator()
                       : Text(
                           'YA NO ME INTERESA',

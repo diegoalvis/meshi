@@ -28,7 +28,8 @@ class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {
           yield SuccessState<User>(data: user);
           break;
         case InterestsProfileEvents.AddMatch:
-          final success = await _repository.addMatch(_userId);
+          int success = 0;
+          success = await _repository.addMatch(_userId);
           yield SuccessState<int>(data: success);
           break;
         case InterestsProfileEvents.DisLike:

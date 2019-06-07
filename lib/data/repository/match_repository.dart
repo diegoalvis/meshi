@@ -37,7 +37,7 @@ class MatchRepository {
   }
 
   Future addMatch(int toUserId) async {
-    final result = await this._api.addMatch(toUserId);
+    await this._api.addMatch(toUserId);
   }
 
   Future dislike(int toUserId) async {
