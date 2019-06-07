@@ -36,6 +36,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
 
 class InterestsProfileBody extends StatelessWidget {
   UserDetail userDetail;
+  int success;
 
   InterestsProfileBody(this.userDetail);
 
@@ -49,7 +50,7 @@ class InterestsProfileBody extends StatelessWidget {
         bloc: _bloc,
         builder: (context, state) {
           if (state is InitialState) {
-            _bloc.dispatch(InterestEvent.getUserInfo);
+            _bloc.dispatch(InterestsProfileEvents.getUserInfo);
           }
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());
@@ -57,14 +58,17 @@ class InterestsProfileBody extends StatelessWidget {
           if (state is SuccessState<User>) {
             user = state.data;
           }
+          if (state is SuccessState<int>) {
+            success = state.data;
+            Navigator.pop(context);
+          }
           if (state is ErrorState) {
             onWidgetDidBuild(() {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrió un error")));
             });
           }
-
           return user == null
-              ? Center(child: Text("No hay informacion disponible"))
+              ? Center(child: Text("No hay información disponible"))
               : Column(
                   children: <Widget>[
                     Container(
@@ -94,46 +98,56 @@ class InterestsProfileBody extends StatelessWidget {
   }
 
   Widget likesMe(BuildContext context) {
+    final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          FlatButton(
-            onPressed: () {},
-            child: Row(
-              children: <Widget>[
-                //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'NO ME INTERESA',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
+          success == null
+              ? CircularProgressIndicator()
+              : FlatButton(
+                  onPressed: () {
+                    _bloc.dispatch(InterestsProfileEvents.DisLike);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'NO ME INTERESA',
+                          style: TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          RaisedButton(
-            onPressed: () {},
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-            color: Theme.of(context).accentColor,
-            child: Row(
-              children: <Widget>[
-                Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('ME INTERESA'),
-                ),
-              ],
-            ),
-          )
+          success == null
+              ? CircularProgressIndicator()
+              : RaisedButton(
+                  onPressed: () {
+                    _bloc.dispatch(InterestsProfileEvents.AddMatch);
+                  },
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                  color: Theme.of(context).accentColor,
+                  child: Row(
+                    children: <Widget>[
+                      Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('ME INTERESA'),
+                      ),
+                    ],
+                  ),
+                )
         ],
       ),
     );
   }
 
   Widget isMyLike(BuildContext context) {
+    final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -141,16 +155,20 @@ class InterestsProfileBody extends StatelessWidget {
         children: <Widget>[
           Spacer(),
           FlatButton(
-            onPressed: () {},
+            onPressed: () {
+              _bloc.dispatch(InterestsProfileEvents.DisLike);
+            },
             child: Row(
               children: <Widget>[
                 //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'YA NO ME INTERESA',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
+                  child: success == null
+                      ? CircularProgressIndicator()
+                      : Text(
+                          'YA NO ME INTERESA',
+                          style: TextStyle(color: Theme.of(context).primaryColor),
+                        ),
                 ),
               ],
             ),
