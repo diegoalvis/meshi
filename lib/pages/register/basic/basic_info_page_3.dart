@@ -12,6 +12,10 @@ import 'package:meshi/utils/localiztions.dart';
 
 class BasicInfoPageThree extends StatelessWidget with FormSection {
   bool infoComplete;
+  final _focusDescription = FocusNode();
+  final _focusOcuppation = FocusNode();
+  final _focusFreeTime = FocusNode();
+  final _focusInterests = FocusNode();
 
   @override
   bool isInfoComplete() => infoComplete;
@@ -19,20 +23,20 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    final bloc = RegisterBlocProvider
-        .of(context)
-        .bloc;
+    final bloc = RegisterBlocProvider.of(context).bloc;
     return StreamBuilder<User>(
         stream: bloc.userStream,
         initialData: bloc.session.user,
         builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
           TextEditingController descriptionController = TextEditingController();
           descriptionController.text = snapshot.data?.description ?? "";
-          descriptionController.addListener(() => bloc.session.user.description = descriptionController.text);
+          descriptionController
+              .addListener(() => bloc.session.user.description = descriptionController.text);
 
           TextEditingController occupationController = TextEditingController();
           occupationController.text = snapshot.data?.occupation ?? "";
-          occupationController.addListener(() => bloc.session.user.occupation = occupationController.text);
+          occupationController
+              .addListener(() => bloc.session.user.occupation = occupationController.text);
 
           TextEditingController freeTimeController = TextEditingController();
           freeTimeController.text = snapshot.data?.freeTime ?? "";
@@ -42,18 +46,10 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
           interestsController.text = snapshot.data?.interests ?? "";
           interestsController.addListener(() => bloc.session.user.interests = interestsController.text);
 
-          infoComplete = descriptionController.text
-              .trim()
-              .length > 0 &&
-              occupationController.text
-                  .trim()
-                  .length > 0 &&
-              freeTimeController.text
-                  .trim()
-                  .length > 0 &&
-              interestsController.text
-                  .trim()
-                  .length > 0;
+          infoComplete = descriptionController.text.trim().length > 0 &&
+              occupationController.text.trim().length > 0 &&
+              freeTimeController.text.trim().length > 0 &&
+              interestsController.text.trim().length > 0;
 
           return SingleChildScrollView(
             child: Column(
@@ -69,6 +65,13 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
                     border: UnderlineInputBorder(),
                     labelText: strings.howDescribeYourself,
                   ),
+                  focusNode: _focusDescription,
+                  textCapitalization: TextCapitalization.sentences,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    _focusDescription.unfocus();
+                    FocusScope.of(context).requestFocus(_focusFreeTime);
+                  },
                 ),
                 SizedBox(height: 25),
                 TextField(
@@ -77,6 +80,13 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
                     border: UnderlineInputBorder(),
                     labelText: strings.hobbiesCaption,
                   ),
+                  textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.sentences,
+                  focusNode: _focusFreeTime,
+                  onEditingComplete: () {
+                    _focusFreeTime.unfocus();
+                    FocusScope.of(context).requestFocus(_focusOcuppation);
+                  },
                 ),
                 SizedBox(height: 25),
                 TextField(
@@ -85,6 +95,13 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
                     border: UnderlineInputBorder(),
                     labelText: strings.whatYouDo,
                   ),
+                  textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.sentences,
+                  focusNode: _focusOcuppation,
+                  onEditingComplete: () {
+                    _focusOcuppation.unfocus();
+                    FocusScope.of(context).requestFocus(_focusInterests);
+                  },
                 ),
                 SizedBox(height: 25),
                 TextField(
@@ -93,6 +110,8 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
                     border: UnderlineInputBorder(),
                     labelText: strings.whatYouLookingFor,
                   ),
+                  focusNode: _focusInterests,
+                  textCapitalization: TextCapitalization.sentences,
                 ),
                 SizedBox(height: 25),
               ],

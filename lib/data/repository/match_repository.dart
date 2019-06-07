@@ -4,50 +4,48 @@ import 'package:meshi/data/models/match.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
 
-class MatchRepository{
-
+class MatchRepository {
   final MatchApi _api;
   final MatchDao _dao;
 
   MatchRepository(this._api, this._dao);
 
-  Future<List<MyLikes>> getMyLikes() async{
-      final result =  await this._api.getMyLikes();
-      return result.data;
-  }
-
-  Future<List<MyLikes>> getLikesMe() async{
-    final result =  await this._api.getLikesMe();
+  Future<List<MyLikes>> getMyLikes() async {
+    final result = await this._api.getMyLikes();
     return result.data;
   }
 
-  Future<List<Match>> getLocalMatches() async{
+  Future<List<MyLikes>> getLikesMe() async {
+    final result = await this._api.getLikesMe();
+    return result.data;
+  }
+
+  Future<List<Match>> getLocalMatches() async {
     return _dao.getAll();
   }
 
-  Future<List<Match>> getMatches() async{
-    final result =  await this._api.getMatches().catchError((error) => getLocalMatches());
+  Future<List<Match>> getMatches() async {
+    final result = await this._api.getMatches().catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);
     return result.data;
   }
 
-  Future<List<User>> getRecommendations({int limit, int skip}) async{
-    final result =  await this._api.getRecommendations(limit: limit, skip: skip);
+  Future<List<User>> getRecommendations({int limit, int skip}) async {
+    final result = await this._api.getRecommendations(limit: limit, skip: skip);
     return result.data;
   }
 
-  Future addMatch(int toUserId) async{
-    await this._api.addMatch(toUserId);
+  Future addMatch(int toUserId) async {
+    final result = await this._api.addMatch(toUserId);
   }
 
-  Future dislike(int toUserId) async{
+  Future dislike(int toUserId) async {
     await this._api.disLike(toUserId);
   }
 
-  Future getProfile(int toUserId) async{
+  Future getProfile(int toUserId) async {
     final result = await this._api.getProfile(toUserId);
     return result.data;
   }
-
 }

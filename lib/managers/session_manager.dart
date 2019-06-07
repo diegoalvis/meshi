@@ -28,8 +28,9 @@ class SessionManager {
 
   Future<bool> get logged async => await preferences.then((value) => value.getBool("logged") ?? false);
 
-  void setLogged(bool value) {
-    preferences.then((prefs) => prefs.setBool("logged", value));
+  void setLogged(bool value) async {
+    final prefs = await preferences;
+    await prefs.setBool("logged", value);
   }
 
   Future<User> initUser() {

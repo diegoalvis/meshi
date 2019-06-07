@@ -31,8 +31,8 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   Stream<BaseState> _loadRecommendationsToState() async* {
     try {
       yield LoadingState();
-//      users = await _repository.getRecommendations();
-      users = List.generate(
+      users = await _repository.getRecommendations();
+      /*users = List.generate(
           10,
           (index) => User(
                   id: int.parse('$index'),
@@ -40,7 +40,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
                   description: 'Descripcion $index',
                   images: [
                     "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  ]));
+                  ]));*/
       yield SuccessState<List<User>>(data: users);
     } on Exception catch (e) {
       yield ErrorState(exception: e);

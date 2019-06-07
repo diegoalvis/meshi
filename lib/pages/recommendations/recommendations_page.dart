@@ -56,8 +56,7 @@ class RecommendationsList extends StatelessWidget {
                 if (state is LoadingState) {
                   return Flexible(
                     child: Container(
-                        color: Theme.of(context).primaryColor,
-                        child: Center(child: CircularProgressIndicator())),
+                        color: Colors.white, child: Center(child: CircularProgressIndicator())),
                   );
                 }
                 if (state is SuccessState<List<User>>) {

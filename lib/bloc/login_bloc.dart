@@ -21,7 +21,7 @@ class LoginBloc extends BaseBloc {
   }
 
   void initFacebookLogin() async {
-    var diegoId = "123445";
+    var diegoId = "100014";
     progressSubject.sink.add(true);
     repository.loginUser(diegoId).catchError((error) {
       errorSubject.sink.add(error.toString());

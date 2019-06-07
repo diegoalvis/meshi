@@ -10,6 +10,7 @@ import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection {
   SessionManager session;
@@ -48,9 +49,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
           child: InkWell(
             onTap: () {
               onWidgetDidBuild(() {
-                session.setLogged(false);
-                session.clear();
-                Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
+                clearSession(context);
               });
             },
             child: Padding(
@@ -66,6 +65,13 @@ class SettingsPage extends StatelessWidget with HomeSection {
         )
       ],
     );
+  }
+
+  void clearSession(BuildContext context) async {
+    session = InjectorWidget.of(context).get<SessionManager>();
+    session.clear();
+    session.setLogged(false);
+    Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
   Widget rowSettings(BuildContext context, String rowName, bool notification) {
