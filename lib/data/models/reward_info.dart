@@ -5,16 +5,15 @@ import 'package:meshi/data/models/reward.dart';
 part 'reward_info.g.dart';
 
 @JsonSerializable(nullable: true)
-class RewardInfo{
-
-  Reward reward;
+class RewardInfo {
   bool joined;
   bool winner;
-  MyLikes couple;
+  @JsonSerializable(nullable: true) Reward reward;
+  @JsonSerializable(nullable: true) MyLikes couple;
 
-  RewardInfo({reward, joined, winner, couple});
+  RewardInfo({this.reward, this.joined, this.winner, this.couple});
 
   factory RewardInfo.fromJson(Map<String, dynamic> json) => _$RewardInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$RewardInfoToJson(this);
 
+  Map<String, dynamic> toJson() => _$RewardInfoToJson(this);
 }

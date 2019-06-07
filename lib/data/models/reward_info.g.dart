@@ -8,16 +8,20 @@ part of 'reward_info.dart';
 
 RewardInfo _$RewardInfoFromJson(Map<String, dynamic> json) {
   return RewardInfo(
-      reward: json['reward'],
-      joined: json['joined'],
-      winner: json['winner'],
-      couple: json['couple']);
+      reward: json['reward'] == null
+          ? null
+          : Reward.fromJson(json['reward'] as Map<String, dynamic>),
+      joined: json['joined'] as bool,
+      winner: json['winner'] as bool,
+      couple: json['couple'] == null
+          ? null
+          : MyLikes.fromJson(json['couple'] as Map<String, dynamic>));
 }
 
 Map<String, dynamic> _$RewardInfoToJson(RewardInfo instance) =>
     <String, dynamic>{
-      'reward': instance.reward,
       'joined': instance.joined,
       'winner': instance.winner,
+      'reward': instance.reward,
       'couple': instance.couple
     };
