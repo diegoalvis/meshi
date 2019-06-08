@@ -23,7 +23,7 @@ import 'package:path/path.dart';
 class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
 
-  final strings = MyLocalizations.of(context);
+  final strings = MyLocalizations.of(contxt);
   Widget get title {
     return Text(strings.aboutMe);
   }
