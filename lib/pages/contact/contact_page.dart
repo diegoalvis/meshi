@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /*Text(
 'meshi',
@@ -75,12 +75,24 @@ class ContactPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Image.network(
-                'https://d500.epimg.net/cincodias/imagenes/2015/10/29/lifestyle/1446136907_063470_1446137018_noticia_normal.jpg',
-                fit: BoxFit.cover),
+            child: GestureDetector(onTap: _openMap,
+              child: Image.network(
+                  'https://d500.epimg.net/cincodias/imagenes/2015/10/29/lifestyle/1446136907_063470_1446137018_noticia_normal.jpg',
+                  fit: BoxFit.cover),
+            ),
           )
         ],
       ),
     );
+  }
+}
+
+
+_openMap() async {
+  const url = 'https://www.google.com/maps/search/?api=1&query=6.249555, -75.570087';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
