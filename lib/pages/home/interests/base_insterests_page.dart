@@ -55,7 +55,9 @@ class BaseInterestsPage extends StatelessWidget {
               child: myLikes == null //|| myLikes.length == 0
                   ? ListView(children: <Widget>[
                       SizedBox(height: 100),
-                      Center(child: Text("No se encontraron datos"))
+                      Center(child: Text(
+                          strings.noData,
+                          ))
                     ])
                   : Column(
                       children: <Widget>[

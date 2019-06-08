@@ -35,6 +35,17 @@ class MyLocalizations {
   String get pictureSelectCaption =>
       _localizedSingleValues[locale.languageCode]['picture_select_caption'];
 
+  String get noData =>
+      _localizedSingleValues[locale.languageCode]['no_data'];
+
+  String get peopleThatInterestMe=>_localizedSingleValues[locale.languageCode]['people_that_interest_me'];
+
+  String get iInterested => _localizedSingleValues[locale.languageCode]['i_interested'];
+
+  String get iAmInterested=>_localizedSingleValues[locale.languageCode]['i_am_interested'];
+
+  String get mutual => _localizedSingleValues[locale.languageCode]['mutual'];
+
   String get logInWith => _localizedSingleValues[locale.languageCode]['log_in_with'];
 
   String get findPerfectDate => _localizedSingleValues[locale.languageCode]['find_perfect_date'];
@@ -103,6 +114,11 @@ class MyLocalizations {
       'find_perfect_date': 'Find your perfect date',
       'as_you_are': 'As you are?',
       'picture_select_caption': 'Select the pictures that you want to show others',
+      'no_data': 'No data found',
+      'people_that_interest_me':'People that interest me',
+      'i_interested': 'I INTERESTED',
+      'mutual': 'MUTUAL',
+      'i_am_interested': 'I´M INTERESTED',
       'tell_us_about_you': 'Tell us about you',
       'name': 'Name',
       'email': 'Email',
@@ -134,6 +150,11 @@ class MyLocalizations {
       'find_perfect_date': 'Encuentra tu pareja ideal',
       'as_you_are': '¿Como Eres?',
       'picture_select_caption': 'Selecciona las fotos para que tus interes puedan verte y conocerte',
+      'no data': 'No se encontraron datos',
+      'people_that_interest_me':'Personas que me interesan',
+      'i_interested': 'LE INTERESO',
+      'mutual': 'MUTUOS',
+      'i_am_interested': 'ME INTERESTED',
       'tell_us_about_you': 'Cuentanos de ti',
       'name': 'Nombre',
       'email': 'Correo',
