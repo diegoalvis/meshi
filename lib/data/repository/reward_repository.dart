@@ -24,7 +24,8 @@ class RewardRepository {
     return result.data;
   }
 
-  Future join(int rewardId, List<Match> couples) async{
-    await _api.joinReward(rewardId, couples);
+  Future<bool> join(int rewardId, List<Match> couples) async{
+    final result = await _api.joinReward(rewardId, couples);
+    return result.success;
   }
 }

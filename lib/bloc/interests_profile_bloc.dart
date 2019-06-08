@@ -9,23 +9,32 @@ import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 
-class InterestsProfileBloc extends BaseBloc<InterestEvent, BaseState> {
+class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {
   final int _userId;
-  final MatchRepository repository;
+  final MatchRepository _repository;
 
-  InterestsProfileBloc(this._userId, SessionManager session, this.repository) : super(session);
+  InterestsProfileBloc(this._userId, SessionManager session, this._repository) : super(session);
 
   @override
   BaseState get initialState => InitialState();
 
   @override
-  Stream<BaseState> mapEventToState(InterestEvent event) async* {
+  Stream<BaseState> mapEventToState(InterestsProfileEvents event) async* {
     try {
       switch (event) {
-        case InterestEvent.getUserInfo:
+        case InterestsProfileEvents.getUserInfo:
           yield LoadingState();
-          final user = await repository.getProfile(_userId);
+          final user = await _repository.getProfile(_userId);
           yield SuccessState<User>(data: user);
+          break;
+        case InterestsProfileEvents.AddMatch:
+          int success = 0;
+          success = await _repository.addMatch(_userId);
+          yield SuccessState<int>(data: success);
+          break;
+        case InterestsProfileEvents.DisLike:
+          await _repository.dislike(_userId);
+          yield SuccessState();
           break;
       }
     } on Exception catch (e) {
@@ -34,4 +43,4 @@ class InterestsProfileBloc extends BaseBloc<InterestEvent, BaseState> {
   }
 }
 
-enum InterestEvent { getUserInfo }
+enum InterestsProfileEvents { getUserInfo, AddMatch, DisLike }

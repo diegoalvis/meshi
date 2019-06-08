@@ -12,6 +12,9 @@ import 'package:meshi/utils/localiztions.dart';
 
 class BasicInfoPageTwo extends StatelessWidget with FormSection {
   bool infoComplete;
+  final _focusEmail = FocusNode();
+  final _focusName = FocusNode();
+  final _focusDate = FocusNode();
 
   @override
   bool isInfoComplete() => infoComplete;
@@ -47,12 +50,23 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
             children: [
               TextField(
                 controller: nameController,
+                textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(labelText: strings.name),
+                focusNode: _focusName,
+                onEditingComplete: () {
+                  _focusName.unfocus();
+                  FocusScope.of(context).requestFocus(_focusEmail);
+                },
               ),
               SizedBox(height: 18),
               TextField(
                 controller: emailController,
+                focusNode: _focusEmail,
                 decoration: InputDecoration(labelText: strings.email, hintText: "usuario@example.com"),
+                onEditingComplete: () {
+                  _focusEmail.unfocus();
+                  FocusScope.of(context).requestFocus(_focusDate);
+                },
               ),
               SizedBox(height: 18),
               GestureDetector(
@@ -61,11 +75,13 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                         initialDate: snapshot.data?.birthdate ?? DateTime.now(),
                         firstDate: DateTime(1950),
                         lastDate: DateTime.now())
-                    .then<DateTime>((DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
+                    .then<DateTime>(
+                        (DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
-                    child: TextFormField(
+                    child: TextField(
+                      focusNode: _focusDate,
                       controller: TextEditingController(text: formatDate(snapshot.data?.birthdate)),
                       decoration: InputDecoration(
                         labelText: strings.birthDate,
@@ -81,7 +97,8 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                 children: [
                   Expanded(
                       child: Text(strings.self,
-                          textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryColor))),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Theme.of(context).primaryColor))),
                   Expanded(
                     flex: 2,
                     child: GenderSelector(

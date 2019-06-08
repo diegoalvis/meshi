@@ -11,8 +11,7 @@ import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/interests_image_item.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
-
-import '../../interests_profile_page.dart';
+import 'package:meshi/pages/interests_profile_page.dart';
 
 class BaseInterestsPage extends StatelessWidget {
   final String title;
