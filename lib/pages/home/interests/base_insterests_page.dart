@@ -46,7 +46,7 @@ class BaseInterestsPage extends StatelessWidget {
           }
           if (state is ErrorState) {
             onWidgetDidBuild(() {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
             });
           }
 

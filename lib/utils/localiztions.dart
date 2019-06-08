@@ -38,9 +38,14 @@ class MyLocalizations {
   String get noData =>
       _localizedSingleValues[locale.languageCode]['no_data'];
 
-  String get peopleThatInterestMe=>_localizedSingleValues[locale.languageCode]['people_that_interest_me'];
+  String get aboutMe=>
+      _localizedSingleValues[locale.languageCode]['about_me'];
+
+  String get youDoNotHaveMutualsYet=>      _localizedSingleValues[locale.languageCode]['you_do_not_have_mutuals_yet'];
 
   String get iInterested => _localizedSingleValues[locale.languageCode]['i_interested'];
+
+  String get anErrorOccurred => _localizedSingleValues[locale.languageCode]['an_error_occurred'];
 
   String get iAmInterested=>_localizedSingleValues[locale.languageCode]['i_am_interested'];
 
@@ -115,7 +120,9 @@ class MyLocalizations {
       'as_you_are': 'As you are?',
       'picture_select_caption': 'Select the pictures that you want to show others',
       'no_data': 'No data found',
-      'people_that_interest_me':'People that interest me',
+      'about_me':'About me',
+      'you_do_not_have_mutuals_yet': 'You do not have mutuals yet',
+      'an_error_occurred': 'An error occurred',
       'i_interested': 'I INTERESTED',
       'mutual': 'MUTUAL',
       'i_am_interested': 'I´M INTERESTED',
@@ -151,7 +158,9 @@ class MyLocalizations {
       'as_you_are': '¿Como Eres?',
       'picture_select_caption': 'Selecciona las fotos para que tus interes puedan verte y conocerte',
       'no data': 'No se encontraron datos',
-      'people_that_interest_me':'Personas que me interesan',
+      'about_me':'Acerca de mi',
+      'you_do_not_have_mutuals_yet':'No tienes mutuos aún',
+      'an_error_occurred': 'Ocurrió un error',
       'i_interested': 'LE INTERESO',
       'mutual': 'MUTUOS',
       'i_am_interested': 'ME INTERESTED',

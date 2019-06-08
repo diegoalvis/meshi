@@ -16,16 +16,23 @@ import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:path/path.dart';
+
+
 
 class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
+
+  final strings = MyLocalizations.of(context);
   Widget get title {
-    return Text("Sobre mi");
+    return Text(strings.aboutMe);
   }
 
   @override
+
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final strings = MyLocalizations.of(context);
+
+
     final bloc = ProfileBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
     return StreamBuilder<bool>(
         stream: bloc.progressSubject.stream,
