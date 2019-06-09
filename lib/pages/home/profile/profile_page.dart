@@ -133,7 +133,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              strings.howDoYouDescribe,
+              strings.howDescribeYourself,
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -147,7 +147,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "¿Que te gusta hacer en tus tiempos libres?",
+              strings.hobbiesCaption,
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/main.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/managers/session_manager.dart';
@@ -20,6 +21,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
+
     return Column(
       children: <Widget>[
         Divider(
@@ -29,21 +32,21 @@ class SettingsPage extends StatelessWidget with HomeSection {
           padding: const EdgeInsets.all(16.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text('Notificaciones',
+            child: Text(strings.notifications,
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                 textAlign: TextAlign.left),
           ),
         ),
-        rowSettings(context, 'Nuevo mensaje', true),
-        rowSettings(context, 'Nuevo interesad@', true),
-        rowSettings(context, 'Nuevo sorteo', false),
-        rowSettings(context, 'Premiación', true),
+        rowSettings(context,strings.newMessage, true),
+        rowSettings(context,strings.newInterested, true),
+        rowSettings(context,strings.newDraw, false),
+        rowSettings(context,strings.awards, true),
         Divider(
           color: Theme.of(context).dividerColor,
         ),
-        settingItem(context, CONTACT_ROUTE, 'Contáctanos'),
-        settingItem(context, TERM_AND_CONDITIONS, 'Terminos y conidiciones'),
+        settingItem(context, CONTACT_ROUTE, strings.contactUs),
+        settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
         Align(
           alignment: Alignment.centerLeft,
           child: InkWell(
@@ -54,7 +57,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
-              child: Text('Cerrar sesión',
+              child: Text(strings.signOff,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
