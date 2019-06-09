@@ -16,23 +16,16 @@ import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:path/path.dart';
-
-
 
 class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
-
-  final strings = MyLocalizations.of(contxt);
   Widget get title {
-    return Text(strings.aboutMe);
+    return Text("Sobre mi");
   }
 
   @override
-
   Widget buildWithInjector(BuildContext context, Injector injector) {
-
-
+    final strings = MyLocalizations.of(context);
     final bloc = ProfileBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
     return StreamBuilder<bool>(
         stream: bloc.progressSubject.stream,
@@ -54,7 +47,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                         Column(
                           children: [
                             Text(
-                              "Mis fotos",
+                              strings.myPictures,
                               textAlign: TextAlign.right,
                             ),
                             SizedBox(height: 20),
@@ -97,13 +90,14 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
 
   Widget buildCompleteProfileBanner(BuildContext context) {
     String route = FORM_ROUTE;
+    final strings = MyLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
           Divider(height: 50.0, color: Colors.grey),
           Text(
-            "Completa tu perfil para que Meshi pueda encontrar tu pareja ideal",
+            strings.completeYourProfile,
             textAlign: TextAlign.center,
           ),
           SizedBox(
