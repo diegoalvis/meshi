@@ -35,8 +35,16 @@ class MyLocalizations {
   String get pictureSelectCaption =>
       _localizedSingleValues[locale.languageCode]['picture_select_caption'];
 
-  String get noData =>
-      _localizedSingleValues[locale.languageCode]['no_data'];
+  String get noData => _localizedSingleValues[locale.languageCode]['no_data'];
+
+  String get howDoYouDescribe =>
+      _localizedSingleValues[locale.languageCode]['how_do_you_describe'];
+
+  String get editButton =>
+      _localizedSingleValues[locale.languageCode]['edit_button'];
+
+  String get completeProfileButton =>
+      _localizedSingleValues[locale.languageCode]['complete_profile_button'];
 
   String get myPictures =>
       _localizedSingleValues[locale.languageCode]['my_pictures'];
@@ -47,8 +55,8 @@ class MyLocalizations {
   //String get aboutMe=> _localizedSingleValues[locale.languageCode]['about_me'];
 
   String get youDoNotHaveMutualsYet =>
-      _localizedSingleValues[locale
-          .languageCode]['you_do_not_have_mutuals_yet'];
+      _localizedSingleValues[locale.languageCode]
+          ['you_do_not_have_mutuals_yet'];
 
   String get iInterested =>
       _localizedSingleValues[locale.languageCode]['i_interested'];
@@ -137,174 +145,185 @@ class MyLocalizations {
   }
 
   static Map<String, Map<String, String>> _localizedSingleValues = {
-  /* English text resources */
-  'en': {
-  'log_in_with': 'Log in with',
-  'find_perfect_date': 'Find your perfect date',
-  'as_you_are': 'As you are?',
-  'picture_select_caption': 'Select the pictures that you want to show others',
-  'no_data': 'No data found',
-  'my_pictures':'My pictures',
-  'complete_your_profile':'Complete your profile so that Meshi can find your ideal partner',
-  //  'about_me':'About me',
-  'you_do_not_have_mutuals_yet': 'You do not have mutuals yet',
-  'an_error_occurred': 'An error occurred',
-  'i_interested': 'I INTERESTED',
-  'mutual': 'MUTUAL',
-  'i_am_interested': 'I´M INTERESTED',
-  'tell_us_about_you': 'Tell us about you',
-  'name': 'Name',
-  'email': 'Email',
-  'birth_date': 'BirthDate',
-  'self': 'I am',
-  'interested': 'I am interested',
-  'how_describe_yourself': 'How do you describe yourself?',
-  'hobbies_caption': 'What about your hobbies?',
-  'what_you_do': 'What do you do?',
-  'what_you_looking_for': 'What are you looking for in another person?',
-  'welcome': 'Welcome',
-  'welcome_caption':
-  'In Meshi we want to suggest you people who meet the characteristics you wish in your partner, for this we do a deep form to understand your habits and interests and be more accurate when suggesting other people.',
-  'back': 'Back',
-  'of_label': 'of',
-  'next': 'Next',
-  'finish': 'Finish',
-  'camera': 'Camera',
-  'gallery': 'Album',
-  'complete_profile': 'Complete profile',
-  'log_in': 'Log In',
-  'placeholder_user': 'User',
-  'educational_level_caption': 'What is your educational level?',
-},
+    /* English text resources */
+    'en': {
+      'log_in_with': 'Log in with',
+      'find_perfect_date': 'Find your perfect date',
+      'as_you_are': 'As you are?',
+      'picture_select_caption':
+          'Select the pictures that you want to show others',
+      'no_data': 'No data found',
+      'how_do_you_describe':'¿How do you describe yourself?',
+      'edit_button': 'EDIT',
+      'complete_profile_button': 'COMPLETE PROFILE',
+      'my_pictures': 'My pictures',
+      'complete_your_profile':
+          'Complete your profile so that Meshi can find your ideal partner',
+      //  'about_me':'About me',
+      'you_do_not_have_mutuals_yet': 'You do not have mutuals yet',
+      'an_error_occurred': 'An error occurred',
+      'i_interested': 'I INTERESTED',
+      'mutual': 'MUTUAL',
+      'i_am_interested': 'I´M INTERESTED',
+      'tell_us_about_you': 'Tell us about you',
+      'name': 'Name',
+      'email': 'Email',
+      'birth_date': 'BirthDate',
+      'self': 'I am',
+      'interested': 'I am interested',
+      'how_describe_yourself': 'How do you describe yourself?',
+      'hobbies_caption': 'What about your hobbies?',
+      'what_you_do': 'What do you do?',
+      'what_you_looking_for': 'What are you looking for in another person?',
+      'welcome': 'Welcome',
+      'welcome_caption':
+          'In Meshi we want to suggest you people who meet the characteristics you wish in your partner, for this we do a deep form to understand your habits and interests and be more accurate when suggesting other people.',
+      'back': 'Back',
+      'of_label': 'of',
+      'next': 'Next',
+      'finish': 'Finish',
+      'camera': 'Camera',
+      'gallery': 'Album',
+      'complete_profile': 'Complete profile',
+      'log_in': 'Log In',
+      'placeholder_user': 'User',
+      'educational_level_caption': 'What is your educational level?',
+    },
 
 /* Spanish text resources */
-'es': {
-'log_in_with': 'Ingresa con',
-'find_perfect_date': 'Encuentra tu pareja ideal',
-'as_you_are': '¿Como Eres?',
-'picture_select_caption': 'Selecciona las fotos para que tus interes puedan verte y conocerte',
-'no data': 'No se encontraron datos',
-'my_pictures':'Mis fotos',
-'complete_your_profile':'Completa tu perfil para que Meshi pueda encontrar tu pareja ideal',
+    'es': {
+      'log_in_with': 'Ingresa con',
+      'find_perfect_date': 'Encuentra tu pareja ideal',
+      'as_you_are': '¿Como Eres?',
+      'picture_select_caption':
+          'Selecciona las fotos para que tus interes puedan verte y conocerte',
+      'no data': 'No se encontraron datos',
+      'how_do_you_describe':'¿Como te describes?',
+      'edit_button': 'EDITAR',
+      'complete_profile_button': 'COMPLAR PERFIL',
+      'my_pictures': 'Mis fotos',
+      'complete_your_profile':
+          'Completa tu perfil para que Meshi pueda encontrar tu pareja ideal',
 //  'about_me':'Acerca de mi',
-'you_do_not_have_mutuals_yet':'No tienes mutuos aún',
-'an_error_occurred': 'Ocurrió un error',
-'i_interested': 'LE INTERESO',
-'mutual': 'MUTUOS',
-'i_am_interested': 'ME INTERESTED',
-'tell_us_about_you': 'Cuentanos de ti',
-'name': 'Nombre',
-'email': 'Correo',
-'birth_date': 'Fecha de nacimiento',
-'self': 'Soy',
-'interested': 'Me interesa',
-'how_describe_yourself': 'Como te describes?',
-'hobbies_caption': 'Que te gusta hacer en tus tiempos libres?',
-'what_you_do': 'A que te dedicas?',
-'what_you_looking_for': 'Que buscas en otra persona?',
-'welcome': 'Bienvenido',
-'welcome_caption':
-'En Meshi queremos sugerite personas que cumplan con las características que tu deseas en tu pareja, para esto hacemos un cuestionario profundo para entender tus hábitos e intereses y lograr ser más asertivos a la hora de sugerirte otras personas.',
-'back': 'Atras',
-'of_label': 'de',
-'next': 'Siguiente',
-'finish': 'Finalizar',
-'camera': 'Camara',
-'gallery': 'Galeria',
-'complete_profile': 'Completar perfil',
-'log_in': 'Ingresar',
-'placeholder_user': 'Usuario',
-'educational_level_caption': 'Cual es tu grado de escolaridad',
-},
-};
+      'you_do_not_have_mutuals_yet': 'No tienes mutuos aún',
+      'an_error_occurred': 'Ocurrió un error',
+      'i_interested': 'LE INTERESO',
+      'mutual': 'MUTUOS',
+      'i_am_interested': 'ME INTERESTED',
+      'tell_us_about_you': 'Cuentanos de ti',
+      'name': 'Nombre',
+      'email': 'Correo',
+      'birth_date': 'Fecha de nacimiento',
+      'self': 'Soy',
+      'interested': 'Me interesa',
+      'how_describe_yourself': 'Como te describes?',
+      'hobbies_caption': 'Que te gusta hacer en tus tiempos libres?',
+      'what_you_do': 'A que te dedicas?',
+      'what_you_looking_for': 'Que buscas en otra persona?',
+      'welcome': 'Bienvenido',
+      'welcome_caption':
+          'En Meshi queremos sugerite personas que cumplan con las características que tu deseas en tu pareja, para esto hacemos un cuestionario profundo para entender tus hábitos e intereses y lograr ser más asertivos a la hora de sugerirte otras personas.',
+      'back': 'Atras',
+      'of_label': 'de',
+      'next': 'Siguiente',
+      'finish': 'Finalizar',
+      'camera': 'Camara',
+      'gallery': 'Galeria',
+      'complete_profile': 'Completar perfil',
+      'log_in': 'Ingresar',
+      'placeholder_user': 'Usuario',
+      'educational_level_caption': 'Cual es tu grado de escolaridad',
+    },
+  };
 
-static Map<String, Map<String, List<String>>> _localizedMultiValues = {
-  /* English text resources */
-  'en': {
-    'home_sections': [
-      'Mis intereses',
-      'Participa por una cita real',
-      'Hazte premiun',
-      'Ver perfil',
-      'Ajustes'
-    ],
-  },
+  static Map<String, Map<String, List<String>>> _localizedMultiValues = {
+    /* English text resources */
+    'en': {
+      'home_sections': [
+        'Mis intereses',
+        'Participa por una cita real',
+        'Hazte premiun',
+        'Ver perfil',
+        'Ajustes'
+      ],
+    },
 
-  /* Spanish text resources */
-  'es': {
-    'home_sections': [
-      'Mis intereses',
-      'Participa por una cita real',
-      'Hazte premiun',
-      'Ver perfil',
-      'Ajustes'
-    ],
-  }
-};
+    /* Spanish text resources */
+    'es': {
+      'home_sections': [
+        'Mis intereses',
+        'Participa por una cita real',
+        'Hazte premiun',
+        'Ver perfil',
+        'Ajustes'
+      ],
+    }
+  };
 
-static Map<String, Map<String, String>> _localizedEnumValues = {
-  /* English text resources */
-  'en': {
-    'yes': 'Yes',
-    'no': 'No',
-    'sporadically': 'Sporadically',
-    'bachelor': 'Bachelor',
-    'technical': 'Technical',
-    'technologist': 'Technologist',
-    'professional': 'Professional',
-    'postgraduate': 'Postgraduate',
-    'thin': 'Thin',
-    'medium': 'Medium',
-    'big': 'Big',
-    'maybe': 'Maybe',
-    'important': 'Important',
-    'normal': 'Normal',
-    'nothing': 'Nothing',
-    'refined': 'Refined',
-    'conventional': 'Conventional',
-    'simple': 'Simple',
-    'any': 'Any',
-    'left': 'Left',
-    'center': 'Center',
-    'right': 'Right',
-    'urban': 'Urban',
-    'pop': 'Pop',
-    'rock': 'Rock',
-    'salsa': 'Salsa',
-    'crossover': 'Crossover',
-  },
+  static Map<String, Map<String, String>> _localizedEnumValues = {
+    /* English text resources */
+    'en': {
+      'yes': 'Yes',
+      'no': 'No',
+      'sporadically': 'Sporadically',
+      'bachelor': 'Bachelor',
+      'technical': 'Technical',
+      'technologist': 'Technologist',
+      'professional': 'Professional',
+      'postgraduate': 'Postgraduate',
+      'thin': 'Thin',
+      'medium': 'Medium',
+      'big': 'Big',
+      'maybe': 'Maybe',
+      'important': 'Important',
+      'normal': 'Normal',
+      'nothing': 'Nothing',
+      'refined': 'Refined',
+      'conventional': 'Conventional',
+      'simple': 'Simple',
+      'any': 'Any',
+      'left': 'Left',
+      'center': 'Center',
+      'right': 'Right',
+      'urban': 'Urban',
+      'pop': 'Pop',
+      'rock': 'Rock',
+      'salsa': 'Salsa',
+      'crossover': 'Crossover',
+    },
 
-  /* Spanish text resources */
-  'es': {
-    'yes': 'Si',
-    'no': 'No',
-    'sporadically': 'Esporadicamente',
-    'bachelor': 'Bachiller',
-    'technical': 'Tecnico',
-    'technologist': 'Tecnologo',
-    'professional': 'Profesional',
-    'postgraduate': 'Postgrado',
-    'thin': 'Delogad@',
-    'medium': 'Madian@',
-    'big': 'Grande',
-    'maybe': 'No he decidico',
-    'important': 'Importante',
-    'normal': 'Normal',
-    'refined': 'Refinados',
-    'conventional': 'Convencionales',
-    'simple': 'Sencillos',
-    'any': 'Cualquiera',
-    'left':
-    'Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país',
-    'center':
-    'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
-    'right':
-    'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
-    'nothing': 'No es importante',
-    'urban': 'Urbano',
-    'pop': 'Pop',
-    'rock': 'Rock',
-    'salsa': 'Salsa',
-    'crossover': 'Crossover',
-  }
-};}
+    /* Spanish text resources */
+    'es': {
+      'yes': 'Si',
+      'no': 'No',
+      'sporadically': 'Esporadicamente',
+      'bachelor': 'Bachiller',
+      'technical': 'Tecnico',
+      'technologist': 'Tecnologo',
+      'professional': 'Profesional',
+      'postgraduate': 'Postgrado',
+      'thin': 'Delogad@',
+      'medium': 'Madian@',
+      'big': 'Grande',
+      'maybe': 'No he decidico',
+      'important': 'Importante',
+      'normal': 'Normal',
+      'refined': 'Refinados',
+      'conventional': 'Convencionales',
+      'simple': 'Sencillos',
+      'any': 'Cualquiera',
+      'left':
+          'Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país',
+      'center':
+          'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
+      'right':
+          'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
+      'nothing': 'No es importante',
+      'urban': 'Urbano',
+      'pop': 'Pop',
+      'rock': 'Rock',
+      'salsa': 'Salsa',
+      'crossover': 'Crossover',
+    }
+  };
+}

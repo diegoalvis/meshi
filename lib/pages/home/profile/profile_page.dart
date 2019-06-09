@@ -107,13 +107,14 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
               onPressed: () => Navigator.of(context).pushNamed(route),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
               color: Theme.of(context).accentColor,
-              child: Text("COMPLETAR PERFIL")),
+              child: Text(strings.completeProfileButton)),
         ],
       ),
     );
   }
 
   Widget buildProfileDetails(BuildContext context, User user) {
+    final strings = MyLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -126,13 +127,13 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                   context,
                   MaterialPageRoute(
                       builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
-              child: Text("EDITAR", style: TextStyle(color: Theme.of(context).accentColor)),
+              child: Text(strings.editButton, style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "¿Como te describes?",
+              strings.howDoYouDescribe,
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
