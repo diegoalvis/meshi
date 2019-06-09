@@ -20,7 +20,7 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
     return InjectorWidget.bind(
       bindFunc: (binder) {
         binder.bindLazySingleton((injector, params) =>
-            InterestsBloc(InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+            InterestsBloc(InjectorWidget.of(context).get()));
       },
       child: InterestsMainPageContainer(),
     );

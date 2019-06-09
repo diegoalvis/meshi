@@ -16,7 +16,7 @@ class LoginBloc extends BaseBloc {
 
   UserRepository repository;
 
-  LoginBloc(this.repository, session) : super(session) {
+  LoginBloc(this.repository, session) : super(session: session) {
     session.initUser().then((user) => _userSubject.sink.add(user));
   }
 

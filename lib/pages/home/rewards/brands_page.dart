@@ -17,7 +17,7 @@ import 'package:meshi/utils/localiztions.dart';
 class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = RewardBloc(injector.get<SessionManager>(), injector.get<RewardRepository>(), injector.get());
+    final bloc = RewardBloc(injector.get<RewardRepository>(), injector.get());
     return BrandContainer(bloc);
   }
 }

@@ -32,7 +32,7 @@ class FormBloc extends BaseBloc {
 
   UserRepository repository;
 
-  FormBloc(this.repository, session) : super(session) {
+  FormBloc(this.repository, session) : super(session: session) {
     if (session.user?.deepening?.children == null) session.user?.deepening?.children = 0;
   }
 

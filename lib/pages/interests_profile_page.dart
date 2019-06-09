@@ -24,11 +24,9 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
   @override
   Widget build(BuildContext context) {
     UserDetail userDetails = ModalRoute.of(context).settings.arguments;
-    final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindSingleton(InterestsProfileBloc(
-              userDetails.id, InjectorWidget.of(context).get(), InjectorWidget.of(context).get()));
+          binder.bindSingleton(InterestsProfileBloc(userDetails.id, InjectorWidget.of(context).get()));
         },
         child: Scaffold(body: InterestsProfileBody(userDetails)));
   }

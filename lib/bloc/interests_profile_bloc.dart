@@ -13,7 +13,7 @@ class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {
   final int _userId;
   final MatchRepository _repository;
 
-  InterestsProfileBloc(this._userId, SessionManager session, this._repository) : super(session);
+  InterestsProfileBloc(this._userId, this._repository) : super();
 
   @override
   BaseState get initialState => InitialState();

@@ -4,16 +4,15 @@
  */
 
 import 'package:meshi/bloc/base_bloc.dart';
-import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/repository/match_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 
 class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
   final MatchRepository repository;
 
-  InterestsBloc(SessionManager session, this.repository) : super(session);
+  InterestsBloc(this.repository) : super();
 
   @override
   BaseState get initialState => InitialState();
@@ -25,7 +24,7 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
         case InterestsEventType.getMutals:
           yield LoadingState();
           final matches = await repository.getMatches();
-          yield SuccessState<List<Match>>(data: matches);
+          yield SuccessState<List<UserMatch>>(data: matches);
           break;
         case InterestsEventType.getLikesMe:
           yield LoadingState();
@@ -66,7 +65,7 @@ class LikesFetchedState extends BaseState {
   final List<MyLikes> myLikes;
   final InterestsEventType eventGenerator;
 
-  LikesFetchedState(this.myLikes, this.eventGenerator): super(props: [myLikes, eventGenerator]);
+  LikesFetchedState(this.myLikes, this.eventGenerator) : super(props: [myLikes, eventGenerator]);
 
   @override
   String toString() => 'state-likes-fetched';

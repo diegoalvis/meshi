@@ -163,7 +163,7 @@ class _RegisterPageState extends State<RegisterContainer> {
                                         if (currentPageIndex > pages.length) {
                                           currentPageIndex = pages.length;
                                           _bloc.updateUseInfo().listen((doWhenFinish) {
-                                            if (doWhenFinish == BaseBloc.POP_PAGE) {
+                                            if (doWhenFinish == BaseBloc.ACTION_POP_PAGE) {
                                               Navigator.of(this.context).pop();
                                             } else {
                                               Navigator.of(this.context).pushReplacementNamed(WELCOME_ROUTE);

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:meshi/data/api/base_api.dart';
-import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
@@ -16,7 +16,7 @@ class MatchApi extends BaseApi {
     return get("/users/likes-me").then((response) => processListResponse(response, parseMyLikes));
   }
 
-  Future<BaseResponse<List<Match>>> getMatches() async {
+  Future<BaseResponse<List<UserMatch>>> getMatches() async {
     return get("/users/matchs").then((response) => processListResponse(response, parseMatch));
   }
 
@@ -39,8 +39,8 @@ class MatchApi extends BaseApi {
 
 List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>
     json.map((element) => MyLikes.fromJson(element)).toList();
-List<Match> parseMatch(List<Map<String, dynamic>> json) =>
-    json.map((element) => Match.fromJson(element)).toList();
+List<UserMatch> parseMatch(List<Map<String, dynamic>> json) =>
+    json.map((element) => UserMatch.fromJson(element)).toList();
 List<User> parseUser(List<Map<String, dynamic>> json) =>
     json.map((element) => User.fromJson(element)).toList();
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);

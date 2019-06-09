@@ -28,7 +28,7 @@ class RewardPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   Widget buildWithInjector(BuildContext context, Injector injector) {
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindLazySingleton((inject, params) => RewardBloc(injector.get(), injector.get(), injector.get()));
+          binder.bindLazySingleton((inject, params) => RewardBloc(injector.get(), injector.get()));
         },
         child: RewardContainer());
   }
@@ -142,7 +142,7 @@ class RewardContainer extends StatelessWidget {
       alignment: Alignment.center,
       child: FlatButton(
         onPressed: () {
-          Navigator.pushNamed(context, winner ? BRANDS_ROUTE : SELECT_PARTNER_ROUTE);
+          Navigator.pushNamed(context, winner ? BRANDS_ROUTE : SELECT_PARTNER_ROUTE, arguments: rewardInfo.reward.id);
         },
         shape: winner ? null : RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         color: winner ? null : Theme.of(context).accentColor,

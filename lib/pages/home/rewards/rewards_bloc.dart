@@ -6,17 +6,16 @@
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/models/reward_info.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
-import 'package:meshi/data/models/match.dart';
 
 class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
   final RewardRepository rewardRepository;
   final MatchRepository matchRepository;
 
-  RewardBloc(SessionManager session, this.rewardRepository, this.matchRepository) : super(session);
+  RewardBloc(this.rewardRepository, this.matchRepository) : super();
 
   @override
   BaseState get initialState => InitialState();
@@ -38,16 +37,7 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
         case RewardEventType.getMatches:
           yield LoadingState();
           final matches = await matchRepository.getMatches();
-          yield SuccessState<List<Match>>(data: matches);
-          break;
-        case RewardEventType.join:
-          final rewardJoinInfo = event.data as RewardJoinInfo;
-          final success = await rewardRepository.join(rewardJoinInfo.idReward, rewardJoinInfo.matches);
-          if (success) {
-            yield SuccessState<bool>(data: success);
-          } else {
-            yield ErrorState();
-          }
+          yield SuccessState<List<UserMatch>>(data: matches);
           break;
       }
     } on Exception catch (e) {
@@ -56,18 +46,11 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
   }
 }
 
-enum RewardEventType { getCurrent, getBrands, getMatches, join }
+enum RewardEventType { getCurrent, getBrands, getMatches }
 
 class RewardEvent<T> {
   final RewardEventType type;
   final T data;
 
   RewardEvent(this.type, {this.data});
-}
-
-class RewardJoinInfo {
-  final int idReward;
-  final List<Match> matches;
-
-  RewardJoinInfo(this.idReward, this.matches);
 }

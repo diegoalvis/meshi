@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -13,7 +13,7 @@ class MatchDao {
     _db = appDatabase.database;
   }
 
-  Future<List<Match>> getAll() async{
+  Future<List<UserMatch>> getAll() async{
     final db = await _db;
     final result = await db.query('match');
     return compute(parseList, result);
@@ -24,7 +24,7 @@ class MatchDao {
     await db.delete('match');
   }
 
-  Future insertAll(List<Match> matches) async{
+  Future insertAll(List<UserMatch> matches) async{
     final db = await _db;
     final batch = db.batch();
     matches.forEach((m) {
@@ -40,4 +40,4 @@ class MatchDao {
 
 }
 
-List<Match> parseList(List<Map<String, dynamic>> json) => json.map((x) => Match.fromDatabase(x)).toList();
+List<UserMatch> parseList(List<Map<String, dynamic>> json) => json.map((x) => UserMatch.fromDatabase(x)).toList();

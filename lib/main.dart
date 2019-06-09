@@ -37,6 +37,7 @@ class App extends StatelessWidget {
         },
         child: MaterialApp(
           title: 'Meshi',
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             const MyLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,

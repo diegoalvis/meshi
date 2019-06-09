@@ -21,7 +21,7 @@ class RegisterBloc extends BaseBloc {
 
   UserRepository repository;
 
-  RegisterBloc(this.repository, session, this.doWhenFinish) : super(session);
+  RegisterBloc(this.repository, session, this.doWhenFinish) : super(session: session);
 
   @override
   dispose() {

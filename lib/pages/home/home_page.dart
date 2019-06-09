@@ -31,7 +31,7 @@ class HomeBlocProvider extends InheritedWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  HomePageState createState() => new HomePageState(HomeBloc(null));
+  HomePageState createState() => HomePageState(HomeBloc());
 }
 
 class HomePageState extends State<HomePage> {

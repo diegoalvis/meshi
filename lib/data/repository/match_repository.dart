@@ -1,6 +1,6 @@
 import 'package:meshi/data/api/match_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
-import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
 
@@ -20,11 +20,11 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<List<Match>> getLocalMatches() async {
+  Future<List<UserMatch>> getLocalMatches() async {
     return _dao.getAll();
   }
 
-  Future<List<Match>> getMatches() async {
+  Future<List<UserMatch>> getMatches() async {
     final result = await this._api.getMatches().catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);

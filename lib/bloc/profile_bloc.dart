@@ -18,7 +18,7 @@ class ProfileBloc extends BaseBloc {
 
   UserRepository repository;
 
-  ProfileBloc(this.repository, session) : super(session);
+  ProfileBloc(this.repository, session) : super(session: session);
 
   @override
   dispose() {
