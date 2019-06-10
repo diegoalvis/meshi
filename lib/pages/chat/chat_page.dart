@@ -100,6 +100,7 @@ class ChatBodyState extends State<ChatBody> {
             },
           ),
         ),
+        // if(_matches.state == MATCH_BLOCKED)
         _chatInput()
       ],
     );

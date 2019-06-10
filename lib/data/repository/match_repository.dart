@@ -45,6 +45,14 @@ class MatchRepository{
     await this._api.disLike(toUserId);
   }
 
+  Future blockMatch(int matchId) async{
+    await this._api.block(matchId);
+  }
+
+  Future hideMatch(int matchId) async{
+    await this._api.hide(matchId);
+  }
+
   Future getProfile(int toUserId) async{
     final result = await this._api.getProfile(toUserId);
     return result.data;

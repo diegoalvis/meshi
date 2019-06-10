@@ -16,8 +16,9 @@ class MatchApi extends BaseApi {
     return get("/users/likes-me").then((response) => processListResponse(response, parseMyLikes));
   }
 
-  Future<BaseResponse<List<Match>>> getMatches() async {
-    return get("/users/matchs").then((response) => processListResponse(response, parseMatch));
+  Future<BaseResponse<List<Match>>> getMatches({bool interacted = false, bool premium = false}) async {
+    return get("/users/matches", query: {"interacted":interacted, "premium":premium})
+        .then((response) => processListResponse(response, parseMatch));
   }
 
   Future<BaseResponse<User>> getProfile(int id) async {
@@ -29,12 +30,22 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<int>> addMatch(int id) async {
-    return post("/users/match/$id").then((response) => processBasicResponse(response));
+    return post("/users/matches/$id").then((response) => processBasicResponse(response));
   }
 
   Future<BaseResponse<int>> disLike(int id) async {
     return post("/users/dislike/$id").then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<int>> hide(int idMatch) async{
+    return put("/users/matches/$idMatch/hide").then((response) => processBasicResponse(response));
+  }
+
+  Future<BaseResponse<int>> block(int idMatch) async{
+    return put("/users/matches/$idMatch/block").then((response) => processBasicResponse(response));
+  }
+
+
 }
 
 List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>
