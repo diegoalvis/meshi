@@ -6,7 +6,6 @@
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/match_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 
 class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {

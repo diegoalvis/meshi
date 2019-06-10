@@ -3,8 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/api/dto/user_dto.dart';

@@ -7,7 +7,6 @@ import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class LoginBloc extends BaseBloc {
   final _userSubject = PublishSubject<User>();

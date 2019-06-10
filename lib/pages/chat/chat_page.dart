@@ -100,6 +100,8 @@ class ChatBodyState extends State<ChatBody> {
             },
           ),
         ),
+        if(_matches.state == MATCH_BLOCKED)
+          Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con ella"),
         _chatInput()
       ],
     );
@@ -124,6 +126,7 @@ class ChatBodyState extends State<ChatBody> {
               Expanded(
                 child: TextFormField(
                   controller: _chatController,
+                  enabled: _matches.state != MATCH_BLOCKED,
                   textInputAction: TextInputAction.send,
                   onFieldSubmitted: (v) => _handleSubmit(),
                   decoration: InputDecoration(
@@ -143,7 +146,7 @@ class ChatBodyState extends State<ChatBody> {
 //              ),
               InkWell(
                 onTap: () {
-                  _handleSubmit();
+                  if(_matches.state != MATCH_BLOCKED) _handleSubmit();
                 },
                 child: Container(
                   color: Theme.of(context).primaryColor,

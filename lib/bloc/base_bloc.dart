@@ -5,7 +5,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/utils/base_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BaseBloc<E, S> extends Bloc<E, S> {

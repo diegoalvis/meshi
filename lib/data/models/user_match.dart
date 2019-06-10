@@ -3,14 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_match.g.dart';
 
+const String MATCH_BLOCKED = "blocked";
+
 @JsonSerializable(nullable: true)
 class UserMatch{
   int id;
   String name;
   List<String> images;
+  String type;
+  String state;
   String lastMessage;
   int idMatch;
   DateTime lastDate;
+  DateTime erasedDate;
 
   UserMatch({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage});
 

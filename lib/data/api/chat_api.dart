@@ -17,6 +17,10 @@ class ChatApi extends BaseApi {
     return post("/chat/$match/message", body: message.toJson()).then((response) => processBasicResponse(response));
   }
 
+  Future<BaseResponse<int>> clear(int match) async{
+    return delete("/chat/$match/clear").then((response) => processBasicResponse(response));
+  }
+
 }
 
 List<Message> parseMessages(List<Map<String, dynamic>> json) => json.map((element) => Message.fromJson(element)).toList();

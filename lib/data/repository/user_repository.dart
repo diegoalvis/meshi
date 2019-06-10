@@ -78,7 +78,7 @@ class UserRepository {
 
   /// Deletes user image
   Future<bool> deleteImage(String imageName, int index) async {
-    final user = await _session.user;
+    final user = _session.user;
     return _api.deleteImage(imageName).then((response) {
       if (response.success && response.data != null) {
         user.images[index] = null;

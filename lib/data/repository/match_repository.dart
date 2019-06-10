@@ -24,8 +24,9 @@ class MatchRepository {
     return _dao.getAll();
   }
 
-  Future<List<UserMatch>> getMatches() async {
-    final result = await this._api.getMatches().catchError((error) => getLocalMatches());
+  Future<List<UserMatch>> getMatches({bool interacted = false, bool premium = false}) async {
+    final result = await this._api.getMatches(interacted: interacted, premium: premium)
+        .catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);
     return result.data;
@@ -44,8 +45,17 @@ class MatchRepository {
     await this._api.disLike(toUserId);
   }
 
-  Future getProfile(int toUserId) async {
+  Future blockMatch(int matchId) async{
+    await this._api.block(matchId);
+  }
+
+  Future hideMatch(int matchId) async{
+    await this._api.hide(matchId);
+  }
+
+  Future getProfile(int toUserId) async{
     final result = await this._api.getProfile(toUserId);
     return result.data;
   }
+
 }
