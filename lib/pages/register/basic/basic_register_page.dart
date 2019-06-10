@@ -157,7 +157,7 @@ class _RegisterPageState extends State<RegisterContainer> {
                       : Builder(
                           builder: (contextInt) => FlatButton(
                                 onPressed: () => !currentPage.isInfoComplete()
-                                    ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text("Informacion incompleta")))
+                                    ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
                                     : setState(() {
                                         currentPageIndex++;
                                         if (currentPageIndex > pages.length) {

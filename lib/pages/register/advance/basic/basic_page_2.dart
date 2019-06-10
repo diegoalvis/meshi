@@ -28,7 +28,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
       child: Column(
         children: [
           SizedBox(height: 20),
-          Container(alignment: Alignment.centerLeft, child: Text("¿Cual es tu contextura fisica?")),
+          Container(alignment: Alignment.centerLeft, child: Text(strings.yourPhysical)),
           SizedBox(height: 20),
           Container(
             height: 40,
@@ -51,7 +51,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
             ),
           ),
           SizedBox(height: 50),
-          Container(alignment: Alignment.centerLeft, child: Text("¿Cual es tu altura?")),
+          Container(alignment: Alignment.centerLeft, child: Text(strings.howTall)),
           SizedBox(height: 20),
           StreamBuilder<User>(
             stream: bloc.userStream,
@@ -63,7 +63,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
                   controller: _controller,
                   onChanged: (text) => bloc.height = int.tryParse(text) ?? snapshot.data.height,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: "Centimetros", hintText: "123"),
+                  decoration: InputDecoration(labelText: "cm", hintText: "123"),
                 ),
               );
             },

@@ -24,7 +24,7 @@ class SpecificsFormPageEight extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu ideología política?")),
+        Container(alignment: Alignment.centerLeft, child: Text(strings.politicalIdeology)),
         SizedBox(height: 20),
         Expanded(
           child: Container(

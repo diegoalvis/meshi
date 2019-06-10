@@ -13,12 +13,15 @@ import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
 import 'package:meshi/utils/icon_utils.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class InterestsProfilePage extends StatelessWidget with HomeSection {
+  //final strings = MyLocalizations.of(context);
   @override
+
   Widget get title {
-    return Text("Perfil de intereses");
+    return Text("??Perfil de intereses");
   }
 
   @override
@@ -45,6 +48,7 @@ class InterestsProfileBody extends StatelessWidget {
     double height = MediaQuery.of(context).size.height * 0.85;
 
     User user;
+    final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return BlocBuilder(
         bloc: _bloc,
@@ -64,11 +68,11 @@ class InterestsProfileBody extends StatelessWidget {
           }
           if (state is ErrorState) {
             onWidgetDidBuild(() {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrió un error")));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
             });
           }
           return user == null
-              ? Center(child: Text("No hay información disponible"))
+              ? Center(child: Text(strings.noInformationAvailable))
               : Column(
                   children: <Widget>[
                     Container(
@@ -83,7 +87,7 @@ class InterestsProfileBody extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: Card(
                             child: ListTile(
-                              title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                              title: Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                               subtitle: Text(user?.description ?? ""),
                             ),
                           ),
@@ -98,6 +102,7 @@ class InterestsProfileBody extends StatelessWidget {
   }
 
   Widget likesMe(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -115,8 +120,7 @@ class InterestsProfileBody extends StatelessWidget {
                       //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'NO ME INTERESA',
+                        child: Text(strings.imNotInterested,
                           style: TextStyle(color: Theme.of(context).primaryColor),
                         ),
                       ),
@@ -136,7 +140,7 @@ class InterestsProfileBody extends StatelessWidget {
                       Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('ME INTERESA'),
+                        child: Text(strings.iAmInterested),
                       ),
                     ],
                   ),
@@ -147,6 +151,7 @@ class InterestsProfileBody extends StatelessWidget {
   }
 
   Widget isMyLike(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -165,8 +170,7 @@ class InterestsProfileBody extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: success == 0
                       ? CircularProgressIndicator()
-                      : Text(
-                          'YA NO ME INTERESA',
+                      : Text(strings.imNotInterestedNow,
                           style: TextStyle(color: Theme.of(context).primaryColor),
                         ),
                 ),

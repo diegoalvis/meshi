@@ -63,11 +63,11 @@ class RewardContainer extends StatelessWidget {
           }
           if (state is ErrorState) {
             onWidgetDidBuild(() {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error, por favor intentalo mas tarde")));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.tryError)));
             });
           }
           return rewardInfo == null
-              ? Center(child: Text("No hay datos para mostar"))
+              ? Center(child: Text(strings.noData))
               : Column(
                   children: [
                     Expanded(
@@ -84,8 +84,8 @@ class RewardContainer extends StatelessWidget {
                                     SizedBox(height: 24.0),
                                     Text(
                                       rewardInfo?.winner == true
-                                          ? "Tu y ${rewardInfo?.couple?.name ?? ""} ganaron la cita!!"
-                                          : "Meshi quiere invitarte una cena para que conozcas a tu pareja ideal.",
+                                          ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
+                                          :"${strings.meshiInvitation}",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 15),
                                     ),
@@ -97,7 +97,7 @@ class RewardContainer extends StatelessWidget {
                                         Expanded(
                                           child: Column(
                                             children: [
-                                              Align(alignment: Alignment.centerLeft, child: Text("Valor")),
+                                              Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
                                               Align(
                                                   alignment: Alignment.centerLeft, child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
                                             ],
@@ -115,7 +115,7 @@ class RewardContainer extends StatelessWidget {
                                             children: [
                                               Align(
                                                   alignment: Alignment.centerLeft,
-                                                  child: Text(rewardInfo?.winner == true ? "Valido hasta" : "Participa hasta")),
+                                                  child: Text(rewardInfo?.winner == true ? strings.validUntil : strings.participateUp)),
                                               Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
                                             ],
                                           ),
@@ -138,6 +138,7 @@ class RewardContainer extends StatelessWidget {
 
   Widget buildActionButton(BuildContext context, RewardInfo rewardInfo) {
     final winner = rewardInfo?.winner == true;
+    final strings = MyLocalizations.of(context);
     return Align(
       alignment: Alignment.center,
       child: FlatButton(
@@ -147,7 +148,7 @@ class RewardContainer extends StatelessWidget {
         shape: winner ? null : RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         color: winner ? null : Theme.of(context).accentColor,
         child: Text(
-          "${winner ? "Mira donde puedes reclamarla" : "Participar"}".toUpperCase(),
+          "${winner ? "${strings.lookClaim}" : "${strings.takePart}"}".toUpperCase(),
           textAlign: TextAlign.center,
           style: TextStyle(color: winner ? Theme.of(context).accentColor : Colors.white),
         ),

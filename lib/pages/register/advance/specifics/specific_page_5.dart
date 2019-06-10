@@ -26,7 +26,7 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Container(
             alignment: Alignment.centerLeft,
-            child: Text("¿Qué actividades prefieres compartir en pareja?\nElige 3.")),
+            child: Text("${strings.shareActivities}\n ${strings.choose3}")),
         SizedBox(height: 20),
         Expanded(
           child: Container(
