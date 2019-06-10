@@ -61,7 +61,7 @@ class BrandPageState extends State<BrandContainer> {
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Convenios")),
+      appBar: AppBar(title: Text(strings.agreements)),
       body: SafeArea(
         child: showProgress
             ? Center(child: CircularProgressIndicator())
@@ -69,8 +69,7 @@ class BrandPageState extends State<BrandContainer> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(30.0),
-                    child: Text(
-                      "Reclama tu bono en los siguientes establecimientso",
+                    child: Text(strings.claimYourVoucher                      ,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -109,7 +108,7 @@ class BrandPageState extends State<BrandContainer> {
                         context: context,
                         builder: (BuildContext context) => SimpleDialog(
                               children: <Widget>[
-                                ListTile(title: Text("Comunicate con nosotros para saber como reclamar tu premio")),
+                                ListTile(title: Text(strings.CommunicateWithUs)),
                                 ListTile(
                                     leading: Icon(Icons.phone),
                                     title: Text("31234567890"),
@@ -130,7 +129,7 @@ class BrandPageState extends State<BrandContainer> {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          Text("No tengo esos establecimientos en mi ciudad", textAlign: TextAlign.center),
+                          Text(strings.iDoNotHaveThose, textAlign: TextAlign.center),
                           SizedBox(width: 8.0),
                           Icon(Icons.info_outline),
                         ],

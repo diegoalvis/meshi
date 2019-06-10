@@ -34,7 +34,9 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
       ],
     );
     return Scaffold(
-      appBar: AppBar(title: Text("Selecciona tu pareja")),
+      appBar: AppBar(
+        title: Text(strings.SelectYourPartner),
+      ),
       body: BlocBuilder(
         bloc: bloc,
         builder: (context, state) {
@@ -68,8 +70,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Escoje con quien te gustaria ir y no te preocupes que esa persona no lo sabra.",
+                        child: Text(strings.ChooseWhoYouWould,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -114,7 +115,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                                               SelectPartnerEvent(SelectPartnerEventType.updateInscription, data: matchSelected)),
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                                       color: Theme.of(context).accentColor,
-                                      child: Text("PARTICIPA POR LA CITA"),
+                                      child: Text(strings.participateByAppointment),
                                     ),
                             ),
                     ],

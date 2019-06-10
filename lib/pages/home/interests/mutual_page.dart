@@ -47,7 +47,7 @@ class MutualPage extends StatelessWidget {
             }
             if (state is ErrorState) {
               onWidgetDidBuild(() {
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
               });
             }
 
@@ -56,7 +56,7 @@ class MutualPage extends StatelessWidget {
                 child: matches == null
                     ? ListView(children: <Widget>[
                         SizedBox(height: 100),
-                        Center(child: Text("No tienes mutuos aun"))
+                        Center(child: Text(strings.youDoNotHaveMutualsYet))
                       ])
                     : ListView.separated(
                         itemCount: matches.length,

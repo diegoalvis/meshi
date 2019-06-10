@@ -6,6 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/utils/icon_utils.dart';
 
+import '../localiztions.dart';
+
 class CompatibilityIndicator extends StatefulWidget {
   final int compatibility;
   final List<String> assertions;
@@ -27,6 +29,7 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     final String compatibilityPercent = compatibility != null ? "$compatibility%" : "";
     return Center(
       child: Card(
@@ -43,7 +46,7 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                     Row(
                       children: <Widget>[
                         Image.asset(IconUtils.heart, scale: 4.0, color: Theme.of(context).primaryColor),
-                        Expanded(child: Center(child: Text('Coincidimos en un $compatibilityPercent'))),
+                        Expanded(child: Center(child: Text("${strings.weAgree} $compatibilityPercent"))),
                         RotatedBox(quarterTurns: showMore ? 3 : 1, child: Icon(Icons.arrow_forward_ios))
                       ],
                     ),

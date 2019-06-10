@@ -47,7 +47,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                         Column(
                           children: [
                             Text(
-                              "Mis fotos",
+                              strings.myPictures,
                               textAlign: TextAlign.right,
                             ),
                             SizedBox(height: 20),
@@ -90,13 +90,14 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
 
   Widget buildCompleteProfileBanner(BuildContext context) {
     String route = FORM_ROUTE;
+    final strings = MyLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
           Divider(height: 50.0, color: Colors.grey),
           Text(
-            "Completa tu perfil para que Meshi pueda encontrar tu pareja ideal",
+            strings.completeYourProfile,
             textAlign: TextAlign.center,
           ),
           SizedBox(
@@ -106,13 +107,14 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
               onPressed: () => Navigator.of(context).pushNamed(route),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
               color: Theme.of(context).accentColor,
-              child: Text("COMPLETAR PERFIL")),
+              child: Text(strings.completeProfileButton)),
         ],
       ),
     );
   }
 
   Widget buildProfileDetails(BuildContext context, User user) {
+    final strings = MyLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -124,14 +126,14 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE))),
-              child: Text("EDITAR", style: TextStyle(color: Theme.of(context).accentColor)),
+                      builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
+              child: Text(strings.editButton, style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "¿Como te describes?",
+              strings.howDescribeYourself,
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -145,7 +147,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "¿Que te gusta hacer en tus tiempos libres?",
+              strings.hobbiesCaption,
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

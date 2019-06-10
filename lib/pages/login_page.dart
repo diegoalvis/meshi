@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    final strings = MyLocalizations.of(context);
     super.initState();
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
@@ -71,7 +72,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _bloc.progressSubject.listen((show) => setState(() => loading = show));
     _bloc.errorSubject.listen((error) {
       Scaffold.of(buildContext)
-          .showSnackBar(SnackBar(content: Text("Ocurrio un error intentalo mas tarde.")));
+          .showSnackBar(SnackBar(content: Text(strings.tryError)));
     });
   }
 
