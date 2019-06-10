@@ -21,7 +21,6 @@ class OptionSelector extends StatelessWidget {
     List<Widget> widgetListOptions = options
         .map<Widget>(
           (option) => Expanded(
-                // TODO: strings.enumName(option)
                 flex: strings.getEnumDisplayName(enumValue(option)).length ~/ (strings.getEnumDisplayName(enumValue(option)).length + 2),
                 child: Container(
                   child: FlatButton(

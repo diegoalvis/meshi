@@ -2,7 +2,6 @@ import 'package:meshi/data/api/chat_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/message_dao.dart';
 import 'package:meshi/data/models/message.dart';
-import 'package:meshi/managers/session_manager.dart';
 
 class ChatRepository {
   ChatApi _api;

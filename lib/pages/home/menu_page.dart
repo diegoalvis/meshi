@@ -4,7 +4,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/utils/localiztions.dart';
 import 'package:meta/meta.dart';
 
 class MenuPage extends StatelessWidget {

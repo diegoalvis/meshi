@@ -17,6 +17,11 @@ class LoadingState extends BaseState {
   String toString() => 'state-loading';
 }
 
+class PerformingRequestState extends BaseState {
+  @override
+  String toString() => 'state-performing-request';
+}
+
 class SuccessState<T> extends BaseState {
   T data;
 

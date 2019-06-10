@@ -124,7 +124,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.POP_PAGE))),
+                      builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE))),
               child: Text("EDITAR", style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),

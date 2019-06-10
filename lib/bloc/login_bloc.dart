@@ -7,7 +7,6 @@ import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class LoginBloc extends BaseBloc {
   final _userSubject = PublishSubject<User>();
@@ -16,12 +15,12 @@ class LoginBloc extends BaseBloc {
 
   UserRepository repository;
 
-  LoginBloc(this.repository, session) : super(session) {
+  LoginBloc(this.repository, session) : super(session: session) {
     session.initUser().then((user) => _userSubject.sink.add(user));
   }
 
   void initFacebookLogin() async {
-    var diegoId = "123445";
+    var diegoId = "100014";
     progressSubject.sink.add(true);
     repository.loginUser(diegoId).catchError((error) {
       errorSubject.sink.add(error.toString());

@@ -5,17 +5,16 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/utils/base_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BaseBloc<E, S> extends Bloc<E, S> {
-  static const int POP_PAGE = 1;
-  static const int REPLACE_PAGE = 2;
+  static const int ACTION_POP_PAGE = 1;
+  static const int ACTION_REPLACE_PAGE = 2;
 
   // Inject
   SessionManager session;
 
-  BaseBloc(this.session);
+  BaseBloc({this.session});
 
   final errorSubject = PublishSubject<String>();
   final successSubject = PublishSubject<String>();

@@ -2,7 +2,7 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -14,7 +14,7 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Match match = ModalRoute.of(context).settings.arguments;
+    final UserMatch match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
         bindFunc: (binder) {
@@ -31,7 +31,7 @@ class ChatPage extends StatelessWidget {
 }
 
 class ChatBody extends StatefulWidget {
-  final Match _matches;
+  final UserMatch _matches;
 
   ChatBody(this._matches) : super(key: ValueKey("chat-body"));
 
@@ -44,7 +44,7 @@ class ChatBodyState extends State<ChatBody> {
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
 
-  final Match _matches;
+  final UserMatch _matches;
 
   int _me;
 
@@ -100,7 +100,8 @@ class ChatBodyState extends State<ChatBody> {
             },
           ),
         ),
-        // if(_matches.state == MATCH_BLOCKED)
+        if(_matches.state == MATCH_BLOCKED)
+          Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con ella"),
         _chatInput()
       ],
     );
@@ -125,6 +126,7 @@ class ChatBodyState extends State<ChatBody> {
               Expanded(
                 child: TextFormField(
                   controller: _chatController,
+                  enabled: _matches.state != MATCH_BLOCKED,
                   textInputAction: TextInputAction.send,
                   onFieldSubmitted: (v) => _handleSubmit(),
                   decoration: InputDecoration(
@@ -144,7 +146,7 @@ class ChatBodyState extends State<ChatBody> {
 //              ),
               InkWell(
                 onTap: () {
-                  _handleSubmit();
+                  if(_matches.state != MATCH_BLOCKED) _handleSubmit();
                 },
                 child: Container(
                   color: Theme.of(context).primaryColor,

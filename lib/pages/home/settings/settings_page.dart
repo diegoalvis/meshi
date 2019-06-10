@@ -10,6 +10,7 @@ import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection {
   SessionManager session;
@@ -41,16 +42,14 @@ class SettingsPage extends StatelessWidget with HomeSection {
         Divider(
           color: Theme.of(context).dividerColor,
         ),
-        settingItem(context, 'Contactanos', 'Contáctanos'),
-        settingItem(context, 'Términos y condiciones', 'Términos y condiciones'),
+        settingItem(context, CONTACT_ROUTE, 'Contáctanos'),
+        settingItem(context, TERM_AND_CONDITIONS, 'Terminos y conidiciones'),
         Align(
           alignment: Alignment.centerLeft,
           child: InkWell(
             onTap: () {
               onWidgetDidBuild(() {
-                session.setLogged(false);
-                session.clear();
-                Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
+                clearSession(context);
               });
             },
             child: Padding(
@@ -66,6 +65,13 @@ class SettingsPage extends StatelessWidget with HomeSection {
         )
       ],
     );
+  }
+
+  void clearSession(BuildContext context) async {
+    session = InjectorWidget.of(context).get<SessionManager>();
+    session.clear();
+    session.setLogged(false);
+    Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
   Widget rowSettings(BuildContext context, String rowName, bool notification) {
@@ -95,7 +101,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
           alignment: Alignment.centerLeft,
           child: InkWell(
             onTap: () {
-              //Navigator.pushReplacementNamed(context, route);
+              Navigator.pushReplacementNamed(context, route);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),

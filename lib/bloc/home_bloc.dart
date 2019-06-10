@@ -15,7 +15,6 @@ class HomeBloc extends BaseBloc {
 
   Stream<String> get categorySelectedStream => _categorySelectedSubject.stream;
 
-  HomeBloc(session) : super(session);
 
   set category(String category) {
     _categorySelectedSubject.sink.add(category);

@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
-import 'package:meshi/data/models/match.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
@@ -18,7 +18,7 @@ import '../../../main.dart';
 
 class MutualPage extends StatelessWidget {
   InterestsBloc _bloc;
-  List<Match> matches;
+  List<UserMatch> matches;
 
   Future<Null> _fetchRewardData() async {
     _bloc.dispatch(InterestsEventType.getMutals);
@@ -42,7 +42,7 @@ class MutualPage extends StatelessWidget {
             if (state is LoadingState) {
               return Center(child: CircularProgressIndicator());
             }
-            if (state is SuccessState<List<Match>>) {
+            if (state is SuccessState<List<UserMatch>>) {
               matches = state.data;
             }
             if (state is ErrorState) {
@@ -85,9 +85,11 @@ class MutualPage extends StatelessWidget {
                                     Align(alignment: Alignment.topLeft, child: Text(match?.name ?? "")),
                                     Row(children: [
                                       Text(
-                                          DateTime.now().difference(match.lastDate).inDays > 0
-                                              ? DateFormat.yMd().format(match.lastDate)
-                                              : DateFormat.jm().format(match.lastDate),
+                                          match.lastDate == null
+                                              ? ""
+                                              : DateTime.now().difference(match.lastDate).inDays > 0
+                                                  ? DateFormat.yMd().format(match.lastDate)
+                                                  : DateFormat.jm().format(match.lastDate),
                                           style: TextStyle(color: Theme.of(context).accentColor)),
                                       SizedBox(width: 10),
                                       Expanded(

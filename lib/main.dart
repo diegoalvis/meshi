@@ -19,8 +19,10 @@ import 'package:meshi/pages/interests_profile_page.dart';
 import 'package:meshi/pages/login_page.dart';
 import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
+import 'package:meshi/pages/terms_and_condition_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/pages/contact/contact_page.dart';
 
 void main() {
   runApp(new App());
@@ -35,6 +37,7 @@ class App extends StatelessWidget {
         },
         child: MaterialApp(
           title: 'Meshi',
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             const MyLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
@@ -61,6 +64,9 @@ class App extends StatelessWidget {
             RECOMMENDATIONS_ROUTE: (BuildContext context) => RecommendationsPage(),
             PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
             SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
+            CONTACT_ROUTE: (BuildContext context) => ContactPage(),
+            TERM_AND_CONDITIONS: (BuildContext context) => Term(),
+
           },
         ));
   }
@@ -80,6 +86,9 @@ const String CHAT_ROUTE = "/chat";
 const String RECOMMENDATIONS_ROUTE = "/recommendations";
 const String PROFILE_ROUTE = "/profile";
 const String SETTINGS_ROUTE = "/settings";
+const String CONTACT_ROUTE = "/contact";
+const String TERM_AND_CONDITIONS = "/term";
+
 
 // Themes
 ThemeData buildTheme() => ThemeData(

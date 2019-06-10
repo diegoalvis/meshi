@@ -8,7 +8,6 @@ import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/habits.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/utils/base_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FormBloc extends BaseBloc {
@@ -32,7 +31,7 @@ class FormBloc extends BaseBloc {
 
   UserRepository repository;
 
-  FormBloc(this.repository, session) : super(session) {
+  FormBloc(this.repository, session) : super(session: session) {
     if (session.user?.deepening?.children == null) session.user?.deepening?.children = 0;
   }
 

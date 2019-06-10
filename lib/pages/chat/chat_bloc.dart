@@ -18,7 +18,7 @@ class ChatBloc extends Bloc<ChatEvents, MessageState> {
   int _me;
   StreamSubscription _subs;
 
-  ChatBloc(this._matchId, this._socket, this._messageRespository, SessionManager session){
+  ChatBloc(this._matchId, this._socket, this._messageRespository, SessionManager session) {
     _me = session.user.id;
   }
 

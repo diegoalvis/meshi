@@ -5,15 +5,17 @@
 
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/brand.dart';
-import 'package:meshi/data/models/reward_model.dart';
+import 'package:meshi/data/models/reward_info.dart';
+import 'package:meshi/data/models/user_match.dart';
+import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 
 class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
-  final RewardRepository repository;
+  final RewardRepository rewardRepository;
+  final MatchRepository matchRepository;
 
-  RewardBloc(SessionManager session, this.repository) : super(session);
+  RewardBloc(this.rewardRepository, this.matchRepository) : super();
 
   @override
   BaseState get initialState => InitialState();
@@ -21,17 +23,21 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
   @override
   Stream<BaseState> mapEventToState(RewardEvent event) async* {
     try {
-      switch (event) {
-        case RewardEvent.getCurrent:
+      switch (event.type) {
+        case RewardEventType.getCurrent:
           yield LoadingState();
-          final reward = Reward.mock("Cita", 75000, "Meshi quiere invitarte una cena para que conozcas a tu pareja ideal",
-              "https://www.nhflavors.com/wp-content/uploads/2018/02/romantic-dinner-BVI-740X474.jpg", DateTime(2019, 2, 10));
-          yield SuccessState<Reward>(data: reward);
+          final rewardInfo = await rewardRepository.getCurrent();
+          yield SuccessState<RewardInfo>(data: rewardInfo);
           break;
-        case RewardEvent.getBrands:
+        case RewardEventType.getBrands:
           yield LoadingState();
-          final brands = await repository.getBrands();
+          final brands = await rewardRepository.getBrands();
           yield SuccessState<List<Brand>>(data: brands);
+          break;
+        case RewardEventType.getMatches:
+          yield LoadingState();
+          final matches = await matchRepository.getMatches();
+          yield SuccessState<List<UserMatch>>(data: matches);
           break;
       }
     } on Exception catch (e) {
@@ -40,4 +46,11 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
   }
 }
 
-enum RewardEvent { getCurrent, getBrands }
+enum RewardEventType { getCurrent, getBrands, getMatches }
+
+class RewardEvent<T> {
+  final RewardEventType type;
+  final T data;
+
+  RewardEvent(this.type, {this.data});
+}

@@ -3,7 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'habits.g.dart';

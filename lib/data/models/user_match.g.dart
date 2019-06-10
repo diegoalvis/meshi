@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'match.dart';
+part of 'user_match.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Match _$MatchFromJson(Map<String, dynamic> json) {
-  return Match(
+UserMatch _$UserMatchFromJson(Map<String, dynamic> json) {
+  return UserMatch(
       id: json['id'] as int,
       name: json['name'] as String,
       images: (json['images'] as List)?.map((e) => e as String)?.toList(),
@@ -15,20 +15,20 @@ Match _$MatchFromJson(Map<String, dynamic> json) {
           ? null
           : DateTime.parse(json['lastDate'] as String),
       idMatch: json['idMatch'] as int,
-      lastMessage: json['lastMessage'] as String,
-      type: json['type'] as String,
-      state: json['state'] as String,
-      erasedDate: json['erasedDate'] == null
-          ? null
-          : DateTime.parse(json['erasedDate'] as String));
+      lastMessage: json['lastMessage'] as String)
+    ..type = json['type'] as String
+    ..state = json['state'] as String
+    ..erasedDate = json['erasedDate'] == null
+        ? null
+        : DateTime.parse(json['erasedDate'] as String);
 }
 
-Map<String, dynamic> _$MatchToJson(Match instance) => <String, dynamic>{
+Map<String, dynamic> _$UserMatchToJson(UserMatch instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'images': instance.images,
       'type': instance.type,
       'state': instance.state,
-      'images': instance.images,
       'lastMessage': instance.lastMessage,
       'idMatch': instance.idMatch,
       'lastDate': instance.lastDate?.toIso8601String(),

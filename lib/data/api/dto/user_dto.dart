@@ -4,8 +4,6 @@
  */
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meshi/data/models/deepening.dart';
-import 'package:meshi/data/models/habits.dart';
 import 'package:meshi/data/models/user.dart';
 
 part 'user_dto.g.dart';
