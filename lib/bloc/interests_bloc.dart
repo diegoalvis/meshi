@@ -17,30 +17,39 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
   @override
   BaseState get initialState => InitialState();
 
+  List<UserMatch> matches;
+  List<MyLikes> myLikes;
+  List<MyLikes> likesMe;
+
   @override
   Stream<BaseState> mapEventToState(InterestsEventType event) async* {
     try {
       switch (event) {
         case InterestsEventType.getMutals:
-          yield LoadingState();
-          final matches = await repository.getMatches();
-          yield SuccessState<List<UserMatch>>(data: matches);
+          yield* _loadMatches(false);
+          break;
+        case InterestsEventType.refreshMutuals:
+          yield* _loadMatches(true);
           break;
         case InterestsEventType.getLikesMe:
-          yield LoadingState();
-          final myLikes = await repository.getLikesMe();
-          yield LikesFetchedState(myLikes, event);
+          yield* _loadLikesMe(false, event);
+          break;
+        case InterestsEventType.refreshLikesMe:
+          yield* _loadLikesMe(true, event);
           break;
         case InterestsEventType.getMyLikes:
-          yield LoadingState();
-          final myLikes = await repository.getMyLikes();
-          yield LikesFetchedState(myLikes, event);
+          yield* _loadMyLikes(false, event);
+          break;
+        case InterestsEventType.refreshMyLikes:
+          yield* _loadMyLikes(true, event);
           break;
         case InterestsEventType.onMyLikesPageSelected:
-          yield InitialState<InterestsEventType>(initialData: InterestsEventType.getMyLikes);
+          yield InitialState<InterestsEventType>(
+              initialData: InterestsEventType.getMyLikes);
           break;
         case InterestsEventType.onLikesMePageSelected:
-          yield InitialState<InterestsEventType>(initialData: InterestsEventType.getLikesMe);
+          yield InitialState<InterestsEventType>(
+              initialData: InterestsEventType.getLikesMe);
           break;
         case InterestsEventType.onMutualPageSelected:
           yield InitialState();
@@ -50,9 +59,49 @@ class InterestsBloc extends BaseBloc<InterestsEventType, BaseState> {
       yield ErrorState(exception: e);
     }
   }
+
+  Stream<BaseState> _loadMatches(bool refresh) async* {
+    if (matches != null && !refresh) {
+      yield SuccessState<List<UserMatch>>(data: matches);
+    } else {
+      yield LoadingState();
+      matches = await repository.getMatches();
+      yield SuccessState<List<UserMatch>>(data: matches);
+    }
+  }
+
+  Stream<BaseState> _loadMyLikes(bool refresh, InterestsEventType event) async* {
+    if (myLikes != null && !refresh) {
+      yield LikesFetchedState(myLikes, event);
+    } else {
+      yield LoadingState();
+      myLikes = await repository.getMyLikes();
+      yield LikesFetchedState(myLikes, event);
+    }
+  }
+
+  Stream<BaseState> _loadLikesMe(bool refresh, InterestsEventType event) async* {
+    if (likesMe != null && !refresh) {
+      yield LikesFetchedState(likesMe, event);
+    } else {
+      yield LoadingState();
+      likesMe = await repository.getLikesMe();
+      yield LikesFetchedState(likesMe, event);
+    }
+  }
 }
 
-enum InterestsEventType { getMutals, getLikesMe, getMyLikes, onMyLikesPageSelected, onLikesMePageSelected, onMutualPageSelected }
+enum InterestsEventType {
+  getMutals,
+  refreshMutuals,
+  getLikesMe,
+  refreshLikesMe,
+  getMyLikes,
+  refreshMyLikes,
+  onMyLikesPageSelected,
+  onLikesMePageSelected,
+  onMutualPageSelected
+}
 
 class InterestsEvent {
   final InterestsEventType type;
@@ -65,7 +114,8 @@ class LikesFetchedState extends BaseState {
   final List<MyLikes> myLikes;
   final InterestsEventType eventGenerator;
 
-  LikesFetchedState(this.myLikes, this.eventGenerator) : super(props: [myLikes, eventGenerator]);
+  LikesFetchedState(this.myLikes, this.eventGenerator)
+      : super(props: [myLikes, eventGenerator]);
 
   @override
   String toString() => 'state-likes-fetched';

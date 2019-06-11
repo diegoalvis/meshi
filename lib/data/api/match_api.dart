@@ -34,7 +34,7 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<int>> disLike(int id) async {
-    return post("/users/dislike/$id").then((response) => processBasicResponse(response));
+    return put("/users/dislike/$id").then((response) => processBasicResponse(response));
   }
 
   Future<BaseResponse<int>> hide(int idMatch) async{
