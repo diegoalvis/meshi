@@ -4,6 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 
 class InterestsItemPage extends StatelessWidget {
@@ -24,7 +25,7 @@ class InterestsItemPage extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: NetworkImage(myLikes.images.first),
+                image: NetworkImage(BaseApi.IMAGES_URL_DEV + myLikes.images.first),
                 fit: BoxFit.cover,
               )),
             ),

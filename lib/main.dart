@@ -48,7 +48,7 @@ class App extends StatelessWidget {
           ],
           theme: buildTheme(),
           home: HomePage(),
-          initialRoute: "/term",
+          initialRoute: LOGIN_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
             HOME_ROUTE: (BuildContext context) => HomePage(),
@@ -64,7 +64,7 @@ class App extends StatelessWidget {
             PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
             SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
             CONTACT_ROUTE: (BuildContext context) => ContactPage(),
-"/term": (BuildContext context) => Term()
+            "/term": (BuildContext context) => Term(),
           },
         ));
   }

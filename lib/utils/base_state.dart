@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:meshi/data/api/exceptions/exceptions.dart';
 
 abstract class BaseState extends Equatable {
-  BaseState({List props}): super(props);
+  BaseState({List props}) : super(props);
 }
 
 class InitialState<T> extends BaseState {
   T initialData;
-  InitialState({this.initialData}): super(props: [initialData]);
+  InitialState({this.initialData}) : super(props: [initialData]);
   @override
   String toString() => 'state-initial';
 }
@@ -17,10 +17,15 @@ class LoadingState extends BaseState {
   String toString() => 'state-loading';
 }
 
+class ExitState extends BaseState {
+  @override
+  String toString() => 'state-exit';
+}
+
 class SuccessState<T> extends BaseState {
   T data;
 
-  SuccessState({this.data}): super(props: [data]);
+  SuccessState({this.data}) : super(props: [data]);
 
   @override
   String toString() => 'state-success';

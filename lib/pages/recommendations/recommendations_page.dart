@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:meshi/utils/icon_utils.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/pages/recommendations/recommendations__bloc.dart';
-import 'package:meshi/pages/recommendations/recommendations_event.dart';
 
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
@@ -35,6 +35,14 @@ class RecommendationsPage extends StatelessWidget {
 }
 
 class RecommendationsList extends StatelessWidget {
+  List<String> assertions = [
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+  ];
   List<User> users = [];
   RecommendationsBloc _bloc;
   bool isUser;
@@ -56,7 +64,12 @@ class RecommendationsList extends StatelessWidget {
                 if (state is LoadingState) {
                   return Flexible(
                     child: Container(
-                        color: Colors.white, child: Center(child: CircularProgressIndicator())),
+                        color: Theme.of(context).primaryColor,
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
+                        ))),
                   );
                 }
                 if (state is SuccessState<List<User>>) {
@@ -119,7 +132,7 @@ class RecommendationsList extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                      image: NetworkImage(user.images[0]),
+                      image: NetworkImage(BaseApi.IMAGES_URL_DEV + user.images[0]),
                       fit: BoxFit.cover,
                     )),
                   ),
@@ -139,22 +152,29 @@ class RecommendationsList extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CompatibilityIndicator(),
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CompatibilityIndicator(
+                    assertions: assertions,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Container(
+                    child: Card(
+                      child: ListTile(
+                        title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(user?.description ?? ""),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: Card(
-              child: ListTile(
-                title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(user.description),
-              ),
-            ),
-          ),
-          Spacer(),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
@@ -168,7 +188,7 @@ class RecommendationsList extends StatelessWidget {
                   color: Theme.of(context).accentColor,
                   child: Row(
                     children: <Widget>[
-                      Image.asset(IconUtils.heart, scale: 8.0, color: Colors.white),
+                      Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
