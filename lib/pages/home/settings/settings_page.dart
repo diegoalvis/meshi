@@ -14,11 +14,10 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection {
-
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Text('Infomración Sobre mi');
+    return Text('Información sobre mi');
   }
 
   @override
@@ -34,7 +33,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(strings.notifications,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                 textAlign: TextAlign.left),
           ),
         ),
@@ -58,7 +58,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
               child: Text(strings.signOut,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),
@@ -81,11 +82,15 @@ class SettingsPage extends StatelessWidget with HomeSection {
       padding: const EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
-          Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+          Text(rowName,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
           Spacer(),
           OptionSelector(
               options: YesNoOptions,
-              optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
+              optionSelected: (notification == null
+                  ? null
+                  : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
               onSelected: (selected) => null),
         ],
       ),
@@ -99,12 +104,13 @@ class SettingsPage extends StatelessWidget with HomeSection {
           alignment: Alignment.centerLeft,
           child: InkWell(
             onTap: () {
-              Navigator.pushReplacementNamed(context, route);
+              Navigator.pushNamed(context, route);
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
-              child:
-                  Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              child: Text(itemName,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),

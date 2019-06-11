@@ -26,9 +26,8 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    final String compatibilityPercent = widget.compatibility != null ? "$widget.compatibility%" : "";
+    final String compatibilityPercent = widget.compatibility != null ? "${widget.compatibility}%" : "";
     final strings = MyLocalizations.of(context);
-    final String compatibilityPercent = compatibility != null ? "$compatibility%" : "";
     return Center(
       child: Card(
         child: InkWell(

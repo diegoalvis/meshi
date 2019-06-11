@@ -61,7 +61,10 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
                                 children: List.generate(
                                     brands.length,
                                     (index) => Image.network(
-                                        BaseApi.BASE_URL_DEV + "/images/" + brands?.elementAt(index)?.image ?? "",
+                                        BaseApi.BASE_URL_DEV +
+                                                "/images/" +
+                                                brands?.elementAt(index)?.image ??
+                                            "",
                                         fit: BoxFit.cover)),
                               ),
                       ),
@@ -69,32 +72,19 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
                   ),
                   GestureDetector(
                     onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => SimpleDialog(
-                              children: <Widget>[
-                                ListTile(title: Text(strings.CommunicateWithUs)),
-                                ListTile(
-                                    leading: Icon(Icons.phone),
-                                    title: Text("31234567890"),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    }),
-                                ListTile(
-                                    leading: Icon(Icons.email),
-                                    title: Text("info@meshi.com"),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    }),
-                              ],
-                            ),
-                      );
+                      buildInfoDialog(context, strings.CommunicateWithUs);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          Text(strings.iDoNotHaveThose, textAlign: TextAlign.center),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: Text(
+                                strings.iDoNotHaveThose,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 12),
+                              )),
                           SizedBox(width: 8.0),
                           Icon(Icons.info_outline),
                         ],
@@ -104,5 +94,28 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
                 ],
               );
             }));
+  }
+
+  buildInfoDialog(BuildContext context, String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => SimpleDialog(
+            children: <Widget>[
+              ListTile(title: Text(title)),
+              ListTile(
+                  leading: Icon(Icons.phone),
+                  title: Text("31234567890"),
+                  onTap: () {
+                    Navigator.pop(context);
+                  }),
+              ListTile(
+                  leading: Icon(Icons.email),
+                  title: Text("info@meshi.com"),
+                  onTap: () {
+                    Navigator.pop(context);
+                  }),
+            ],
+          ),
+    );
   }
 }
