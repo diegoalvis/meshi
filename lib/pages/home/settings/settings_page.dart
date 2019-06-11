@@ -18,7 +18,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Text('Infomración Sobre mi');
+    return Text(strings.homeSections[4]);
   }
 
   @override

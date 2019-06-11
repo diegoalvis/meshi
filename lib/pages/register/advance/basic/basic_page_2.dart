@@ -20,6 +20,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
 
   @override
   Widget build(BuildContext context) {
+
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context).bloc;
     final TextEditingController _controller = TextEditingController();

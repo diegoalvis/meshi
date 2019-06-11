@@ -438,7 +438,7 @@ class MyLocalizations {
       'complete_profile': 'Complete profile',
       'log_in': 'Log In',
       'placeholder_user': 'User',
-      'educational_level_caption': 'What is your educational level?',
+      'educational_level_caption': '¿What is your educational level?',
     },
 
 /* Spanish text resources */
