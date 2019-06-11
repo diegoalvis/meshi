@@ -48,7 +48,7 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
               Expanded(
                   child: Column(children: [
                 Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerLeft, //bebes alcohol
                   child: Text(strings.youDrink),
                 ),
                 SizedBox(height: 20),

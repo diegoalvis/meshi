@@ -59,7 +59,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
             initialData: bloc.session.user,
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               return Padding(
-                padding: EdgeInsets.only(right: 80.0),
+                padding: EdgeInsets.only(right: 180.0),
                 child: TextField(
                   controller: _controller,
                   onChanged: (text) => bloc.height = int.tryParse(text) ?? snapshot.data.height,

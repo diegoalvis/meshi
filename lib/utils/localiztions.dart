@@ -37,6 +37,8 @@ class MyLocalizations {
 
   String get noData => _localizedSingleValues[locale.languageCode]['no_data'];
 
+  String get more => _localizedSingleValues[locale.languageCode]['more'];
+
   String get weAgree => _localizedSingleValues[locale.languageCode]['we_agree'];
 
   String get imNotInterestedNow =>
@@ -330,6 +332,7 @@ class MyLocalizations {
       'picture_select_caption':
           'Select the pictures that you want to show others',
       'no_data': 'No data found',
+      'more': 'more ',
       'we_agree': 'We agree in a ',
       'im_not_interested_now': 'I´M NOT INTERESTED ANYMORE',
       'im_not_interested': 'I´M NOT INTERESTED',
@@ -339,11 +342,11 @@ class MyLocalizations {
       'musical_genre': '¿What is your favorite music genre?',
       'political_ideology': '¿What is your political ideology?',
       'themes_of_interest': '¿What are the topics of greatest interest to you?',
-      'choose_3': 'Choose 3.',
+      'choose_3': 'Choose 3:',
       'share_activities':
           '¿What activities do you prefer to share as a couple?',
-      'sons': ' son(s)?',
-      'like_have': 'You would like to have ',
+      'sons': 'children?',
+      'like_have': '¿You would like to have ',
       'take_part': 'Take part',
       'look_claim': 'Look where you can claim it',
       'participate_up': 'Participate up',
@@ -364,7 +367,7 @@ class MyLocalizations {
           '¿Is your partner is physical appearance important to you?',
       'style_prefer': '¿What style do you prefer when dressing?',
       'three_options':
-          'Choose three of these options to determine what is most important in your life at this time',
+          'Choose three of these options to determine what is most important in your life at this time:',
       'bother_partner_children':
           '¿Does it bother you that your partner has children?',
       'how_many_children': '¿How many children do you have?',
@@ -449,6 +452,7 @@ class MyLocalizations {
       'picture_select_caption':
           'Selecciona las fotos para que tus interes puedan verte y conocerte',
       'no_data': 'No se encontraron datos',
+      'more': 'más ',
       'we_agree': 'Coincidimos en un ',
       'im_not_interested_now': 'YA NO ME INTERESA',
       'im_not_interested': 'NO ME INTERESA',
@@ -458,10 +462,10 @@ class MyLocalizations {
       'musical_genre': '¿Cuál es tu género musical favorito?',
       'political_ideology': '¿Cuál es tu ideología política?',
       'themes_of_interest': '¿Cuáles son los temas de mayor interés para ti?',
-      'choose_3': 'Elige 3.',
+      'choose_3': 'Elige 3:',
       'share_activities': '¿Qué actividades prefieres compartir en pareja?',
-      'sons': ' hijo(s)?',
-      'like_have': 'Te gustaría tener ',
+      'sons': 'hijos?',
+      'like_have': '¿Te gustaría tener ',
       'take_part': 'Participar',
       'look_claim': 'Mira donde puedes reclamarlo',
       'participate_up': 'Participa hasta',
@@ -480,7 +484,7 @@ class MyLocalizations {
           '¿Es importante para ti la apariencia física de tu pareja?',
       'style_prefer': '¿Qué estilo prefieres al momento de vestir?',
       'three_options':
-          'Escoge tres de estas opciones para determinar qué es lo más importante en tu vida en este momento',
+          'Escoge tres de estas opciones para determinar qué es lo más importante en tu vida en este momento:',
       'bother_partner_children': '¿Te molesta que tu pareja tenga hijos?',
       'how_many_children': '¿Cuántos hijos tienes?',
       'would_married': '¿Te gustaría casarte?',
@@ -552,7 +556,7 @@ class MyLocalizations {
       'complete_profile': 'Completar perfil',
       'log_in': 'Ingresar',
       'placeholder_user': 'Usuario',
-      'educational_level_caption': 'Cual es tu grado de escolaridad',
+      'educational_level_caption': '¿Cual es tu grado de escolaridad?',
     },
   };
 
@@ -585,7 +589,7 @@ class MyLocalizations {
     'en': {
       'yes': 'Yes',
       'no': 'No',
-      'sporadically': 'Sporadically',
+      'sporadically': 'Some times',
       'bachelor': 'Bachelor',
       'technical': 'Technical',
       'technologist': 'Technologist',
@@ -595,16 +599,16 @@ class MyLocalizations {
       'medium': 'Medium',
       'big': 'Big',
       'maybe': 'Maybe',
-      'important': 'Important',
+      'important': 'Much',
       'normal': 'Normal',
-      'nothing': 'Nothing',
+      'nothing': 'No matter',
       'refined': 'Refined',
       'conventional': 'Conventional',
       'simple': 'Simple',
       'any': 'Any',
-      'left': 'Left',
-      'center': 'Center',
-      'right': 'Right',
+      'left': 'Left, I have the belief that social equality is the road to prosperity in a country',
+      'center': 'Center, I believe that there must be a balance between free competition and private property and the offer of opportunities for the most vulnerable.',
+      'right': 'Right, I believe that things must be earned by merit and free competition.',
       'urban': 'Urban',
       'pop': 'Pop',
       'rock': 'Rock',
@@ -616,17 +620,17 @@ class MyLocalizations {
     'es': {
       'yes': 'Si',
       'no': 'No',
-      'sporadically': 'Esporadicamente',
+      'sporadically': 'A veces',
       'bachelor': 'Bachiller',
       'technical': 'Tecnico',
       'technologist': 'Tecnologo',
       'professional': 'Profesional',
       'postgraduate': 'Postgrado',
       'thin': 'Delgad@',
-      'medium': 'Madian@',
+      'medium': 'Median@',
       'big': 'Grande',
       'maybe': 'No he decidico',
-      'important': 'Importante',
+      'important': 'Mucho',
       'normal': 'Normal',
       'refined': 'Refinados',
       'conventional': 'Convencionales',
@@ -638,7 +642,7 @@ class MyLocalizations {
           'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
       'right':
           'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
-      'nothing': 'No es importante',
+      'nothing': 'No importa',
       'urban': 'Urbano',
       'pop': 'Pop',
       'rock': 'Rock',

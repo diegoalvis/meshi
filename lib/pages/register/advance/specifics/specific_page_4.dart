@@ -30,11 +30,11 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
         infoComplete = deepening.isImportantAppearance != null && deepening.isImportantClothing != null && (deepening.isImportantClothing != true || deepening.likeClothing?.isNotEmpty == true);
         return Column(
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 14),
             Container(
                 alignment: Alignment.centerLeft,
                 child: Text(strings.physicalImport)),
-            SizedBox(height: 10),
+            SizedBox(height: 7),
             OptionSelector(
                 options: UserLikeAppearance.values,
                 optionSelected: deepening?.isImportantAppearance,
@@ -42,11 +42,11 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                   deepening.isImportantAppearance = selected;
                   bloc.updateDeepening(deepening);
                 }),
-            SizedBox(height: 20),
+            SizedBox(height: 14),
             Container(
                 alignment: Alignment.centerLeft,
                 child: Text(strings.styleDress)),
-            SizedBox(height: 10),
+            SizedBox(height: 7),
             OptionSelector(
                 options: YesNoOptions,
                 optionSelected: (deepening?.isImportantClothing == null ? null : deepening?.isImportantClothing == true ? YesNoOptions[0] : YesNoOptions[1]),
@@ -54,7 +54,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                   deepening.isImportantClothing = selected == YesNoOptions.first;
                   bloc.updateDeepening(deepening);
                 }),
-            SizedBox(height: 10),
+            SizedBox(height: 7),
             Container(
                 alignment: Alignment.centerLeft,
                 child: deepening.isImportantClothing != true
