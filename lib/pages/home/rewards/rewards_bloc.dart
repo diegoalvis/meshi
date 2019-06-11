@@ -11,7 +11,7 @@ import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/utils/base_state.dart';
 
-class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
+class RewardBloc extends BaseBloc<RewardEventType, BaseState> {
   final RewardRepository rewardRepository;
   final MatchRepository matchRepository;
 
@@ -21,9 +21,9 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
   BaseState get initialState => InitialState();
 
   @override
-  Stream<BaseState> mapEventToState(RewardEvent event) async* {
+  Stream<BaseState> mapEventToState(RewardEventType event) async* {
     try {
-      switch (event.type) {
+      switch (event) {
         case RewardEventType.getCurrent:
           yield LoadingState();
           final rewardInfo = await rewardRepository.getCurrent();
@@ -34,11 +34,6 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
           final brands = await rewardRepository.getBrands();
           yield SuccessState<List<Brand>>(data: brands);
           break;
-        case RewardEventType.getMatches:
-          yield LoadingState();
-          final matches = await matchRepository.getMatches();
-          yield SuccessState<List<UserMatch>>(data: matches);
-          break;
       }
     } on Exception catch (e) {
       yield ErrorState(exception: e);
@@ -46,11 +41,4 @@ class RewardBloc extends BaseBloc<RewardEvent, BaseState> {
   }
 }
 
-enum RewardEventType { getCurrent, getBrands, getMatches }
-
-class RewardEvent<T> {
-  final RewardEventType type;
-  final T data;
-
-  RewardEvent(this.type, {this.data});
-}
+enum RewardEventType { getCurrent, getBrands }

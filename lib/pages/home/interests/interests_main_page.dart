@@ -27,9 +27,6 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
   }
 
   @override
-  Widget get title => null;
-
-  @override
   bool showFloatingButton() => true;
 
   @override

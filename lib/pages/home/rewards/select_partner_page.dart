@@ -24,15 +24,19 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
     List<UserMatch> matches;
     UserMatch matchSelected;
     bool showSmallProgress;
-    final dialog = SimpleDialog(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text("Gracias por participar!\n\nTe avisaremos si ganaste la cita una vez se realice el sorteo.",
-              textAlign: TextAlign.center),
-        )
+    final dialog = AlertDialog(
+      title: Text("Gracias por participar!"),
+      content: Text("Te avisaremos si ganaste la cita una vez se realice el sorteo."),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("OK"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ],
     );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(strings.SelectYourPartner),
@@ -70,7 +74,8 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(strings.ChooseWhoYouWould,
+                        child: Text(
+                          strings.ChooseWhoYouWould,
                           textAlign: TextAlign.center,
                         ),
                       ),

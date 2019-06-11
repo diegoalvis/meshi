@@ -19,8 +19,10 @@ import 'package:meshi/utils/widget_util.dart';
 import '../../../main.dart';
 
 class RewardPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
+
   @override
-  Widget get title {
+  Widget getTitle(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return Text("Cita de la semana");
   }
 
@@ -38,7 +40,7 @@ class RewardContainer extends StatelessWidget {
   RewardBloc _bloc;
 
   Future<Null> _fetchRewardData() async {
-    _bloc.dispatch(RewardEvent(RewardEventType.getCurrent));
+    _bloc.dispatch(RewardEventType.getCurrent);
   }
 
   @override

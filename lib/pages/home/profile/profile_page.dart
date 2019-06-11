@@ -18,9 +18,11 @@ import 'package:meshi/utils/custom_widgets/image_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
+
   @override
-  Widget get title {
-    return Text("Sobre mi");
+  Widget getTitle(BuildContext context) {
+    final strings = MyLocalizations.of(context);
+    return Text('Sobre mi');
   }
 
   @override
@@ -126,7 +128,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => BasicRegisterPage(/*doWhenFinish: BaseBloc.POP_PAGE*/))),
+                      builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE))),
               child: Text(strings.editButton, style: TextStyle(color: Theme.of(context).accentColor)),
             ),
           ),

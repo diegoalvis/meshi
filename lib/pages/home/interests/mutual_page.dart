@@ -15,6 +15,7 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 import '../../../main.dart';
+import '../../interests_profile_page.dart';
 
 class MutualPage extends StatelessWidget {
   InterestsBloc _bloc;
@@ -29,6 +30,25 @@ class MutualPage extends StatelessWidget {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
     _bloc.dispatch(InterestsEventType.getMutals);
     final strings = MyLocalizations.of(context);
+
+    void _showDialog(String name) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            children: <Widget>[
+              ListTile(title: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
+              Divider(),
+              FlatButton(
+                child: Text("Eliminar chat"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return BlocListener(
       bloc: _bloc,
       listener: (context, state) {
@@ -53,11 +73,8 @@ class MutualPage extends StatelessWidget {
 
             return RefreshIndicator(
                 onRefresh: _fetchRewardData,
-                child: matches == null
-                    ? ListView(children: <Widget>[
-                        SizedBox(height: 100),
-                        Center(child: Text(strings.youDoNotHaveMutualsYet))
-                      ])
+                child: matches == null || matches.length == 0
+                    ? ListView(children: <Widget>[SizedBox(height: 100), Center(child: Text(strings.youDoNotHaveMutualsYet))])
                     : ListView.separated(
                         itemCount: matches.length,
                         separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
@@ -67,16 +84,19 @@ class MutualPage extends StatelessWidget {
                             onTap: () {
                               Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
                             },
+                            onLongPress: () => _showDialog(match.name),
                             title: Row(children: [
                               ClipOval(
                                 child: Container(
                                     height: 50.0,
                                     width: 50.0,
-                                    child: Image.network(
-                                        BaseApi.IMAGES_URL_DEV +
-                                                match?.images?.firstWhere((image) => image != null) ??
-                                            "",
-                                        fit: BoxFit.cover)),
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.pushNamed(context, '/interests-profile',
+                                          arguments: UserDetail(id: match.id, isMyLike: true)),
+                                      child: Image.network(
+                                          BaseApi.IMAGES_URL_DEV + match?.images?.firstWhere((image) => image != null) ?? "",
+                                          fit: BoxFit.cover),
+                                    )),
                               ),
                               SizedBox(width: 10),
                               Expanded(
@@ -92,9 +112,7 @@ class MutualPage extends StatelessWidget {
                                                   : DateFormat.jm().format(match.lastDate),
                                           style: TextStyle(color: Theme.of(context).accentColor)),
                                       SizedBox(width: 10),
-                                      Expanded(
-                                          child: Text(match?.lastMessage ?? "",
-                                              overflow: TextOverflow.ellipsis)),
+                                      Expanded(child: Text(match?.lastMessage ?? "", overflow: TextOverflow.ellipsis)),
                                     ])
                                   ],
                                 ),
