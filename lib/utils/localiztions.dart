@@ -426,7 +426,7 @@ class MyLocalizations {
       'self': 'I am',
       'interested': 'I am interested',
       'how_describe_yourself': '¿How do you describe yourself?',
-      'hobbies_caption': 'What about your hobbies?',
+      'hobbies_caption': '¿What about your hobbies?',
       'what_you_do': 'What do you do?',
       'what_you_looking_for': 'What are you looking for in another person?',
       'welcome': 'Welcome',
