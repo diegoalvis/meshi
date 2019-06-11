@@ -17,10 +17,10 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class InterestsProfilePage extends StatelessWidget with HomeSection {
-  //final strings = MyLocalizations.of(context);
-  @override
 
-  Widget get title {
+  @override
+  Widget getTitle(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return Text("??Perfil de intereses");
   }
 

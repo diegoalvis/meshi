@@ -74,7 +74,7 @@ class HomePageState extends State<HomePage> {
             categories: strings.homeSections,
           ),
           backTitle: Text(strings.menu),
-          frontTitle: _currentPage.title,
+          frontTitle: _currentPage.getTitle(context),
           frontLayer: SafeArea(
             child: _currentPage as Widget,
           ),

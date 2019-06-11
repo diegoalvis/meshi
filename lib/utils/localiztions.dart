@@ -172,7 +172,7 @@ class MyLocalizations {
 
   String get menu => _localizedSingleValues[locale.languageCode]['menu'];
 
-  String get signOff => _localizedSingleValues[locale.languageCode]['sign_off'];
+  String get signOut => _localizedSingleValues[locale.languageCode]['sign_out'];
 
   String get termsAndConditions =>
       _localizedSingleValues[locale.languageCode]['terms_and_conditions'];
@@ -386,7 +386,7 @@ class MyLocalizations {
       'noUsersAvailable': 'No users available',
       'recommendations': 'Recommendations',
       'menu': 'Menu',
-      'sign_off': 'Sign off',
+      'sign_out': 'Sign out',
       'terms_and_conditions': 'Terms and conditions',
       'contact_us': 'Contact us',
       'awards': 'Awards',
@@ -500,7 +500,7 @@ class MyLocalizations {
       'noUsersAvailable': 'No hay usuarios disponibles',
       'recommendations': 'Recomendaciones',
       'menu': 'Menú',
-      'sign_off': 'Cerrar sesión',
+      'sign_out': 'Cerrar sesión',
       'terms_and_conditions': 'Términos y condiciones',
       'contact_us': 'Contáctanos',
       'awards': 'Premiación',
@@ -562,8 +562,8 @@ class MyLocalizations {
       'home_sections': [
         'My interests',
         'Participate for a real date',
-        'Make yourself premium',
-        'view profile',
+        'Meshi Premium',
+        'View profile',
         'Settings'
       ],
     },
@@ -573,7 +573,7 @@ class MyLocalizations {
       'home_sections': [
         'Mis intereses',
         'Participa por una cita real',
-        'Hazte premiun',
+        'Meshi Premiun',
         'Ver perfil',
         'Ajustes'
       ],
