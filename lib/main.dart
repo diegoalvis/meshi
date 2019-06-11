@@ -66,7 +66,6 @@ class App extends StatelessWidget {
             SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
             CONTACT_ROUTE: (BuildContext context) => ContactPage(),
             TERM_AND_CONDITIONS: (BuildContext context) => Term(),
-
           },
         ));
   }
@@ -88,7 +87,6 @@ const String PROFILE_ROUTE = "/profile";
 const String SETTINGS_ROUTE = "/settings";
 const String CONTACT_ROUTE = "/contact";
 const String TERM_AND_CONDITIONS = "/term";
-
 
 // Themes
 ThemeData buildTheme() => ThemeData(

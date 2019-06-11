@@ -5,12 +5,12 @@ import 'package:path/path.dart';
 import 'localiztions.dart';
 
 abstract class BaseState extends Equatable {
-  BaseState({List props}): super(props);
+  BaseState({List props}) : super(props);
 }
 
 class InitialState<T> extends BaseState {
   T initialData;
-  InitialState({this.initialData}): super(props: [initialData]);
+  InitialState({this.initialData}) : super(props: [initialData]);
   @override
   String toString() => 'state-initial';
 }
@@ -28,7 +28,7 @@ class PerformingRequestState extends BaseState {
 class SuccessState<T> extends BaseState {
   T data;
 
-  SuccessState({this.data}): super(props: [data]);
+  SuccessState({this.data}) : super(props: [data]);
 
   @override
   String toString() => 'state-success';
@@ -37,8 +37,7 @@ class SuccessState<T> extends BaseState {
 class ErrorState extends BaseState {
   String get msg {
     if (exception is AuthorizationException) {
-      return
-        "Error al verificar autenticacion.";
+      return "Error al verificar autenticacion.";
     }
     if (exception is ConnectivityException) {
       return "No se pudo establecer la conexion.";
@@ -53,4 +52,9 @@ class ErrorState extends BaseState {
 
   @override
   String toString() => 'state-error';
+}
+
+class ExitState extends BaseState {
+  @override
+  String toString() => 'state-exit';
 }

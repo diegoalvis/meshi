@@ -17,7 +17,6 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class InterestsProfilePage extends StatelessWidget with HomeSection {
-
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -37,13 +36,13 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
 
 class InterestsProfileBody extends StatelessWidget {
   UserDetail userDetail;
-  int success;
+  bool loading = false;
 
   InterestsProfileBody(this.userDetail);
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height * 0.85;
+    double height = MediaQuery.of(context).size.height * 0.87;
 
     User user;
     final strings = MyLocalizations.of(context);
@@ -60,8 +59,10 @@ class InterestsProfileBody extends StatelessWidget {
           if (state is SuccessState<User>) {
             user = state.data;
           }
-          if (state is SuccessState<int>) {
-            success = state.data;
+          if (state is SuccessState<bool>) {
+            loading = state.data;
+          }
+          if (state is ExitState) {
             Navigator.pop(context);
           }
           if (state is ErrorState) {
@@ -78,15 +79,23 @@ class InterestsProfileBody extends StatelessWidget {
                       child: InterestsProfileImage(
                         user: user,
                         widget1: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(top: 18.0, left: 8.0, right: 8.0),
                           child: CompatibilityIndicator(),
                         ),
                         widget2: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Card(
-                            child: ListTile(
-                              title: Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
-                              subtitle: Text(user?.description ?? ""),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.36,
+                            child: Card(
+                              child: ListTile(
+                                title:
+                                    Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                subtitle: Text(
+                                  user?.description ?? "",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 10,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -102,14 +111,17 @@ class InterestsProfileBody extends StatelessWidget {
   Widget likesMe(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          success == 0
-              ? CircularProgressIndicator()
-              : FlatButton(
+    return loading == true
+        ? Center(
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlatButton(
                   onPressed: () {
                     _bloc.dispatch(InterestsProfileEvents.DisLike);
                   },
@@ -118,16 +130,15 @@ class InterestsProfileBody extends StatelessWidget {
                       //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(strings.imNotInterested,
+                        child: Text(
+                          strings.imNotInterested,
                           style: TextStyle(color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ],
                   ),
                 ),
-          success == 0
-              ? CircularProgressIndicator()
-              : RaisedButton(
+                RaisedButton(
                   onPressed: () {
                     _bloc.dispatch(InterestsProfileEvents.AddMatch);
                   },
@@ -143,41 +154,46 @@ class InterestsProfileBody extends StatelessWidget {
                     ],
                   ),
                 )
-        ],
-      ),
-    );
+              ],
+            ),
+          );
   }
 
   Widget isMyLike(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Spacer(),
-          FlatButton(
-            onPressed: () {
-              _bloc.dispatch(InterestsProfileEvents.DisLike);
-            },
+    return loading == true
+        ? Align(
+            alignment: Alignment.centerRight,
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(20.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: success == 0
-                      ? CircularProgressIndicator()
-                      : Text(strings.imNotInterestedNow,
+                Spacer(),
+                FlatButton(
+                  onPressed: () {
+                    _bloc.dispatch(InterestsProfileEvents.DisLike);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      //Image.asset(IconUtils.heartBroken, scale: 8.0, color: Theme.of(context).primaryColor),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          strings.imNotInterestedNow,
                           style: TextStyle(color: Theme.of(context).primaryColor),
                         ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
 

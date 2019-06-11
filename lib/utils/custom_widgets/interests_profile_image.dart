@@ -4,6 +4,7 @@
  */
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/user.dart';
 
 class DotsIndicator extends AnimatedWidget {
@@ -99,15 +100,21 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.parallax,
-              titlePadding: EdgeInsets.only(left: 90.0, bottom: 15),
+              titlePadding: EdgeInsets.only(left: 80.0, bottom: 15),
               title: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(user?.name ?? "",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    )),
+                child: Container(
+                  height: 20,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  alignment: Alignment.bottomLeft,
+                  child: Text(user?.name ?? "",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      )),
+                ),
               ),
               background: Stack(
                 fit: StackFit.expand,
@@ -115,19 +122,23 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                   PageView.builder(
                       controller: _controller,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: user.images != null && user.images.length > 4 ? 4 : user.images.length,
+                      itemCount:
+                          user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
                       itemBuilder: (BuildContext context, int index) {
                         return sliderImage(user.images[index]);
                       }),
                   Positioned(
-                    bottom: 20.0,
-                    right: 20.0,
-                    child: DotsIndicator(
-                      controller: _controller,
-                      itemCount: user.images.length,
-                      onPageSelected: (int page) {
-                        _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
-                      },
+                    right: 20,
+                    child: SafeArea(
+                      top: true,
+                      child: DotsIndicator(
+                        controller: _controller,
+                        itemCount:
+                            user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
+                        onPageSelected: (int page) {
+                          _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
+                        },
+                      ),
                     ),
                   )
                 ],
@@ -138,7 +149,6 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
       },
       body: Column(
         children: <Widget>[
-          SizedBox(height: 90),
           widget1,
           widget2,
         ],
@@ -153,7 +163,7 @@ Widget sliderImage(String url) {
     child: DecoratedBox(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage(url),
+        image: NetworkImage(BaseApi.IMAGES_URL_DEV + url),
         fit: BoxFit.cover,
       )),
     ),

@@ -7,11 +7,9 @@ import 'package:bloc/bloc.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/match_repository.dart';
-import 'package:meshi/pages/recommendations/recommendations_event.dart';
 
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   final MatchRepository _repository;
-  //SessionManager session;
   List<User> users;
 
   RecommendationsBloc(this._repository);
@@ -24,7 +22,13 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
     if (event is GetRecommendationsEvent) {
       yield* _loadRecommendationsToState();
     } else if (event is AddMatchEvent) {
-      yield* _addMatchToState(event);
+      try {
+        await _repository.addMatch(event.user.id);
+        users.remove(event.user);
+        yield SuccessState<List<User>>(data: users);
+      } on Exception catch (e) {
+        yield ErrorState(exception: e);
+      }
     }
   }
 
@@ -32,28 +36,27 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
     try {
       yield LoadingState();
       users = await _repository.getRecommendations();
-      /*users = List.generate(
-          10,
-          (index) => User(
-                  id: int.parse('$index'),
-                  name: "Juanita $index",
-                  description: 'Descripcion $index',
-                  images: [
-                    "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  ]));*/
       yield SuccessState<List<User>>(data: users);
     } on Exception catch (e) {
       yield ErrorState(exception: e);
     }
   }
+}
 
-  Stream<BaseState> _addMatchToState(AddMatchEvent event) async* {
-    try {
-      await _repository.addMatch(event.user.id);
-      users.remove(event.user);
-      yield SuccessState<List<User>>(data: users);
-    } on Exception catch (e) {
-      yield ErrorState(exception: e);
-    }
+class RecommendationsEvents {}
+
+class GetRecommendationsEvent extends RecommendationsEvents {
+  @override
+  String toString() {
+    return "GetRecommendations";
   }
+}
+
+class AddMatchEvent extends RecommendationsEvents {
+  final User user;
+
+  AddMatchEvent(this.user);
+
+  @override
+  String toString() => 'AddMatch {user: $user}';
 }
