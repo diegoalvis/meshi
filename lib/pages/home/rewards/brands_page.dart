@@ -30,7 +30,7 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
             bloc: bloc,
             builder: (context, state) {
               if (state is SuccessState<List<Brand>>) {
-                state.data.forEach((brand) => brands.addAll(state.data));
+                brands = state.data;
               }
               if (state is InitialState) {
                 bloc.dispatch(RewardEventType.getBrands);
