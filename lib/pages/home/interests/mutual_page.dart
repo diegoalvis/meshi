@@ -28,7 +28,9 @@ class MutualPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
-    _bloc.dispatch(InterestsEventType.getMutals);
+    if(matches == null){
+      _bloc.dispatch(InterestsEventType.getMutals);
+    }
     final strings = MyLocalizations.of(context);
 
     void _showDialog(String name) {

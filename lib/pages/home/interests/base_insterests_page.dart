@@ -30,7 +30,10 @@ class BaseInterestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
-    _bloc.dispatch(eventType);
+    if(myLikes == null){
+      _bloc.dispatch(eventType);
+    }
+
     final strings = MyLocalizations.of(context);
     return BlocBuilder(
         bloc: _bloc,
