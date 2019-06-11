@@ -30,8 +30,6 @@ class MyLocalizations {
 
   String get titleApp => 'Meshi';
 
-  String get meshi => 'meshi';
-
   String get pictureSelectCaption =>
       _localizedSingleValues[locale.languageCode]['picture_select_caption'];
 

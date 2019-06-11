@@ -30,7 +30,7 @@ class AppDatabase {
     lastDate VARCHAR(255),
     type VARCHAR(70),
     state VARCHAR(70),
-    erasedDate VARCHAR(255),
+    erasedDate VARCHAR(255)
     )
     ''');
 

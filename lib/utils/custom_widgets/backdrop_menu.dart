@@ -109,13 +109,13 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
             child: Image.asset(
               "res/icons/logo.png",
               scale: 4,
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: Colors.white,
             ),
           ),
         ),
         title: GestureDetector(
             onTap: _toggleBackdropLayerVisibility,
-            child: Text('Meshi', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary))),
+            child: Text('Meshi', style: TextStyle(color: Colors.white))),
       ),
       body: LayoutBuilder(builder: _buildStack),
       floatingActionButton: widget.floatingActionButton,
