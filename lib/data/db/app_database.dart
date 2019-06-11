@@ -27,7 +27,10 @@ class AppDatabase {
     images VARCHAR(555),
     lastMessage TEXT, 
     idMatch INTEGER,
-    lastDate VARCHAR(255)
+    lastDate VARCHAR(255),
+    type VARCHAR(70),
+    state VARCHAR(70),
+    erasedDate VARCHAR(255),
     )
     ''');
 
