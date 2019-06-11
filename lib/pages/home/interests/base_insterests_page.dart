@@ -46,7 +46,7 @@ class BaseInterestsPage extends StatelessWidget {
           }
           if (state is ErrorState) {
             onWidgetDidBuild(() {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
             });
           }
 
@@ -55,7 +55,9 @@ class BaseInterestsPage extends StatelessWidget {
               child: myLikes == null //|| myLikes.length == 0
                   ? ListView(children: <Widget>[
                       SizedBox(height: 100),
-                      Center(child: Text("No se encontraron datos"))
+                      Center(child: Text(
+                          strings.noData,
+                          ))
                     ])
                   : Column(
                       children: <Widget>[

@@ -33,7 +33,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
             SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
-                child: Text("¿Es importante para ti la apariencia física de tu pareja?")),
+                child: Text(strings.physicalImport)),
             SizedBox(height: 10),
             OptionSelector(
                 options: UserLikeAppearance.values,
@@ -45,7 +45,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
             SizedBox(height: 20),
             Container(
                 alignment: Alignment.centerLeft,
-                child: Text("¿Es importante para ti el estilo de vestir de tu pareja?")),
+                child: Text(strings.styleDress)),
             SizedBox(height: 10),
             OptionSelector(
                 options: YesNoOptions,
@@ -59,7 +59,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                 alignment: Alignment.centerLeft,
                 child: deepening.isImportantClothing != true
                     ? SizedBox()
-                    : Text("¿Qué estilo de vestir prefieres en tu pareja?")),
+                    : Text(strings.stylePreferPartner)),
             Expanded(
               child: deepening.isImportantClothing != true
                   ? SizedBox()

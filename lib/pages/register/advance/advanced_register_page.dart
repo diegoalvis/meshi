@@ -140,7 +140,7 @@ class _FormPageState extends State<FormContainer> {
                     : Builder(
                         builder: (contextInt) => FlatButton(
                               onPressed: () => !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
-                                  ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text("Informacion incompleta")))
+                                  ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
                                   : setState(() {
                                       currentPagePos++;
                                       if (currentPagePos > TOTAL_PAGES) {
@@ -149,7 +149,7 @@ class _FormPageState extends State<FormContainer> {
                                           if (success) {
                                             Navigator.of(this.context).pushReplacementNamed(HOME_ROUTE);
                                           } else {
-                                            _bloc.errorSubject.sink.add("Ocurrio un problema al actualizar los datos");
+                                            _bloc.errorSubject.sink.add(strings.tryError);
                                           }
                                         }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
                                       }
@@ -182,8 +182,7 @@ class _FormPageState extends State<FormContainer> {
               scale: 4,
               color: Theme.of(context).primaryColor,
             )),
-        title: Text(
-          "Cuestionario",
+        title: Text(strings.questionnaire,
           textAlign: TextAlign.start,
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),

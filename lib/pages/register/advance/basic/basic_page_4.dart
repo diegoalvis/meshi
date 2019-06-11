@@ -37,7 +37,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
         return Column(
           children: [
             SizedBox(height: 20),
-            Container(alignment: Alignment.centerLeft, child: Text("¿Que contextura fisica prefieres para tu pareja?")),
+            Container(alignment: Alignment.centerLeft, child: Text(strings.physicalPrefer)),
             SizedBox(height: 20),
             Row(
                 children: UserShape.values.map((value) => enumValue(value)).map((item) {
@@ -52,7 +52,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
               );
             }).toList()),
             SizedBox(height: 20),
-            Container(alignment: Alignment.centerLeft, child: Text("¿Es importante el nivel de ingresos?")),
+            Container(alignment: Alignment.centerLeft, child: Text(strings.levelncomeImport)),
             SizedBox(height: 20),
             Expanded(
               child: Column(
@@ -68,7 +68,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                       ? SizedBox()
                       : Row(
                           children: [
-                            Text("${FormBloc.MIN_INCOME.toInt()}\n o menos",
+                            Text("${FormBloc.MIN_INCOME.toInt()}\n ${strings.orLess}",
                                 textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
                             Expanded(
                               child: RangeSlider(
@@ -85,7 +85,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                                     bloc.incomeRangePreferred(newLowerValue, newUpperValue),
                               ),
                             ),
-                            Text("${FormBloc.MAX_INCOME.toInt()}\n o mas",
+                            Text("${FormBloc.MAX_INCOME.toInt()}\n ${strings.orMore}",
                                 textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
                           ],
                         ),

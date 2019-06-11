@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:meshi/utils/icon_utils.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -41,11 +42,14 @@ class RecommendationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
+    final strings = MyLocalizations.of(context);
     return Scaffold(
+
       appBar: AppBar(
         elevation: 0,
-        title: Text('Recomendaciones', style: TextStyle(color: Colors.white)),
+        title: Text(strings.recommendations, style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
@@ -64,7 +68,7 @@ class RecommendationsList extends StatelessWidget {
                 }
                 if (state is ErrorState) {
                   onWidgetDidBuild(() {
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text("Ocurrio un error")));
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
                   });
                 }
                 if (state is InitialState) {
@@ -76,7 +80,7 @@ class RecommendationsList extends StatelessWidget {
                       child: users.length > 0
                           ? Container(child: recommendationsCarousel(context))
                           : Center(
-                              child: Text('No hay usuarios disponibles',
+                              child: Text(strings.noUsersAvailable,
                                   style: TextStyle(color: Colors.white)))),
                 );
               }),
@@ -103,6 +107,7 @@ class RecommendationsList extends StatelessWidget {
   }
 
   Widget carouselWidget(BuildContext context, User user) {
+    final strings = MyLocalizations.of(context);
     RecommendationsBloc _bloc;
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
     return Container(
@@ -149,7 +154,7 @@ class RecommendationsList extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Card(
               child: ListTile(
-                title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(user.description),
               ),
             ),
@@ -171,8 +176,7 @@ class RecommendationsList extends StatelessWidget {
                       Image.asset(IconUtils.heart, scale: 8.0, color: Colors.white),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'ME INTERESA',
+                        child: Text(strings.iAmInterested,
                           textAlign: TextAlign.center,
                         ),
                       ),

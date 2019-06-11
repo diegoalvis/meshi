@@ -26,7 +26,7 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Container(
             alignment: Alignment.centerLeft,
-            child: Text("¿Cuáles son los temas de mayor interés para ti?\nElige 3.")),
+            child: Text("${strings.themesOfInterest}\n ${strings.choose3}")),
         SizedBox(height: 20),
         Expanded(
           child: Container(

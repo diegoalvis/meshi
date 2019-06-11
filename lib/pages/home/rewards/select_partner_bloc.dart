@@ -30,7 +30,7 @@ class SelectPartnerBloc extends BaseBloc<SelectPartnerEvent, BaseState> {
           break;
         case SelectPartnerEventType.getMatches:
           yield LoadingState();
-          final matches = await matchRepository.getMatches();
+          final matches = await matchRepository.getMatches(interacted: true, premium: true);
           yield SuccessState<List<UserMatch>>(data: matches);
           break;
         case SelectPartnerEventType.selectPartner:

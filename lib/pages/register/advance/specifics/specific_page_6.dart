@@ -24,7 +24,7 @@ class SpecificsFormPageSix extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("¿A qué tipo de lugares te gusta ir?")),
+        Container(alignment: Alignment.centerLeft, child: Text(strings.placesLike)),
         SizedBox(height: 20),
         Expanded(
           child: Container(

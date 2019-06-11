@@ -6,68 +6,45 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/pages/home/rewards/rewards_bloc.dart';
+import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = RewardBloc(injector.get<RewardRepository>(), injector.get());
-    return BrandContainer(bloc);
-  }
-}
-
-class BrandContainer extends StatefulWidget {
-  final RewardBloc _bloc;
-
-  const BrandContainer(this._bloc) : super();
-
-  @override
-  BrandPageState createState() => new BrandPageState(_bloc);
-}
-
-class BrandPageState extends State<BrandContainer> {
-  final RewardBloc _bloc;
-
-  List<Brand> brands;
-  bool showProgress = false;
-
-  BrandPageState(this._bloc);
-
-  @override
-  void dispose() {
-    _bloc.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    //_bloc.brandStream.listen((brands) => setState(() => this.brands = brands));
-    _bloc.progressSubject.listen((showProgress) => setState(() => this.showProgress = showProgress));
-    //_bloc.getBrands();
-  }
-
-  Future<Null> _fetchBrands() async {
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
+    final bloc = RewardBloc(injector.get<RewardRepository>(), injector.get());
+    List<Brand> brands = List();
+    Future<Null> _fetchBrands() async {
+      bloc.dispatch(RewardEventType.getBrands);
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text("Convenios")),
-      body: SafeArea(
-        child: showProgress
-            ? Center(child: CircularProgressIndicator())
-            : Column(
+        appBar: AppBar(title: Text(strings.agreements)),
+        body: BlocBuilder(
+            bloc: bloc,
+            builder: (context, state) {
+              if (state is SuccessState<List<Brand>>) {
+                brands = state.data;
+              }
+              if (state is InitialState) {
+                bloc.dispatch(RewardEventType.getBrands);
+              }
+              if (state is LoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              return Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Text(
-                      "Reclama tu bono en los siguientes establecimientso",
+                      strings.claimYourVoucher,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -75,27 +52,17 @@ class BrandPageState extends State<BrandContainer> {
                     child: RefreshIndicator(
                       onRefresh: _fetchBrands,
                       child: Container(
-                        child: brands == null
-                            ? Text("ola")
+                        child: brands == null || brands.length == 0
+                            ? Center(child: Text(". . ."))
                             : GridView.count(
                                 crossAxisCount: 2,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
                                 children: List.generate(
-                                    brands.length * 2,
-                                    (index) => DecoratedBox(
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                            image: NetworkImage(
-                                                'http://www.ticketfactura.com/wp-content/uploads/2018/07/Facturacion-crepes-y-wafles.jpg' ??
-                                                    ""),
-                                            fit: BoxFit.cover,
-                                          )),
-                                        )
-                                    /*
-                                        Image.network(
+                                    brands.length,
+                                    (index) => Image.network(
                                         BaseApi.BASE_URL_DEV + "/images/" + brands?.elementAt(index)?.image ?? "",
-                                        fit: BoxFit.cover)
-                                       */
-                                    ),
+                                        fit: BoxFit.cover)),
                               ),
                       ),
                     ),
@@ -106,7 +73,7 @@ class BrandPageState extends State<BrandContainer> {
                         context: context,
                         builder: (BuildContext context) => SimpleDialog(
                               children: <Widget>[
-                                ListTile(title: Text("Comunicate con nosotros para saber como reclamar tu premio")),
+                                ListTile(title: Text(strings.CommunicateWithUs)),
                                 ListTile(
                                     leading: Icon(Icons.phone),
                                     title: Text("31234567890"),
@@ -127,7 +94,7 @@ class BrandPageState extends State<BrandContainer> {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          Text("No tengo esos establecimientos en mi ciudad", textAlign: TextAlign.center),
+                          Text(strings.iDoNotHaveThose, textAlign: TextAlign.center),
                           SizedBox(width: 8.0),
                           Icon(Icons.info_outline),
                         ],
@@ -135,8 +102,7 @@ class BrandPageState extends State<BrandContainer> {
                     ),
                   ),
                 ],
-              ),
-      ),
-    );
+              );
+            }));
   }
 }

@@ -25,7 +25,7 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
         SizedBox(height: 20),
         Container(
             alignment: Alignment.centerLeft,
-            child: Text("Escoge tres de estas opciones para determinar qué es lo más importante en tu vida en este momento")),
+            child: Text(strings.threeOptions)),
         SizedBox(height: 20),
         Expanded(
           child: Container(

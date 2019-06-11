@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meshi/data/api/exceptions/exceptions.dart';
+import 'package:path/path.dart';
+
+import 'localiztions.dart';
 
 abstract class BaseState extends Equatable {
   BaseState({List props}): super(props);
@@ -34,7 +37,8 @@ class SuccessState<T> extends BaseState {
 class ErrorState extends BaseState {
   String get msg {
     if (exception is AuthorizationException) {
-      return "Error al verificar autenticacion.";
+      return
+        "Error al verificar autenticacion.";
     }
     if (exception is ConnectivityException) {
       return "No se pudo establecer la conexion.";

@@ -27,9 +27,6 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
   }
 
   @override
-  Widget get title => null;
-
-  @override
   bool showFloatingButton() => true;
 
   @override
@@ -42,9 +39,9 @@ class InterestsMainPageContainer extends StatelessWidget {
   final List<Widget> interestSPages = [
     MutualPage(),
     BaseInterestsPage(
-        title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
+        title: "??Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: true),
     BaseInterestsPage(
-        title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
+        title: "??Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: false),
   ];
 
   @override
@@ -61,9 +58,9 @@ class InterestsMainPageContainer extends StatelessWidget {
               child: TabBar(
                 indicatorColor: Colors.white,
                 tabs: [
-                  Tab(text: 'MUTUOS'),
-                  Tab(text: 'ME INTERESA'),
-                  Tab(text: 'LE INTERESO'),
+                  Tab(text: strings.mutual),
+                  Tab(text: strings.iAmInterested),
+                  Tab(text: strings.iInterested),
                 ],
                 isScrollable: false,
               ),

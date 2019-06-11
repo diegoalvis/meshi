@@ -40,7 +40,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te gustaria casarte?"),
+                  child: Text(strings.wouldMarried),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
@@ -55,7 +55,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Cuantos hijos tienes?"),
+                  child: Text(strings.howManyChildren),
                 ),
                 SizedBox(height: 20),
                 Container(
@@ -78,7 +78,7 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                 Container(
                   alignment: Alignment.centerLeft,
                   child:
-                      Text("¿Te gustaria tener ${deepening?.children != null && (deepening.children > 0) ? 'mas ' : ''}hijos?"),
+                      Text("${strings.likeHave} ${deepening?.children != null && (deepening.children > 0) ? "${strings.orMore}" : ''}" "${strings.sons}"),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
@@ -89,11 +89,11 @@ class SpecificsFormPageOne extends StatelessWidget with FormSection {
                       bloc.updateDeepening(deepening);
                     }),
               ])),
-              Expanded(
+          Expanded(
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te molesta que tu pareja tenga hijos?"),
+                  child: Text(strings.botherPartnerChildren),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(

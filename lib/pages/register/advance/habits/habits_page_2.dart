@@ -34,7 +34,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te molesta que tu pareja fume?"),
+                  child: Text(strings.botherSmokes),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
@@ -49,7 +49,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Te molesta que tu pareja tome bebidas alcholicas?"),
+                  child: Text(strings.bothersAlcoholic),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(
@@ -64,7 +64,7 @@ class HabitsFormPageTwo extends StatelessWidget with FormSection {
                   child: Column(children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("¿Es importante que tu pareja se ejercite?"),
+                  child: Text(strings.partnerExercise),
                 ),
                 SizedBox(height: 20),
                 OptionSelector(

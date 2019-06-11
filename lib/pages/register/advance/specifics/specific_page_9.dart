@@ -23,7 +23,7 @@ class SpecificsFormPageNine extends StatelessWidget with FormSection {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(alignment: Alignment.centerLeft, child: Text("¿Cuál es tu género musical favorito?")),
+        Container(alignment: Alignment.centerLeft, child: Text(strings.musicalGenre)),
         SizedBox(height: 20),
         Expanded(
           child: Container(

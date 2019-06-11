@@ -70,8 +70,9 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     });
     _bloc.progressSubject.listen((show) => setState(() => loading = show));
     _bloc.errorSubject.listen((error) {
+      final strings = MyLocalizations.of(context);
       Scaffold.of(buildContext)
-          .showSnackBar(SnackBar(content: Text("Ocurrio un error intentalo mas tarde.")));
+          .showSnackBar(SnackBar(content: Text(strings.tryError)));
     });
   }
 

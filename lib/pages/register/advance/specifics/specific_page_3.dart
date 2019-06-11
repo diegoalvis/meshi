@@ -25,7 +25,7 @@ class SpecificsFormPageThree extends StatelessWidget with FormSection {
       children: [
         SizedBox(height: 20),
         Container(
-            alignment: Alignment.centerLeft, child: Text("¿Qué estilo prefieres al momento de vestir?")),
+            alignment: Alignment.centerLeft, child: Text(strings.stylePrefer)),
         SizedBox(height: 20),
         Expanded(
           child: Container(
