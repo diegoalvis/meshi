@@ -46,6 +46,7 @@ class RecommendationsList extends StatelessWidget {
   ];
   List<User> users = [];
   RecommendationsBloc _bloc;
+  bool loading = false;
   bool isUser;
 
   @override
@@ -63,6 +64,9 @@ class RecommendationsList extends StatelessWidget {
           BlocBuilder(
               bloc: _bloc,
               builder: (context, state) {
+                if (state is PerformingRequestState) {
+                  loading = true;
+                }
                 if (state is LoadingState) {
                   return Flexible(
                     child: Container(
@@ -178,33 +182,42 @@ class RecommendationsList extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              children: <Widget>[
-                Spacer(),
-                RaisedButton(
-                  onPressed: () {
-                    _bloc.dispatch(AddMatchEvent(user));
-                  },
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                  color: Theme.of(context).accentColor,
+          loading
+              ? Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: Row(
                     children: <Widget>[
-                      Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          strings.iAmInterested,
-                          textAlign: TextAlign.center,
+                      Spacer(),
+                      RaisedButton(
+                        onPressed: () {
+                          _bloc.dispatch(AddMatchEvent(user));
+                        },
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                        color: Theme.of(context).accentColor,
+                        child: Row(
+                          children: <Widget>[
+                            Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                strings.iAmInterested,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
         ],
       ),
     );

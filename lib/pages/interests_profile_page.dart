@@ -36,7 +36,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
 
 class InterestsProfileBody extends StatelessWidget {
   UserDetail userDetail;
-  bool loading;
+  bool loading = false;
   double height;
 
   InterestsProfileBody(this.userDetail);
@@ -119,9 +119,12 @@ class InterestsProfileBody extends StatelessWidget {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return loading
-        ? Center(
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+        ? Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+            ),
           )
         : Padding(
             padding: const EdgeInsets.all(20.0),
@@ -170,10 +173,12 @@ class InterestsProfileBody extends StatelessWidget {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return loading
-        ? Align(
-            alignment: Alignment.centerRight,
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+        ? Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+            ),
           )
         : Padding(
             padding: const EdgeInsets.all(20.0),
