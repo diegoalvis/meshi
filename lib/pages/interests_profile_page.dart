@@ -123,7 +123,7 @@ class InterestsProfileBody extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
             ),
           )
         : Padding(
@@ -177,7 +177,7 @@ class InterestsProfileBody extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
             ),
           )
         : Padding(

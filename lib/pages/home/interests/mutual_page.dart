@@ -42,7 +42,12 @@ class MutualPage extends StatelessWidget {
               ListTile(title: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
               Divider(),
               FlatButton(
-                child: Text("Eliminar chat"),
+                child: Text("Vaciar chat"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              Divider(),
+              FlatButton(
+                child: Text("Eliminar match"),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],

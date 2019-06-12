@@ -73,12 +73,12 @@ class RecommendationsList extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                         child: Center(
                             child: CircularProgressIndicator(
-                          valueColor:
-                              new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
                         ))),
                   );
                 }
                 if (state is SuccessState<List<User>>) {
+                  loading = false;
                   users = state.data;
                 }
                 if (state is ErrorState) {
