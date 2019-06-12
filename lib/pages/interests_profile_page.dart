@@ -20,7 +20,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Text("??Perfil de intereses");
+    return Text("Perfil de intereses");
   }
 
   @override
@@ -36,13 +36,14 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
 
 class InterestsProfileBody extends StatelessWidget {
   UserDetail userDetail;
-  bool loading = false;
+  bool loading;
+  double height;
 
   InterestsProfileBody(this.userDetail);
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height * 0.87;
+    height = MediaQuery.of(context).size.height;
 
     User user;
     final strings = MyLocalizations.of(context);
@@ -50,17 +51,19 @@ class InterestsProfileBody extends StatelessWidget {
     return BlocBuilder(
         bloc: _bloc,
         builder: (context, state) {
+          //loading = state is PerformingRequestState;
+
           if (state is InitialState) {
             _bloc.dispatch(InterestsProfileEvents.getUserInfo);
           }
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());
           }
+          if (state is PerformingRequestState) {
+            loading = true;
+          }
           if (state is SuccessState<User>) {
             user = state.data;
-          }
-          if (state is SuccessState<bool>) {
-            loading = state.data;
           }
           if (state is ExitState) {
             Navigator.pop(context);
@@ -75,7 +78,7 @@ class InterestsProfileBody extends StatelessWidget {
               : Column(
                   children: <Widget>[
                     Container(
-                      height: height,
+                      height: height * 0.87,
                       child: InterestsProfileImage(
                         user: user,
                         widget1: Padding(
@@ -85,7 +88,7 @@ class InterestsProfileBody extends StatelessWidget {
                         widget2: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.36,
+                            height: height * 0.36,
                             child: Card(
                               child: ListTile(
                                 title:
@@ -102,7 +105,11 @@ class InterestsProfileBody extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    userDetail.isMyLike ? isMyLike(context) : likesMe(context),
+                    if (userDetail.isMyLike == 1)
+                      isMyLike(context)
+                    else
+                      if (userDetail.isMyLike == 2) likesMe(context) else SizedBox()
+                    //userDetail.isMyLike ? isMyLike(context) : likesMe(context),
                   ],
                 );
         });
@@ -111,7 +118,7 @@ class InterestsProfileBody extends StatelessWidget {
   Widget likesMe(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
-    return loading == true
+    return loading
         ? Center(
             child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
@@ -162,7 +169,7 @@ class InterestsProfileBody extends StatelessWidget {
   Widget isMyLike(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
-    return loading == true
+    return loading
         ? Align(
             alignment: Alignment.centerRight,
             child: CircularProgressIndicator(
@@ -199,7 +206,7 @@ class InterestsProfileBody extends StatelessWidget {
 
 class UserDetail {
   final int id;
-  final bool isMyLike;
+  final int isMyLike;
 
   UserDetail({this.id, this.isMyLike});
 }
