@@ -32,8 +32,9 @@ class ChatRepository {
     return await this._dao.get(matchId);
   }
 
-  Future clear(int matchId) async{
-    return await this._api.clear(matchId);
+  Future<int> clear(int matchId) async{
+    final id = await this._api.clear(matchId);
+    return id.data;
   }
 
   Future<int> insertMessage(Message msg) async{
