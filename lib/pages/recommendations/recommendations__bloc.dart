@@ -23,6 +23,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
       yield* _loadRecommendationsToState();
     } else if (event is AddMatchEvent) {
       try {
+        yield PerformingRequestState();
         await _repository.addMatch(event.user.id);
         users.remove(event.user);
         yield SuccessState<List<User>>(data: users);

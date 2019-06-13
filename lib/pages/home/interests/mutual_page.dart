@@ -28,7 +28,7 @@ class MutualPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
-    if(matches == null){
+    if (matches == null) {
       _bloc.dispatch(InterestsEventType.getMutals);
     }
     final strings = MyLocalizations.of(context);
@@ -42,7 +42,12 @@ class MutualPage extends StatelessWidget {
               ListTile(title: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
               Divider(),
               FlatButton(
-                child: Text("Eliminar chat"),
+                child: Text("Vaciar chat"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              Divider(),
+              FlatButton(
+                child: Text("Eliminar match"),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -76,7 +81,10 @@ class MutualPage extends StatelessWidget {
             return RefreshIndicator(
                 onRefresh: _fetchRewardData,
                 child: matches == null || matches.length == 0
-                    ? ListView(children: <Widget>[SizedBox(height: 100), Center(child: Text(strings.youDoNotHaveMutualsYet))])
+                    ? ListView(children: <Widget>[
+                        SizedBox(height: 100),
+                        Center(child: Text(strings.youDoNotHaveMutualsYet))
+                      ])
                     : ListView.separated(
                         itemCount: matches.length,
                         separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
@@ -94,9 +102,11 @@ class MutualPage extends StatelessWidget {
                                     width: 50.0,
                                     child: GestureDetector(
                                       onTap: () => Navigator.pushNamed(context, '/interests-profile',
-                                          arguments: UserDetail(id: match.id, isMyLike: true)),
+                                          arguments: UserDetail(id: match.id, isMyLike: 0)),
                                       child: Image.network(
-                                          BaseApi.IMAGES_URL_DEV + match?.images?.firstWhere((image) => image != null) ?? "",
+                                          BaseApi.IMAGES_URL_DEV +
+                                                  match?.images?.firstWhere((image) => image != null) ??
+                                              "",
                                           fit: BoxFit.cover),
                                     )),
                               ),
@@ -114,7 +124,9 @@ class MutualPage extends StatelessWidget {
                                                   : DateFormat.jm().format(match.lastDate),
                                           style: TextStyle(color: Theme.of(context).accentColor)),
                                       SizedBox(width: 10),
-                                      Expanded(child: Text(match?.lastMessage ?? "", overflow: TextOverflow.ellipsis)),
+                                      Expanded(
+                                          child: Text(match?.lastMessage ?? "",
+                                              overflow: TextOverflow.ellipsis)),
                                     ])
                                   ],
                                 ),

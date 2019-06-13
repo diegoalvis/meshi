@@ -16,7 +16,7 @@ import 'package:meshi/pages/interests_profile_page.dart';
 class BaseInterestsPage extends StatelessWidget {
   final String title;
   final InterestsEventType eventType;
-  final bool isMyLike;
+  final int isMyLike;
 
   InterestsBloc _bloc;
   List<MyLikes> myLikes;
@@ -30,7 +30,7 @@ class BaseInterestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
-    if(myLikes == null){
+    if (myLikes == null) {
       _bloc.dispatch(eventType);
     }
 
@@ -58,9 +58,10 @@ class BaseInterestsPage extends StatelessWidget {
               child: myLikes == null //|| myLikes.length == 0
                   ? ListView(children: <Widget>[
                       SizedBox(height: 100),
-                      Center(child: Text(
-                          strings.noData,
-                          ))
+                      Center(
+                          child: Text(
+                        strings.noData,
+                      ))
                     ])
                   : Column(
                       children: <Widget>[
