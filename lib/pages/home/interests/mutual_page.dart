@@ -101,6 +101,9 @@ class MutualPage extends StatelessWidget {
             if (state is LoadingState) {
               return Center(child: CircularProgressIndicator());
             }
+            if (state is PerformingRequestState) {
+              Navigator.of(context).pop();
+            }
             if (state is SuccessState<List<UserMatch>>) {
               matches = state.data;
             }
@@ -122,7 +125,10 @@ class MutualPage extends StatelessWidget {
                         separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
                         itemBuilder: (BuildContext context, int index) {
                           final match = matches.elementAt(index);
-                          final erased = match.lastDate == null || (match.erasedDate != null && match.erasedDate.millisecondsSinceEpoch > match.lastDate.millisecondsSinceEpoch);
+                          final erased = match.lastDate == null ||
+                              (match.erasedDate != null &&
+                                  match.erasedDate.millisecondsSinceEpoch >
+                                      match.lastDate.millisecondsSinceEpoch);
                           return ListTile(
                             onTap: () {
                               Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
