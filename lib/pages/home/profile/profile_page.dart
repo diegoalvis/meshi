@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Text('Sobre mi');
+    return Text(strings.aboutMe);
   }
 
   @override

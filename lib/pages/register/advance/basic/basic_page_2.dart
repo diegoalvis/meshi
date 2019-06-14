@@ -20,6 +20,7 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
 
   @override
   Widget build(BuildContext context) {
+
     final strings = MyLocalizations.of(context);
     final bloc = FormBlocProvider.of(context).bloc;
     final TextEditingController _controller = TextEditingController();
@@ -58,12 +59,15 @@ class BasicFormPageTwo extends StatelessWidget with FormSection {
             initialData: bloc.session.user,
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               return Padding(
-                padding: EdgeInsets.only(right: 80.0),
-                child: TextField(
-                  controller: _controller,
-                  onChanged: (text) => bloc.height = int.tryParse(text) ?? snapshot.data.height,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: "cm", hintText: "123"),
+                padding: EdgeInsets.only(right: 140.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15.0),
+                  child: TextField(
+                    controller: _controller,
+                    onChanged: (text) => bloc.height = int.tryParse(text) ?? snapshot.data.height,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(labelText: "cm", hintText: "123"),
+                  ),
                 ),
               );
             },

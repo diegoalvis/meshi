@@ -42,7 +42,7 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
             Row(
                 children: UserShape.values.map((value) => enumValue(value)).map((item) {
               return Expanded(
-                flex: item.length,
+                //flex: item.length,
                 child: FlatButton(
                     onPressed: () => bloc.updateBodyShapePreferred(item),
                     child: Text(strings.getEnumDisplayName(item)),
