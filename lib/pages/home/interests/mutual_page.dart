@@ -20,6 +20,7 @@ import '../../interests_profile_page.dart';
 class MutualPage extends StatelessWidget {
   InterestsBloc _bloc;
   List<UserMatch> matches;
+  List<int> blockMatch;
 
   Future<Null> _fetchRewardData() async {
     _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
@@ -33,7 +34,7 @@ class MutualPage extends StatelessWidget {
     }
     final strings = MyLocalizations.of(context);
 
-    void _showDialog(String name, int matchId) {
+    void _showDialog(String name, int matchId, int index) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -73,8 +74,8 @@ class MutualPage extends StatelessWidget {
                                 child:
                                     new Text("Confirmar", style: TextStyle(fontWeight: FontWeight.bold)),
                                 onPressed: () {
-                                  _bloc.dispatch(
-                                      InterestsEvent(InterestsEventType.blockMatch, data: matchId));
+                                  _bloc.dispatch(InterestsEvent(InterestsEventType.blockMatch,
+                                      data: blockMatch = [matchId, index]));
                                 },
                               ),
                             ],
@@ -125,7 +126,7 @@ class MutualPage extends StatelessWidget {
                             onTap: () {
                               Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
                             },
-                            onLongPress: () => _showDialog(match.name, match.idMatch),
+                            onLongPress: () => _showDialog(match.name, match.idMatch, index),
                             title: Row(children: [
                               ClipOval(
                                 child: Container(

@@ -62,9 +62,10 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
           yield SuccessState<List<UserMatch>>(data: matches);
           break;
         case InterestsEventType.blockMatch:
-          await repository.blockMatch(event.data);
+          yield LoadingState();
+          await repository.blockMatch(event.data[0]);
           //matches = await repository.getMatches();
-          matches.removeAt(event.data);
+          matches.removeAt(event.data[1]);
           yield SuccessState<List<UserMatch>>(data: matches);
           break;
       }
