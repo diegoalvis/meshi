@@ -121,6 +121,7 @@ class MutualPage extends StatelessWidget {
                         separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
                         itemBuilder: (BuildContext context, int index) {
                           final match = matches.elementAt(index);
+                          final erased = match.lastDate == null || (match.erasedDate != null && match.erasedDate.millisecondsSinceEpoch > match.lastDate.millisecondsSinceEpoch);
                           return ListTile(
                             onTap: () {
                               Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
@@ -148,7 +149,7 @@ class MutualPage extends StatelessWidget {
                                     Align(alignment: Alignment.topLeft, child: Text(match?.name ?? "")),
                                     Row(children: [
                                       Text(
-                                          match.lastDate == null
+                                          erased
                                               ? ""
                                               : DateTime.now().difference(match.lastDate).inDays > 0
                                                   ? DateFormat.yMd().format(match.lastDate)
@@ -156,7 +157,7 @@ class MutualPage extends StatelessWidget {
                                           style: TextStyle(color: Theme.of(context).accentColor)),
                                       SizedBox(width: 10),
                                       Expanded(
-                                          child: Text(match?.lastMessage ?? "",
+                                          child: Text(erased ? "" : match?.lastMessage ?? "",
                                               overflow: TextOverflow.ellipsis)),
                                     ])
                                   ],

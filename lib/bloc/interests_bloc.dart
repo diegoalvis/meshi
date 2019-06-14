@@ -14,7 +14,7 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
   final ChatRepository chatRepository;
 
-  InterestsBloc(this.repository, {this.chatRepository}) : super();
+  InterestsBloc(this.repository, this.chatRepository) : super();
 
   @override
   BaseState get initialState => InitialState();

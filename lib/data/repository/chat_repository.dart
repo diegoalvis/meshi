@@ -2,6 +2,7 @@ import 'package:meshi/data/api/chat_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/message_dao.dart';
 import 'package:meshi/data/models/message.dart';
+import 'package:meshi/data/models/user_match.dart';
 
 class ChatRepository {
   ChatApi _api;
@@ -32,9 +33,10 @@ class ChatRepository {
     return await this._dao.get(matchId);
   }
 
-  Future<int> clear(int matchId) async{
-    final id = await this._api.clear(matchId);
-    return id.data;
+  Future<List<UserMatch>> clear(int matchId) async{
+    await this._api.clear(matchId);
+    await _matchDao.clearMatch(matchId);
+    return await _matchDao.getAll();
   }
 
   Future<int> insertMessage(Message msg) async{

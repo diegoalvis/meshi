@@ -38,6 +38,12 @@ class MatchDao {
     await db.update('match', {'lastMessage':msg.content, "lastDate":msg.date.toIso8601String()}, where:'idMatch = ?', whereArgs: [matchId]);
   }
 
+  Future clearMatch(int matchId) async{
+    final db = await _db;
+    final now = DateTime.now();
+    await db.update('match', {'erasedDate': now.toIso8601String()}, where:'idMatch = ?', whereArgs: [matchId]);
+  }
+
 }
 
 List<UserMatch> parseList(List<Map<String, dynamic>> json) => json.map((x) => UserMatch.fromDatabase(x)).toList();
