@@ -14,7 +14,6 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection {
-
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -83,10 +82,12 @@ class SettingsPage extends StatelessWidget with HomeSection {
         children: <Widget>[
           Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
           Spacer(),
-          OptionSelector(
-              options: YesNoOptions,
-              optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
-              onSelected: (selected) => null),
+          Expanded(
+            child: OptionSelector(
+                options: YesNoOptions,
+                optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
+                onSelected: (selected) => null),
+          ),
         ],
       ),
     );
@@ -104,7 +105,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
               child:
-                  Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),
@@ -115,3 +116,5 @@ class SettingsPage extends StatelessWidget with HomeSection {
     );
   }
 }
+
+
