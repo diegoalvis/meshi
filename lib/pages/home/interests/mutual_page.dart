@@ -22,18 +22,18 @@ class MutualPage extends StatelessWidget {
   List<UserMatch> matches;
 
   Future<Null> _fetchRewardData() async {
-    _bloc.dispatch(InterestsEventType.getMutals);
+    _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
   }
 
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
     if (matches == null) {
-      _bloc.dispatch(InterestsEventType.getMutals);
+      _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
     }
     final strings = MyLocalizations.of(context);
 
-    void _showDialog(String name) {
+    void _showDialog(String name, int matchId) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -42,14 +42,45 @@ class MutualPage extends StatelessWidget {
               ListTile(title: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
               Divider(),
               FlatButton(
-                child: Text("Vaciar chat"),
-                onPressed: () => Navigator.of(context).pop(),
+                child: Text("Vaciar chat", style: TextStyle(color: Theme.of(context).primaryColor)),
+                onPressed: () {
+                  _bloc.dispatch(InterestsEvent(InterestsEventType.clearChat, data: matchId));
+                },
               ),
               Divider(),
               FlatButton(
-                child: Text("Eliminar match"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+                  child: Text("Eliminar match", style: TextStyle(color: Theme.of(context).primaryColor)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              "Eliminar match",
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            content: Text("Estas seguro que deseas eliminar de mutuos a $name?"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child:
+                                    new Text("Cancelar", style: TextStyle(fontWeight: FontWeight.bold)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child:
+                                    new Text("Confirmar", style: TextStyle(fontWeight: FontWeight.bold)),
+                                onPressed: () {
+                                  _bloc.dispatch(
+                                      InterestsEvent(InterestsEventType.blockMatch, data: matchId));
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  }),
             ],
           );
         },
@@ -60,7 +91,7 @@ class MutualPage extends StatelessWidget {
       bloc: _bloc,
       listener: (context, state) {
         if (state is InitialState) {
-          _bloc.dispatch(InterestsEventType.getMutals);
+          _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
         }
       },
       child: BlocBuilder(
@@ -94,7 +125,7 @@ class MutualPage extends StatelessWidget {
                             onTap: () {
                               Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
                             },
-                            onLongPress: () => _showDialog(match.name),
+                            onLongPress: () => _showDialog(match.name, match.idMatch),
                             title: Row(children: [
                               ClipOval(
                                 child: Container(
