@@ -2,6 +2,7 @@ import 'package:meshi/data/api/chat_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/message_dao.dart';
 import 'package:meshi/data/models/message.dart';
+import 'package:meshi/data/models/user_match.dart';
 
 class ChatRepository {
   ChatApi _api;
@@ -21,8 +22,8 @@ class ChatRepository {
   }
 
   Future<List<Message>> getMessages(int matchId,
-      {int limit = 60, int skip}) async {
-    final result = await _api.getMessages(matchId, limit: limit, skip: skip);
+      {int limit = 60, int skip, int from}) async {
+    final result = await _api.getMessages(matchId, limit: limit, skip: skip, from:from);
     await _dao.removeAll(matchId);
     await _dao.insertAll(result.data);
     return result.data;
@@ -32,9 +33,11 @@ class ChatRepository {
     return await this._dao.get(matchId);
   }
 
-  Future<int> clear(int matchId) async{
-    final id = await this._api.clear(matchId);
-    return id.data;
+  Future<List<UserMatch>> clear(int matchId) async{
+    await this._api.clear(matchId);
+    await _matchDao.clearMatch(matchId);
+    await _dao.removeAll(matchId);
+    return await _matchDao.getAll();
   }
 
   Future<int> insertMessage(Message msg) async{
