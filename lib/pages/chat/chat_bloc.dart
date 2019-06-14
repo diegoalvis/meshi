@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meshi/data/models/message.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
 import 'package:meshi/data/sockets/ChatSocket.dart';
 import 'package:meshi/managers/session_manager.dart';
@@ -12,18 +13,19 @@ import 'chat_events.dart';
 
 class ChatBloc extends Bloc<ChatEvents, MessageState> {
 
-  final int _matchId;
+  final UserMatch _match;
+  // final int _matchId;
   final ChatSocket _socket;
   final ChatRepository _messageRespository;
   int _me;
   StreamSubscription _subs;
 
-  ChatBloc(this._matchId, this._socket, this._messageRespository, SessionManager session) {
+  ChatBloc(this._match, this._socket, this._messageRespository, SessionManager session) {
     _me = session.user.id;
   }
 
   void connectSocket() async {
-    final _obs = await _socket.connect(_matchId);
+    final _obs = await _socket.connect(_match.idMatch);
     _subs = _obs.flatMap((msg) =>
         Observable.fromFuture(_messageRespository.insertMessage(msg))
             .map((x) => msg))
@@ -43,17 +45,17 @@ class ChatBloc extends Bloc<ChatEvents, MessageState> {
   Stream<MessageState> mapEventToState(ChatEvents event) async* {
     try {
       if (event is LoadedChatEvent) {
-        final local = await _messageRespository.getLocalMessages(_matchId);
+        final local = await _messageRespository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
-        final remotes = await _messageRespository.getMessages(_matchId);
+        final remotes = await _messageRespository.getMessages(_match.idMatch, from: _match.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
       } else if (event is SendMessageEvent) {
-        await _messageRespository.sendMessageLocal(_matchId, event.message);
-        final local = await _messageRespository.getLocalMessages(_matchId);
+        await _messageRespository.sendMessageLocal(_match.idMatch, event.message);
+        final local = await _messageRespository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
-        await _messageRespository.sendMessage(_matchId, event.message);
+        await _messageRespository.sendMessage(_match.idMatch, event.message);
       } else if (event is NewMessageEvent) {
-        final local = await _messageRespository.getLocalMessages(_matchId);
+        final local = await _messageRespository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
       }
     } catch (e){}

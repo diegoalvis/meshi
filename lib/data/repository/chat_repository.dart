@@ -22,8 +22,8 @@ class ChatRepository {
   }
 
   Future<List<Message>> getMessages(int matchId,
-      {int limit = 60, int skip}) async {
-    final result = await _api.getMessages(matchId, limit: limit, skip: skip);
+      {int limit = 60, int skip, int from}) async {
+    final result = await _api.getMessages(matchId, limit: limit, skip: skip, from:from);
     await _dao.removeAll(matchId);
     await _dao.insertAll(result.data);
     return result.data;
@@ -36,6 +36,7 @@ class ChatRepository {
   Future<List<UserMatch>> clear(int matchId) async{
     await this._api.clear(matchId);
     await _matchDao.clearMatch(matchId);
+    await _dao.removeAll(matchId);
     return await _matchDao.getAll();
   }
 

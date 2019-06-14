@@ -19,7 +19,7 @@ class ChatPage extends StatelessWidget {
     return InjectorWidget.bind(
         bindFunc: (binder) {
           binder.bindLazySingleton((injector, params)=> ChatBloc(
-              match.idMatch, inject.get(), inject.get(), inject.get()));
+              match, inject.get(), inject.get(), inject.get()));
         },
         child: Scaffold(
           appBar: AppBar(
