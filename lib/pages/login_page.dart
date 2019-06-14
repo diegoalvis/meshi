@@ -71,82 +71,91 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _bloc.progressSubject.listen((show) => setState(() => loading = show));
     _bloc.errorSubject.listen((error) {
       final strings = MyLocalizations.of(context);
-      Scaffold.of(buildContext)
-          .showSnackBar(SnackBar(content: Text(strings.tryError)));
+      Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text(strings.tryError)));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Builder(builder: (context) {
+
+    TextEditingController controller = TextEditingController();
+    controller.text = "100";
+
+    return Builder(
+      builder: (context) {
         buildContext = context;
-        return Column(children: [
-          Expanded(
-              flex: 3,
-              child: Container(
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.bottomCenter,
-                  child: Image.asset(
-                    'res/icons/logo.png',
-                    scale: 2.0,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ))),
-          Expanded(
-            child: Text(
-              'meshi',
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 45,
-                  fontFamily: 'BettyLavea'),
-            ),
-          ),
-          Expanded(
-            child: FadeTransition(
-              opacity: animation,
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: Column(children: [
+            Expanded(
+                flex: 3,
+                child: Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(
+                      'res/icons/logo.png',
+                      scale: 2.0,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ))),
+            Expanded(
               child: Text(
-                strings.findPerfectDate,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+                'meshi',
+                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.bottomCenter,
+            Expanded(
               child: FadeTransition(
                 opacity: animation,
-                child: Text(strings.logInWith,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                child: Text(
+                  strings.findPerfectDate,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: FadeTransition(
-              opacity: animation,
+            Container(width: 60, child: TextField(controller: controller,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+            )),
+            SizedBox(height: 8),
+            Center(child: Text("(100 - 127)",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+            )),
+            Expanded(
               child: Container(
-                alignment: loading ? Alignment.center : Alignment.topCenter,
-                child: loading
-                    ? CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
-                    : ButtonTheme(
-                        minWidth: 180.0,
-                        child: FlatButton(
-                          padding: const EdgeInsets.all(8.0),
-                          textColor: Colors.white,
-                          color: Color(0xFF4267B2),
-                          onPressed: _bloc.initFacebookLogin,
-                          child: Text("Facebook"),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                        )),
+                alignment: Alignment.bottomCenter,
+                child: FadeTransition(
+                  opacity: animation,
+                  child: Text(strings.logInWith, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                ),
               ),
             ),
-          )
-        ]);
-      }),
+            Expanded(
+              child: FadeTransition(
+                opacity: animation,
+                child: Container(
+                  alignment: loading ? Alignment.center : Alignment.topCenter,
+                  child: loading
+                      ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
+                      : ButtonTheme(
+                          minWidth: 180.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(8.0),
+                            textColor: Colors.white,
+                            color: Color(0xFF4267B2),
+                            onPressed: () => _bloc.initFacebookLogin(controller.text),
+                            child: Text("Facebook"),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                          )),
+                ),
+              ),
+            )
+          ]),
+        );
+      },
     );
   }
 }
