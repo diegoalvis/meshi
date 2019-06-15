@@ -76,6 +76,9 @@ class MyLocalizations {
   String get takePart =>
       _localizedSingleValues[locale.languageCode]['take_part'];
 
+  String get alreadyJoined =>
+      _localizedSingleValues[locale.languageCode]['already_joined'];
+
   String get lookClaim =>
       _localizedSingleValues[locale.languageCode]['look_claim'];
 
@@ -346,6 +349,7 @@ class MyLocalizations {
       'sons': 'children?',
       'like_have': '¿You would like to have ',
       'take_part': 'Take part',
+      'already_joined': 'You have already participated',
       'look_claim': 'Look where you can claim it',
       'participate_up': 'Participate up',
       'valid_until': 'Valid until',
@@ -466,6 +470,7 @@ class MyLocalizations {
       'sons': 'hijos?',
       'like_have': '¿Te gustaría tener ',
       'take_part': 'Participar',
+      'already_joined': 'Ya has participado',
       'look_claim': 'Mira donde puedes reclamarlo',
       'participate_up': 'Participa hasta',
       'valid_until': 'Válido hasta',
