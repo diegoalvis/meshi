@@ -56,15 +56,15 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
           yield InitialState();
           break;
         case InterestsEventType.clearChat:
+          yield PerformingRequestState();
           matches = await chatRepository.clear(event.data);
           yield SuccessState<List<UserMatch>>(data: matches);
-          yield PerformingRequestState();
           break;
         case InterestsEventType.blockMatch:
+          yield PerformingRequestState();
           await repository.blockMatch(event.data[0]);
           matches.removeAt(event.data[1]);
           yield SuccessState<List<UserMatch>>(data: matches);
-          yield PerformingRequestState();
           break;
       }
     } on Exception catch (e) {

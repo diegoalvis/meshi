@@ -21,6 +21,7 @@ class MutualPage extends StatelessWidget {
   InterestsBloc _bloc;
   List<UserMatch> matches;
   List<int> blockMatch;
+  bool showLoader = false;
 
   Future<Null> _fetchRewardData() async {
     _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
@@ -76,6 +77,7 @@ class MutualPage extends StatelessWidget {
                                 onPressed: () {
                                   _bloc.dispatch(InterestsEvent(InterestsEventType.blockMatch,
                                       data: blockMatch = [matchId, index]));
+                                  Navigator.of(context).pop();
                                 },
                               ),
                             ],
@@ -102,7 +104,7 @@ class MutualPage extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
             if (state is PerformingRequestState) {
-              Navigator.of(context).pop();
+              showLoader = true;
             }
             if (state is SuccessState<List<UserMatch>>) {
               matches = state.data;
