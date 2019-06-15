@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /*Text(
@@ -7,9 +8,13 @@ style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, f
 ),*/
 
 class ContactPage extends StatelessWidget {
+  
+  
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return Scaffold(
+      appBar: AppBar(title: Text(strings.contactUs,),),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

@@ -32,4 +32,4 @@ class Habits {
   }
 }
 
-enum UserHabits { yes, no, sporadically }
+enum UserHabits { yes, no, sporadically } //change "sometimes"

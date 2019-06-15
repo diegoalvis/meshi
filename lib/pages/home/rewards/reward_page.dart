@@ -15,15 +15,15 @@ import 'package:meshi/pages/home/rewards/rewards_bloc.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../main.dart';
 
 class RewardPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
-
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Text("Cita de la semana");
+    return Text(strings.appointmentOfWeek);
   }
 
   @override
@@ -70,89 +70,89 @@ class RewardContainer extends StatelessWidget {
           }
           return rewardInfo == null
               ? Center(child: Text(strings.noData))
-              : Column(
-                  children: [
-                    Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: _fetchRewardData,
-                        child: rewardInfo == null
-                            ? ListView()
-                            : ListView(children: [
-                                Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""),
-                                    height: rewardInfo?.reward?.image != null ? 280 : 0, fit: BoxFit.cover),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                  child: Column(children: [
-                                    SizedBox(height: 24.0),
-                                    Text(
-                                      rewardInfo?.winner == true
-                                          ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
-                                          :"${strings.meshiInvitation}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    SizedBox(height: 30.0),
-                                    Row(
+              : RefreshIndicator(
+                  onRefresh: _fetchRewardData,
+                  child: rewardInfo == null
+                      ? ListView()
+                      : Column(children: [
+                          Expanded(
+                            child: rewardInfo?.winner == true
+                                ? QrImage(data: BaseApi.BASE_URL_DEV)
+                                : Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""), fit: BoxFit.cover),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(children: [
+                              SizedBox(height: 24.0),
+                              Text(
+                                rewardInfo?.winner == true
+                                    ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
+                                    : "${strings.meshiInvitation}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              SizedBox(height: 30.0),
+                              Row(
+                                children: [
+                                  Icon(Icons.attach_money),
+                                  SizedBox(width: 8.0),
+                                  Expanded(
+                                    child: Column(
                                       children: [
-                                        Icon(Icons.attach_money),
-                                        SizedBox(width: 8.0),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
-                                              Align(
-                                                  alignment: Alignment.centerLeft, child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
-                                            ],
-                                          ),
-                                        ),
+                                        Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
                                       ],
                                     ),
-                                    SizedBox(height: 30.0),
-                                    Row(
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 30.0),
+                              Row(
+                                children: [
+                                  Icon(Icons.date_range),
+                                  SizedBox(width: 8.0),
+                                  Expanded(
+                                    child: Column(
                                       children: [
-                                        Icon(Icons.date_range),
-                                        SizedBox(width: 8.0),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.centerLeft,
-                                                  child: Text(rewardInfo?.winner == true ? strings.validUntil : strings.participateUp)),
-                                              Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
-                                            ],
-                                          ),
-                                        ),
+                                        Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(rewardInfo?.winner == true ? strings.validUntil : strings.participateUp)),
+                                        Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
                                       ],
                                     ),
-                                  ]),
-                                ),
-                              ]),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: buildActionButton(context, rewardInfo),
-                    ),
-                  ],
+                                  ),
+                                ],
+                              ),
+                            ]),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: buildActionButton(context, rewardInfo),
+                          ),
+                        ]),
                 );
         });
   }
 
   Widget buildActionButton(BuildContext context, RewardInfo rewardInfo) {
     final winner = rewardInfo?.winner == true;
+    final joined = rewardInfo?.joined == true;
     final strings = MyLocalizations.of(context);
     return Align(
       alignment: Alignment.center,
       child: FlatButton(
         onPressed: () {
-          Navigator.pushNamed(context, winner ? BRANDS_ROUTE : SELECT_PARTNER_ROUTE, arguments: rewardInfo.reward.id);
+          Navigator.pushNamed(context, winner ? BRANDS_ROUTE : joined ? null : SELECT_PARTNER_ROUTE,
+              arguments: rewardInfo.reward.id);
         },
-        shape: winner ? null : RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        color: winner ? null : Theme.of(context).accentColor,
+        shape: winner || joined ? null : RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        color: winner || joined ? null : Theme.of(context).accentColor,
         child: Text(
-          "${winner ? "${strings.lookClaim}" : "${strings.takePart}"}".toUpperCase(),
+          "${winner ? "${strings.lookClaim}" : joined ? "${strings.alreadyJoined}" : "${strings.takePart}"}".toUpperCase(),
           textAlign: TextAlign.center,
-          style: TextStyle(color: winner ? Theme.of(context).accentColor : Colors.white),
+          style: TextStyle(color: winner || joined ? Theme.of(context).accentColor : Colors.white),
         ),
       ),
     );
