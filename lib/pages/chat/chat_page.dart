@@ -2,24 +2,23 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/message.dart';
+import 'package:meshi/data/models/user_match.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 import 'chat_bloc.dart';
 import 'chat_events.dart';
 
 class ChatPage extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     final UserMatch match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindLazySingleton((injector, params)=> ChatBloc(
-              match.idMatch, inject.get(), inject.get(), inject.get()));
+          binder.bindLazySingleton(
+              (injector, params) => ChatBloc(match.idMatch, inject.get(), inject.get(), inject.get<SessionManager>()));
         },
         child: Scaffold(
           appBar: AppBar(
@@ -31,12 +30,12 @@ class ChatPage extends StatelessWidget {
 }
 
 class ChatBody extends StatefulWidget {
-  final UserMatch _matches;
+  final UserMatch _match;
 
-  ChatBody(this._matches) : super(key: ValueKey("chat-body"));
+  ChatBody(this._match) : super(key: ValueKey("chat-body"));
 
   @override
-  State<StatefulWidget> createState() => ChatBodyState(_matches);
+  State<StatefulWidget> createState() => ChatBodyState(_match);
 }
 
 class ChatBodyState extends State<ChatBody> {
@@ -44,11 +43,11 @@ class ChatBodyState extends State<ChatBody> {
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
 
-  final UserMatch _matches;
+  final UserMatch _match;
 
   int _me;
 
-  ChatBodyState(this._matches);
+  ChatBodyState(this._match);
 
   ChatBloc _bloc;
 
@@ -63,10 +62,12 @@ class ChatBodyState extends State<ChatBody> {
 
   void _handleSubmit() {
     Message message = Message(
-        content: _chatController.text,
-        fromUser: _me,
-        toUser: _matches.id,
-        date: DateTime.now());
+      content: _chatController.text,
+      fromUser: _me,
+      toUser: _match.id,
+      date: DateTime.now(),
+      matchId: _match.idMatch,
+    );
 
     _chatController.clear();
     _bloc.dispatch(SendMessageEvent(message));
@@ -80,7 +81,7 @@ class ChatBodyState extends State<ChatBody> {
 
   @override
   Widget build(BuildContext context) {
-    if(_bloc == null){
+    if (_bloc == null) {
       _bloc = InjectorWidget.of(context).get();
     }
     return Column(
@@ -93,15 +94,13 @@ class ChatBodyState extends State<ChatBody> {
               return ListView.builder(
                 padding: new EdgeInsets.all(8.0),
                 reverse: true,
-                itemBuilder: (_, int index) => ChatMessage(
-                    state.me, state.messages[index], _timeFormat, _dateFormat),
+                itemBuilder: (_, int index) => ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
                 itemCount: state.messages.length,
               );
             },
           ),
         ),
-        if(_matches.state == MATCH_BLOCKED)
-          Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con ella"),
+        if (_match.state == MATCH_BLOCKED) Text("${_match.name} te ha retirado de sus contactos, no puedes chatear con ella"),
         _chatInput()
       ],
     );
@@ -126,7 +125,7 @@ class ChatBodyState extends State<ChatBody> {
               Expanded(
                 child: TextFormField(
                   controller: _chatController,
-                  enabled: _matches.state != MATCH_BLOCKED,
+                  enabled: _match.state != MATCH_BLOCKED,
                   textInputAction: TextInputAction.send,
                   onFieldSubmitted: (v) => _handleSubmit(),
                   decoration: InputDecoration(
@@ -146,7 +145,7 @@ class ChatBodyState extends State<ChatBody> {
 //              ),
               InkWell(
                 onTap: () {
-                  if(_matches.state != MATCH_BLOCKED) _handleSubmit();
+                  if (_match.state != MATCH_BLOCKED) _handleSubmit();
                 },
                 child: Container(
                   color: Theme.of(context).primaryColor,
@@ -179,52 +178,33 @@ class ChatMessage extends StatelessWidget {
 
   String _prepareDate(DateTime date) {
     final String _nowStr = "${date.year}-${date.month}-${date.day}";
-    return _nowStr == _todayStr
-        ? _timeFormat.format(date)
-        : _dateFormat.format(date);
+    return _nowStr == _todayStr ? _timeFormat.format(date) : _dateFormat.format(date);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: 10,
-          bottom: 10,
-          left: _message.fromUser == _me ? 40 : 10,
-          right: _message.fromUser == _me ? 10 : 40),
+          top: 10, bottom: 10, left: _message.fromUser == _me ? 40 : 10, right: _message.fromUser == _me ? 10 : 40),
       child: Column(
-        crossAxisAlignment: _message.fromUser == _me
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                .copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style: Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: _message.fromUser == _me
-                  ? Color.fromARGB(255, 240, 240, 240)
-                  : Color.fromARGB(255, 225, 225, 225),
+              color: _message.fromUser == _me ? Color.fromARGB(255, 240, 240, 240) : Color.fromARGB(255, 225, 225, 225),
               borderRadius: _message.fromUser == _me
                   ? BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8))
+                      topLeft: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))
                   : BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8)),
+                      topRight: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
               boxShadow: [
-                BoxShadow(
-                    color: Color.fromARGB(255, 180, 180, 180),
-                    blurRadius: 1,
-                    offset: Offset(1, 1)),
+                BoxShadow(color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
               ],
             ),
             child: Text(

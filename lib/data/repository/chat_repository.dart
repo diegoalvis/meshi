@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:meshi/data/api/chat_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/message_dao.dart';
@@ -10,8 +12,7 @@ class ChatRepository {
 
   ChatRepository(this._api, this._dao, this._matchDao);
 
-  Future sendMessageLocal(int matchId, Message message) async {
-    await _dao.insert(message);
+  Future updateMatch(int matchId, Message message) async {
     await _matchDao.updateMatch(matchId, message);
   }
 
