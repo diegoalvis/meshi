@@ -68,9 +68,10 @@ class SessionManager {
     await prefs.setString("name", value);
   }
 
-  Future<String> get id async {
+  Future<int> get userId async {
     final prefs = await preferences;
-    return prefs.getString("id");
+    user = User.fromJson(jsonDecode(prefs.getString("user")));
+    return user.id;
   }
 
   void setId(String value) async {
