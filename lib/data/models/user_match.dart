@@ -22,8 +22,9 @@ class UserMatch {
   Map<String, dynamic> toJson() => _$UserMatchToJson(this);
 
   factory UserMatch.fromDatabase(Map<String, dynamic> json) {
-    json["images"] = (json["images"] as String)?.split(",") ?? [];
-    return _$UserMatchFromJson(json);
+    final obj = Map.of(json);
+    obj["images"] = (obj["images"] as String)?.split(",") ?? [];
+    return _$UserMatchFromJson(obj);
   }
 
   Map<String, dynamic> toDatabase() {
