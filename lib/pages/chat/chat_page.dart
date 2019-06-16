@@ -8,25 +8,20 @@ import 'package:meshi/utils/widget_util.dart';
 
 import 'chat_bloc.dart';
 import 'chat_events.dart';
+import 'package:meshi/utils/base_state.dart';
 
 class ChatPage extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     final UserMatch match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
-        bindFunc: (binder) {
-          binder.bindLazySingleton((injector, params)=> ChatBloc(
-              match, inject.get(), inject.get(), inject.get()));
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(match.name),
-          ),
-          body: ChatBody(match),
-        ));
+      bindFunc: (binder) {
+        binder.bindLazySingleton((injector, params) =>
+            ChatBloc(match.idMatch, inject.get(), inject.get(), inject.get(), inject.get()));
+      },
+      child: ChatBody(match),
+    );
   }
 }
 
@@ -45,6 +40,7 @@ class ChatBodyState extends State<ChatBody> {
   final DateFormat _timeFormat = DateFormat("jm");
 
   final UserMatch _matches;
+  bool showLoading = false;
 
   int _me;
 
@@ -62,11 +58,8 @@ class ChatBodyState extends State<ChatBody> {
   }
 
   void _handleSubmit() {
-    Message message = Message(
-        content: _chatController.text,
-        fromUser: _me,
-        toUser: _matches.id,
-        date: DateTime.now());
+    Message message =
+        Message(content: _chatController.text, fromUser: _me, toUser: _matches.id, date: DateTime.now());
 
     _chatController.clear();
     _bloc.dispatch(SendMessageEvent(message));
@@ -80,31 +73,86 @@ class ChatBodyState extends State<ChatBody> {
 
   @override
   Widget build(BuildContext context) {
-    if(_bloc == null){
+    if (_bloc == null) {
       _bloc = InjectorWidget.of(context).get();
     }
-    return Column(
-      children: <Widget>[
-        Flexible(
-          child: BlocBuilder(
-            bloc: _bloc,
-            builder: (ctx, MessageState state) {
-              _me = state.me;
-              return ListView.builder(
-                padding: new EdgeInsets.all(8.0),
-                reverse: true,
-                itemBuilder: (_, int index) => ChatMessage(
-                    state.me, state.messages[index], _timeFormat, _dateFormat),
-                itemCount: state.messages.length,
-              );
-            },
-          ),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(_matches.name),
+          actions: <Widget>[
+            PopupMenuButton<int>(
+                onSelected: (value) {
+                  if (value == 1) {
+                    _bloc.dispatch(ClearChatEvent(_matches.idMatch));
+                  } else {
+                    _bloc.dispatch(BlockMatchEvent(_matches.idMatch));
+                  }
+                },
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text('Vaciar chat'),
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        child: Text('Eliminar match'),
+                      )
+                    ]),
+          ],
         ),
-        if(_matches.state == MATCH_BLOCKED)
-          Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con ella"),
-        _chatInput()
-      ],
-    );
+        body: Column(
+          children: <Widget>[
+            showLoading
+                ? Center(
+                    child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        )),
+                  ))
+                : SizedBox(),
+            Flexible(
+              child: BlocBuilder(
+                bloc: _bloc,
+                builder: (ctx, BaseState state) {
+                  if (state is ExitState) {
+                    Future.delayed(Duration(milliseconds: 500));
+                    Navigator.of(context).pop();
+                  }
+                  if (state is SuccessState) {
+                    showLoading = false;
+                  }
+                  if (state is LoadingState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (state is PerformingRequestState) {
+                    showLoading = true;
+                  }
+                  if (state is MessageState) {
+                    _me = state.me;
+                    return ListView.builder(
+                      padding: new EdgeInsets.all(8.0),
+                      reverse: true,
+                      itemBuilder: (_, int index) =>
+                          ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
+                      itemCount: state.messages.length,
+                    );
+                  }
+                  return Center(child: SizedBox());
+                },
+              ),
+            ),
+            if (_matches.state == MATCH_BLOCKED)
+              Text(
+                  "${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
+            _chatInput()
+          ],
+        ));
   }
 
   Widget _chatInput() => Material(
@@ -146,7 +194,7 @@ class ChatBodyState extends State<ChatBody> {
 //              ),
               InkWell(
                 onTap: () {
-                  if(_matches.state != MATCH_BLOCKED) _handleSubmit();
+                  if (_matches.state != MATCH_BLOCKED) _handleSubmit();
                 },
                 child: Container(
                   color: Theme.of(context).primaryColor,
@@ -179,9 +227,7 @@ class ChatMessage extends StatelessWidget {
 
   String _prepareDate(DateTime date) {
     final String _nowStr = "${date.year}-${date.month}-${date.day}";
-    return _nowStr == _todayStr
-        ? _timeFormat.format(date)
-        : _dateFormat.format(date);
+    return _nowStr == _todayStr ? _timeFormat.format(date) : _dateFormat.format(date);
   }
 
   @override
@@ -193,17 +239,13 @@ class ChatMessage extends StatelessWidget {
           left: _message.fromUser == _me ? 40 : 10,
           right: _message.fromUser == _me ? 10 : 40),
       child: Column(
-        crossAxisAlignment: _message.fromUser == _me
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                .copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style:
+                Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
@@ -222,9 +264,7 @@ class ChatMessage extends StatelessWidget {
                       bottomRight: Radius.circular(8)),
               boxShadow: [
                 BoxShadow(
-                    color: Color.fromARGB(255, 180, 180, 180),
-                    blurRadius: 1,
-                    offset: Offset(1, 1)),
+                    color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
               ],
             ),
             child: Text(

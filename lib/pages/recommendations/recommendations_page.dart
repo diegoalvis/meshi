@@ -73,7 +73,8 @@ class RecommendationsList extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                         child: Center(
                             child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                          valueColor:
+                              new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
                         ))),
                   );
                 }
@@ -186,9 +187,7 @@ class RecommendationsList extends StatelessWidget {
               ? Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(
-                    child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary)),
+                    child: CircularProgressIndicator(),
                   ),
                 )
               : Padding(
