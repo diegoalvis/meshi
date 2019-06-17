@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/pages/home/menu_page.dart';
+import 'package:meshi/pages/home/premium/premium_page.dart';
+import 'package:meshi/pages/menu/menu_page.dart';
 import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
-import 'package:meshi/utils/custom_widgets/backdrop_menu.dart';
+import 'package:meshi/pages/menu/backdrop_menu.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
 
@@ -42,7 +43,7 @@ class HomePageState extends State<HomePage> {
   List<HomeSection> homePages = [
     InterestsMainPage(),
     RewardPage(),
-    ProfilePage(),
+    PremiumPage(),
     ProfilePage(),
     SettingsPage(),
   ];
