@@ -147,7 +147,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
           ),
         ];
       },
-      body: Column(
+      body: Wrap(
         children: <Widget>[
           widget1,
           widget2,
