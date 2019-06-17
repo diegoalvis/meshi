@@ -8,10 +8,11 @@ part 'reward_info.g.dart';
 class RewardInfo {
   bool joined;
   bool winner;
+  int joinId;
   @JsonSerializable(nullable: true) Reward reward;
   @JsonSerializable(nullable: true) MyLikes couple;
 
-  RewardInfo({this.reward, this.joined, this.winner, this.couple});
+  RewardInfo({this.reward, this.joined, this.winner, this.couple, this.joinId});
 
   factory RewardInfo.fromJson(Map<String, dynamic> json) => _$RewardInfoFromJson(json);
 

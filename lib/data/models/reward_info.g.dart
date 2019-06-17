@@ -13,6 +13,7 @@ RewardInfo _$RewardInfoFromJson(Map<String, dynamic> json) {
           : Reward.fromJson(json['reward'] as Map<String, dynamic>),
       joined: json['joined'] as bool,
       winner: json['winner'] as bool,
+      joinId: json["joinId"] as int,
       couple: json['couple'] == null
           ? null
           : MyLikes.fromJson(json['couple'] as Map<String, dynamic>));
@@ -23,5 +24,6 @@ Map<String, dynamic> _$RewardInfoToJson(RewardInfo instance) =>
       'joined': instance.joined,
       'winner': instance.winner,
       'reward': instance.reward,
-      'couple': instance.couple
+      'couple': instance.couple,
+      'joinId': instance.joinId
     };

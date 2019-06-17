@@ -77,7 +77,7 @@ class RewardContainer extends StatelessWidget {
                       : Column(children: [
                           Expanded(
                             child: rewardInfo?.winner == true
-                                ? QrImage(data: BaseApi.BASE_URL_DEV)
+                                ? QrImage(data: "${BaseApi.BASE_URL_DEV}/info/validate-reward/${rewardInfo?.joinId}" )
                                 : Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""), fit: BoxFit.cover),
                           ),
                           Padding(
