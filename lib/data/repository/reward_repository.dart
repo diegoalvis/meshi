@@ -7,11 +7,11 @@ import 'package:meshi/data/api/reward_api.dart';
 import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/models/reward_info.dart';
 import 'package:meshi/data/models/user_match.dart';
-import 'package:meshi/data/db/dao/reward_dao.dart';
+import 'package:meshi/managers/session_manager.dart';
 
 class RewardRepository {
   RewardApi _api;
-  RewardDao _rewardDao;
+  SessionManager session;
 
   RewardRepository(this._api);
 
@@ -21,15 +21,15 @@ class RewardRepository {
   }
 
   Future<RewardInfo> getCurrent() async {
-    /*final currentDate = DateTime.now();
-    final result = _rewardDao.getReward();
-    if (result == null) {
-      await _api.getCurrentReward();
+    final currentDate = DateTime.now().millisecondsSinceEpoch;
+    if (session.rewardInfo == null ||
+        (currentDate <= session.rewardInfo.reward.publishDate.millisecondsSinceEpoch &&
+            currentDate >= session.rewardInfo.reward.validDate.millisecondsSinceEpoch)) {
+      final result = await _api.getCurrentReward();
+      return result.data;
+    } else {
+      return session.rewardInfo;
     }
-    else if (result. && currentDate.isAfter(result.data.reward.publishDate) && currentDate.isBefore(result.data.reward.validDate)) {
-      await _rewardDao.insertReward(result.data.reward);
-    }
-    return result.data;*/
   }
 
   Future<bool> join(int rewardId, List<UserMatch> couples) async {
