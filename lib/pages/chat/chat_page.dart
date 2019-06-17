@@ -50,7 +50,6 @@ class ChatBodyState extends State<ChatBody> {
   void initState() {
     onWidgetDidBuild(() {
       _bloc.connectSocket();
-      _bloc.dispatch(LoadedChatEvent());
     });
     super.initState();
   }
@@ -108,6 +107,9 @@ class ChatBodyState extends State<ChatBody> {
               child: BlocBuilder(
                 bloc: _bloc,
                 builder: (ctx, BaseState state) {
+                  if (state is InitialState) {
+                    _bloc.dispatch(LoadedChatEvent());
+                  }
                   if (state is ExitState) {
                     Navigator.pop(this.context);
                   }
