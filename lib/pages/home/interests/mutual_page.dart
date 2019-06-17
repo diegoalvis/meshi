@@ -119,9 +119,9 @@ class MutualPage extends StatelessWidget {
                                       Text(
                                           match.lastDate == null
                                               ? ""
-                                              : DateTime.now().difference(match.lastDate).inDays > 0
-                                                  ? DateFormat.yMd().format(match.lastDate)
-                                                  : DateFormat.jm().format(match.lastDate),
+                                              : DateTime.now().toLocal().difference(match.lastDate.toLocal()).inDays > 0
+                                                  ? DateFormat.yMd().format(match.lastDate.toLocal())
+                                                  : DateFormat.jm().format(match.lastDate.toLocal()),
                                           style: TextStyle(color: Theme.of(context).accentColor)),
                                       SizedBox(width: 10),
                                       Expanded(
