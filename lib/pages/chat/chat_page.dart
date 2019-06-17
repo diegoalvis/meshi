@@ -17,8 +17,8 @@ class ChatPage extends StatelessWidget {
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindLazySingleton((injector, params) =>
-            ChatBloc(match.idMatch, inject.get(), inject.get(), inject.get(), inject.get()));
+        binder.bindLazySingleton((injector, params) => ChatBloc(match,
+            inject.get(), inject.get(), inject.get(), inject.get()));
       },
       child: ChatBody(match),
     );
@@ -40,7 +40,6 @@ class ChatBodyState extends State<ChatBody> {
   final DateFormat _timeFormat = DateFormat("jm");
 
   final UserMatch _matches;
-  bool showLoading = false;
 
   int _me;
 
@@ -58,8 +57,11 @@ class ChatBodyState extends State<ChatBody> {
   }
 
   void _handleSubmit() {
-    Message message =
-        Message(content: _chatController.text, fromUser: _me, toUser: _matches.id, date: DateTime.now());
+    Message message = Message(
+        content: _chatController.text,
+        fromUser: _me,
+        toUser: _matches.id,
+        date: DateTime.now());
 
     _chatController.clear();
     _bloc.dispatch(SendMessageEvent(message));
@@ -102,44 +104,29 @@ class ChatBodyState extends State<ChatBody> {
         ),
         body: Column(
           children: <Widget>[
-            showLoading
-                ? Center(
-                    child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        )),
-                  ))
-                : SizedBox(),
             Flexible(
               child: BlocBuilder(
                 bloc: _bloc,
                 builder: (ctx, BaseState state) {
                   if (state is ExitState) {
-                    Future.delayed(Duration(milliseconds: 500));
-                    Navigator.of(context).pop();
+                    onWidgetDidBuild(() {
+                      Navigator.of(context).pop();
+                    });
                   }
-                  if (state is SuccessState) {
-                    showLoading = false;
-                  }
+
                   if (state is LoadingState) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (state is PerformingRequestState) {
-                    showLoading = true;
-                  }
+
                   if (state is MessageState) {
                     _me = state.me;
                     return ListView.builder(
                       padding: new EdgeInsets.all(8.0),
                       reverse: true,
-                      itemBuilder: (_, int index) =>
-                          ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
+                      itemBuilder: (_, int index) => ChatMessage(state.me,
+                          state.messages[index], _timeFormat, _dateFormat),
                       itemCount: state.messages.length,
                     );
                   }
@@ -175,6 +162,7 @@ class ChatBodyState extends State<ChatBody> {
                 child: TextFormField(
                   controller: _chatController,
                   enabled: _matches.state != MATCH_BLOCKED,
+                  textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.send,
                   onFieldSubmitted: (v) => _handleSubmit(),
                   decoration: InputDecoration(
@@ -227,7 +215,9 @@ class ChatMessage extends StatelessWidget {
 
   String _prepareDate(DateTime date) {
     final String _nowStr = "${date.year}-${date.month}-${date.day}";
-    return _nowStr == _todayStr ? _timeFormat.format(date) : _dateFormat.format(date);
+    return _nowStr == _todayStr
+        ? _timeFormat.format(date)
+        : _dateFormat.format(date);
   }
 
   @override
@@ -239,13 +229,17 @@ class ChatMessage extends StatelessWidget {
           left: _message.fromUser == _me ? 40 : 10,
           right: _message.fromUser == _me ? 10 : 40),
       child: Column(
-        crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: _message.fromUser == _me
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style:
-                Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
@@ -264,7 +258,9 @@ class ChatMessage extends StatelessWidget {
                       bottomRight: Radius.circular(8)),
               boxShadow: [
                 BoxShadow(
-                    color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
+                    color: Color.fromARGB(255, 180, 180, 180),
+                    blurRadius: 1,
+                    offset: Offset(1, 1)),
               ],
             ),
             child: Text(
