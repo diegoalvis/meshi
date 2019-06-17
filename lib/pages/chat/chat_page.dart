@@ -17,8 +17,8 @@ class ChatPage extends StatelessWidget {
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindLazySingleton((injector, params) => ChatBloc(match,
-            inject.get(), inject.get(), inject.get(), inject.get()));
+        binder.bindLazySingleton((injector, params) =>
+            ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
       },
       child: ChatBody(match),
     );
@@ -62,8 +62,7 @@ class ChatBodyState extends State<ChatBody> {
         fromUser: _me,
         toUser: _matches.id,
         date: DateTime.now().toUtc(),
-      matchId: _matches.idMatch
-    );
+        matchId: _matches.idMatch);
 
     _chatController.clear();
     _bloc.dispatch(SendMessageEvent(message));
@@ -111,6 +110,7 @@ class ChatBodyState extends State<ChatBody> {
                 bloc: _bloc,
                 builder: (ctx, BaseState state) {
                   if (state is ExitState) {
+                    Future.delayed(Duration(milliseconds: 800));
                     onWidgetDidBuild(() {
                       Navigator.of(context).pop();
                     });
@@ -127,8 +127,8 @@ class ChatBodyState extends State<ChatBody> {
                     return ListView.builder(
                       padding: new EdgeInsets.all(8.0),
                       reverse: true,
-                      itemBuilder: (_, int index) => ChatMessage(state.me,
-                          state.messages[index], _timeFormat, _dateFormat),
+                      itemBuilder: (_, int index) =>
+                          ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
                       itemCount: state.messages.length,
                     );
                   }
@@ -230,17 +230,13 @@ class ChatMessage extends StatelessWidget {
           left: _message.fromUser == _me ? 40 : 10,
           right: _message.fromUser == _me ? 10 : 40),
       child: Column(
-        crossAxisAlignment: _message.fromUser == _me
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                .copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style:
+                Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
@@ -259,9 +255,7 @@ class ChatMessage extends StatelessWidget {
                       bottomRight: Radius.circular(8)),
               boxShadow: [
                 BoxShadow(
-                    color: Color.fromARGB(255, 180, 180, 180),
-                    blurRadius: 1,
-                    offset: Offset(1, 1)),
+                    color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
               ],
             ),
             child: Text(
