@@ -10,7 +10,7 @@ class Term extends StatelessWidget {
         leading: Text("Test"),
       ),
       body: WebView(
-        initialUrl: "https://flutter.dev",
+        initialUrl: "https://meshi-app.herokuapp.com/terms",
       ),
     );
   }
