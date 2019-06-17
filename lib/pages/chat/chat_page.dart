@@ -40,6 +40,7 @@ class ChatBody extends StatefulWidget {
 
 class ChatBodyState extends State<ChatBody> {
   final TextEditingController _chatController = new TextEditingController();
+
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
 
@@ -65,9 +66,10 @@ class ChatBodyState extends State<ChatBody> {
       content: _chatController.text,
       fromUser: _me,
       toUser: _match.id,
-      date: DateTime.now(),
+      date: DateTime.now().toUtc(),
       matchId: _match.idMatch,
     );
+
 
     _chatController.clear();
     _bloc.dispatch(SendMessageEvent(message));
@@ -168,7 +170,7 @@ class ChatBodyState extends State<ChatBody> {
 class ChatMessage extends StatelessWidget {
   final Message _message;
   final int _me;
-  static final DateTime _today = DateTime.now();
+  static final DateTime _today = DateTime.now().toLocal();
   final String _todayStr = "${_today.year}-${_today.month}-${_today.day}";
 
   final DateFormat _timeFormat;
@@ -177,8 +179,9 @@ class ChatMessage extends StatelessWidget {
   ChatMessage(this._me, this._message, this._timeFormat, this._dateFormat);
 
   String _prepareDate(DateTime date) {
-    final String _nowStr = "${date.year}-${date.month}-${date.day}";
-    return _nowStr == _todayStr ? _timeFormat.format(date) : _dateFormat.format(date);
+    final local = date.toLocal();
+    final String _nowStr = "${local.year}-${local.month}-${local.day}";
+    return _nowStr == _todayStr ? _timeFormat.format(local) : _dateFormat.format(local);
   }
 
   @override
