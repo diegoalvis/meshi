@@ -24,14 +24,14 @@ class BaseInterestsPage extends StatelessWidget {
   BaseInterestsPage({Key key, this.title, this.eventType, this.isMyLike}) : super(key: key);
 
   Future<Null> _fetchRewardData() async {
-    _bloc.dispatch(eventType);
+    _bloc.dispatch(InterestsEvent(eventType));
   }
 
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
     if (myLikes == null) {
-      _bloc.dispatch(eventType);
+      _bloc.dispatch(InterestsEvent(eventType));
     }
 
     final strings = MyLocalizations.of(context);
@@ -39,7 +39,7 @@ class BaseInterestsPage extends StatelessWidget {
         bloc: _bloc,
         builder: (context, state) {
           if (state is InitialState) {
-            _bloc.dispatch(eventType);
+            _bloc.dispatch(InterestsEvent(eventType));
           }
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());

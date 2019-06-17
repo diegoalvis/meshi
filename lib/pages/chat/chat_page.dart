@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:meshi/data/models/user_match.dart';
-import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 import 'chat_bloc.dart';
@@ -16,39 +16,34 @@ class ChatPage extends StatelessWidget {
     final UserMatch match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
-        bindFunc: (binder) {
-          binder.bindLazySingleton(
-              (injector, params) => ChatBloc(match.idMatch, inject.get(), inject.get(), inject.get<SessionManager>()));
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(match.name),
-          ),
-          body: ChatBody(match),
-        ));
+      bindFunc: (binder) {
+        binder.bindLazySingleton((injector, params) => ChatBloc(match,
+            inject.get(), inject.get(), inject.get(), inject.get()));
+      },
+      child: ChatBody(match),
+    );
   }
 }
 
 class ChatBody extends StatefulWidget {
-  final UserMatch _match;
+  final UserMatch _matches;
 
-  ChatBody(this._match) : super(key: ValueKey("chat-body"));
+  ChatBody(this._matches) : super(key: ValueKey("chat-body"));
 
   @override
-  State<StatefulWidget> createState() => ChatBodyState(_match);
+  State<StatefulWidget> createState() => ChatBodyState(_matches);
 }
 
 class ChatBodyState extends State<ChatBody> {
   final TextEditingController _chatController = new TextEditingController();
-
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
 
-  final UserMatch _match;
+  final UserMatch _matches;
 
   int _me;
 
-  ChatBodyState(this._match);
+  ChatBodyState(this._matches);
 
   ChatBloc _bloc;
 
@@ -63,13 +58,12 @@ class ChatBodyState extends State<ChatBody> {
 
   void _handleSubmit() {
     Message message = Message(
-      content: _chatController.text,
-      fromUser: _me,
-      toUser: _match.id,
-      date: DateTime.now().toUtc(),
-      matchId: _match.idMatch,
+        content: _chatController.text,
+        fromUser: _me,
+        toUser: _matches.id,
+        date: DateTime.now().toUtc(),
+      matchId: _matches.idMatch
     );
-
 
     _chatController.clear();
     _bloc.dispatch(SendMessageEvent(message));
@@ -86,26 +80,68 @@ class ChatBodyState extends State<ChatBody> {
     if (_bloc == null) {
       _bloc = InjectorWidget.of(context).get();
     }
-    return Column(
-      children: <Widget>[
-        Flexible(
-          child: BlocBuilder(
-            bloc: _bloc,
-            builder: (ctx, MessageState state) {
-              _me = state.me;
-              return ListView.builder(
-                padding: new EdgeInsets.all(8.0),
-                reverse: true,
-                itemBuilder: (_, int index) => ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
-                itemCount: state.messages.length,
-              );
-            },
-          ),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(_matches.name),
+          actions: <Widget>[
+            PopupMenuButton<int>(
+                onSelected: (value) {
+                  if (value == 1) {
+                    _bloc.dispatch(ClearChatEvent(_matches.idMatch));
+                  } else {
+                    _bloc.dispatch(BlockMatchEvent(_matches.idMatch));
+                  }
+                },
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text('Vaciar chat'),
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        child: Text('Eliminar match'),
+                      )
+                    ]),
+          ],
         ),
-        if (_match.state == MATCH_BLOCKED) Text("${_match.name} te ha retirado de sus contactos, no puedes chatear con ella"),
-        _chatInput()
-      ],
-    );
+        body: Column(
+          children: <Widget>[
+            Flexible(
+              child: BlocBuilder(
+                bloc: _bloc,
+                builder: (ctx, BaseState state) {
+                  if (state is ExitState) {
+                    onWidgetDidBuild(() {
+                      Navigator.of(context).pop();
+                    });
+                  }
+
+                  if (state is LoadingState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (state is MessageState) {
+                    _me = state.me;
+                    return ListView.builder(
+                      padding: new EdgeInsets.all(8.0),
+                      reverse: true,
+                      itemBuilder: (_, int index) => ChatMessage(state.me,
+                          state.messages[index], _timeFormat, _dateFormat),
+                      itemCount: state.messages.length,
+                    );
+                  }
+                  return Center(child: SizedBox());
+                },
+              ),
+            ),
+            if (_matches.state == MATCH_BLOCKED)
+              Text(
+                  "${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
+            _chatInput()
+          ],
+        ));
   }
 
   Widget _chatInput() => Material(
@@ -127,7 +163,8 @@ class ChatBodyState extends State<ChatBody> {
               Expanded(
                 child: TextFormField(
                   controller: _chatController,
-                  enabled: _match.state != MATCH_BLOCKED,
+                  enabled: _matches.state != MATCH_BLOCKED,
+                  textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.send,
                   onFieldSubmitted: (v) => _handleSubmit(),
                   decoration: InputDecoration(
@@ -147,7 +184,7 @@ class ChatBodyState extends State<ChatBody> {
 //              ),
               InkWell(
                 onTap: () {
-                  if (_match.state != MATCH_BLOCKED) _handleSubmit();
+                  if (_matches.state != MATCH_BLOCKED) _handleSubmit();
                 },
                 child: Container(
                   color: Theme.of(context).primaryColor,
@@ -188,26 +225,43 @@ class ChatMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: 10, bottom: 10, left: _message.fromUser == _me ? 40 : 10, right: _message.fromUser == _me ? 10 : 40),
+          top: 10,
+          bottom: 10,
+          left: _message.fromUser == _me ? 40 : 10,
+          right: _message.fromUser == _me ? 10 : 40),
       child: Column(
-        crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: _message.fromUser == _me
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style: Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: _message.fromUser == _me ? Color.fromARGB(255, 240, 240, 240) : Color.fromARGB(255, 225, 225, 225),
+              color: _message.fromUser == _me
+                  ? Color.fromARGB(255, 240, 240, 240)
+                  : Color.fromARGB(255, 225, 225, 225),
               borderRadius: _message.fromUser == _me
                   ? BorderRadius.only(
-                      topLeft: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8))
                   : BorderRadius.only(
-                      topRight: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+                      topRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8)),
               boxShadow: [
-                BoxShadow(color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
+                BoxShadow(
+                    color: Color.fromARGB(255, 180, 180, 180),
+                    blurRadius: 1,
+                    offset: Offset(1, 1)),
               ],
             ),
             child: Text(

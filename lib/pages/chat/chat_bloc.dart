@@ -1,30 +1,36 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:meshi/data/models/message.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
+import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/sockets/ChatSocket.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/utils/base_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'chat_events.dart';
 
-class ChatBloc extends Bloc<ChatEvents, MessageState> {
-  final int _matchId;
+class ChatBloc extends Bloc<ChatEvents, BaseState> {
+  final UserMatch _match;
   final ChatSocket _socket;
   final ChatRepository _messageRepository;
+  final MatchRepository _matchRepository;
   int _me;
   StreamSubscription _subs;
 
-  ChatBloc(this._matchId, this._socket, this._messageRepository, SessionManager session) {
+  ChatBloc(this._match, this._socket, this._messageRepository,
+      this._matchRepository, SessionManager session) {
     session.userId.then((id) => _me = id);
   }
 
   void connectSocket() async {
-    final _obs = await _socket.connect(_matchId);
+    final _obs = await _socket.connect(_match.idMatch);
     _subs = _obs
-        .flatMap((msg) => Observable.fromFuture(_messageRepository.insertMessage(msg)).map((x) => msg))
+        .flatMap((msg) =>
+            Observable.fromFuture(_messageRepository.insertMessage(msg))
+                .map((x) => msg))
         .listen((msg) => dispatch(NewMessageEvent(msg)), onError: (error) {});
   }
 
@@ -35,35 +41,47 @@ class ChatBloc extends Bloc<ChatEvents, MessageState> {
   }
 
   @override
-  MessageState get initialState => MessageState([], _me);
+  BaseState get initialState => MessageState([], 0);
 
   @override
-  Stream<MessageState> mapEventToState(ChatEvents event) async* {
+  Stream<BaseState> mapEventToState(ChatEvents event) async* {
     try {
       if (event is LoadedChatEvent) {
-        final local = await _messageRepository.getLocalMessages(_matchId);
+        final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
-        final remotes = await _messageRepository.getMessages(_matchId);
+        final remotes = await _messageRepository.getMessages(_match.idMatch, from: _match.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
       } else if (event is SendMessageEvent) {
-        await _messageRepository.updateMatch(_matchId, event.message);
-        final local = await _messageRepository.getLocalMessages(_matchId);
+        /*await _messageRepository.sendMessageLocal(_match.idMatch, event.message);
+        final local = await _messageRepository.getLocalMessages(_match.idMatch);
+        yield MessageState(local, _me);
+        await _messageRepository.sendMessage(_match.idMatch, event.message);*/
+        await _messageRepository.updateMatch(_match.idMatch, event.message);
+        final local = await _messageRepository.getLocalMessages(_match.idMatch);
         local.insert(0, event.message);
         yield MessageState(local, _me);
-        await _messageRepository.sendMessage(_matchId, event.message);
+        await _messageRepository.sendMessage(_match.idMatch, event.message);
       } else if (event is NewMessageEvent) {
-        final local = await _messageRepository.getLocalMessages(_matchId);
+        final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
+      } else if (event is ClearChatEvent) {
+        yield LoadingState();
+        await _messageRepository.clear(event.matchId);
+        yield MessageState([], _me);
+      } else if (event is BlockMatchEvent) {
+        yield LoadingState();
+        await _matchRepository.blockMatch(event.matchId);
+        yield ExitState();
       }
     } catch (e) {}
   }
 }
 
-class MessageState extends Equatable {
+class MessageState extends BaseState {
   List<Message> messages;
   int me;
 
-  MessageState(this.messages, this.me) :super([messages]);
+  MessageState(this.messages, this.me) : super(props: messages);
 
   @override
   String toString() {

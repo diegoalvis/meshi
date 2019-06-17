@@ -3,8 +3,7 @@ import 'package:meshi/data/models/message.dart';
 
 class ChatEvents extends Equatable {}
 
-class SendMessageEvent extends ChatEvents{
-
+class SendMessageEvent extends ChatEvents {
   Message message;
   SendMessageEvent(this.message);
 
@@ -12,22 +11,41 @@ class SendMessageEvent extends ChatEvents{
   String toString() {
     return "SendMessageEvent";
   }
-
 }
 
-class LoadedChatEvent extends ChatEvents{
+class LoadedChatEvent extends ChatEvents {
   @override
   String toString() {
     return "LoadedChatEvent";
   }
 }
 
-class NewMessageEvent extends ChatEvents{
+class NewMessageEvent extends ChatEvents {
   Message message;
   NewMessageEvent(this.message);
 
   @override
   String toString() {
     return "NewMessageEvent";
+  }
+}
+
+class ClearChatEvent extends ChatEvents {
+  int matchId;
+  ClearChatEvent(this.matchId);
+
+  @override
+  String toString() {
+    return "ClearChatEvent";
+  }
+}
+
+class BlockMatchEvent extends ChatEvents {
+  int matchId;
+  BlockMatchEvent(this.matchId);
+
+  @override
+  String toString() {
+    return "BlockMatchEvent";
   }
 }

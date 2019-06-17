@@ -8,8 +8,19 @@ class ChatApi extends BaseApi {
 
   ChatApi(Dio dio, SessionManager session) : super(dio, session);
 
-  Future<BaseResponse<List<Message>>> getMessages(int match, {int limit, int skip}) async{
-    return get("/chat/$match").then((response) =>
+  Future<BaseResponse<List<Message>>> getMessages(int match, {int limit, int skip, int from}) async{
+    Map<String, int> query = {};
+    if(limit != null){
+      query['limit'] = limit;
+    }
+    if(skip != null){
+      query['skip'] = skip;
+    }
+    if(from != null){
+      query['from'] = from;
+    }
+
+    return get("/chat/$match", query: query.isNotEmpty ? query : null).then((response) =>
         processListResponse(response, parseMessages));
   }
 
