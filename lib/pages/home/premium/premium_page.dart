@@ -33,7 +33,7 @@ class PremiumPage extends StatelessWidget with HomeSection {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 40, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(110, 30, 20, 20),
                     child: Text(
 
                       "Sé premium",
@@ -47,7 +47,7 @@ class PremiumPage extends StatelessWidget with HomeSection {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 25),
+                      SizedBox(height: 15),
                       Text('Chatea sin Limites',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onError,
