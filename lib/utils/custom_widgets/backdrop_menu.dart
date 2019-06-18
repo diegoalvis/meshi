@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meta/meta.dart';
 
+import '../app_icons.dart';
+
 const double _kFlingVelocity = 2.0;
 
 class BackdropMenu extends StatefulWidget {
@@ -104,14 +106,8 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
         titleSpacing: 0.0,
         leading: GestureDetector(
           onTap: _toggleBackdropLayerVisibility,
-          child: Transform.rotate(
-            angle: -0.3,
-            child: Image.asset(
-              "res/icons/logo.png",
-              scale: 4,
-              color: Colors.white,
-            ),
-          ),
+          child: Icon(AppIcons.menu),
+
         ),
         title: GestureDetector(
             onTap: _toggleBackdropLayerVisibility,

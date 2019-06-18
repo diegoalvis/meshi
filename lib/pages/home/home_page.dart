@@ -11,6 +11,7 @@ import 'package:meshi/pages/home/menu_page.dart';
 import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
+import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/backdrop_menu.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
@@ -19,10 +20,12 @@ class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
   final Widget child;
 
-  HomeBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
+  HomeBlocProvider({Key key, @required this.bloc, this.child})
+      : super(key: key, child: child);
 
   static HomeBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(HomeBlocProvider) as HomeBlocProvider);
+    return (context.inheritFromWidgetOfExactType(HomeBlocProvider)
+        as HomeBlocProvider);
   }
 
   @override
@@ -85,12 +88,14 @@ class HomePageState extends State<HomePage> {
               shape: DiamondBorder(),
               onPressed: () => _currentPage.onFloatingButtonPressed(context),
               tooltip: 'Increment',
-              child: Image.asset(
-                'res/icons/logo.png',
-                scale: 5.5,
-                color: Colors.white,
-              ),
-            )
+              child: Padding(
+                padding: EdgeInsets.only(right: 5),
+                child: Icon(
+                  AppIcons.logo,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ))
           : null, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

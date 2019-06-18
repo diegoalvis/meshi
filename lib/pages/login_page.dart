@@ -11,12 +11,14 @@ import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = LoginBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
+    final bloc = LoginBloc(
+        injector.get<UserRepository>(), injector.get<SessionManager>());
     return LoginForm(bloc);
   }
 }
@@ -50,7 +52,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     _bloc.userStream?.listen((user) async {
       if (user == null) {
@@ -71,10 +74,10 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _bloc.progressSubject.listen((show) => setState(() => loading = show));
     _bloc.errorSubject.listen((error) {
       final strings = MyLocalizations.of(context);
-      Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text(strings.tryError)));
+      Scaffold.of(buildContext)
+          .showSnackBar(SnackBar(content: Text(strings.tryError)));
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,17 +95,18 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
             Expanded(
                 flex: 3,
                 child: Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.bottomCenter,
-                    child: Image.asset(
-                      'res/icons/logo.png',
-                      scale: 2.0,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ))),
+                  padding: EdgeInsets.all(10),
+                  alignment: Alignment.bottomCenter,
+                  child: Icon(AppIcons.logo,
+                      color: Theme.of(context).colorScheme.onPrimary, size: 70,),
+                )),
             Expanded(
               child: Text(
                 'meshi',
-                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 45,
+                    fontFamily: 'BettyLavea'),
               ),
             ),
             Expanded(
@@ -111,25 +115,37 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                 child: Text(
                   strings.findPerfectDate,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 20),
                 ),
               ),
             ),
-            Container(width: 60, child: TextField(controller: controller,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
-            )),
+            Container(
+                width: 60,
+                child: TextField(
+                  controller: controller,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 20),
+                )),
             SizedBox(height: 8),
-            Center(child: Text("(100 - 127)",
+            Center(
+                child: Text(
+              "(100 - 127)",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
             )),
             Expanded(
               child: Container(
                 alignment: Alignment.bottomCenter,
                 child: FadeTransition(
                   opacity: animation,
-                  child: Text(strings.logInWith, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                  child: Text(strings.logInWith,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary)),
                 ),
               ),
             ),
@@ -140,16 +156,19 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                   alignment: loading ? Alignment.center : Alignment.topCenter,
                   child: loading
                       ? CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.onPrimary))
                       : ButtonTheme(
                           minWidth: 180.0,
                           child: FlatButton(
                             padding: const EdgeInsets.all(8.0),
                             textColor: Colors.white,
                             color: Color(0xFF4267B2),
-                            onPressed: () => _bloc.initFacebookLogin(controller.text),
+                            onPressed: () =>
+                                _bloc.initFacebookLogin(controller.text),
                             child: Text("Facebook"),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
                           )),
                 ),
               ),

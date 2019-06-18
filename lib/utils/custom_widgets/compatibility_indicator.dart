@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/utils/icon_utils.dart';
+import 'package:meshi/utils/app_icons.dart';
 
 import '../localiztions.dart';
 
@@ -42,7 +42,7 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Image.asset(IconUtils.heart, scale: 6.0, color: Theme.of(context).primaryColor),
+                        Icon(AppIcons.hearth, color:Theme.of(context).primaryColor, size:30, ),
                         Expanded(child: Center(child: Text("${strings.weAgree} $compatibilityPercent"))),
                         RotatedBox(quarterTurns: showMore ? 3 : 1, child: Icon(Icons.arrow_forward_ios))
                       ],

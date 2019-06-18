@@ -9,10 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/bloc/interests_profile_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/home/home_section.dart';
+import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
-import 'package:meshi/utils/icon_utils.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -155,7 +155,7 @@ class InterestsProfileBody extends StatelessWidget {
                   color: Theme.of(context).accentColor,
                   child: Row(
                     children: <Widget>[
-                      Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
+                      Icon(AppIcons.curve, color:Colors.white, size:30),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(strings.iAmInterested),

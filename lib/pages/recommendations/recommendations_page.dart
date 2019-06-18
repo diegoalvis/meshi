@@ -3,18 +3,18 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:flutter/material.dart';
-import 'package:meshi/utils/icon_utils.dart';
-import 'package:meshi/data/models/user.dart';
-import 'package:meshi/utils/base_state.dart';
-import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/data/api/base_api.dart';
-import 'package:meshi/utils/widget_util.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
-import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meshi/data/api/base_api.dart';
+import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/recommendations/recommendations__bloc.dart';
+import 'package:meshi/utils/app_icons.dart';
+import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
+import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/widget_util.dart';
 
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
@@ -29,7 +29,8 @@ class RecommendationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindSingleton(RecommendationsBloc(InjectorWidget.of(context).get()));
+          binder.bindSingleton(
+              RecommendationsBloc(InjectorWidget.of(context).get()));
         },
         child: RecommendationsList());
   }
@@ -56,7 +57,8 @@ class RecommendationsList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(strings.recommendations, style: TextStyle(color: Colors.white)),
+        title: Text(strings.recommendations,
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
@@ -73,8 +75,8 @@ class RecommendationsList extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                         child: Center(
                             child: CircularProgressIndicator(
-                          valueColor:
-                              new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.onPrimary),
                         ))),
                   );
                 }
@@ -84,7 +86,8 @@ class RecommendationsList extends StatelessWidget {
                 }
                 if (state is ErrorState) {
                   onWidgetDidBuild(() {
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text(strings.anErrorOccurred)));
                   });
                 }
                 if (state is InitialState) {
@@ -115,7 +118,8 @@ class RecommendationsList extends StatelessWidget {
         (user) {
           return Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
+              margin: EdgeInsets.only(
+                  top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
               child: carouselWidget(context, user));
         },
       ).toList(),
@@ -140,7 +144,8 @@ class RecommendationsList extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                      image: NetworkImage(BaseApi.IMAGES_URL_DEV + user.images[0]),
+                      image:
+                          NetworkImage(BaseApi.IMAGES_URL_DEV + user.images[0]),
                       fit: BoxFit.cover,
                     )),
                   ),
@@ -174,7 +179,8 @@ class RecommendationsList extends StatelessWidget {
                   child: Container(
                     child: Card(
                       child: ListTile(
-                        title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                        title: Text('Acerca de mi',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Text(user?.description ?? ""),
                       ),
                     ),
@@ -199,11 +205,16 @@ class RecommendationsList extends StatelessWidget {
                         onPressed: () {
                           _bloc.dispatch(AddMatchEvent(user));
                         },
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0)),
                         color: Theme.of(context).accentColor,
                         child: Row(
                           children: <Widget>[
-                            Image.asset(IconUtils.wave, scale: 3.5, color: Colors.white),
+                            Icon(
+                              AppIcons.curve,
+                              size: 30,
+                              color: Colors.white,
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(

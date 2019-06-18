@@ -20,6 +20,7 @@ import 'package:meshi/pages/register/advance/specifics/specific_page_7.dart';
 import 'package:meshi/pages/register/advance/specifics/specific_page_8.dart';
 import 'package:meshi/pages/register/advance/specifics/specific_page_9.dart';
 import 'package:meshi/utils/FormUtils.dart';
+import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -35,7 +36,8 @@ import 'habits/habits_page_2.dart';
 class AdvancedRegisterPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = FormBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
+    final bloc = FormBloc(
+        injector.get<UserRepository>(), injector.get<SessionManager>());
     return FormContainer(bloc);
   }
 }
@@ -44,10 +46,12 @@ class FormBlocProvider extends InheritedWidget {
   final FormBloc bloc;
   final Widget child;
 
-  FormBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
+  FormBlocProvider({Key key, @required this.bloc, this.child})
+      : super(key: key, child: child);
 
   static FormBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(FormBlocProvider) as FormBlocProvider);
+    return (context.inheritFromWidgetOfExactType(FormBlocProvider)
+        as FormBlocProvider);
   }
 
   @override
@@ -98,7 +102,8 @@ class _FormPageState extends State<FormContainer> {
   @override
   void initState() {
     super.initState();
-    _bloc.errorSubject.listen((message) => Scaffold.of(context).showSnackBar(SnackBar(content: Text(message))));
+    _bloc.errorSubject.listen((message) =>
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(message))));
   }
 
   @override
@@ -126,7 +131,8 @@ class _FormPageState extends State<FormContainer> {
         ),
         Expanded(
             child: Container(
-          child: Text("$currentPagePos ${strings.ofLabel} $TOTAL_PAGES", textAlign: TextAlign.center),
+          child: Text("$currentPagePos ${strings.ofLabel} $TOTAL_PAGES",
+              textAlign: TextAlign.center),
         )),
         Expanded(
           child: Container(
@@ -139,25 +145,41 @@ class _FormPageState extends State<FormContainer> {
                     ? CircularProgressIndicator()
                     : Builder(
                         builder: (contextInt) => FlatButton(
-                              onPressed: () => !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
-                                  ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
+                              onPressed: () => !(pages.elementAt(
+                                          currentPagePos - 1) as FormSection)
+                                      .isInfoComplete()
+                                  ? Scaffold.of(contextInt).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              strings.incompleteInformation)))
                                   : setState(() {
                                       currentPagePos++;
                                       if (currentPagePos > TOTAL_PAGES) {
                                         currentPagePos = TOTAL_PAGES;
-                                        _bloc.updateUserInfo().listen((success) {
+                                        _bloc.updateUserInfo().listen(
+                                            (success) {
                                           if (success) {
-                                            Navigator.of(this.context).pushReplacementNamed(HOME_ROUTE);
+                                            Navigator.of(this.context)
+                                                .pushReplacementNamed(
+                                                    HOME_ROUTE);
                                           } else {
-                                            _bloc.errorSubject.sink.add(strings.tryError);
+                                            _bloc.errorSubject.sink
+                                                .add(strings.tryError);
                                           }
-                                        }, onError: (error) => _bloc.errorSubject.sink.add(error.toString()));
+                                        },
+                                            onError: (error) => _bloc
+                                                .errorSubject.sink
+                                                .add(error.toString()));
                                       }
                                     }),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
                               color: Theme.of(context).accentColor,
                               child: Text(
-                                (currentPagePos == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
+                                (currentPagePos == TOTAL_PAGES
+                                        ? strings.finish
+                                        : strings.next)
+                                    .toUpperCase(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -175,14 +197,13 @@ class _FormPageState extends State<FormContainer> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Transform.rotate(
-            angle: -0.3,
-            child: Image.asset(
-              "res/icons/logo.png",
-              scale: 4,
-              color: Theme.of(context).primaryColor,
-            )),
-        title: Text(strings.questionnaire,
+        leading: Icon(
+          AppIcons.logo2,
+          color: Theme.of(context).primaryColor,
+          size: 30,
+        ),
+        title: Text(
+          strings.questionnaire,
           textAlign: TextAlign.start,
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),

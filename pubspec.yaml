@@ -60,21 +60,24 @@ flutter:
   - res/icons/
 
   fonts:
-  - family: BettyLavea
-    fonts:
-    - asset: res/fonts/BettyLavea.ttf
+    - family: AppIcons
+      fonts:
+        - asset: res/fonts/AppIcons.ttf
+    - family: BettyLavea
+      fonts:
+      - asset: res/fonts/BettyLavea.ttf
 
-  - family: Poppins
-    fonts:
-    - asset: res/fonts/Poppins-Regular.ttf
-    - asset: res/fonts/Poppins-Italic.ttf
-      style: italic
-    - asset: res/fonts/Poppins-Thin.ttf
-      weight: 100
-    - asset: res/fonts/Poppins-Light.ttf
-      weight: 300
-    - asset: res/fonts/Poppins-Bold.ttf
-      weight: 700
-    - asset: res/fonts/Poppins-Black.ttf
-      weight: 900
+    - family: Poppins
+      fonts:
+      - asset: res/fonts/Poppins-Regular.ttf
+      - asset: res/fonts/Poppins-Italic.ttf
+        style: italic
+      - asset: res/fonts/Poppins-Thin.ttf
+        weight: 100
+      - asset: res/fonts/Poppins-Light.ttf
+        weight: 300
+      - asset: res/fonts/Poppins-Bold.ttf
+        weight: 700
+      - asset: res/fonts/Poppins-Black.ttf
+        weight: 900
 

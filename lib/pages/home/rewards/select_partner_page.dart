@@ -10,8 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/pages/home/rewards/select_partner_bloc.dart';
+import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
-import 'package:meshi/utils/icon_utils.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -26,7 +26,8 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
     bool showSmallProgress;
     final dialog = AlertDialog(
       title: Text("Gracias por participar!"),
-      content: Text("Te avisaremos si ganaste la cita una vez se realice el sorteo."),
+      content: Text(
+          "Te avisaremos si ganaste la cita una vez se realice el sorteo."),
       actions: <Widget>[
         FlatButton(
           child: Text("OK"),
@@ -47,7 +48,8 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
           showSmallProgress = state is PerformingRequestState;
 
           if (state is InitialState) {
-            bloc.dispatch(SelectPartnerEvent(SelectPartnerEventType.getMatches));
+            bloc.dispatch(
+                SelectPartnerEvent(SelectPartnerEventType.getMatches));
           }
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());
@@ -56,7 +58,8 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
             matches = state.data;
           }
           if (state is SuccessState<bool> && state.data) {
-            Future.delayed(Duration(seconds: 3), () => Navigator.removeRoute(context, ModalRoute.of(context)));
+            Future.delayed(Duration(seconds: 3),
+                () => Navigator.removeRoute(context, ModalRoute.of(context)));
             onWidgetDidBuild(() {
               showDialog(context: context, builder: (cxt) => dialog);
             });
@@ -87,21 +90,34 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                             final item = matches.elementAt(index);
                             return ListTile(
                               onTap: () {
-                                bloc.dispatch(SelectPartnerEvent(SelectPartnerEventType.selectPartner, data: item));
+                                bloc.dispatch(SelectPartnerEvent(
+                                    SelectPartnerEventType.selectPartner,
+                                    data: item));
                               },
                               title: Row(children: [
                                 ClipOval(
                                   child: Container(
                                     height: 50.0,
                                     width: 50.0,
-                                    child: Image.network(BaseApi.IMAGES_URL_DEV + item.images?.elementAt(0) ?? "",
+                                    child: Image.network(
+                                        BaseApi.IMAGES_URL_DEV +
+                                                item.images?.elementAt(0) ??
+                                            "",
                                         fit: BoxFit.cover),
                                   ),
                                 ),
                                 SizedBox(width: 10),
-                                Align(alignment: Alignment.topLeft, child: Text(item.name)),
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(item.name)),
                                 Spacer(),
-                                matchSelected?.id == item.id ? Image.asset(IconUtils.smallLogo) : SizedBox()
+                                matchSelected?.id == item.id
+                                    ? Icon(
+                                        AppIcons.logo,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 30,
+                                      )
+                                    : SizedBox()
                               ]),
                             );
                           },
@@ -116,11 +132,16 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                                   : FlatButton(
                                       onPressed: () => matchSelected == null
                                           ? null
-                                          : bloc.dispatch(
-                                              SelectPartnerEvent(SelectPartnerEventType.updateInscription, data: matchSelected)),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                                          : bloc.dispatch(SelectPartnerEvent(
+                                              SelectPartnerEventType
+                                                  .updateInscription,
+                                              data: matchSelected)),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0)),
                                       color: Theme.of(context).accentColor,
-                                      child: Text(strings.participateByAppointment),
+                                      child: Text(
+                                          strings.participateByAppointment),
                                     ),
                             ),
                     ],
