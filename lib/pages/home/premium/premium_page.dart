@@ -16,7 +16,8 @@ class PremiumPage extends StatelessWidget with HomeSection {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Container(
+            Container(          //Falta aplicar El BorderRadius, esquinas superiories de este container
+
               decoration: BoxDecoration(
 
                   gradient: LinearGradient(
@@ -31,7 +32,7 @@ class PremiumPage extends StatelessWidget with HomeSection {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(130, 40, 20, 20),
                     child: Text(
-                      "Se premium",
+                      "Sé premium",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onError,
                         fontSize: 34,
