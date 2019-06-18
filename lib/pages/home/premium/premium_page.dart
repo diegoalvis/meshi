@@ -14,12 +14,15 @@ class PremiumPage extends StatelessWidget with HomeSection {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+
           children: <Widget>[
-            Container(          //Falta aplicar El BorderRadius, esquinas superiories de este container
-
+            Container(
+            // alignment: ,
+              //Falta aplicar El BorderRadius, esquinas superiories de este container
+              width: 1000,      //Que el ancho sea maximo
               decoration: BoxDecoration(
-
+                  borderRadius: BorderRadius.vertical(top:Radius.circular(20)),
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
                       end: Alignment.bottomLeft,
@@ -30,8 +33,9 @@ class PremiumPage extends StatelessWidget with HomeSection {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(130, 40, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(0, 40, 20, 20),
                     child: Text(
+
                       "Sé premium",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onError,
