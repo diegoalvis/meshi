@@ -10,6 +10,7 @@ import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/chat/chat_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
+import 'package:meshi/pages/home/premium/premium_page.dart';
 import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
@@ -66,6 +67,7 @@ class App extends StatelessWidget {
             SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
             CONTACT_ROUTE: (BuildContext context) => ContactPage(),
             TERM_AND_CONDITIONS: (BuildContext context) => Term(),
+            PREMIUM: (BuildContext context) => PremiumPage(),
           },
         ));
   }
@@ -87,9 +89,11 @@ const String PROFILE_ROUTE = "/profile";
 const String SETTINGS_ROUTE = "/settings";
 const String CONTACT_ROUTE = "/contact";
 const String TERM_AND_CONDITIONS = "/term";
+const String PREMIUM = "/premium";
 
 // Themes
 ThemeData buildTheme() => ThemeData(
+
       primaryColor: Color(0xFF5E2531),
       primaryColorDark: Color(0xFF4B1822),
       primaryColorLight: Color(0xFF672836),

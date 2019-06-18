@@ -41,7 +41,7 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
   }
 
   @override
-  BaseState get initialState => MessageState([], 0);
+  BaseState get initialState => InitialState();
 
   @override
   Stream<BaseState> mapEventToState(ChatEvents event) async* {

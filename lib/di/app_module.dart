@@ -19,7 +19,6 @@ class AppModule implements Module {
   @override
   void configure(Binder binder) {
     binder
-//      ..bindSingleton(AppDatabase())
       ..bindSingleton(SessionManager())
       ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 30000)))
       //DAO

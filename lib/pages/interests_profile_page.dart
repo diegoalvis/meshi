@@ -39,6 +39,15 @@ class InterestsProfileBody extends StatelessWidget {
   bool loading = false;
   double height;
 
+  List<String> assertions = [
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+    "Primera coincidencia",
+  ];
+
   InterestsProfileBody(this.userDetail);
 
   @override
@@ -77,22 +86,22 @@ class InterestsProfileBody extends StatelessWidget {
               ? Center(child: Text(strings.noInformationAvailable))
               : Column(
                   children: <Widget>[
-                    Container(
-                      height: height * 0.87,
+                    Expanded(
                       child: InterestsProfileImage(
                         user: user,
                         widget1: Padding(
                           padding: const EdgeInsets.only(top: 18.0, left: 8.0, right: 8.0),
-                          child: CompatibilityIndicator(),
+                          child: CompatibilityIndicator(
+                            assertions: assertions,
+                          ),
                         ),
                         widget2: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Container(
-                            height: height * 0.36,
-                            child: Card(
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                title:
-                                    Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                title: Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                                 subtitle: Text(
                                   user?.description ?? "",
                                   overflow: TextOverflow.ellipsis,
@@ -104,18 +113,23 @@ class InterestsProfileBody extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacer(),
-                    if (userDetail.isMyLike == 1)
-                      isMyLike(context)
-                    else
-                      if (userDetail.isMyLike == 2) likesMe(context) else SizedBox()
-                    //userDetail.isMyLike ? isMyLike(context) : likesMe(context),
+                    buildSection(context)
                   ],
                 );
         });
   }
 
-  Widget likesMe(BuildContext context) {
+  Widget buildSection(BuildContext context) {
+    if (userDetail.isMyLike == 1) {
+      return buildIsMyLikeBottomSection(context);
+    } else if (userDetail.isMyLike == 2) {
+      return buildLikesMeBottomSection(context);
+    } else {
+      return SizedBox();
+    }
+  }
+
+  Widget buildLikesMeBottomSection(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return loading
@@ -168,7 +182,7 @@ class InterestsProfileBody extends StatelessWidget {
           );
   }
 
-  Widget isMyLike(BuildContext context) {
+  Widget buildIsMyLikeBottomSection(BuildContext context) {
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return loading

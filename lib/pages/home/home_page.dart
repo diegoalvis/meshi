@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/pages/home/menu_page.dart';
-import 'package:meshi/pages/home/settings/settings_page.dart';
+import 'package:meshi/pages/home/premium/premium_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
+import 'package:meshi/pages/home/settings/settings_page.dart';
+import 'package:meshi/pages/menu/backdrop_menu.dart';
+import 'package:meshi/pages/menu/menu_page.dart';
 import 'package:meshi/utils/app_icons.dart';
-import 'package:meshi/utils/custom_widgets/backdrop_menu.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
 
@@ -20,12 +21,10 @@ class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
   final Widget child;
 
-  HomeBlocProvider({Key key, @required this.bloc, this.child})
-      : super(key: key, child: child);
+  HomeBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
 
   static HomeBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(HomeBlocProvider)
-        as HomeBlocProvider);
+    return (context.inheritFromWidgetOfExactType(HomeBlocProvider) as HomeBlocProvider);
   }
 
   @override
@@ -45,7 +44,7 @@ class HomePageState extends State<HomePage> {
   List<HomeSection> homePages = [
     InterestsMainPage(),
     RewardPage(),
-    ProfilePage(),
+    PremiumPage(),
     ProfilePage(),
     SettingsPage(),
   ];

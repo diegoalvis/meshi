@@ -5,9 +5,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_page.dart';
+import 'package:meshi/utils/app_icons.dart';
 import 'package:meta/meta.dart';
 
-import '../app_icons.dart';
+
 
 const double _kFlingVelocity = 2.0;
 
