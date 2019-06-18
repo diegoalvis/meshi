@@ -3,26 +3,76 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:dependencies/dependencies.dart';
-import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/base_bloc.dart';
-import 'package:meshi/bloc/profile_bloc.dart';
-import 'package:meshi/data/models/user.dart';
-import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/main.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/pages/register/basic/basic_register_page.dart';
-import 'package:meshi/utils/custom_widgets/image_selector.dart';
-import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/custom_widgets/list_premium.dart';
 
 class PremiumPage extends StatelessWidget with HomeSection {
-
-
   @override
   Widget build(BuildContext context) {
     // TODO construir aqui la vista
-    return Center(child: Text("Vista de premium"));
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Container(          //Falta aplicar El BorderRadius, esquinas superiories de este container
+
+              decoration: BoxDecoration(
+
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                    Color(0xff5E2531),
+                    Color(0xff80065E),
+                  ])),
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(130, 40, 20, 20),
+                    child: Text(
+                      "Sé premium",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onError,
+                        fontSize: 34,
+                        fontFamily: 'BettyLavea',
+                      ),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 25),
+                      Text('Chatea sin Limites',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError,
+                          )),
+                      SizedBox(height: 16),
+                      Text('Participa por citas Regalo',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError,
+                          )),
+                      SizedBox(height: 16),
+                      Text('Conoce mas personas de tu gusto',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError,
+                          )),
+                      SizedBox(height: 16),
+                      Text('Mira en que coincides con tu pareja',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError,
+                          )),
+                      SizedBox(height: 16),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Container(child: ListPremium())
+          ],
+        ),
+      ),
+    );
   }
 }
