@@ -22,14 +22,16 @@ class RewardRepository {
 
   Future<RewardInfo> getCurrent() async {
     final currentDate = DateTime.now().millisecondsSinceEpoch;
-    if (session.rewardInfo == null ||
-        (currentDate <= session.rewardInfo.reward.publishDate.millisecondsSinceEpoch &&
-            currentDate >= session.rewardInfo.reward.validDate.millisecondsSinceEpoch)) {
-      final result = await _api.getCurrentReward();
-      return result.data;
-    } else {
-      return session.rewardInfo;
+    final winner = await session.winner;
+    if (winner != null &&
+        winner.winner &&
+        currentDate < winner.reward.validDate.millisecondsSinceEpoch &&
+        currentDate > winner.reward.publishDate.millisecondsSinceEpoch) {
+      return winner;
     }
+    final result = await _api.getCurrentReward();
+    if (result.data.winner) session.saveWinner(result.data);
+    return result.data;
   }
 
   Future<bool> join(int rewardId, List<UserMatch> couples) async {

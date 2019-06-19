@@ -14,7 +14,6 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection {
-
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -24,49 +23,53 @@ class SettingsPage extends StatelessWidget with HomeSection {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Column(
-      children: <Widget>[
-        Divider(
-          color: Theme.of(context).dividerColor,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(strings.notifications,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
-                textAlign: TextAlign.left),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Divider(
+            color: Theme.of(context).dividerColor,
           ),
-        ),
-        rowSettings(context, strings.newMessage, true),
-        rowSettings(context, strings.newInterested, true),
-        rowSettings(context, strings.newDraw, false),
-        rowSettings(context, strings.awards, true),
-        Divider(
-          color: Theme.of(context).dividerColor,
-        ),
-        settingItem(context, CONTACT_ROUTE, strings.contactUs),
-        settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: InkWell(
-            onTap: () {
-              onWidgetDidBuild(() {
-                clearSession(context);
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
-              child: Text(strings.signOut,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(strings.notifications,
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                      fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                  textAlign: TextAlign.left),
             ),
           ),
-        ),
-        Divider(
-          color: Theme.of(context).dividerColor,
-        )
-      ],
+          rowSettings(context, strings.newMessage, true),
+          rowSettings(context, strings.newInterested, true),
+          rowSettings(context, strings.newDraw, false),
+          rowSettings(context, strings.awards, true),
+          Divider(
+            color: Theme.of(context).dividerColor,
+          ),
+          settingItem(context, CONTACT_ROUTE, strings.contactUs),
+          settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: InkWell(
+              onTap: () {
+                onWidgetDidBuild(() {
+                  clearSession(context);
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
+                child: Text(strings.signOut,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              ),
+            ),
+          ),
+          Divider(
+            color: Theme.of(context).dividerColor,
+          )
+        ],
+      ),
     );
   }
 
@@ -82,14 +85,19 @@ class SettingsPage extends StatelessWidget with HomeSection {
       padding: const EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
-          Text(rowName,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
-          Spacer(),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Text(rowName,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+          ),
+          //Spacer(),
           Expanded(
             child: OptionSelector(
                 options: YesNoOptions,
-                optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
+                optionSelected: (notification == null
+                    ? null
+                    : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
                 onSelected: (selected) => null),
           ),
         ],
