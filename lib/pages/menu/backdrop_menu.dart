@@ -66,7 +66,7 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
   }
 
   Widget _buildStack(BuildContext context, BoxConstraints constraints) {
-    const double layerTitleHeight = 48.0;
+    const double layerTitleHeight =48.0;
     final Size layerSize = constraints.biggest / 2;
     final double layerTop = layerSize.height - layerTitleHeight;
     final bloc = HomeBlocProvider.of(context).bloc;
