@@ -94,4 +94,14 @@ class UserRepository {
       return Observable.error(error.toString());
     });
   }
+
+  Future<int> deactiveAccount() async{
+    final res = await _api.changeActive(false);
+    return res.data;
+  }
+
+  Future<int> activeAccount() async{
+    final res = await _api.changeActive(true);
+    return res.data;
+  }
 }

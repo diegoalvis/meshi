@@ -1,5 +1,6 @@
 import 'package:meshi/data/api/match_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
@@ -32,7 +33,7 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<List<User>> getRecommendations({int limit, int skip}) async {
+  Future<List<Recomendation>> getRecommendations({int limit, int skip}) async {
     final result = await this._api.getRecommendations(limit: limit, skip: skip);
     return result.data;
   }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:meshi/data/api/base_api.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
@@ -25,8 +26,8 @@ class MatchApi extends BaseApi {
     return get("/users/$id").then((response) => processResponse(response, parseSingleUser));
   }
 
-  Future<BaseResponse<List<User>>> getRecommendations({int limit = 0, int skip = 0}) async {
-    return get("/users/recomendations").then((response) => processListResponse(response, parseUser));
+  Future<BaseResponse<List<Recomendation>>> getRecommendations({int limit = 0, int skip = 0}) async {
+    return get("/users/recomendations").then((response) => processListResponse(response, parseRecomendation));
   }
 
   Future<BaseResponse<int>> addMatch(int id) async {
@@ -55,3 +56,5 @@ List<UserMatch> parseMatch(List<Map<String, dynamic>> json) =>
 List<User> parseUser(List<Map<String, dynamic>> json) =>
     json.map((element) => User.fromJson(element)).toList();
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);
+List<Recomendation> parseRecomendation(List<Map<String, dynamic>> json) =>
+    json.map((element) => Recomendation.fromJson(element)).toList();

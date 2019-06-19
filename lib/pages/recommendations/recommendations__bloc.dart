@@ -4,13 +4,14 @@
  */
 
 import 'package:bloc/bloc.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   final MatchRepository _repository;
-  List<User> users;
+  List<Recomendation> users;
 
   RecommendationsBloc(this._repository);
 
@@ -26,7 +27,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
         yield PerformingRequestState();
         await _repository.addMatch(event.user.id);
         users.remove(event.user);
-        yield SuccessState<List<User>>(data: users);
+        yield SuccessState<List<Recomendation>>(data: users);
       } on Exception catch (e) {
         yield ErrorState(exception: e);
       }
@@ -37,7 +38,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
     try {
       yield LoadingState();
       users = await _repository.getRecommendations();
-      yield SuccessState<List<User>>(data: users);
+      yield SuccessState<List<Recomendation>>(data: users);
     } on Exception catch (e) {
       yield ErrorState(exception: e);
     }
