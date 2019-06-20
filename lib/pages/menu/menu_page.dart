@@ -53,13 +53,13 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, snapshot) {
+    return LayoutBuilder(builder: (context, constrains) {
       return Container(
         color: Theme.of(context).primaryColor,
         child: ListView(
           children: <Widget>[
             Container(
-              height: snapshot.biggest.height / 2 - 48.0,
+              height: constrains.biggest.height / 2 - 48.0,
               child: Column(
                   children: categories
                       .map((String category) =>
