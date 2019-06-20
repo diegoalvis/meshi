@@ -8,8 +8,6 @@ import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meta/meta.dart';
 
-
-
 const double _kFlingVelocity = 2.0;
 
 class BackdropMenu extends StatefulWidget {
@@ -49,7 +47,6 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
     );
   }
 
-  // TODO: Add override for didUpdateWidget (104)
   @override
   void dispose() {
     _controller.dispose();
@@ -66,7 +63,7 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
   }
 
   Widget _buildStack(BuildContext context, BoxConstraints constraints) {
-    const double layerTitleHeight =48.0;
+    const double layerTitleHeight = 48.0;
     final Size layerSize = constraints.biggest / 2;
     final double layerTop = layerSize.height - layerTitleHeight;
     final bloc = HomeBlocProvider.of(context).bloc;
@@ -108,11 +105,9 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
         leading: GestureDetector(
           onTap: _toggleBackdropLayerVisibility,
           child: Icon(AppIcons.menu),
-
         ),
-        title: GestureDetector(
-            onTap: _toggleBackdropLayerVisibility,
-            child: Text('Meshi', style: TextStyle(color: Colors.white))),
+        title:
+            GestureDetector(onTap: _toggleBackdropLayerVisibility, child: Text('Meshi', style: TextStyle(color: Colors.white))),
       ),
       body: LayoutBuilder(builder: _buildStack),
       floatingActionButton: widget.floatingActionButton,

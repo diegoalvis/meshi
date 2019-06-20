@@ -26,46 +26,50 @@ class MenuPage extends StatelessWidget {
       onTap: () => onCategoryTap(category, pos),
       child: category == currentCategory
           ? Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                //SizedBox(height: 8.0),
+                Spacer(),
                 Text(
-                  //titulo My interesets
                   category,
-                  style: TextStyle(
-                      color: theme.colorScheme.onPrimary, fontSize: 20.0),
+                  style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 18.0),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 6.0), //el de abajo del menu
+//                SizedBox(height: 4.0), //el de abajo del menu
                 Container(
                   width: category.length * 8.0,
                   height: 2.0,
                   color: theme.colorScheme.onPrimary,
                 ),
-                //SizedBox(height: 8.0),
+                Spacer(),
               ],
             )
-          : Padding(
-              padding: EdgeInsets.symmetric(vertical: 7.0),
-              child: Text(
-                category,
-                style: TextStyle(
-                    color: theme.colorScheme.onPrimary, fontSize: 18.0),
-                textAlign: TextAlign.center,
-              ),
+          : Center(
+            child: Text(
+              category,
+              style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 17.0),
+              textAlign: TextAlign.center,
             ),
+          ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).primaryColor,
-      child: ListView(
-          children: categories
-              .map((String category) => _buildCategory(
-                  context, category, categories.indexOf(category)))
-              .toList()),
-    );
+    return LayoutBuilder(builder: (context, snapshot) {
+      return Container(
+        color: Theme.of(context).primaryColor,
+        child: ListView(
+          children: <Widget>[
+            Container(
+              height: snapshot.biggest.height / 2 - 48.0,
+              child: Column(
+                  children: categories
+                      .map((String category) =>
+                      Expanded(child: _buildCategory(context, category, categories.indexOf(category))))
+                      .toList()),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
