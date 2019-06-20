@@ -51,7 +51,7 @@ class ChatBodyState extends State<ChatBody> {
   void initState() {
     onWidgetDidBuild(() {
       _bloc.connectSocket();
-      //_bloc.dispatch(LoadedChatEvent());
+      _bloc.dispatch(LoadedChatEvent());
     });
     super.initState();
   }
