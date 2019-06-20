@@ -33,7 +33,6 @@ class MenuPage extends StatelessWidget {
                   style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 18.0),
                   textAlign: TextAlign.center,
                 ),
-//                SizedBox(height: 4.0), //el de abajo del menu
                 Container(
                   width: category.length * 8.0,
                   height: 2.0,
