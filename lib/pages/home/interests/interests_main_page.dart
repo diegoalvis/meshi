@@ -39,9 +39,15 @@ class InterestsMainPageContainer extends StatelessWidget {
   final List<Widget> interestSPages = [
     MutualPage(),
     BaseInterestsPage(
-        title: "Personas que me interesan", eventType: InterestsEventType.getMyLikes, isMyLike: 1),
+        title: "Personas que me interesan",
+        eventType: InterestsEventType.getMyLikes,
+        refreshEventType: InterestsEventType.refreshMyLikes,
+        isMyLike: 1),
     BaseInterestsPage(
-        title: "Personas que les intereso", eventType: InterestsEventType.getLikesMe, isMyLike: 2),
+        title: "Personas que les intereso",
+        eventType: InterestsEventType.getLikesMe,
+        refreshEventType: InterestsEventType.refreshLikesMe,
+        isMyLike: 2),
   ];
 
   @override

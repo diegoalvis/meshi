@@ -17,7 +17,8 @@ class ChatPage extends StatelessWidget {
     final inject = InjectorWidget.of(context);
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindLazySingleton((injector, params) => ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
+        binder.bindLazySingleton((injector, params) =>
+            ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
       },
       child: ChatBody(match),
     );
@@ -50,6 +51,7 @@ class ChatBodyState extends State<ChatBody> {
   void initState() {
     onWidgetDidBuild(() {
       _bloc.connectSocket();
+      //_bloc.dispatch(LoadedChatEvent());
     });
     super.initState();
   }
@@ -124,7 +126,8 @@ class ChatBodyState extends State<ChatBody> {
                     return ListView.builder(
                       padding: new EdgeInsets.all(8.0),
                       reverse: true,
-                      itemBuilder: (_, int index) => ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
+                      itemBuilder: (_, int index) =>
+                          ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
                       itemCount: state.messages.length,
                     );
                   }
@@ -133,7 +136,8 @@ class ChatBodyState extends State<ChatBody> {
               ),
             ),
             if (_matches.state == MATCH_BLOCKED)
-              Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
+              Text(
+                  "${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
             _chatInput()
           ],
         ));
@@ -220,26 +224,37 @@ class ChatMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: 10, bottom: 10, left: _message.fromUser == _me ? 40 : 10, right: _message.fromUser == _me ? 10 : 40),
+          top: 10,
+          bottom: 10,
+          left: _message.fromUser == _me ? 40 : 10,
+          right: _message.fromUser == _me ? 10 : 40),
       child: Column(
         crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style: Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style:
+                Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: _message.fromUser == _me ? Color.fromARGB(255, 240, 240, 240) : Color.fromARGB(255, 225, 225, 225),
+              color: _message.fromUser == _me
+                  ? Color.fromARGB(255, 240, 240, 240)
+                  : Color.fromARGB(255, 225, 225, 225),
               borderRadius: _message.fromUser == _me
                   ? BorderRadius.only(
-                      topLeft: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8))
                   : BorderRadius.only(
-                      topRight: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+                      topRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8)),
               boxShadow: [
-                BoxShadow(color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
+                BoxShadow(
+                    color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
               ],
             ),
             child: Text(

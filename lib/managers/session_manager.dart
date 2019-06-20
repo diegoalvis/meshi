@@ -5,6 +5,7 @@
 
 import 'dart:convert';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/reward_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
@@ -14,6 +15,7 @@ class SessionManager {
   //String authToken;
 
   User user;
+  RewardInfo rewardInfo;
   String _fbUserId = "10219787681781369";
   String _fbToken =
       "EAADuaK7hfRIBAMkKI0yEfUUOCEgAwLSqz39hS7pcjtXP6gZB0rXQ5ZAZAiOJiZC0Fv3G8Y4ZAtPC2IGJBbHsMd06YZAnKb2EyfVIlIZAoNzZCoYUo1OstAHN6MsZA8VFtt9ItXoePXKxfUQcZCqW4Y3mt1rvK8VcGLCaCD5pRuhoaYL3lN8J0dIPqRRlUJHPy8ifgZD";
@@ -44,6 +46,23 @@ class SessionManager {
         return null;
       }
     });
+  }
+
+  void saveWinner(RewardInfo rewardInfo) {
+    if (rewardInfo != null) {
+      this.rewardInfo = rewardInfo;
+      preferences.then((prefs) => prefs.setString("reward", jsonEncode(rewardInfo.toJson())));
+    }
+  }
+
+  Future<RewardInfo> get winner async {
+    final prefs = await preferences;
+    String notNull = prefs.getString("reward");
+    if (notNull != null) {
+      rewardInfo = RewardInfo.fromJson(jsonDecode(notNull));
+      return rewardInfo;
+    } else
+      return null;
   }
 
   void saveUser(User user) {

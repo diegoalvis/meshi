@@ -16,15 +16,17 @@ import 'package:meshi/pages/interests_profile_page.dart';
 class BaseInterestsPage extends StatelessWidget {
   final String title;
   final InterestsEventType eventType;
+  final InterestsEventType refreshEventType;
   final int isMyLike;
 
   InterestsBloc _bloc;
   List<MyLikes> myLikes;
 
-  BaseInterestsPage({Key key, this.title, this.eventType, this.isMyLike}) : super(key: key);
+  BaseInterestsPage({Key key, this.title, this.eventType, this.refreshEventType, this.isMyLike})
+      : super(key: key);
 
-  Future<Null> _fetchRewardData() async {
-    _bloc.dispatch(InterestsEvent(eventType));
+  Future<Null> _refreshInterestsData() async {
+    _bloc.dispatch(InterestsEvent(refreshEventType));
   }
 
   @override
@@ -54,7 +56,7 @@ class BaseInterestsPage extends StatelessWidget {
           }
 
           return RefreshIndicator(
-              onRefresh: _fetchRewardData,
+              onRefresh: _refreshInterestsData,
               child: myLikes == null //|| myLikes.length == 0
                   ? ListView(children: <Widget>[
                       SizedBox(height: 100),
