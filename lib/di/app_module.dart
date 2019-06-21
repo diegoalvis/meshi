@@ -34,7 +34,8 @@ class AppModule implements Module {
       // REPOSITORY
       ..bindLazySingleton((injector, params) => UserRepository(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => MatchRepository(injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => RewardRepository(injector.get()))
-      ..bindLazySingleton((injector, params) => ChatRepository(injector.get(), injector.get(), injector.get()));
+      ..bindLazySingleton((injector, params) => RewardRepository(injector.get(), injector.get()))
+      ..bindLazySingleton(
+          (injector, params) => ChatRepository(injector.get(), injector.get(), injector.get()));
   }
 }

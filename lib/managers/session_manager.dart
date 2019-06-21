@@ -55,7 +55,7 @@ class SessionManager {
     }
   }
 
-  Future<RewardInfo> get winner async {
+  Future<RewardInfo> get rewardInfoWinner async {
     final prefs = await preferences;
     String notNull = prefs.getString("reward");
     if (notNull != null) {

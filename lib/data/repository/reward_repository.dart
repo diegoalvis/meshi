@@ -13,7 +13,7 @@ class RewardRepository {
   RewardApi _api;
   SessionManager session;
 
-  RewardRepository(this._api);
+  RewardRepository(this._api, this.session);
 
   Future<List<Brand>> getBrands() async {
     final result = await _api.getBrands();
@@ -22,7 +22,7 @@ class RewardRepository {
 
   Future<RewardInfo> getCurrent() async {
     final currentDate = DateTime.now().millisecondsSinceEpoch;
-    final winner = await session.winner;
+    final winner = await session.rewardInfoWinner;
     if (winner != null &&
         winner.winner &&
         currentDate < winner.reward.validDate.millisecondsSinceEpoch &&
@@ -31,6 +31,8 @@ class RewardRepository {
     }
     final result = await _api.getCurrentReward();
     if (result.data.winner) session.saveWinner(result.data);
+    //else
+    //session.saveWinner(null);
     return result.data;
   }
 
