@@ -5,6 +5,7 @@
 
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
@@ -35,8 +36,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(strings.notifications,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                   textAlign: TextAlign.left),
             ),
           ),
@@ -60,8 +60,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
               child: Padding(
                 padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
                 child: Text(strings.signOut,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
               ),
             ),
           ),
@@ -71,6 +70,12 @@ class SettingsPage extends StatelessWidget with HomeSection {
         ],
       ),
     );
+  }
+
+  void deactivateAccount(BuildContext context) async {
+    final userRepository = InjectorWidget.of(context).get<UserRepository>();
+    await userRepository.deactivateAccount();
+    clearSession(context);
   }
 
   void clearSession(BuildContext context) async {
@@ -87,17 +92,13 @@ class SettingsPage extends StatelessWidget with HomeSection {
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(rowName,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+            child: Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
           ),
           //Spacer(),
           Expanded(
             child: OptionSelector(
                 options: YesNoOptions,
-                optionSelected: (notification == null
-                    ? null
-                    : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
+                optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
                 onSelected: (selected) => null),
           ),
         ],
@@ -116,9 +117,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
-              child: Text(itemName,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              child:
+                  Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),
