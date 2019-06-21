@@ -28,9 +28,6 @@ class SettingsPage extends StatelessWidget with HomeSection {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Divider(
-            color: Theme.of(context).dividerColor,
-          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Align(

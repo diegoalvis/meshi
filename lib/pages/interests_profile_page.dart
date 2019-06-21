@@ -7,6 +7,7 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/bloc/interests_profile_bloc.dart';
+import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/app_icons.dart';
@@ -60,8 +61,6 @@ class InterestsProfileBody extends StatelessWidget {
     return BlocBuilder(
         bloc: _bloc,
         builder: (context, state) {
-          //loading = state is PerformingRequestState;
-
           if (state is InitialState) {
             _bloc.dispatch(InterestsProfileEvents.getUserInfo);
           }
@@ -91,9 +90,7 @@ class InterestsProfileBody extends StatelessWidget {
                         user: user,
                         widget1: Padding(
                           padding: const EdgeInsets.only(top: 18.0, left: 8.0, right: 8.0),
-                          child: CompatibilityIndicator(
-                            assertions: assertions,
-                          ),
+                          child: CompatibilityIndicator(assertions: assertions),
                         ),
                         widget2: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -101,11 +98,22 @@ class InterestsProfileBody extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                title: Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
-                                subtitle: Text(
-                                  user?.description ?? "",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 10,
+                                title: Row(
+                                  children: <Widget>[
+                                    Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                    Spacer(),
+                                    user.type == TYPE_PREMIUM
+                                        ? Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 15)
+                                        : Spacer(),
+                                  ],
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                    user?.description ?? "",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -169,7 +177,7 @@ class InterestsProfileBody extends StatelessWidget {
                   color: Theme.of(context).accentColor,
                   child: Row(
                     children: <Widget>[
-                      Icon(AppIcons.curve, color:Colors.white, size:30),
+                      Icon(AppIcons.curve, color: Colors.white, size: 30),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(strings.iAmInterested),
