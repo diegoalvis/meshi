@@ -7,11 +7,13 @@ import 'package:meshi/data/api/reward_api.dart';
 import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/models/reward_info.dart';
 import 'package:meshi/data/models/user_match.dart';
+import 'package:meshi/managers/session_manager.dart';
 
 class RewardRepository {
   RewardApi _api;
+  SessionManager session;
 
-  RewardRepository(this._api);
+  RewardRepository(this._api, this.session);
 
   Future<List<Brand>> getBrands() async {
     final result = await _api.getBrands();
@@ -19,7 +21,18 @@ class RewardRepository {
   }
 
   Future<RewardInfo> getCurrent() async {
+    final currentDate = DateTime.now().millisecondsSinceEpoch;
+    final winner = await session.rewardInfoWinner;
+    if (winner != null &&
+        winner.winner &&
+        currentDate < winner.reward.validDate.millisecondsSinceEpoch &&
+        currentDate > winner.reward.publishDate.millisecondsSinceEpoch) {
+      return winner;
+    }
     final result = await _api.getCurrentReward();
+    if (result.data.winner) session.saveWinner(result.data);
+    //else
+    //session.saveWinner(null);
     return result.data;
   }
 

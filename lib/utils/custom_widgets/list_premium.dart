@@ -14,12 +14,10 @@ class ListPremium extends StatelessWidget {
     final strings = MyLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
-
           border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-      ),
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: Column(
-        mainAxisSize: MainAxisSize.min,  //pense que con esto reconoceria un limite inferior
+        mainAxisSize: MainAxisSize.min, //pense que con esto reconoceria un limite inferior
         children: <Widget>[
           ListTile(
             leading: CircleAvatar(
@@ -66,9 +64,10 @@ class ListPremium extends StatelessWidget {
             ),
             selected: true,
           ),
-         SizedBox(height: 16),
+          SizedBox(height: 16),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,    //creo que no lo reconoce porque no tiene un limite inferior
+            crossAxisAlignment:
+                CrossAxisAlignment.end, //creo que no lo reconoce porque no tiene un limite inferior
             children: [
               Expanded(
                 child: Container(
@@ -87,12 +86,10 @@ class ListPremium extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   child: FlatButton(
-
-                    onPressed: (){} ,
+                    onPressed: () {},
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    color: Theme.of(context).accentColor,   //no se como me reconoce el color
+                    color: Theme.of(context).accentColor, //no se como me reconoce el color
                     child: Text(
-
                       "CONTINUAR",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -104,7 +101,6 @@ class ListPremium extends StatelessWidget {
               ),
             ],
           ),
-
         ],
       ),
     );

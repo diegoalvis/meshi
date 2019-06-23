@@ -95,7 +95,7 @@ class UserRepository {
     });
   }
 
-  Future<int> deactiveAccount() async{
+  Future<int> deactivateAccount() async{
     final res = await _api.changeActive(false);
     return res.data;
   }
