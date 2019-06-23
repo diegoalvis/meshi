@@ -7,95 +7,60 @@ import 'package:flutter/material.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/main.dart';
 
-class ListPremium extends StatelessWidget {
+class ListPremium extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => ListPremiumState();
+}
+
+class ListPremiumState extends State<ListPremium> {
+  int _index;
+
+  @override
+  void initState() {
+    _index = 0;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO construir aqui la vista
     final strings = MyLocalizations.of(context);
+
+    List<Widget> listTiles = [
+      premiumListTile(context, "1", "Un mes", "9.000", "", 0),
+      premiumListTile(context, "6", "Seis meses", "48.000", "Ahorra 6.000", 1),
+      premiumListTile(context, "12", "Un año", "84.000", "Ahorra 24.000", 2),
+    ];
+
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: Column(
-        mainAxisSize: MainAxisSize.min, //pense que con esto reconoceria un limite inferior
         children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Color(0xff6FCF97),
-              child: Text("1"),
-            ),
-            title: Text('Un Mes'),
-            trailing: Text("9.000"),
-            selected: true,
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Color(0xffc4c4c4),
-              child: Text("6"),
-            ),
-            title: Text('Seis Meses'),
-            trailing: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Text("48.000"),
-                Text(
-                  "Ahorra 6.000",
-                  style: TextStyle(color: Color(0xff6E6E6E), fontSize: 11),
-                )
-              ],
-            ),
-            selected: true,
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Color(0xffc4c4c4),
-              child: Text("12"),
-            ),
-            title: Text('Un Año'),
-            trailing: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Text("84.000"),
-                Text(
-                  "Ahorra 24.000",
-                  style: TextStyle(color: Color(0xff6E6E6E), fontSize: 11),
-                )
-              ],
-            ),
-            selected: true,
-          ),
+          listTiles[0],
+          listTiles[1],
+          listTiles[2],
           SizedBox(height: 16),
           Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.end, //creo que no lo reconoce porque no tiene un limite inferior
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: FlatButton(
-                    onPressed: (null),
-                    child: Text(
-                      "PROBAR MES GRATIS",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                    ),
-                  ),
+              FlatButton(
+                onPressed: (null),
+                child: Text(
+                  "PROBAR MES GRATIS",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Theme.of(context).accentColor),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: FlatButton(
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    color: Theme.of(context).accentColor, //no se como me reconoce el color
-                    child: Text(
-                      "CONTINUAR",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+              RaisedButton(
+                onPressed: () {},
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                color: Theme.of(context).accentColor,
+                child: Text(
+                  "CONTINUAR",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -104,5 +69,33 @@ class ListPremium extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget premiumListTile(
+      BuildContext context, String number, String month, String price, String save, int index) {
+    return ListTile(
+        leading: CircleAvatar(
+          backgroundColor: _index == index ? Color(0xff6FCF97) : Color(0xffc4c4c4),
+          child: Text(number),
+        ),
+        title: Text(month),
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 18.0),
+              child: Text(price),
+            ),
+            Text(
+              save,
+              style: TextStyle(color: Color(0xff6E6E6E), fontSize: 11),
+            )
+          ],
+        ),
+        onTap: () {
+          setState(() {
+            _index = index;
+          });
+        });
   }
 }
