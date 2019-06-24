@@ -30,9 +30,10 @@ class RewardRepository {
       return winner;
     }
     final result = await _api.getCurrentReward();
-    if (result.data.winner) session.saveWinner(result.data);
-    //else
-    //session.saveWinner(null);
+    if (result.data.winner)
+      session.saveWinner(result.data);
+    else
+      session.saveWinner(null);
     return result.data;
   }
 

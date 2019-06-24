@@ -10,7 +10,7 @@ import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/chat/chat_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/pages/home/premium/premium_page.dart';
+import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
@@ -93,7 +93,6 @@ const String PREMIUM = "/premium";
 
 // Themes
 ThemeData buildTheme() => ThemeData(
-
       primaryColor: Color(0xFF5E2531),
       primaryColorDark: Color(0xFF4B1822),
       primaryColorLight: Color(0xFF672836),
