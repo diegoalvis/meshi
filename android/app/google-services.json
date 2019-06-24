@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "787519505763",
+    "firebase_url": "https://meshi-5184b.firebaseio.com",
+    "project_id": "meshi-5184b",
+    "storage_bucket": "meshi-5184b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787519505763:android:d816972e77d1ffbd",
+        "android_client_info": {
+          "package_name": "meshimobile.meshi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787519505763-d26hdmockh0ki6eg806g3bek8mpklco5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "meshimobile.meshi",
+            "certificate_hash": "c15a703669db4151c895955b43343edcc1adece7"
+          }
+        },
+        {
+          "client_id": "787519505763-bval5eah6u5md425j0d7fdg5gpqlaskh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK6zCMQ5ASoLxVIC44aybecQv8MilHDiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787519505763-bval5eah6u5md425j0d7fdg5gpqlaskh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

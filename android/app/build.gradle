@@ -67,8 +67,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.android.support:multidex:1.0.3' // use latest version
+    implementation 'com.google.firebase:firebase-core:16.0.9'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+apply plugin: 'com.google.gms.google-services'
