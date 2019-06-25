@@ -98,8 +98,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
-        final data = Map<String, dynamic>.from(message["data"]);
-        final match = await compute(parseSingleMatch, data);
+        final match = UserMatch.fromMessage(message);
         print(match);
       },
       onResume: (Map<String, dynamic> message) async {

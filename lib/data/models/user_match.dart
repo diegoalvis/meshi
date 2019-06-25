@@ -18,6 +18,22 @@ class UserMatch {
 
   UserMatch({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage, this.erasedDate});
 
+
+  factory UserMatch.fromMessage(Map<String, dynamic> msg){
+    final data = msg["data"];
+    final id = data["id"] == null ? null : int.parse(data["id"]);
+    final name = data["name"] as String;
+    final idMatch = data["idMatch"] == null ? null : int.parse(data["id"]);
+    final erasedDate = msg['erasedDate'] == null
+        ? null
+        : DateTime.parse(msg['erasedDate'] as String);
+    return UserMatch(
+      id:id,
+      name:name,
+      idMatch: idMatch,
+      erasedDate: erasedDate
+    );
+  }
   factory UserMatch.fromJson(Map<String, dynamic> json) => _$UserMatchFromJson(json);
   Map<String, dynamic> toJson() => _$UserMatchToJson(this);
 
@@ -27,7 +43,7 @@ class UserMatch {
     return _$UserMatchFromJson(obj);
   }
 
-  
+
 
   Map<String, dynamic> toDatabase() {
     final json = _$UserMatchToJson(this);
