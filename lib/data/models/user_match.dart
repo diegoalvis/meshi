@@ -16,7 +16,7 @@ class UserMatch {
   DateTime lastDate;
   DateTime erasedDate;
 
-  UserMatch({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage});
+  UserMatch({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage, this.erasedDate});
 
   factory UserMatch.fromJson(Map<String, dynamic> json) => _$UserMatchFromJson(json);
   Map<String, dynamic> toJson() => _$UserMatchToJson(this);
@@ -26,6 +26,8 @@ class UserMatch {
     obj["images"] = (obj["images"] as String)?.split(",") ?? [];
     return _$UserMatchFromJson(obj);
   }
+
+  
 
   Map<String, dynamic> toDatabase() {
     final json = _$UserMatchToJson(this);
