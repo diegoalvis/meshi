@@ -7,15 +7,19 @@ import 'dart:io';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/login_bloc.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:meshi/data/api/match_api.dart';
 
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
@@ -94,6 +98,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
+        final data = await compute<Map<String, dynamic>, UserMatch>(parseSingleMatch, message["data"]);
+        print(data);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
