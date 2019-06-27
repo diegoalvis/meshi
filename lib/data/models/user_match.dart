@@ -3,6 +3,9 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_match.g.dart';
 
 const String MATCH_BLOCKED = "blocked";
+const String NOTIFICATION_REWARD = "notification_rerward";
+const String NOTIFICATION_CHAT = "notification_chat";
+const String NOTIFICATION_MATCH = "notification_match";
 
 @JsonSerializable(nullable: true)
 class UserMatch {
@@ -16,23 +19,23 @@ class UserMatch {
   DateTime lastDate;
   DateTime erasedDate;
 
-  UserMatch({this.id, this.name, this.images, this.lastDate, this.idMatch, this.lastMessage, this.erasedDate});
+  UserMatch(
+      {this.id,
+      this.name,
+      this.images,
+      this.lastDate,
+      this.idMatch,
+      this.lastMessage,
+      this.erasedDate,
+      this.type});
 
-
-  factory UserMatch.fromMessage(Map<String, dynamic> msg){
+  factory UserMatch.fromMessage(Map<String, dynamic> msg) {
     final data = msg["data"];
     final id = data["id"] == null ? null : int.parse(data["id"]);
     final name = data["name"] as String;
-    final idMatch = data["idMatch"] == null ? null : int.parse(data["id"]);
-    final erasedDate = msg['erasedDate'] == null
-        ? null
-        : DateTime.parse(msg['erasedDate'] as String);
-    return UserMatch(
-      id:id,
-      name:name,
-      idMatch: idMatch,
-      erasedDate: erasedDate
-    );
+    final idMatch = data["idMatch"] == null ? null : int.parse(data["idMatch"]);
+    final erasedDate = msg['erasedDate'] == null ? null : DateTime.parse(msg['erasedDate'] as String);
+    return UserMatch(id: id, name: name, idMatch: idMatch, erasedDate: erasedDate);
   }
   factory UserMatch.fromJson(Map<String, dynamic> json) => _$UserMatchFromJson(json);
   Map<String, dynamic> toJson() => _$UserMatchToJson(this);
@@ -42,8 +45,6 @@ class UserMatch {
     obj["images"] = (obj["images"] as String)?.split(",") ?? [];
     return _$UserMatchFromJson(obj);
   }
-
-
 
   Map<String, dynamic> toDatabase() {
     final json = _$UserMatchToJson(this);

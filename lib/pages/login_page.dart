@@ -7,19 +7,14 @@ import 'dart:io';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/login_bloc.dart';
-import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:meshi/data/api/match_api.dart';
 
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
@@ -42,7 +37,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   bool loading = false;
   BuildContext buildContext;
   TextEditingController txtController = TextEditingController();
-  FirebaseMessaging _fcm = FirebaseMessaging();
 
   final LoginBloc _bloc;
 
@@ -60,15 +54,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(
-          const IosNotificationSettings(sound: true, badge: true, alert: true));
-
-      _fcm.onIosSettingsRegistered.listen((settings) {
-        print("Settings registered: $settings");
-      });
-    }
 
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
@@ -93,26 +78,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _bloc.errorSubject.listen((error) {
       final strings = MyLocalizations.of(context);
       Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text(strings.tryError)));
-    });
-
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-        final match = UserMatch.fromMessage(message);
-        print(match);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-        Navigator.pushNamed(context, HOME_ROUTE);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-        Navigator.pushNamed(context, CHAT_ROUTE);
-      },
-    );
-
-    _fcm.getToken().then((token) {
-      print(token);
     });
   }
 

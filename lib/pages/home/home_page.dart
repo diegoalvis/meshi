@@ -3,8 +3,12 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
+import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
@@ -16,6 +20,8 @@ import 'package:meshi/pages/menu/menu_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
+
+import '../../main.dart';
 
 class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
@@ -39,6 +45,9 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final HomeBloc _bloc;
   String _currentCategory;
+  String _previousCategory;
+  HomeSection _previousPos;
+  FirebaseMessaging _fcm = FirebaseMessaging();
 
   // TODO test purposes
   List<HomeSection> homePages = [
@@ -51,6 +60,47 @@ class HomePageState extends State<HomePage> {
   HomeSection _currentPage = InterestsMainPage();
 
   HomePageState(this._bloc);
+
+  @override
+  void initState() {
+    super.initState();
+    fcmListener();
+    _previousCategory = _currentCategory;
+    _previousPos = _currentPage;
+  }
+
+  void fcmListener() {
+    if (Platform.isIOS) {
+      _fcm.requestNotificationPermissions(
+          const IosNotificationSettings(sound: true, badge: true, alert: true));
+
+      _fcm.onIosSettingsRegistered.listen((settings) {
+        print("Settings registered: $settings");
+      });
+    }
+
+    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
+      print('on message $message');
+    }, onResume: (Map<String, dynamic> message) async {
+      if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
+        final match = UserMatch.fromMessage(message);
+        Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
+      } else {
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+      }
+    }, onLaunch: (Map<String, dynamic> message) async {
+      if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
+        final match = UserMatch.fromMessage(message);
+        Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
+      } else {
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+      }
+    });
+
+    _fcm.getToken().then((token) {
+      print(token);
+    });
+  }
 
   @override
   void dispose() {
@@ -69,12 +119,17 @@ class HomePageState extends State<HomePage> {
           backLayer: MenuPage(
             currentCategory: _currentCategory ?? strings.homeSections[0],
             onCategoryTap: (category, pos) => setState(() {
-                  _currentCategory = category;
-                  _bloc.category = category;
-                  _currentPage = homePages[pos];
-
-                  if (_currentPage == homePages[2]) {
-                    return showDialog(
+                  if (pos != 2) {
+                    _previousPos = homePages[pos];
+                    _previousCategory = category;
+                    _currentCategory = category;
+                    _bloc.category = category;
+                    _currentPage = homePages[pos];
+                  } else {
+                    _currentCategory = _previousCategory;
+                    _bloc.category = _previousCategory;
+                    _currentPage = _previousPos;
+                    showDialog(
                         barrierDismissible: true,
                         context: context,
                         builder: (BuildContext context) {
