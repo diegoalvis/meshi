@@ -8,7 +8,7 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
-import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/pages/recommendations/recommendations__bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -29,8 +29,7 @@ class RecommendationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindSingleton(
-              RecommendationsBloc(InjectorWidget.of(context).get()));
+          binder.bindSingleton(RecommendationsBloc(InjectorWidget.of(context).get()));
         },
         child: RecommendationsList());
   }
@@ -45,7 +44,7 @@ class RecommendationsList extends StatelessWidget {
     "Primera coincidencia",
     "Primera coincidencia",
   ];
-  List<User> users = [];
+  List<Recomendation> users = [];
   RecommendationsBloc _bloc;
   bool loading = false;
   bool isUser;
@@ -57,8 +56,7 @@ class RecommendationsList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(strings.recommendations,
-            style: TextStyle(color: Colors.white)),
+        title: Text(strings.recommendations, style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
@@ -75,19 +73,17 @@ class RecommendationsList extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                         child: Center(
                             child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).colorScheme.onPrimary),
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
                         ))),
                   );
                 }
-                if (state is SuccessState<List<User>>) {
+                if (state is SuccessState<List<Recomendation>>) {
                   loading = false;
                   users = state.data;
                 }
                 if (state is ErrorState) {
                   onWidgetDidBuild(() {
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text(strings.anErrorOccurred)));
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
                   });
                 }
                 if (state is InitialState) {
@@ -98,9 +94,7 @@ class RecommendationsList extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                       child: users.length > 0
                           ? Container(child: recommendationsCarousel(context))
-                          : Center(
-                              child: Text(strings.noUsersAvailable,
-                                  style: TextStyle(color: Colors.white)))),
+                          : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
                 );
               }),
         ],
@@ -118,15 +112,14 @@ class RecommendationsList extends StatelessWidget {
         (user) {
           return Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(
-                  top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
+              margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
               child: carouselWidget(context, user));
         },
       ).toList(),
     );
   }
 
-  Widget carouselWidget(BuildContext context, User user) {
+  Widget carouselWidget(BuildContext context, Recomendation user) {
     final strings = MyLocalizations.of(context);
     RecommendationsBloc _bloc;
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
@@ -144,8 +137,7 @@ class RecommendationsList extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                      image:
-                          NetworkImage(BaseApi.IMAGES_URL_DEV + user.images[0]),
+                      image: NetworkImage(BaseApi.IMAGES_URL_DEV + user.images[0]),
                       fit: BoxFit.cover,
                     )),
                   ),
@@ -171,7 +163,7 @@ class RecommendationsList extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CompatibilityIndicator(
-                    assertions: assertions,
+                    similarities: user.similarities,
                   ),
                 ),
                 Padding(
@@ -179,8 +171,7 @@ class RecommendationsList extends StatelessWidget {
                   child: Container(
                     child: Card(
                       child: ListTile(
-                        title: Text('Acerca de mi',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
                         subtitle: Text(user?.description ?? ""),
                       ),
                     ),
@@ -205,8 +196,7 @@ class RecommendationsList extends StatelessWidget {
                         onPressed: () {
                           _bloc.dispatch(AddMatchEvent(user));
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         color: Theme.of(context).accentColor,
                         child: Row(
                           children: <Widget>[

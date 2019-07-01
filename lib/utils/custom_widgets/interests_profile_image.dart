@@ -3,9 +3,10 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:meshi/data/api/base_api.dart';
-import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/recomendation.dart';
 
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
@@ -69,13 +70,12 @@ class InterestsProfileImage extends StatefulWidget {
   final String image;
   final Widget widget1;
   final Widget widget2;
-  User user;
+  final Recomendation user;
 
   InterestsProfileImage({this.image, this.widget1, this.widget2, this.user});
 
   @override
-  State<StatefulWidget> createState() =>
-      InterestsProfileImageState(image: image, widget1: widget1, widget2: widget2, user: user);
+  State<StatefulWidget> createState() => InterestsProfileImageState(image: image, widget1: widget1, widget2: widget2, user: user);
 }
 
 class InterestsProfileImageState extends State<InterestsProfileImage> {
@@ -85,7 +85,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
   final String image;
   final Widget widget1;
   final Widget widget2;
-  User user;
+  final Recomendation user;
 
   InterestsProfileImageState({this.image, this.widget1, this.widget2, this.user});
 
@@ -122,8 +122,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                   PageView.builder(
                       controller: _controller,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount:
-                          user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
+                      itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
                       itemBuilder: (BuildContext context, int index) {
                         return sliderImage(user.images[index]);
                       }),
@@ -133,8 +132,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                       top: true,
                       child: DotsIndicator(
                         controller: _controller,
-                        itemCount:
-                            user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
+                        itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
                         onPageSelected: (int page) {
                           _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
                         },

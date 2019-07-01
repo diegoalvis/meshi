@@ -6,7 +6,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/utils/base_state.dart';
-import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
@@ -55,7 +54,7 @@ class GetRecommendationsEvent extends RecommendationsEvents {
 }
 
 class AddMatchEvent extends RecommendationsEvents {
-  final User user;
+  final Recomendation user;
 
   AddMatchEvent(this.user);
 

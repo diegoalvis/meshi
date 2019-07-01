@@ -4,6 +4,7 @@
  */
 
 import 'package:meshi/bloc/base_bloc.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -24,7 +25,7 @@ class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {
         case InterestsProfileEvents.getUserInfo:
           yield LoadingState();
           final user = await _repository.getProfile(_userId);
-          yield SuccessState<User>(data: user);
+          yield SuccessState<Recomendation>(data: user);
           break;
         case InterestsProfileEvents.AddMatch:
           yield PerformingRequestState();

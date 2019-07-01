@@ -23,7 +23,10 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<Recomendation>> getProfile(int id) async {
-    return get("/users/profile/$id").then((response) => processResponse(response, parseSingleRecomendation));
+    return get("/users/profile/$id").then((response) => processResponse(response, parseSingleRecomendation))
+    .catchError((error) {
+      print(error);
+    });
   }
 
   Future<BaseResponse<List<Recomendation>>> getRecommendations({int limit = 0, int skip = 0}) async {

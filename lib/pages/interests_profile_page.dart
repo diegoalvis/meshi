@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/bloc/interests_profile_bloc.dart';
 import 'package:meshi/data/models/my_likes.dart';
-import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -16,6 +16,7 @@ import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
+import 'package:speech_bubble/speech_bubble.dart';
 
 class InterestsProfilePage extends StatelessWidget with HomeSection {
   @override
@@ -40,22 +41,12 @@ class InterestsProfileBody extends StatelessWidget {
   bool loading = false;
   double height;
 
-  List<String> assertions = [
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-  ];
-
   InterestsProfileBody(this.userDetail);
 
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
-
-    User user;
+    Recomendation user;
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return BlocBuilder(
@@ -70,7 +61,7 @@ class InterestsProfileBody extends StatelessWidget {
           if (state is PerformingRequestState) {
             loading = true;
           }
-          if (state is SuccessState<User>) {
+          if (state is SuccessState<Recomendation>) {
             user = state.data;
           }
           if (state is ExitState) {
@@ -90,7 +81,7 @@ class InterestsProfileBody extends StatelessWidget {
                         user: user,
                         widget1: Padding(
                           padding: const EdgeInsets.only(top: 18.0, left: 8.0, right: 8.0),
-                          child: CompatibilityIndicator(assertions: assertions),
+                          child: CompatibilityIndicator(compatibility: user.score, similarities: user.similarities),
                         ),
                         widget2: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -103,8 +94,23 @@ class InterestsProfileBody extends StatelessWidget {
                                     Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                                     Spacer(),
                                     user.type == TYPE_PREMIUM
-                                        ? Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 15)
-                                        : Spacer(),
+                                        ? Row(
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                onTap: () {/* TODO show premium dialog */},
+                                                child: SpeechBubble(
+                                                  child: Text("Usuario premium", style: TextStyle(color: Theme.of(context).accentColor)),
+                                                  color: Colors.white,
+                                                  nipLocation: NipLocation.RIGHT,
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {/* TODO show bubble */},
+                                                child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 15),
+                                              ),
+                                            ],
+                                          )
+                                        : SizedBox(),
                                   ],
                                 ),
                                 subtitle: Padding(
