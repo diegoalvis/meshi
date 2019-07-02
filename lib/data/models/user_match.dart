@@ -3,9 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_match.g.dart';
 
 const String MATCH_BLOCKED = "blocked";
-const String NOTIFICATION_REWARD = "notification_rerward";
-const String NOTIFICATION_CHAT = "notification_chat";
-const String NOTIFICATION_MATCH = "notification_match";
 
 @JsonSerializable(nullable: true)
 class UserMatch {

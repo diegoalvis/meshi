@@ -9,12 +9,23 @@ import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
+import 'package:meshi/utils/notification_utils.dart';
 
 class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
   final ChatRepository chatRepository;
+  final NotificationUtils subject;
+  Stream<int> variable;
 
-  InterestsBloc(this.repository, this.chatRepository) : super();
+  InterestsBloc(this.repository, this.chatRepository, this.subject, {this.variable}){
+    subject.notificationSubject.listen((message) => InterestsEventType.getMutals);
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
 
   @override
   BaseState get initialState => InitialState();
@@ -23,6 +34,8 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   int idUserBlock;
   List<MyLikes> myLikes;
   List<MyLikes> likesMe;
+  String lastMessage;
+  bool refresh = false;
 
   @override
   Stream<BaseState> mapEventToState(InterestsEvent event) async* {

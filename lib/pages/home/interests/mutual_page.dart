@@ -3,6 +3,8 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:async';
+
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,11 +15,15 @@ import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
-
 import '../../../main.dart';
 import '../../interests_profile_page.dart';
 
-class MutualPage extends StatelessWidget {
+class MutualPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => MutualPageState();
+}
+
+class MutualPageState extends State<MutualPage> {
   InterestsBloc _bloc;
   List<UserMatch> matches;
   List<int> blockMatch;
@@ -28,8 +34,14 @@ class MutualPage extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
+
     if (matches == null) {
       _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
     }
@@ -41,18 +53,23 @@ class MutualPage extends StatelessWidget {
         builder: (BuildContext context) {
           return SimpleDialog(
             children: <Widget>[
-              ListTile(title: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
+              ListTile(
+                  title: Text(name,
+                      style: TextStyle(fontWeight: FontWeight.bold))),
               Divider(),
               FlatButton(
-                child: Text("Vaciar chat", style: TextStyle(color: Theme.of(context).primaryColor)),
+                child: Text("Vaciar chat",
+                    style: TextStyle(color: Theme.of(context).primaryColor)),
                 onPressed: () {
-                  _bloc.dispatch(InterestsEvent(InterestsEventType.clearChat, data: matchId));
+                  _bloc.dispatch(InterestsEvent(InterestsEventType.clearChat,
+                      data: matchId));
                   Navigator.of(context).pop();
                 },
               ),
               Divider(),
               FlatButton(
-                  child: Text("Eliminar match", style: TextStyle(color: Theme.of(context).primaryColor)),
+                  child: Text("Eliminar match",
+                      style: TextStyle(color: Theme.of(context).primaryColor)),
                   onPressed: () {
                     Navigator.of(context).pop();
                     showDialog(
@@ -61,22 +78,27 @@ class MutualPage extends StatelessWidget {
                           return AlertDialog(
                             title: Text(
                               "Eliminar match",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            content: Text("¿Estas seguro que deseas eliminar de mutuos a $name?"),
+                            content: Text(
+                                "¿Estas seguro que deseas eliminar de mutuos a $name?"),
                             actions: <Widget>[
                               FlatButton(
-                                child:
-                                    new Text("Cancelar", style: TextStyle(fontWeight: FontWeight.bold)),
+                                child: new Text("Cancelar",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                               FlatButton(
-                                child:
-                                    new Text("Confirmar", style: TextStyle(fontWeight: FontWeight.bold)),
+                                child: new Text("Confirmar",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                                 onPressed: () {
-                                  _bloc.dispatch(InterestsEvent(InterestsEventType.blockMatch,
+                                  _bloc.dispatch(InterestsEvent(
+                                      InterestsEventType.blockMatch,
                                       data: blockMatch = [matchId, index]));
                                   Navigator.of(context).pop();
                                 },
@@ -113,7 +135,8 @@ class MutualPage extends StatelessWidget {
             }
             if (state is ErrorState) {
               onWidgetDidBuild(() {
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text(strings.anErrorOccurred)));
               });
             }
 
@@ -141,19 +164,24 @@ class MutualPage extends StatelessWidget {
                           Expanded(
                             child: ListView.separated(
                                 itemCount: matches.length,
-                                separatorBuilder: (BuildContext context, int index) =>
-                                    Divider(height: 20),
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        Divider(height: 20),
                                 itemBuilder: (BuildContext context, int index) {
                                   final match = matches.elementAt(index);
                                   final erased = match.lastDate == null ||
                                       (match.erasedDate != null &&
-                                          match.erasedDate.millisecondsSinceEpoch >
-                                              match.lastDate.millisecondsSinceEpoch);
+                                          match.erasedDate
+                                                  .millisecondsSinceEpoch >
+                                              match.lastDate
+                                                  .millisecondsSinceEpoch);
                                   return ListTile(
                                     onTap: () {
-                                      Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
+                                      Navigator.pushNamed(context, CHAT_ROUTE,
+                                          arguments: match);
                                     },
-                                    onLongPress: () => _showDialog(match.name, match.idMatch, index),
+                                    onLongPress: () => _showDialog(
+                                        match.name, match.idMatch, index),
                                     title: Row(children: [
                                       ClipOval(
                                         child: Container(
@@ -162,11 +190,16 @@ class MutualPage extends StatelessWidget {
                                             child: GestureDetector(
                                               onTap: () => Navigator.pushNamed(
                                                   context, '/interests-profile',
-                                                  arguments: UserDetail(id: match.id, isMyLike: 0)),
+                                                  arguments: UserDetail(
+                                                      id: match.id,
+                                                      isMyLike: 0)),
                                               child: Image.network(
                                                   BaseApi.IMAGES_URL_DEV +
                                                           match?.images
-                                                              ?.firstWhere((image) => image != null) ??
+                                                              ?.firstWhere(
+                                                                  (image) =>
+                                                                      image !=
+                                                                      null) ??
                                                       "",
                                                   fit: BoxFit.cover),
                                             )),
@@ -182,18 +215,33 @@ class MutualPage extends StatelessWidget {
                                               Text(
                                                   erased
                                                       ? ""
-                                                      : DateTime.now().toLocal()
-                                                                  .difference(match.lastDate.toLocal())
+                                                      : DateTime.now()
+                                                                  .toLocal()
+                                                                  .difference(match
+                                                                      .lastDate
+                                                                      .toLocal())
                                                                   .inDays >
                                                               0
-                                                          ? DateFormat.yMd().format(match.lastDate.toLocal())
-                                                          : DateFormat.jm().format(match.lastDate.toLocal()),
-                                                  style:
-                                                      TextStyle(color: Theme.of(context).accentColor)),
+                                                          ? DateFormat.yMd()
+                                                              .format(match
+                                                                  .lastDate
+                                                                  .toLocal())
+                                                          : DateFormat.jm()
+                                                              .format(match
+                                                                  .lastDate
+                                                                  .toLocal()),
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .accentColor)),
                                               SizedBox(width: 10),
                                               Expanded(
-                                                  child: Text(erased ? "" : match?.lastMessage ?? "",
-                                                      overflow: TextOverflow.ellipsis)),
+                                                  child: Text(
+                                                      erased
+                                                          ? ""
+                                                          : match?.lastMessage ??
+                                                              "",
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                             ])
                                           ],
                                         ),

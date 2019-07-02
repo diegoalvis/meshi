@@ -5,6 +5,8 @@
 
 import 'dart:io';
 
+import 'package:dependencies/dependencies.dart';
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
@@ -19,6 +21,7 @@ import 'package:meshi/pages/menu/backdrop_menu.dart';
 import 'package:meshi/pages/menu/menu_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/notification_utils.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
 
 import '../../main.dart';
@@ -27,10 +30,13 @@ class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
   final Widget child;
 
-  HomeBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
+
+  HomeBlocProvider({Key key, @required this.bloc, this.child})
+      : super(key: key, child: child);
 
   static HomeBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(HomeBlocProvider) as HomeBlocProvider);
+    return (context.inheritFromWidgetOfExactType(HomeBlocProvider)
+        as HomeBlocProvider);
   }
 
   @override
@@ -42,12 +48,11 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState(HomeBloc());
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
   final HomeBloc _bloc;
   String _currentCategory;
   String _previousCategory;
-  HomeSection _previousPos;
-  FirebaseMessaging _fcm = FirebaseMessaging();
+  HomeSection _previousPage;
 
   // TODO test purposes
   List<HomeSection> homePages = [
@@ -66,10 +71,12 @@ class HomePageState extends State<HomePage> {
     super.initState();
     fcmListener();
     _previousCategory = _currentCategory;
-    _previousPos = _currentPage;
+    _previousPage = _currentPage;
   }
 
-  void fcmListener() {
+  void fcmListener(){
+    FirebaseMessaging _fcm = FirebaseMessaging();
+    final foregroundNotification = InjectorWidget.of(context).get<NotificationUtils>();
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
           const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -78,26 +85,29 @@ class HomePageState extends State<HomePage> {
         print("Settings registered: $settings");
       });
     }
-
     _fcm.configure(onMessage: (Map<String, dynamic> message) async {
       print('on message $message');
+      foregroundNotification.notificationSubject.add(0);
     }, onResume: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         final match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
       }
     }, onLaunch: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
-        final match = UserMatch.fromMessage(message);
+        UserMatch match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
-      } else {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
-      }
+      } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+      } else {}
     });
 
     _fcm.getToken().then((token) {
+      print('TOKEEEEEN');
       print(token);
     });
   }
@@ -109,7 +119,7 @@ class HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithInjector(BuildContext context, Injector injector){
     final strings = MyLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -120,7 +130,7 @@ class HomePageState extends State<HomePage> {
             currentCategory: _currentCategory ?? strings.homeSections[0],
             onCategoryTap: (category, pos) => setState(() {
                   if (pos != 2) {
-                    _previousPos = homePages[pos];
+                    _previousPage = homePages[pos];
                     _previousCategory = category;
                     _currentCategory = category;
                     _bloc.category = category;
@@ -128,7 +138,7 @@ class HomePageState extends State<HomePage> {
                   } else {
                     _currentCategory = _previousCategory;
                     _bloc.category = _previousCategory;
-                    _currentPage = _previousPos;
+                    _currentPage = _previousPage;
                     showDialog(
                         barrierDismissible: true,
                         context: context,

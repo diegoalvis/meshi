@@ -45,19 +45,5 @@ class AppDatabase {
     matchId INTEGER
     )
     ''');
-
-    await db.execute('''
-    CREATE TABLE IF NOT EXISTS reward(
-    id INTEGER,
-    name VARCHAR(255),
-    description VARCHAR(255),
-    value INTEGER,
-    numCouples INTEGER,
-    publishDate VARCHAR(255),
-    validDate VARCHAR(255),
-    choseDate VARCHAR(255),
-    image VARCHAR(255)
-    )
-    ''');
   }
 }

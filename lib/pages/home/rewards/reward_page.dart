@@ -72,66 +72,68 @@ class RewardContainer extends StatelessWidget {
               ? Center(child: Text(strings.noData))
               : RefreshIndicator(
                   onRefresh: _fetchRewardData,
-                  child: rewardInfo == null
-                      ? ListView()
-                      : Column(children: [
-                          Expanded(
-                            child: rewardInfo?.winner == true
-                                ? QrImage(data: "${BaseApi.BASE_URL_DEV}/winner/${rewardInfo?.joinId}" )
-                                : Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""), fit: BoxFit.cover),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Column(children: [
-                              SizedBox(height: 24.0),
-                              Text(
-                                rewardInfo?.winner == true
-                                    ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
-                                    : "${strings.meshiInvitation}",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              SizedBox(height: 30.0),
-                              Row(
-                                children: [
-                                  Icon(Icons.attach_money),
-                                  SizedBox(width: 8.0),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
-                                        Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
-                                      ],
+                  child: Material(
+                    child: rewardInfo == null
+                        ? ListView()
+                        : Column(children: [
+                            Expanded(
+                              child: rewardInfo?.winner == true
+                                  ? QrImage(data: "${BaseApi.BASE_URL_DEV}/winner/${rewardInfo?.joinId}" )
+                                  : Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""), fit: BoxFit.cover),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(children: [
+                                SizedBox(height: 24.0),
+                                Text(
+                                  rewardInfo?.winner == true
+                                      ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
+                                      : "${strings.meshiInvitation}",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(height: 30.0),
+                                Row(
+                                  children: [
+                                    Icon(Icons.attach_money),
+                                    SizedBox(width: 8.0),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 30.0),
-                              Row(
-                                children: [
-                                  Icon(Icons.date_range),
-                                  SizedBox(width: 8.0),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(rewardInfo?.winner == true ? strings.validUntil : strings.participateUp)),
-                                        Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
-                                      ],
+                                  ],
+                                ),
+                                SizedBox(height: 30.0),
+                                Row(
+                                  children: [
+                                    Icon(Icons.date_range),
+                                    SizedBox(width: 8.0),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(rewardInfo?.winner == true ? strings.validUntil : strings.participateUp)),
+                                          Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ]),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: buildActionButton(context, rewardInfo),
-                          ),
-                        ]),
+                                  ],
+                                ),
+                              ]),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: buildActionButton(context, rewardInfo),
+                            ),
+                          ]),
+                  ),
                 );
         });
   }
