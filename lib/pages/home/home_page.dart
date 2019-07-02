@@ -31,13 +31,10 @@ class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
   final Widget child;
 
-
-  HomeBlocProvider({Key key, @required this.bloc, this.child})
-      : super(key: key, child: child);
+  HomeBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
 
   static HomeBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(HomeBlocProvider)
-        as HomeBlocProvider);
+    return (context.inheritFromWidgetOfExactType(HomeBlocProvider) as HomeBlocProvider);
   }
 
   @override
@@ -49,11 +46,12 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
+class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   HomeBloc _bloc;
   String _currentCategory;
   String _previousCategory;
   HomeSection _previousPage;
+  NotificationManager foregroundNotification;
 
   // TODO test purposes
   List<HomeSection> homePages = [
@@ -68,13 +66,13 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
   @override
   void initState() {
     super.initState();
+    fcmListener();
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
   }
 
   void fcmListener() {
     FirebaseMessaging _fcm = FirebaseMessaging();
-    final foregroundNotification = InjectorWidget.of(context).get<NotificationUtils>();
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
 
@@ -84,25 +82,22 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
     }
     _fcm.configure(onMessage: (Map<String, dynamic> message) async {
       print('on message $message');
-      foregroundNotification.notificationSubject.add(0);
+      foregroundNotification.notificationSubject.sink.add(0);
     }, onResume: (Map<String, dynamic> message) async {
+      // todo usar switch por favor
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         final match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => RewardPage()
-            ));
+        Future.delayed(Duration(seconds: 1),
+            () => setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context));
       }
     }, onLaunch: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         UserMatch match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
-            RewardPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
       } else {
         //Navigator.pushReplacementNamed(context, SETTINGS_ROUTE);
       }
@@ -122,10 +117,12 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
   }
 
   @override
-  Widget buildWithInjector(BuildContext context, Injector injector){
+  Widget buildWithInjector(BuildContext context, Injector injector) {
     UserRepository repo = InjectorWidget.of(context).get();
+    setState(() {
+      foregroundNotification = InjectorWidget.of(context).get<NotificationManager>();
+    });
     _bloc = HomeBloc(repo);
-    fcmListener();
     final strings = MyLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -134,25 +131,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
         child: BackdropMenu(
           backLayer: MenuPage(
             currentCategory: _currentCategory ?? strings.homeSections[0],
-            onCategoryTap: (category, pos) => setState(() {
-                  if (pos != 2) {
-                    _previousPage = homePages[pos];
-                    _previousCategory = category;
-                    _currentCategory = category;
-                    _bloc.category = category;
-                    _currentPage = homePages[pos];
-                  } else {
-                    _currentCategory = _previousCategory;
-                    _bloc.category = _previousCategory;
-                    _currentPage = _previousPage;
-                    showDialog(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return PremiumPage();
-                        });
-                  }
-                }),
+            onCategoryTap: (category, pos) => setCurrentHomePage(pos, category, context),
             categories: strings.homeSections,
           ),
           backTitle: Text(strings.menu),
@@ -177,5 +156,27 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
               ))
           : null, // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void setCurrentHomePage(int pos, String category, BuildContext context) {
+    setState(() {
+      if (pos != 2) {
+        _previousPage = homePages[pos];
+        _previousCategory = category;
+        _currentCategory = category;
+        _bloc.category = category;
+        _currentPage = homePages[pos];
+      } else {
+        _currentCategory = _previousCategory;
+        _bloc.category = _previousCategory;
+        _currentPage = _previousPage;
+        showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              return PremiumPage();
+            });
+      }
+    });
   }
 }

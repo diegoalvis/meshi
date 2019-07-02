@@ -22,7 +22,7 @@ class AppModule implements Module {
   void configure(Binder binder) {
     binder
 //      ..bindSingleton(FirebaseMessaging())
-      ..bindSingleton(NotificationUtils())
+      ..bindSingleton(NotificationManager())
       ..bindSingleton(SessionManager())
       ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 30000)))
       //DAO

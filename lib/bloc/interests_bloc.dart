@@ -16,15 +16,19 @@ import 'package:meshi/utils/notification_utils.dart';
 class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
   final ChatRepository chatRepository;
-  final NotificationUtils subject;
+  final NotificationManager notificationsManager;
+
   //StreamSubscription variable;
 
-  InterestsBloc(this.repository, this.chatRepository, this.subject){
-    //variable = subject.notificationSubject.listen((message) => InterestsEventType.getMutals);
+  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager) {
+    notificationsManager.notificationSubject.stream.listen((message) {
+      dispatch(InterestsEvent(InterestsEventType.refreshMutuals));
+    });
   }
 
   @override
   void dispose() {
+    notificationsManager.dispose();
     //variable.cancel();
     super.dispose();
   }
