@@ -109,6 +109,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
     _fcm.getToken().then((token) {
       print('TOKEEEEEN');
       print(token);
+      _bloc.updateToken(token);
     });
   }
 
