@@ -5,6 +5,7 @@
 
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeBloc extends BaseBloc {
@@ -15,6 +16,10 @@ class HomeBloc extends BaseBloc {
 
   Stream<String> get categorySelectedStream => _categorySelectedSubject.stream;
 
+  final UserRepository _repository;
+
+  HomeBloc(this._repository);
+
 
   set category(String category) {
     _categorySelectedSubject.sink.add(category);
@@ -24,5 +29,9 @@ class HomeBloc extends BaseBloc {
     super.dispose();
     _categorySelectedSubject.close();
     _userSubject.close();
+  }
+
+  void updateToken(String token) async{
+    await _repository.updateFirebaseToken(token);
   }
 }
