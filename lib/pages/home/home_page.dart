@@ -87,7 +87,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
     }
     _fcm.configure(onMessage: (Map<String, dynamic> message) async {
       print('on message $message');
-      foregroundNotification.notificationSubject.add(0);
+      //foregroundNotification.notificationSubject.add(0);
     }, onResume: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         final match = UserMatch.fromMessage(message);
