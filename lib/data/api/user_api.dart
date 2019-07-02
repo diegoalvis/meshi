@@ -52,4 +52,9 @@ class UserApi extends BaseApi {
     return put("/users/active", body: {'active': active})
         .then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<int>> changeFirebaseToken(String token) async {
+    return put("/users/firebase", body: {'firebaseToken': token})
+        .then((response) => processBasicResponse(response));
+  }
 }

@@ -11,6 +11,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/data/models/user_match.dart';
+import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
@@ -45,11 +46,11 @@ class HomeBlocProvider extends InheritedWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  HomePageState createState() => HomePageState(HomeBloc());
+  HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
-  final HomeBloc _bloc;
+  HomeBloc _bloc;
   String _currentCategory;
   String _previousCategory;
   HomeSection _previousPage;
@@ -64,12 +65,9 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
   ];
   HomeSection _currentPage = InterestsMainPage();
 
-  HomePageState(this._bloc);
-
   @override
   void initState() {
     super.initState();
-    fcmListener();
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
   }
@@ -122,6 +120,9 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector){
+    UserRepository repo = InjectorWidget.of(context).get();
+    _bloc = HomeBloc(repo);
+    fcmListener();
     final strings = MyLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,

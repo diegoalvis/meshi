@@ -29,6 +29,7 @@ class UserRepository {
     return _api.loginUser(id).then((response) {
       _session.setAuhToken(response.data.token);
       _session.saveUser(response.data.user);
+      _session.setLogged(true);
       return response.success;
     }).catchError((error) {
       return Observable.error(error.toString());
@@ -103,5 +104,21 @@ class UserRepository {
   Future<int> activeAccount() async{
     final res = await _api.changeActive(true);
     return res.data;
+  }
+
+  Future<int> updateFirebaseToken(String token) async{
+    final logged = await _session.logged;
+    if(logged){
+      final prev = await _session.firebaseToken;
+      if(prev == token){
+        return 1;
+      }
+      final rspn = await _api.changeFirebaseToken(token);
+      _session.setFirebaseToken(token);
+      return rspn.data;
+    }else{
+      return 1;
+    }
+
   }
 }
