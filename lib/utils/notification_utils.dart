@@ -1,6 +1,6 @@
 import 'package:rxdart/rxdart.dart';
 
-const String NOTIFICATION_REWARD = "notification_rerward";
+const String NOTIFICATION_REWARD = "notification_reward";
 const String NOTIFICATION_CHAT = "notification_chat";
 const String NOTIFICATION_MATCH = "notification_match";
 

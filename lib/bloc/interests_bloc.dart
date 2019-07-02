@@ -17,15 +17,15 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
   final ChatRepository chatRepository;
   final NotificationUtils subject;
-  StreamSubscription variable;
+  //StreamSubscription variable;
 
-  InterestsBloc(this.repository, this.chatRepository, this.subject, {this.variable}){
-    variable = subject.notificationSubject.listen((message) => InterestsEventType.getMutals);
+  InterestsBloc(this.repository, this.chatRepository, this.subject){
+    //variable = subject.notificationSubject.listen((message) => InterestsEventType.getMutals);
   }
 
   @override
   void dispose() {
-    variable.cancel();
+    //variable.cancel();
     super.dispose();
   }
 

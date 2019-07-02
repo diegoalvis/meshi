@@ -30,13 +30,10 @@ class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
   final Widget child;
 
-
-  HomeBlocProvider({Key key, @required this.bloc, this.child})
-      : super(key: key, child: child);
+  HomeBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
 
   static HomeBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(HomeBlocProvider)
-        as HomeBlocProvider);
+    return (context.inheritFromWidgetOfExactType(HomeBlocProvider) as HomeBlocProvider);
   }
 
   @override
@@ -48,7 +45,7 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState(HomeBloc());
 }
 
-class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
+class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   final HomeBloc _bloc;
   String _currentCategory;
   String _previousCategory;
@@ -74,12 +71,12 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
     _previousPage = _currentPage;
   }
 
-  void fcmListener(){
+  void fcmListener() {
     FirebaseMessaging _fcm = FirebaseMessaging();
-    final foregroundNotification = InjectorWidget.of(context).get<NotificationUtils>();
+    final strings = MyLocalizations.of(context);
+    //final foregroundNotification = InjectorWidget.of(context).get<NotificationUtils>();
     if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(
-          const IosNotificationSettings(sound: true, badge: true, alert: true));
+      _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
 
       _fcm.onIosSettingsRegistered.listen((settings) {
         print("Settings registered: $settings");
@@ -93,25 +90,39 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
         final match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    BackdropMenu(
+                        frontLayer: SafeArea(
+                          child: homePages[1] as Widget,
+                        ),
+                        backLayer: MenuPage(
+                          categories: strings.homeSections,
+                          currentCategory: strings.homeSections[1],
+                          onCategoryTap: ((context, pos) => setState((){
+                            pos = 1;
+                          })),
+                        ),
+                        frontTitle: RewardPage().getTitle(context),
+                        backTitle: null)));
       }
     }, onLaunch: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         UserMatch match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
       } else {
-        Navigator.pushReplacementNamed(context, HOME_ROUTE);
+        Navigator.pushReplacementNamed(context, SETTINGS_ROUTE);
       }
     });
 
-    _fcm.getToken().then((token) {
+    /* _fcm.getToken().then((token) {
       print('TOKEEEEEN');
       print(token);
-    });
+    });*/
   }
 
   @override
@@ -121,7 +132,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
   }
 
   @override
-  Widget buildWithInjector(BuildContext context, Injector injector){
+  Widget buildWithInjector(BuildContext context, Injector injector) {
     final strings = MyLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -159,6 +170,60 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
         ),
       ),
       floatingActionButton: _currentPage.showFloatingButton()
+          ? FloatingActionButton(
+              shape: DiamondBorder(),
+              onPressed: () => _currentPage.onFloatingButtonPressed(context),
+              tooltip: 'Increment',
+              child: Padding(
+                padding: EdgeInsets.only(right: 5),
+                child: Icon(
+                  AppIcons.logo,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ))
+          : null, // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget rewardNotificationMenu(context) {
+    final strings = MyLocalizations.of(context);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: HomeBlocProvider(
+        bloc: _bloc,
+        child: BackdropMenu(
+          backLayer: MenuPage(
+            currentCategory: strings.homeSections[1],
+            onCategoryTap: (category, pos) => setState(() {
+                  if (pos != 2) {
+                    _previousPage = homePages[pos];
+                    _previousCategory = category;
+                    _currentCategory = category;
+                    _bloc.category = category;
+                    _currentPage = homePages[pos];
+                  } else {
+                    _currentCategory = _previousCategory;
+                    _bloc.category = _previousCategory;
+                    _currentPage = _previousPage;
+                    showDialog(
+                        barrierDismissible: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return PremiumPage();
+                        });
+                  }
+                }),
+            categories: strings.homeSections,
+          ),
+          backTitle: Text(strings.menu),
+          frontTitle: RewardPage().getTitle(context),
+          frontLayer: SafeArea(
+            child: RewardPage as Widget,
+          ),
+        ),
+      ),
+      floatingActionButton: RewardPage().showFloatingButton()
           ? FloatingActionButton(
               shape: DiamondBorder(),
               onPressed: () => _currentPage.onFloatingButtonPressed(context),
