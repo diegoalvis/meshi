@@ -37,9 +37,6 @@ class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {
           await _repository.dislike(_userId);
           yield ExitState();
           break;
-        case InterestsProfileEvents.premium:
-          yield PremiumState<bool>(data: true);
-          break;
       }
     } on Exception catch (e) {
       yield ErrorState(exception: e);
@@ -47,13 +44,5 @@ class InterestsProfileBloc extends BaseBloc<InterestsProfileEvents, BaseState> {
   }
 }
 
-enum InterestsProfileEvents { getUserInfo, AddMatch, DisLike, premium }
+enum InterestsProfileEvents { getUserInfo, AddMatch, DisLike }
 
-class PremiumState<T> extends BaseState {
-  T data;
-
-  PremiumState({this.data}) : super(props: [data]);
-
-  @override
-  String toString() => 'state-premium';
-}
