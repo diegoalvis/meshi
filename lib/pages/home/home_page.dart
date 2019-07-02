@@ -94,8 +94,8 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    BackdropMenu(
+                builder: (BuildContext context) => RewardPage()
+                    /*BackdropMenu(
                         frontLayer: SafeArea(
                           child: homePages[1] as Widget,
                         ),
@@ -107,23 +107,25 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
                           })),
                         ),
                         frontTitle: RewardPage().getTitle(context),
-                        backTitle: null)));
+                        backTitle: null)*/
+            ));
       }
     }, onLaunch: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         UserMatch match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
+            RewardPage()));
       } else {
-        Navigator.pushReplacementNamed(context, SETTINGS_ROUTE);
+        //Navigator.pushReplacementNamed(context, SETTINGS_ROUTE);
       }
     });
 
-    _fcm.getToken().then((token) {
+   /* _fcm.getToken().then((token) {
       print('TOKEEEEEN');
       print(token);
-    });
+    });*/
   }
 
   @override
