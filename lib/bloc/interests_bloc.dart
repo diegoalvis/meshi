@@ -3,6 +3,8 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:async';
+
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/models/my_likes.dart';
@@ -15,15 +17,15 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
   final ChatRepository chatRepository;
   final NotificationUtils subject;
-  Stream<int> variable;
+  StreamSubscription variable;
 
   InterestsBloc(this.repository, this.chatRepository, this.subject, {this.variable}){
-    subject.notificationSubject.listen((message) => InterestsEventType.getMutals);
+    variable = subject.notificationSubject.listen((message) => InterestsEventType.getMutals);
   }
 
   @override
   void dispose() {
-
+    variable.cancel();
     super.dispose();
   }
 

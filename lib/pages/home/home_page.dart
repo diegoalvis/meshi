@@ -103,7 +103,9 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
       } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
         Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
-      } else {}
+      } else {
+        Navigator.pushReplacementNamed(context, HOME_ROUTE);
+      }
     });
 
     _fcm.getToken().then((token) {
