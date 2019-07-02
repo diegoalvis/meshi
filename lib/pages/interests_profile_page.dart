@@ -47,6 +47,7 @@ class InterestsProfileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     Recomendation user;
+    bool isPremium = false;
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return BlocBuilder(
@@ -54,6 +55,9 @@ class InterestsProfileBody extends StatelessWidget {
         builder: (context, state) {
           if (state is InitialState) {
             _bloc.dispatch(InterestsProfileEvents.getUserInfo);
+          }
+          if(state is PremiumState){
+            isPremium = state.data;
           }
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());
@@ -96,16 +100,15 @@ class InterestsProfileBody extends StatelessWidget {
                                     user.type == TYPE_PREMIUM
                                         ? Row(
                                             children: <Widget>[
+                                              isPremium ? premiumSpeechBubble(context): SizedBox(),
                                               GestureDetector(
-                                                onTap: () {/* TODO show premium dialog */},
-                                                child: SpeechBubble(
-                                                  child: Text("Usuario premium", style: TextStyle(color: Theme.of(context).accentColor)),
-                                                  color: Colors.white,
-                                                  nipLocation: NipLocation.RIGHT,
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {/* TODO show bubble */},
+                                                onTap: () {
+                                                  _bloc.dispatch(InterestsProfileEvents.premium);
+                                                  /*isPremium ? showDialog(context: context, builder: (context){
+                                                    return premiumSpeechBubble(context);
+                                                  }
+                                                  ): SizedBox();*/
+                                                },
                                                 child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 15),
                                               ),
                                             ],
@@ -131,6 +134,17 @@ class InterestsProfileBody extends StatelessWidget {
                   ],
                 );
         });
+  }
+
+  Widget premiumSpeechBubble(BuildContext context){
+    return GestureDetector(
+      onTap: () {/* TODO show premium dialog */},
+      child: SpeechBubble(
+        child: Text("Usuario premium", style: TextStyle(color: Theme.of(context).accentColor)),
+        color: Colors.white,
+        nipLocation: NipLocation.RIGHT,
+      ),
+    );
   }
 
   Widget buildSection(BuildContext context) {
