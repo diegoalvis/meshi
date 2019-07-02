@@ -238,14 +238,14 @@ class MyLocalizations {
       _localizedSingleValues[locale.languageCode]
           ['you_do_not_have_mutuals_yet'];
 
-  String get iInterested =>
-      _localizedSingleValues[locale.languageCode]['i_interested'];
+  String get interestedOnMe =>
+      _localizedSingleValues[locale.languageCode]['interested_on_me'];
 
   String get anErrorOccurred =>
       _localizedSingleValues[locale.languageCode]['an_error_occurred'];
 
-  String get iAmInterested =>
-      _localizedSingleValues[locale.languageCode]['i_am_interested'];
+  String get myInterests =>
+      _localizedSingleValues[locale.languageCode]['my_interests'];
 
   String get mutual => _localizedSingleValues[locale.languageCode]['mutual'];
 
@@ -418,9 +418,9 @@ class MyLocalizations {
       'about_me': 'About me',
       'you_do_not_have_mutuals_yet': 'You do not have mutuals yet',
       'an_error_occurred': 'An error occurred',
-      'i_interested': 'I INTERESTED',
+      'interested_on_me': 'INTERESTED',
       'mutual': 'MUTUAL',
-      'i_am_interested': 'I´M INTERESTED',
+      'my_interests': 'MY INTERESTS',
       'tell_us_about_you': 'Tell us about you',
       'name': 'Name',
       'email': 'Email',
@@ -450,7 +450,7 @@ class MyLocalizations {
     'es': {
       'you_and': 'Tu y ',
       'log_in_with': 'Ingresa con',
-      'find_perfect_date': 'Encuentra tu pareja ideal',
+      'find_perfect_date': 'La APP de las primeras citas',
       'as_you_are': '¿Como Eres?',
       'picture_select_caption':
           'Selecciona las fotos para que tus interes puedan verte y conocerte',
@@ -476,7 +476,7 @@ class MyLocalizations {
       'valid_until': 'Válido hasta',
       'value': 'Valor',
       'meshi_invitation':
-          ' Meshi quiere invitarte una cena para que conozcas a tu pareja ideal.',
+          'Elige con cuales de tus mutuos quisieras participar. En caso coincidas con alguno de estos, tendrán la oportunidad deganar una cita paga por Meshi.',
       'won_appointment': ' ganaron una cita!!',
       'try_error': 'Ocurrio un error, por favor intentelo mas tarde',
       'or_more': 'o mas ',
@@ -529,20 +529,20 @@ class MyLocalizations {
       'complete_profile_button': 'COMPLETAR PERFIL',
       'my_pictures': 'Mis fotos',
       'complete_your_profile':
-          'Completa tu perfil para que Meshi pueda encontrar tu pareja ideal',
+          'Danos más detalles de lo que eres y buscas. Queremos ser más asertivos al momento de mostrarte perfiles de otros usuarios.',
       'about_me': 'Acerca de mi',
       'you_do_not_have_mutuals_yet': 'No tienes mutuos aún',
       'an_error_occurred': 'Ocurrió un error',
-      'i_interested': 'LE INTERESO',
+      'interested_on_me': 'LE INTERESO',
       'mutual': 'MUTUOS',
-      'i_am_interested': 'ME INTERESA',
+      'my_interests': 'ME INTERESA',
       'tell_us_about_you': 'Cuentanos de ti',
       'name': 'Nombre',
       'email': 'Correo',
       'birth_date': 'Fecha de nacimiento',
       'self': 'Soy',
       'interested': 'Me interesa',
-      'how_describe_yourself': '¿Como te describes?',
+      'how_describe_yourself': '¿Cómo te describes?',
       'hobbies_caption': '¿Que te gusta hacer en tus tiempos libres?',
       'what_you_do': '¿A que te dedicas?',
       'what_you_looking_for': '¿Que buscas en otra persona?',
@@ -578,9 +578,9 @@ class MyLocalizations {
     'es': {
       'home_sections': [
         'Mis intereses',
-        'Participa por una cita real',
-        'Meshi Premiun',
-        'Ver perfil',
+        'Participa por una cita regalo',
+        'Hacerme Premiun',
+        'Ver mi perfil',
         'Ajustes'
       ],
     }

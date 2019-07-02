@@ -95,11 +95,11 @@ class _RegisterPageState extends State<RegisterContainer> {
                   alignment: Alignment.center,
                   child: pages.indexOf(currentPage) != (pages.length + 1)
                       ? Text(
-                          strings.asYouAre,
+                          "Información personal",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 34,
+                            fontSize: 31,
                             fontFamily: 'BettyLavea',
                           ),
                         )
@@ -157,7 +157,8 @@ class _RegisterPageState extends State<RegisterContainer> {
                       : Builder(
                           builder: (contextInt) => FlatButton(
                                 onPressed: () => !currentPage.isInfoComplete()
-                                    ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
+                                    ? Scaffold.of(contextInt)
+                                        .showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
                                     : setState(() {
                                         currentPageIndex++;
                                         if (currentPageIndex > pages.length) {

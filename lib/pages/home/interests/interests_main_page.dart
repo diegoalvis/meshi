@@ -44,7 +44,7 @@ class InterestsMainPageContainer extends StatelessWidget {
         refreshEventType: InterestsEventType.refreshMyLikes,
         isMyLike: 1),
     BaseInterestsPage(
-        title: "Personas que les intereso",
+        title: "Personas a quienes les intereso",
         eventType: InterestsEventType.getLikesMe,
         refreshEventType: InterestsEventType.refreshLikesMe,
         isMyLike: 2),
@@ -65,8 +65,8 @@ class InterestsMainPageContainer extends StatelessWidget {
                 indicatorColor: Colors.white,
                 tabs: [
                   Tab(text: strings.mutual),
-                  Tab(text: strings.iAmInterested),
-                  Tab(text: strings.iInterested),
+                  Tab(text: strings.myInterests),
+                  Tab(text: strings.interestedOnMe),
                 ],
                 isScrollable: false,
               ),

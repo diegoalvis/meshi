@@ -92,8 +92,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
           body: Column(children: [
             Expanded(
                 flex: 3,
-                child: Container(
-                  padding: EdgeInsets.all(10),
+                child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Icon(
                     AppIcons.logo,
@@ -102,8 +101,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                   ),
                 )),
             Expanded(
-              child: Text(
-                'meshi',
+              child: Text("meshi",
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontSize: 45,

@@ -176,7 +176,7 @@ class InterestsProfileBody extends StatelessWidget {
                       Icon(AppIcons.curve, color: Colors.white, size: 30),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(strings.iAmInterested),
+                        child: Text(strings.myInterests),
                       ),
                     ],
                   ),
