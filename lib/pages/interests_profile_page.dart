@@ -14,6 +14,7 @@ import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
+import 'package:meshi/utils/custom_widgets/premium_speech_bubble.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:speech_bubble/speech_bubble.dart';
@@ -46,8 +47,8 @@ class InterestsProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
-    Recomendation user;
     bool isPremium = false;
+    Recomendation user;
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
     return BlocBuilder(
@@ -56,9 +57,9 @@ class InterestsProfileBody extends StatelessWidget {
           if (state is InitialState) {
             _bloc.dispatch(InterestsProfileEvents.getUserInfo);
           }
-          if(state is PremiumState){
+          /*if(state is PremiumState){
             isPremium = state.data;
-          }
+          }*/
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());
           }
@@ -98,21 +99,7 @@ class InterestsProfileBody extends StatelessWidget {
                                     Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                                     Spacer(),
                                     user.type == TYPE_PREMIUM
-                                        ? Row(
-                                            children: <Widget>[
-                                              isPremium ? premiumSpeechBubble(context): SizedBox(),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  _bloc.dispatch(InterestsProfileEvents.premium);
-                                                  /*isPremium ? showDialog(context: context, builder: (context){
-                                                    return premiumSpeechBubble(context);
-                                                  }
-                                                  ): SizedBox();*/
-                                                },
-                                                child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 15),
-                                              ),
-                                            ],
-                                          )
+                                        ? PremiumSpeechBubble(isPremium)
                                         : SizedBox(),
                                   ],
                                 ),
@@ -134,17 +121,6 @@ class InterestsProfileBody extends StatelessWidget {
                   ],
                 );
         });
-  }
-
-  Widget premiumSpeechBubble(BuildContext context){
-    return GestureDetector(
-      onTap: () {/* TODO show premium dialog */},
-      child: SpeechBubble(
-        child: Text("Usuario premium", style: TextStyle(color: Theme.of(context).accentColor)),
-        color: Colors.white,
-        nipLocation: NipLocation.RIGHT,
-      ),
-    );
   }
 
   Widget buildSection(BuildContext context) {
