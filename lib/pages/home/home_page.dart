@@ -74,7 +74,6 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
 
   void fcmListener() {
     FirebaseMessaging _fcm = FirebaseMessaging();
-    final strings = MyLocalizations.of(context);
     final foregroundNotification = InjectorWidget.of(context).get<NotificationUtils>();
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -95,19 +94,6 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => RewardPage()
-                    /*BackdropMenu(
-                        frontLayer: SafeArea(
-                          child: homePages[1] as Widget,
-                        ),
-                        backLayer: MenuPage(
-                          categories: strings.homeSections,
-                          currentCategory: strings.homeSections[1],
-                          onCategoryTap: ((context, pos) => setState((){
-                            pos = 1;
-                          })),
-                        ),
-                        frontTitle: RewardPage().getTitle(context),
-                        backTitle: null)*/
             ));
       }
     }, onLaunch: (Map<String, dynamic> message) async {
@@ -122,10 +108,11 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin  {
       }
     });
 
-   /* _fcm.getToken().then((token) {
+    _fcm.getToken().then((token) {
       print('TOKEEEEEN');
       print(token);
-    });*/
+      _bloc.updateToken(token);
+    });
   }
 
   @override
