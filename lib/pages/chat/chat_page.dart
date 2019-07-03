@@ -56,6 +56,8 @@ class ChatBodyState extends State<ChatBody> {
     super.initState();
   }
 
+
+
   void _handleSubmit() {
     Message message = Message(
         content: _chatController.text,

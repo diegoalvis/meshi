@@ -169,4 +169,17 @@ class SessionManager {
     preferences.then((prefs) => prefs.setString("fbUserId", value));
     _fbUserId = value;
   }
+
+
+  Future<String> get firebaseToken async {
+    final prefs = await preferences;
+    return prefs.getString("firebaseToken");
+
+  }
+
+  void setFirebaseToken(String authToken) async {
+    final prefs = await preferences;
+    await prefs.setString("firebaseToken", authToken);
+  }
+
 }

@@ -3,6 +3,8 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:io';
+
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,6 @@ import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
 
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
@@ -54,6 +54,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     txtController.text = "100";
