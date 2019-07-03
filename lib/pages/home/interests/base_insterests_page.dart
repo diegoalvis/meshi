@@ -13,6 +13,8 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:meshi/pages/interests_profile_page.dart';
 
+import '../../../main.dart';
+
 class BaseInterestsPage extends StatelessWidget {
   final String title;
   final InterestsEventType eventType;
@@ -83,7 +85,7 @@ class BaseInterestsPage extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/interests-profile',
+                                    Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE,
                                         arguments:
                                             UserDetail(id: myLikes[index].id, isMyLike: isMyLike));
                                   },

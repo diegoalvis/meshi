@@ -47,7 +47,6 @@ class InterestsProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
-    bool isPremium = false;
     Recomendation user;
     final strings = MyLocalizations.of(context);
     final _bloc = InjectorWidget.of(context).get<InterestsProfileBloc>();
@@ -94,14 +93,17 @@ class InterestsProfileBody extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ListTile(
-                                title: Row(
-                                  children: <Widget>[
-                                    Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
-                                    Spacer(),
-                                    user.type == TYPE_PREMIUM
-                                        ? PremiumSpeechBubble(isPremium)
-                                        : SizedBox(),
-                                  ],
+                                title: Container(
+                                  height: 40,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Spacer(),
+                                      user.type == TYPE_PREMIUM
+                                          ? PremiumSpeechBubble()
+                                          : SizedBox(),
+                                    ],
+                                  ),
                                 ),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
@@ -176,7 +178,7 @@ class InterestsProfileBody extends StatelessWidget {
                       Icon(AppIcons.curve, color: Colors.white, size: 30),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(strings.iAmInterested),
+                        child: Text(strings.myInterests),
                       ),
                     ],
                   ),

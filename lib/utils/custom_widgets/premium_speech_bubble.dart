@@ -4,19 +4,15 @@ import 'package:speech_bubble/speech_bubble.dart';
 import '../app_icons.dart';
 
 class PremiumSpeechBubble extends StatefulWidget{
-  final bool isPremium;
-
-  const PremiumSpeechBubble(this.isPremium);
-
   @override
-  State<StatefulWidget> createState() => PremiumSpeechBubbleState(this.isPremium);
+  State<StatefulWidget> createState() => PremiumSpeechBubbleState();
 }
 
 class PremiumSpeechBubbleState extends State<PremiumSpeechBubble>{
 
-  bool isPremium;
+  bool isPremium = false;
 
-  PremiumSpeechBubbleState(this.isPremium);
+  PremiumSpeechBubbleState();
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +42,12 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble>{
             setState(() {
               isPremium = !isPremium;
             });
-            //_bloc.dispatch(InterestsProfileEvents.premium);
-            /*isPremium ? showDialog(context: context, builder: (context){
-                                                    return premiumSpeechBubble(context);
-                                                  }
-                                                  ): SizedBox();*/
           },
-          child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 15),
+          child: Container(
+            color: Colors.transparent,
+            padding: const EdgeInsets.all(10.0),
+            child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 18),
+          ),
         ),
       ],
     );
