@@ -87,19 +87,20 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
       // todo usar switch por favor
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         final match = UserMatch.fromMessage(message);
-        Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
-      } else {
-        Future.delayed(Duration(seconds: 1),
-            () => setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context));
+        Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
+      } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
+        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+      }else {
+        Navigator.pushReplacementNamed(context, HOME_ROUTE);
       }
     }, onLaunch: (Map<String, dynamic> message) async {
       if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
         UserMatch match = UserMatch.fromMessage(message);
         Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
       } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RewardPage()));
+        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
       } else {
-        //Navigator.pushReplacementNamed(context, SETTINGS_ROUTE);
+        Navigator.pushReplacementNamed(context, HOME_ROUTE);
       }
     });
 
