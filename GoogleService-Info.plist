@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>787519505763-au7i9gatsov3vi8lab330dkrv738tegr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.787519505763-au7i9gatsov3vi8lab330dkrv738tegr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>787519505763-d26hdmockh0ki6eg806g3bek8mpklco5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBXl2_sjaUpVxynpb9_rHk07F-cyFztjaY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>787519505763</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>meshimobile.meshi</string>
+	<key>PROJECT_ID</key>
+	<string>meshi-5184b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>meshi-5184b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:787519505763:ios:d816972e77d1ffbd</string>
+	<key>DATABASE_URL</key>
+	<string>https://meshi-5184b.firebaseio.com</string>
+</dict>
+</plist>
