@@ -97,6 +97,7 @@ ThemeData buildTheme() => ThemeData(
       primaryColorLight: Color(0xFF672836),
       accentColor: Color(0xFF80065E),
       dividerColor: Color(0xFFCCCCCC),
+      appBarTheme: AppBarTheme(brightness: Brightness.dark),
       primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
       colorScheme: ColorScheme(
           primary: Color(0xFF5E2531),

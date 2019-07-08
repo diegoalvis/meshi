@@ -2,13 +2,16 @@
  * Created by Diego Alvis.
  * Copyright (c) 2019 - All rights reserved.
  */
+import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/data/models/my_likes.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/interests_image_item.dart';
+import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:meshi/pages/interests_profile_page.dart';
@@ -24,8 +27,7 @@ class BaseInterestsPage extends StatelessWidget {
   InterestsBloc _bloc;
   List<MyLikes> myLikes;
 
-  BaseInterestsPage({Key key, this.title, this.eventType, this.refreshEventType, this.isMyLike})
-      : super(key: key);
+  BaseInterestsPage({Key key, this.title, this.eventType, this.refreshEventType, this.isMyLike}) : super(key: key);
 
   Future<Null> _refreshInterestsData() async {
     _bloc.dispatch(InterestsEvent(refreshEventType));
@@ -34,11 +36,10 @@ class BaseInterestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
+    final strings = MyLocalizations.of(context);
     if (myLikes == null) {
       _bloc.dispatch(InterestsEvent(eventType));
     }
-
-    final strings = MyLocalizations.of(context);
     return BlocBuilder(
         bloc: _bloc,
         builder: (context, state) {
@@ -74,8 +75,7 @@ class BaseInterestsPage extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.centerRight,
                             child: Text(title ?? "",
-                                textAlign: TextAlign.end,
-                                style: TextStyle(color: ThemeData.light().colorScheme.onSurface)),
+                                textAlign: TextAlign.end, style: TextStyle(color: ThemeData.light().colorScheme.onSurface)),
                           ),
                         ),
                         Flexible(
@@ -85,9 +85,7 @@ class BaseInterestsPage extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE,
-                                        arguments:
-                                            UserDetail(id: myLikes[index].id, isMyLike: isMyLike));
+                                    validatePremiumAndPerformAction(context, _bloc.session, index);
                                   },
                                   child: InterestsItemPage(
                                     myLikes: myLikes[index],
@@ -98,5 +96,14 @@ class BaseInterestsPage extends StatelessWidget {
                       ],
                     ));
         });
+  }
+
+  void validatePremiumAndPerformAction(BuildContext context, SessionManager session, int index) {
+    if (session?.user?.type != TYPE_PREMIUM) {
+      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage());
+    } else {
+      Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE,
+          arguments: UserDetail(id: myLikes[index].id, isMyLike: isMyLike));
+    }
   }
 }

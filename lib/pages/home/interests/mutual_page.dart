@@ -9,8 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
+import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user_match.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -122,87 +125,87 @@ class MutualPage extends StatelessWidget {
                         SizedBox(height: 100),
                         Center(child: Text(strings.youDoNotHaveMutualsYet)),
                       ])
-                    : Column(
-                        children: <Widget>[
-                          showLoader
-                              ? Center(
-                                  child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      )),
-                                ))
-                              : SizedBox(),
-                          Expanded(
-                            child: ListView.separated(
-                                itemCount: matches.length,
-                                separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
-                                itemBuilder: (BuildContext context, int index) {
-                                  final match = matches.elementAt(index);
-                                  final erased = match.lastDate == null ||
-                                      (match.erasedDate != null &&
-                                          match.erasedDate.millisecondsSinceEpoch > match.lastDate.millisecondsSinceEpoch);
-                                  return ListTile(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
-                                    },
-                                    onLongPress: () => _showDialog(match.name, match.idMatch, index),
-                                    title: Row(children: [
-                                      ClipOval(
-                                        child: Container(
-                                            height: 50.0,
-                                            width: 50.0,
-                                            child: GestureDetector(
-                                              onTap: () => Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE,
-                                                  arguments: UserDetail(id: match.id, isMyLike: 0)),
-                                              child: Image.network(
-                                                  BaseApi.IMAGES_URL_DEV +
-                                                          match?.images?.firstWhere((image) => image != null) ??
-                                                      "",
-                                                  fit: BoxFit.cover),
-                                            )),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Expanded(
+                    : Column(children: <Widget>[
+                        showLoader
+                            ? Center(
+                                child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    )),
+                              ))
+                            : SizedBox(),
+                        Expanded(
+                          child: ListView.separated(
+                              itemCount: matches.length,
+                              separatorBuilder: (BuildContext context, int index) => Divider(height: 20),
+                              itemBuilder: (BuildContext context, int index) {
+                                final match = matches.elementAt(index);
+                                final erased = match.lastDate == null ||
+                                    (match.erasedDate != null &&
+                                        match.erasedDate.millisecondsSinceEpoch > match.lastDate.millisecondsSinceEpoch);
+                                return ListTile(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
+                                  },
+                                  onLongPress: () => _showDialog(match.name, match.idMatch, index),
+                                  title: Row(children: [
+                                    ClipOval(
+                                      child: Container(
+                                          height: 50.0,
+                                          width: 50.0,
+                                          child: GestureDetector(
+                                            onTap: () => validatePremiumAndPerformAction(context, _bloc.session, match),
+                                            child: Image.network(
+                                                BaseApi.IMAGES_URL_DEV +
+                                                        match?.images?.firstWhere((image) => image != null) ??
+                                                    "",
+                                                fit: BoxFit.cover),
+                                          )),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
                                         child: Column(
-                                          children: [
-                                            Row(children: <Widget>[
-                                              Expanded(
-                                                child: Text(
-                                                  match?.name ?? "",
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              Text(
-                                                  erased
-                                                      ? ""
-                                                      : DateTime.now()
-                                                                  .toLocal()
-                                                                  .difference(match.lastDate.toLocal())
-                                                                  .inDays >
-                                                              0
-                                                          ? DateFormat.yMd().format(match.lastDate.toLocal())
-                                                          : DateFormat.jm().format(match.lastDate.toLocal()),
-                                                  style: TextStyle(color: Theme.of(context).accentColor)),
-                                            ]),
-                                            Align(
-                                              alignment: Alignment.bottomLeft,
-                                              child: Text(erased ? "" : match?.lastMessage ?? "",
-                                                  overflow: TextOverflow.ellipsis),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ]),
-                                  );
-                                }),
-                          ),
-                        ],
-                      ));
+                                      children: [
+                                        Row(children: <Widget>[
+                                          Expanded(
+                                            child: Text(
+                                              match?.name ?? "",
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          Text(
+                                              erased
+                                                  ? ""
+                                                  : DateTime.now().toLocal().difference(match.lastDate.toLocal()).inDays > 0
+                                                      ? DateFormat.yMd().format(match.lastDate.toLocal())
+                                                      : DateFormat.jm().format(match.lastDate.toLocal()),
+                                              style: TextStyle(color: Theme.of(context).accentColor))
+                                        ]),
+                                        Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child:
+                                              Text(erased ? "" : match?.lastMessage ?? "", overflow: TextOverflow.ellipsis),
+                                        )
+                                      ],
+                                    ))
+                                  ]),
+                                );
+                              }),
+                        )
+                      ]));
           }),
     );
+  }
+
+  void validatePremiumAndPerformAction(BuildContext context, SessionManager session, UserMatch match) {
+    if (session?.user?.type != TYPE_PREMIUM) {
+      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage());
+    } else {
+      Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE, arguments: UserDetail(id: match.id, isMyLike: 0));
+    }
   }
 }

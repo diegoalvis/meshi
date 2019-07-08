@@ -19,7 +19,7 @@ class PremiumPageState extends State<PremiumPage> {
       child: Wrap(
         children: <Widget>[
           Material(
-              color: Colors.transparent.withOpacity(0.2),
+              color: Colors.transparent,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
