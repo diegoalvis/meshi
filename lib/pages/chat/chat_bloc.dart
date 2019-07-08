@@ -51,7 +51,12 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
         yield MessageState(local, _me);
         final remotes = await _messageRepository.getMessages(_match.idMatch, from: _match.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
-      } else if (event is SendMessageEvent) {
+      } else if(event is LoadPageEvent){
+        final remotes = await _messageRepository.getMessages(_match.idMatch,
+            from: _match.erasedDate?.millisecondsSinceEpoch,
+            skipFrom: event.from);
+        yield MessageState(remotes, _me, newPage: true);
+      }else if (event is SendMessageEvent) {
         /*await _messageRepository.sendMessageLocal(_match.idMatch, event.message);
         final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
@@ -80,8 +85,9 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
 class MessageState extends BaseState {
   List<Message> messages;
   int me;
+  bool newPage;
 
-  MessageState(this.messages, this.me) : super(props: messages);
+  MessageState(this.messages, this.me, {this.newPage = false}) : super(props: messages);
 
   @override
   String toString() {
