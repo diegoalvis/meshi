@@ -41,11 +41,14 @@ class ChatBodyState extends State<ChatBody> {
 
   final UserMatch _matches;
 
+  List<Message> _data = [];
   int _me;
 
   ChatBodyState(this._matches);
 
   ChatBloc _bloc;
+
+  ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -54,6 +57,11 @@ class ChatBodyState extends State<ChatBody> {
       _bloc.dispatch(LoadedChatEvent());
     });
     super.initState();
+    _controller.addListener((){
+      if(_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60){
+        _bloc.dispatch(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
+      }
+    });
   }
 
 
@@ -73,6 +81,7 @@ class ChatBodyState extends State<ChatBody> {
   @override
   void dispose() {
     _bloc.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -125,12 +134,19 @@ class ChatBodyState extends State<ChatBody> {
 
                   if (state is MessageState) {
                     _me = state.me;
+                    _data = state.messages;
+
+                    if(state.newPage){
+                      _data.addAll(state.messages);
+                    }
+
                     return ListView.builder(
+                      controller: _controller,
                       padding: new EdgeInsets.all(8.0),
                       reverse: true,
                       itemBuilder: (_, int index) =>
-                          ChatMessage(state.me, state.messages[index], _timeFormat, _dateFormat),
-                      itemCount: state.messages.length,
+                          ChatMessage(_me, _data[index], _timeFormat, _dateFormat),
+                      itemCount: _data.length,
                     );
                   }
                   return Center(child: SizedBox());

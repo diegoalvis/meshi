@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:meshi/data/api/chat_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/message_dao.dart';
@@ -23,8 +21,8 @@ class ChatRepository {
   }
 
   Future<List<Message>> getMessages(int matchId,
-      {int limit = 60, int skip, int from}) async {
-    final result = await _api.getMessages(matchId, limit: limit, skip: skip, from:from);
+      {int limit = 60, int skipFrom, int from}) async {
+    final result = await _api.getMessages(matchId, limit: limit, skipFrom: skipFrom, from:from);
     await _dao.removeAll(matchId);
     await _dao.insertAll(result.data);
     return result.data;

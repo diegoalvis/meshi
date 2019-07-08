@@ -49,3 +49,15 @@ class BlockMatchEvent extends ChatEvents {
     return "BlockMatchEvent";
   }
 }
+
+class LoadPageEvent extends ChatEvents{
+  int from;
+  LoadPageEvent(this.from);
+
+  @override
+  String toString() {
+    return "LoadPageEvent";
+  }
+
+}
+
