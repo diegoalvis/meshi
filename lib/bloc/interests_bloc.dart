@@ -4,7 +4,6 @@
  */
 
 import 'dart:async';
-
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -19,18 +18,18 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final ChatRepository chatRepository;
   final NotificationManager notificationsManager;
 
-  //StreamSubscription variable;
-
-  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, SessionManager session) : super(session: session) {
-    notificationsManager.notificationSubject.stream.listen((message) {
-      dispatch(InterestsEvent(InterestsEventType.refreshMutuals));
+  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, session): super(session: session){
+    notificationsManager.notificationSubject.stream.listen((matchIndex) {
+      int index = matches.indexWhere((match) => match.idMatch == matchIndex.idMatch);
+      matches[index].lastMessage = matchIndex.lastMessage;
+      matches[index].lastDate = matchIndex.lastDate;
+      dispatch(InterestsEvent(InterestsEventType.updateMatchLastMessage));
     });
   }
 
   @override
   void dispose() {
     notificationsManager.dispose();
-    //variable.cancel();
     super.dispose();
   }
 
@@ -84,6 +83,10 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
           yield PerformingRequestState();
           await repository.blockMatch(event.data[0]);
           matches.removeAt(event.data[1]);
+          yield SuccessState<List<UserMatch>>(data: matches);
+          break;
+        case InterestsEventType.updateMatchLastMessage:
+          yield PerformingRequestState();
           yield SuccessState<List<UserMatch>>(data: matches);
           break;
       }
@@ -151,5 +154,6 @@ enum InterestsEventType {
   onLikesMePageSelected,
   onMutualPageSelected,
   clearChat,
-  blockMatch
+  blockMatch,
+  updateMatchLastMessage
 }

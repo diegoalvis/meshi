@@ -30,9 +30,11 @@ class UserMatch {
     final data = msg["data"];
     final id = data["id"] == null ? null : int.parse(data["id"]);
     final name = data["name"] as String;
+    final lastDate = data["lastDate"] == null ? null : DateTime.parse(data["lastDate"] as String);
     final idMatch = data["idMatch"] == null ? null : int.parse(data["idMatch"]);
-    final erasedDate = msg['erasedDate'] == null ? null : DateTime.parse(msg['erasedDate'] as String);
-    return UserMatch(id: id, name: name, idMatch: idMatch, erasedDate: erasedDate);
+    final lastMessage = data["lastMessage"] as String;
+    final erasedDate = data["erasedDate"] == null ? null : DateTime.parse(data["erasedDate"] as String);
+    return UserMatch(id: id, name: name, lastDate: lastDate, idMatch: idMatch, lastMessage: lastMessage, erasedDate: erasedDate);
   }
   factory UserMatch.fromJson(Map<String, dynamic> json) => _$UserMatchFromJson(json);
   Map<String, dynamic> toJson() => _$UserMatchToJson(this);

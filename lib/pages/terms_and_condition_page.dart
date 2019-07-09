@@ -1,18 +1,16 @@
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class TermsAndConditionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+    return WebviewScaffold(
       appBar: AppBar(
-        brightness: Brightness.light,
         title: Text("Terminos y condiciones"),
       ),
-      body: WebView(
-        initialUrl: "https://meshi-app.herokuapp.com/terms",
-      ),
+      url: "https://meshi-app.herokuapp.com/terms",
+      hidden: true,
+      initialChild: Center(child: CircularProgressIndicator()),
     );
   }
 }
