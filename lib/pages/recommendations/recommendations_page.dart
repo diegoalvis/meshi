@@ -160,12 +160,60 @@ class RecommendationsList extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                   child: Container(
                     child: Card(
-                      child: ListTile(
-                        title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(user?.description ?? ""),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        child: ListTile(
+                          title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text(user?.description ?? ""),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                  child: Container(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        child: ListTile(
+                          title: Text('En mis tiempos libres', style: TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text(user?.freeTime ?? ""),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                  child: Container(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        child: ListTile(
+                          title: Text('Me dedico a ', style: TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text(user?.occupation ?? ""),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                  child: Container(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        child: ListTile(
+                          title: Text('Me interesa', style: TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text(user?.interests ?? ""),
+                        ),
                       ),
                     ),
                   ),
