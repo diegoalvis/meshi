@@ -30,6 +30,7 @@ class MutualPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<InterestsBloc>();
+    _bloc.lastMessageListener();
     if (matches == null) {
       _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
     }

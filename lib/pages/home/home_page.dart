@@ -81,28 +81,46 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
       });
     }
     _fcm.configure(onMessage: (Map<String, dynamic> message) async {
-      print('on message $message');
-      foregroundNotification.notificationSubject.sink.add(0);
-    }, onResume: (Map<String, dynamic> message) async {
-      // todo usar switch por favor
-      if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
+      if(message["data"]["typeMessage"] == NOTIFICATION_CHAT){
+        print('on message $message');
         final match = UserMatch.fromMessage(message);
-        Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
-      } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
-        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-      }else {
-        Navigator.pushReplacementNamed(context, HOME_ROUTE);
+        foregroundNotification.notificationSubject.sink.add(match);
+        print('on message $message');
+      }else{
+        print('on message $message');
+      }
+    }, onResume: (Map<String, dynamic> message) async {
+      switch (message["data"]["typeMessage"]) {
+        case NOTIFICATION_CHAT:
+          final match = UserMatch.fromMessage(message);
+          Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
+          break;
+        case NOTIFICATION_REWARD:
+          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+          break;
+        case NOTIFICATION_WINNER:
+          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+          break;
+        default:
+          Navigator.pushReplacementNamed(context, HOME_ROUTE);
+          break;
       }
     }, onLaunch: (Map<String, dynamic> message) async {
-      if (message["data"]["typeMessage"] == NOTIFICATION_CHAT) {
-        UserMatch match = UserMatch.fromMessage(message);
-        Navigator.pushReplacementNamed(context, CHAT_ROUTE, arguments: match);
-      } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
-        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-      } else {
-        Navigator.pushReplacementNamed(context, HOME_ROUTE);
-      }
-    });
+      switch (message["data"]["typeMessage"]) {
+        case NOTIFICATION_CHAT:
+          final match = UserMatch.fromMessage(message);
+          Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
+          break;
+        case NOTIFICATION_REWARD:
+          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+          break;
+        case NOTIFICATION_WINNER:
+          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+          break;
+        default:
+          Navigator.pushReplacementNamed(context, HOME_ROUTE);
+          break;
+      }});
 
     _fcm.getToken().then((token) {
       print('TOKEEEEEN');

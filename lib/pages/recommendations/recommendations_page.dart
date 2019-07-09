@@ -36,14 +36,6 @@ class RecommendationsPage extends StatelessWidget {
 }
 
 class RecommendationsList extends StatelessWidget {
-  List<String> assertions = [
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-  ];
   List<Recomendation> users = [];
   RecommendationsBloc _bloc;
   bool loading = false;
