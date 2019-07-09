@@ -133,11 +133,12 @@ class ChatBodyState extends State<ChatBody> {
                   }
 
                   if (state is MessageState) {
-                    _me = state.me;
-                    _data = state.messages;
-
                     if(state.newPage){
                       _data.addAll(state.messages);
+                    }else{
+                      _me = state.me;
+                      _data = state.messages;
+
                     }
 
                     return ListView.builder(
