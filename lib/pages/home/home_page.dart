@@ -61,6 +61,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     ProfilePage(),
     SettingsPage(),
   ];
+
   HomeSection _currentPage = InterestsMainPage();
 
   @override
@@ -90,7 +91,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
         Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
       } else if (message["data"]["typeMessage"] == NOTIFICATION_REWARD) {
         setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-      }else {
+      } else {
         Navigator.pushReplacementNamed(context, HOME_ROUTE);
       }
     }, onLaunch: (Map<String, dynamic> message) async {
@@ -142,19 +143,23 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
           ),
         ),
       ),
-      floatingActionButton: _currentPage.showFloatingButton()
-          ? FloatingActionButton(
-              shape: DiamondBorder(),
-              onPressed: () => _currentPage.onFloatingButtonPressed(context),
-              tooltip: 'Increment',
-              child: Padding(
-                padding: EdgeInsets.only(right: 5),
-                child: Icon(
-                  AppIcons.logo,
-                  color: Colors.white,
-                  size: 18,
-                ),
-              ))
+      floatingActionButton: _currentPage.showFloatingButton() ?
+          Container(
+            width: 65,
+            height: 65,
+            child: FloatingActionButton(
+                shape: DiamondBorder(),
+                onPressed: () => _currentPage.onFloatingButtonPressed(context),
+                tooltip: 'Increment',
+                child: Padding(
+                  padding: EdgeInsets.only(right: 5),
+                  child: Icon(
+                    AppIcons.logo,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                )),
+          )
           : null, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

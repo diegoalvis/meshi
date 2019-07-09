@@ -4,6 +4,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:meshi/utils/app_icons.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:meta/meta.dart';
 
 class MenuPage extends StatelessWidget {
@@ -21,7 +23,8 @@ class MenuPage extends StatelessWidget {
         assert(categories != null);
 
   Widget _buildCategory(BuildContext context, String category, int pos) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context).colorScheme;
+    final strings = MyLocalizations.of(context);
     return GestureDetector(
       onTap: () => onCategoryTap(category, pos),
       child: category == currentCategory
@@ -30,24 +33,37 @@ class MenuPage extends StatelessWidget {
                 Spacer(),
                 Text(
                   category,
-                  style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 18.0),
+                  style: TextStyle(color: theme.onPrimary, fontSize: 18.0),
                   textAlign: TextAlign.center,
                 ),
                 Container(
                   width: category.length * 8.0,
                   height: 2.0,
-                  color: theme.colorScheme.onPrimary,
+                  color: theme.onPrimary,
                 ),
                 Spacer(),
               ],
             )
-          : Center(
-            child: Text(
-              category,
-              style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 17.0),
-              textAlign: TextAlign.center,
+          : Row(
+              children: <Widget>[
+                Spacer(),
+                category == strings.homeSections[2]
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Icon(
+                          AppIcons.crown,
+                          color: theme.onPrimary,
+                          size: 16,
+                        ))
+                    : SizedBox(),
+                Text(
+                  category,
+                  style: TextStyle(color: theme.onPrimary, fontSize: 17.0),
+                  textAlign: TextAlign.center,
+                ),
+                Spacer(),
+              ],
             ),
-          ),
     );
   }
 
@@ -63,7 +79,7 @@ class MenuPage extends StatelessWidget {
               child: Column(
                   children: categories
                       .map((String category) =>
-                      Expanded(child: _buildCategory(context, category, categories.indexOf(category))))
+                          Expanded(child: _buildCategory(context, category, categories.indexOf(category))))
                       .toList()),
             ),
           ],

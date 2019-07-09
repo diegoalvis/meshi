@@ -6,6 +6,7 @@
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -20,7 +21,7 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
     return InjectorWidget.bind(
       bindFunc: (binder) {
         final inj = InjectorWidget.of(context);
-        binder.bindLazySingleton((injector, params) => InterestsBloc(inj.get(), inj.get(), inj.get()));
+        binder.bindLazySingleton((injector, params) => InterestsBloc(inj.get(), inj.get(), inj.get(), inj.get<SessionManager>()));
       },
       child: InterestsMainPageContainer(),
     );

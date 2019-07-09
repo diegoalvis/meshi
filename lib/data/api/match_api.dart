@@ -19,6 +19,7 @@ class MatchApi extends BaseApi {
 
   Future<BaseResponse<List<UserMatch>>> getMatches(
       {bool interacted = false, bool premium = false}) async {
+    print("test");
     return get("/users/matches", query: {"interacted": interacted, "premium": premium})
         .then((response) => processListResponse(response, parseListMatch));
   }

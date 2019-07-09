@@ -36,14 +36,6 @@ class RecommendationsPage extends StatelessWidget {
 }
 
 class RecommendationsList extends StatelessWidget {
-  List<String> assertions = [
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-    "Primera coincidencia",
-  ];
   List<Recomendation> users = [];
   RecommendationsBloc _bloc;
   bool loading = false;
@@ -164,6 +156,7 @@ class RecommendationsList extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: CompatibilityIndicator(
                     similarities: user.similarities,
+                    compatibility: user.score,
                   ),
                 ),
                 Padding(
@@ -200,11 +193,7 @@ class RecommendationsList extends StatelessWidget {
                         color: Theme.of(context).accentColor,
                         child: Row(
                           children: <Widget>[
-                            Icon(
-                              AppIcons.curve,
-                              size: 30,
-                              color: Colors.white,
-                            ),
+                            Icon(AppIcons.curve, size: 18, color: Colors.white),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(

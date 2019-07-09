@@ -45,11 +45,10 @@ class App extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
           ],
           supportedLocales: [
-            const Locale('en', ''),
+//            const Locale('en', ''),
             const Locale('es', ''),
           ],
           theme: buildTheme(),
-          home: HomePage(),
           initialRoute: LOGIN_ROUTE,
           routes: <String, WidgetBuilder>{
             LOGIN_ROUTE: (BuildContext context) => LoginPage(),
@@ -66,7 +65,7 @@ class App extends StatelessWidget {
             PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
             SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
             CONTACT_ROUTE: (BuildContext context) => ContactPage(),
-            TERM_AND_CONDITIONS: (BuildContext context) => Term(),
+            TERM_AND_CONDITIONS: (BuildContext context) => TermsAndConditionsPage(),
             PREMIUM: (BuildContext context) => PremiumPage(),
           },
         ));
@@ -74,7 +73,7 @@ class App extends StatelessWidget {
 }
 
 // Route names
-const String LOGIN_ROUTE = '/login';
+const String LOGIN_ROUTE = '/';
 const String HOME_ROUTE = '/home';
 const String REGISTER_ROUTE = '/register';
 const String FORM_ROUTE = '/form';
@@ -98,6 +97,8 @@ ThemeData buildTheme() => ThemeData(
       primaryColorLight: Color(0xFF672836),
       accentColor: Color(0xFF80065E),
       dividerColor: Color(0xFFCCCCCC),
+      appBarTheme: AppBarTheme(brightness: Brightness.dark),
+      primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
       colorScheme: ColorScheme(
           primary: Color(0xFF5E2531),
           primaryVariant: Color(0xFF672836),

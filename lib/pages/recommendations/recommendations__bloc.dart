@@ -44,7 +44,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   }
 }
 
-class RecommendationsEvents {}
+abstract class RecommendationsEvents {}
 
 class GetRecommendationsEvent extends RecommendationsEvents {
   @override

@@ -6,6 +6,7 @@
 import 'dart:async';
 
 import 'package:meshi/bloc/base_bloc.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user_match.dart';
@@ -20,7 +21,7 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
 
   //StreamSubscription variable;
 
-  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager) {
+  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, SessionManager session) : super(session: session) {
     notificationsManager.notificationSubject.stream.listen((message) {
       dispatch(InterestsEvent(InterestsEventType.refreshMutuals));
     });

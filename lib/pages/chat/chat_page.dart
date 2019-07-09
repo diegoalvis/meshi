@@ -164,7 +164,7 @@ class ChatBodyState extends State<ChatBody> {
 
   Widget _chatInput() => Material(
         child: Container(
-          height: 55,
+          height: 65,
           decoration: BoxDecoration(color: Color.fromARGB(255, 221, 221, 221)),
           child: Row(
             children: <Widget>[

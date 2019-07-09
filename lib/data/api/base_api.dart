@@ -103,6 +103,7 @@ class BaseApi {
       }
 
       return BaseResponse(success: success, data: data, error: error);
+
     } else if (response.statusCode == 403) {
       throw AuthorizationException(cause: "Unauthorized");
     } else if (response.statusCode == 404) {

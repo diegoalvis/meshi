@@ -45,7 +45,7 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                         Icon(
                           AppIcons.hearth,
                           color: Theme.of(context).primaryColor,
-                          size: 30,
+                          size: 25,
                         ),
                         SizedBox(width: 20),
                         Expanded(child: Text("${strings.weAgree} $compatibilityPercent", style: TextStyle(fontWeight: FontWeight.bold))),
