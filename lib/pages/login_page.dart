@@ -95,10 +95,13 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                 flex: 3,
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Icon(
-                    AppIcons.logo,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    size: 70,
+                  child: Container(
+                    width: 200,
+                    child: Icon(
+                      AppIcons.logo,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      size: 70,
+                    ),
                   ),
                 )),
             Expanded(
