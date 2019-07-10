@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dependencies/dependencies.dart';
@@ -24,6 +25,7 @@ import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/notification_utils.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../main.dart';
 
@@ -52,6 +54,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   String _previousCategory;
   HomeSection _previousPage;
   NotificationManager foregroundNotification;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
   // TODO test purposes
   List<HomeSection> homePages = [
@@ -70,6 +73,11 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     fcmListener();
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
+
+    var android = AndroidInitializationSettings("drawable/ic_logo");
+    var iOS = IOSInitializationSettings();
+    var platform = InitializationSettings(android, iOS);
+    flutterLocalNotificationsPlugin.initialize(platform, onSelectNotification: onSelectedNotification);
   }
 
   void fcmListener() {
@@ -82,13 +90,18 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
       });
     }
     _fcm.configure(onMessage: (Map<String, dynamic> message) async {
-      if(message["data"]["typeMessage"] == NOTIFICATION_CHAT){
-        print('on message $message');
-        final match = UserMatch.fromMessage(message);
-        foregroundNotification.notificationSubject.sink.add(match);
-        print('on message $message');
-      }else{
-        print('on message $message');
+      final match = UserMatch.fromMessage(message);
+      foregroundNotification.notificationSubject.sink.add(match);
+      switch (message["data"]["typeMessage"]) {
+        case NOTIFICATION_CHAT:
+          showNotification(0, match.name, match.lastMessage, message);
+          break;
+        case NOTIFICATION_REWARD:
+          showNotification(1, "Nueva cita", "Tenemos una nueva cita por la cual puedes participar", message);
+          break;
+        default:
+          showNotification(2, "Eres ganador", "Ganaste la cita en juego", message);
+          break;
       }
     }, onResume: (Map<String, dynamic> message) async {
       switch (message["data"]["typeMessage"]) {
@@ -167,7 +180,8 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
             height: 65,
             child: FloatingActionButton(
                 shape: DiamondBorder(),
-                onPressed: () => _currentPage.onFloatingButtonPressed(context),
+                onPressed: () => showNotification(0, "Title", "Body", "Message"),
+                    //_currentPage.onFloatingButtonPressed(context),
                 tooltip: 'Increment',
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
@@ -202,5 +216,32 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
             });
       }
     });
+  }
+
+  Future showNotification(int id, String title, String body, dynamic message) async {
+    //final data = jsonEncode(message);
+    var android = AndroidNotificationDetails("channel_id", "channel_name", "channel_description", priority: Priority.High, importance: Importance.Max);
+    var iOS = IOSNotificationDetails();
+    var platform = NotificationDetails(android, iOS);
+    await flutterLocalNotificationsPlugin.show(0, title, body, platform, payload: "data");
+  }
+
+  Future onSelectedNotification(String payload) async{
+    dynamic message = jsonDecode(payload);
+    switch (message["data"]["typeMessage"]) {
+      case NOTIFICATION_CHAT:
+        final match = UserMatch.fromMessage(message);
+        Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
+        break;
+      case NOTIFICATION_REWARD:
+        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+        break;
+      case NOTIFICATION_WINNER:
+        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
+        break;
+      default:
+        Navigator.pushReplacementNamed(context, HOME_ROUTE);
+        break;
+    }
   }
 }

@@ -31,6 +31,7 @@ dependencies:
   carousel_slider: ^1.3.0
   qr_flutter: ^2.0.0
   firebase_messaging: ^5.0.4
+  flutter_local_notifications:
   speech_bubble: ^0.0.1
   flutter:
     sdk: flutter
