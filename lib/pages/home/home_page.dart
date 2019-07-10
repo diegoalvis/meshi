@@ -180,8 +180,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
             height: 65,
             child: FloatingActionButton(
                 shape: DiamondBorder(),
-                onPressed: () => showNotification(0, "Title", "Body", "Message"),
-                    //_currentPage.onFloatingButtonPressed(context),
+                onPressed: () => _currentPage.onFloatingButtonPressed(context),
                 tooltip: 'Increment',
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
@@ -219,11 +218,11 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   }
 
   Future showNotification(int id, String title, String body, dynamic message) async {
-    //final data = jsonEncode(message);
+    final data = jsonEncode(message);
     var android = AndroidNotificationDetails("channel_id", "channel_name", "channel_description", priority: Priority.High, importance: Importance.Max);
     var iOS = IOSNotificationDetails();
     var platform = NotificationDetails(android, iOS);
-    await flutterLocalNotificationsPlugin.show(0, title, body, platform, payload: "data");
+    await flutterLocalNotificationsPlugin.show(0, title, body, platform, payload: data);
   }
 
   Future onSelectedNotification(String payload) async{
