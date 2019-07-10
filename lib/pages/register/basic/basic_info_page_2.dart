@@ -15,6 +15,8 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
   final _focusEmail = FocusNode();
   final _focusName = FocusNode();
   final _focusDate = FocusNode();
+  bool showLikeGenderText = false;
+  bool showGenderText = false;
 
   @override
   bool isInfoComplete() => infoComplete;
@@ -96,14 +98,25 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
               Row(
                 children: [
                   Expanded(
-                      child: Text(strings.self,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Theme.of(context).primaryColor))),
+                      child: Column(
+                        children: <Widget>[
+                          Text(strings.self,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Theme.of(context).primaryColor)),
+                          showGenderText ?
+                          Text(snapshot.data?.gender.toString() == "male" ? "Hombre" : "Mujer",
+                              style: TextStyle(color: Theme.of(context).primaryColor))
+                              : SizedBox()
+                        ],
+                      )),
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
                       data: [snapshot.data?.gender].toSet(),
-                      onGenderSelected: (gender) => bloc.userGender = gender,
+                      onGenderSelected: (gender) {
+                        showGenderText = true;
+                        bloc.userGender = gender;
+                      }
                     ),
                   ),
                 ],
@@ -111,10 +124,19 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
               Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      strings.interested,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          strings.interested,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                        showLikeGenderText ?
+                        Text(
+                          (snapshot.data.likeGender.contains("male") && snapshot.data.likeGender.contains("female")) ? "Hombres\n\Mujeres" : snapshot.data.likeGender.contains("female") ? "Mujeres" : snapshot.data.likeGender.contains("male")  ? "Hombres" : "" ,
+                          style: TextStyle(color: Theme.of(context).primaryColor))
+                            : SizedBox()
+                      ],
                     ),
                   ),
                   Expanded(
@@ -122,6 +144,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                     child: GenderSelector(
                         data: snapshot.data?.likeGender?.toSet(),
                         onGenderSelected: (gender) {
+                          showLikeGenderText = true;
                           if (snapshot.data?.likeGender?.contains(gender) == true) {
                             bloc.removeGender(gender);
                           } else {
