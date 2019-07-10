@@ -44,7 +44,7 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                         SizedBox(width: 10),
                         Icon(
                           AppIcons.hearth,
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).accentColor,
                           size: 25,
                         ),
                         SizedBox(width: 20),

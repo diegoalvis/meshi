@@ -78,55 +78,67 @@ class RewardContainer extends StatelessWidget {
                         : Column(children: [
                             Expanded(
                               child: rewardInfo?.winner == true
-                                  ? QrImage(data: "${BaseApi.BASE_URL_DEV}/winner/${rewardInfo?.joinId}" )
-                                  : Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""), fit: BoxFit.cover),
+                                  ? QrImage(data: "${BaseApi.BASE_URL_DEV}/winner/${rewardInfo?.joinId}")
+                                  : GestureDetector(
+                                      onTap: () => buildShowMoreInfoDialog(context),
+                                      child: Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""),
+                                          fit: BoxFit.cover)),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(children: [
-                                SizedBox(height: 24.0),
-                                Text(
-                                  rewardInfo?.winner == true
-                                      ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
-                                      : "${strings.meshiInvitation}",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                SizedBox(height: 30.0),
-                                Row(
-                                  children: [
-                                    Icon(Icons.attach_money),
-                                    SizedBox(width: 8.0),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
-                                        ],
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: SingleChildScrollView(
+                                  child: Column(children: [
+                                    SizedBox(height: 24.0),
+                                    GestureDetector(
+                                      onTap: () => buildShowMoreInfoDialog(context),
+                                      child: Text(
+                                        rewardInfo?.winner == true
+                                            ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
+                                            : "${strings.meshiInvitation}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 15),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 30.0),
-                                Row(
-                                  children: [
-                                    Icon(Icons.date_range),
-                                    SizedBox(width: 8.0),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(rewardInfo?.winner == true ? strings.validUntil : strings.participateUp)),
-                                          Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
-                                        ],
-                                      ),
+                                    SizedBox(height: 24.0),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.attach_money),
+                                        SizedBox(width: 8.0),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              Align(alignment: Alignment.centerLeft, child: Text(strings.value)),
+                                              Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(rewardInfo?.reward?.value?.toString() ?? "")),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                    SizedBox(height: 24.0),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.date_range),
+                                        SizedBox(width: 8.0),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(rewardInfo?.winner == true
+                                                      ? strings.validUntil
+                                                      : strings.participateUp)),
+                                              Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ]),
                                 ),
-                              ]),
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.all(10.0),
@@ -135,6 +147,25 @@ class RewardContainer extends StatelessWidget {
                           ]),
                   ),
                 );
+        });
+  }
+
+  Future buildShowMoreInfoDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Center(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                      "Puedes seleccionar a cuantos mutuos quieras, siempre y cuando hayas tenido interacción en chat con ellos.\n\nTranquilo, ellos (as) no se enterarán si los escogiste o no.Participarán por la cita exclusivamente quienes se escogieron mutuamente.\n\n¡La probabilidad de ganar es del 10%!\n\nLos ganadores serán responsables de movilizarse hasta el lugar de la cita.\n\nLa cita deberá redimirse en el tiempo establecido, de otra forma, se perderá la oportunidad de redimirla."),
+                ),
+              ),
+            ),
+          );
         });
   }
 

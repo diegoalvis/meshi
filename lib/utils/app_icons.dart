@@ -15,5 +15,5 @@ class AppIcons {
   static const IconData crown = const IconData(0xe807, fontFamily: _kFontFam);
   static const IconData curve = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData m = const IconData(0xe809, fontFamily: _kFontFam);
-  static const IconData premium = const IconData(0xe80a, fontFamily: _kFontFam);
+  static const IconData diamond = const IconData(0xe80a, fontFamily: _kFontFam);
 }

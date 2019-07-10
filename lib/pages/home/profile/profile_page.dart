@@ -158,14 +158,14 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
         Text(user?.description ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
             textAlign: TextAlign.left),
         SizedBox(height: 30.0),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            strings.hobbiesCaption,
-            textAlign: TextAlign.left,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
+//        Align(
+//          alignment: Alignment.centerLeft,
+//          child: Text(
+//            strings.hobbiesCaption,
+//            textAlign: TextAlign.left,
+//            style: TextStyle(fontWeight: FontWeight.bold),
+//          ),
+//        ),
         SizedBox(height: 8.0),
         Text(user?.freeTime ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
             textAlign: TextAlign.left),

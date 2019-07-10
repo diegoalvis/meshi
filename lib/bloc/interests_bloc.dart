@@ -18,7 +18,7 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final ChatRepository chatRepository;
   final NotificationManager notificationsManager;
 
-  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, session): super(session: session){
+  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, session) : super(session: session) {
     notificationsManager.notificationSubject.stream.listen((matchIndex) {
       int index = matches.indexWhere((match) => match.idMatch == matchIndex.idMatch);
       matches[index].lastMessage = matchIndex.lastMessage;

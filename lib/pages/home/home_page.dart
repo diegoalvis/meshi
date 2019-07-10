@@ -56,7 +56,6 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   NotificationManager foregroundNotification;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
-  // TODO test purposes
   List<HomeSection> homePages = [
     InterestsMainPage(),
     RewardPage(),

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/custom_widgets/list_premium.dart';
 
+import '../app_icons.dart';
+
 class PremiumPage extends StatefulWidget with HomeSection {
   @override
   State<StatefulWidget> createState() => PremiumPageState();
@@ -29,47 +31,46 @@ class PremiumPageState extends State<PremiumPage> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                          gradient:
-                              LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                          gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
                             Color(0xff5E2531),
                             Color(0xff80065E),
                           ])),
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(110, 30, 20, 20),
-                            child: Text(
-                              "Sé premium",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onError,
-                                fontSize: 34,
-                                fontFamily: 'BettyLavea',
-                              ),
+                            padding: const EdgeInsets.all(24),
+                            child: Row(
+                              children: <Widget>[
+                                Spacer(),
+                                Icon(
+                                  AppIcons.diamond,
+                                  color: Colors.white70,
+                                  size: 40,
+                                ),
+                                SizedBox(width: 32),
+                                Text(
+                                  "Sé premium",
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 34,
+                                    fontFamily: 'BettyLavea',
+                                  ),
+                                ),
+                                Spacer(),
+                              ],
                             ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              SizedBox(height: 15),
-                              Text('Chatea sin Limites',
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onError,
-                                  )),
                               SizedBox(height: 16),
-                              Text('Participa por citas Regalo',
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onError,
-                                  )),
+                              buildPremiumFeatureItem('Chatea sin límites'),
                               SizedBox(height: 16),
-                              Text('Conoce mas personas de tu gusto',
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onError,
-                                  )),
+                              buildPremiumFeatureItem('Participa por citas regalo'),
                               SizedBox(height: 16),
-                              Text('Mira en que coincides con tu pareja',
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onError,
-                                  )),
+                              buildPremiumFeatureItem('Mira en qué eres compatible con cada persona'),
+                              SizedBox(height: 16),
+                              buildPremiumFeatureItem('Entérate a quién le interesas'),
                               SizedBox(height: 16),
                             ],
                           )
@@ -79,14 +80,30 @@ class PremiumPageState extends State<PremiumPage> {
                     Container(
                       child: ListPremium(),
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+                          color: Colors.white, borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
                     ),
                   ],
                 ),
               )),
         ],
       ),
+    );
+  }
+
+  Row buildPremiumFeatureItem(String title) {
+    return Row(
+      children: <Widget>[
+        SizedBox(width: 24),
+        Center(
+          child: ClipOval(child: Container(height: 8, width: 8, color: Colors.white70)),
+        ),
+        SizedBox(width: 8),
+        Text(title,
+            maxLines: 2,
+            style: TextStyle(
+              color: Colors.white70,
+            )),
+      ],
     );
   }
 }

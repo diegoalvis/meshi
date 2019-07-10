@@ -26,33 +26,25 @@ class ListPremiumState extends State<ListPremium> {
     final strings = MyLocalizations.of(context);
 
     List<Widget> listTiles = [
-      premiumListTile(context, "1", "Un mes", "9.000", "", 0),
-      premiumListTile(context, "6", "Seis meses", "48.000", "Ahorra 6.000", 1),
-      premiumListTile(context, "12", "Un año", "84.000", "Ahorra 24.000", 2),
+      premiumListTile(context, "1", "Un mes", "\$\ 19.000", "", 0),
+      premiumListTile(context, "6", "Seis meses\n15% OFF", "\$\ 16.000", "por mes", 1),
+      premiumListTile(context, "12", "Doce meses\n25% OFF", "\$\ 14.000", "por mes", 2),
     ];
 
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+          border: Border.all(color: Colors.grey), borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: Column(
         children: <Widget>[
           listTiles[0],
           listTiles[1],
           listTiles[2],
           SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              FlatButton(
-                onPressed: (null),
-                child: Text(
-                  "PROBAR MES GRATIS",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Theme.of(context).accentColor),
-                ),
-              ),
-              RaisedButton(
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
                 onPressed: () {},
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 color: Theme.of(context).accentColor,
@@ -64,19 +56,18 @@ class ListPremiumState extends State<ListPremium> {
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget premiumListTile(
-      BuildContext context, String number, String month, String price, String save, int index) {
+  Widget premiumListTile(BuildContext context, String number, String month, String price, String save, int index) {
     return ListTile(
         leading: CircleAvatar(
           backgroundColor: _index == index ? Color(0xff6FCF97) : Color(0xffc4c4c4),
-          child: Text(number),
+          child: Text(number, style: TextStyle(color: Theme.of(context).accentColor)),
         ),
         title: Text(month),
         trailing: Column(
