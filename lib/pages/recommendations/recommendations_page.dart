@@ -8,11 +8,13 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
+import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
-import 'package:meshi/pages/recommendations/recommendations__bloc.dart';
+import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
+import 'package:meshi/utils/custom_widgets/premium_speech_bubble.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -164,22 +166,32 @@ class RecommendationsList extends StatelessWidget {
                   child: Container(
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
-                          title: Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
+                          title: Container(
+                            height: 40,
+                            child: Row(
+                              children: <Widget>[
+                                Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                Spacer(),
+                                user.type == TYPE_PREMIUM ? PremiumSpeechBubble() : SizedBox(),
+                              ],
+                            ),
+                          ),
+
+//                          Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.description ?? ""),
                         ),
                       ),
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                   child: Container(
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
                           title: Text('En mis tiempos libres', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.freeTime ?? ""),
@@ -188,13 +200,12 @@ class RecommendationsList extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                   child: Container(
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
                           title: Text('Me dedico a ', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.occupation ?? ""),
@@ -203,13 +214,12 @@ class RecommendationsList extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                   child: Container(
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8.0, bottom: 8.0),
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
                           title: Text('Me interesa', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.interests ?? ""),

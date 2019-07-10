@@ -17,7 +17,6 @@ import 'package:meshi/utils/custom_widgets/interests_profile_image.dart';
 import 'package:meshi/utils/custom_widgets/premium_speech_bubble.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
-import 'package:speech_bubble/speech_bubble.dart';
 
 class InterestsProfilePage extends StatelessWidget with HomeSection {
   @override

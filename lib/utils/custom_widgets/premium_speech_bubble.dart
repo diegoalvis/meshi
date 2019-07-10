@@ -45,8 +45,8 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble>{
           },
           child: Container(
             color: Colors.transparent,
-            padding: const EdgeInsets.all(10.0),
-            child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 18),
+            padding: const EdgeInsets.all(4.0),
+            child: Icon(AppIcons.crown, color: Theme.of(context).accentColor, size: 16),
           ),
         ),
       ],
