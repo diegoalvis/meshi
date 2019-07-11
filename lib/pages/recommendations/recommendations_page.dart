@@ -41,7 +41,7 @@ class RecommendationsList extends StatelessWidget {
   List<Recomendation> users = [];
   RecommendationsBloc _bloc;
   bool loading = false;
-  bool isUser;
+  Recomendation currentUser = Recomendation();
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +231,7 @@ class RecommendationsList extends StatelessWidget {
               ],
             ),
           ),
-          loading
+        loading
               ? Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(

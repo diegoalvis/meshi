@@ -54,7 +54,10 @@ class ErrorState extends BaseState {
   String toString() => 'state-error';
 }
 
-class ExitState extends BaseState {
+class ExitState<T> extends BaseState {
+  T data;
+  ExitState({this.data}): super(props: [data]);
+
   @override
   String toString() => 'state-exit';
 }
