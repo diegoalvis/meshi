@@ -193,7 +193,7 @@ class RecommendationsList extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
-                          title: Text('En mis tiempos libres', style: TextStyle(fontWeight: FontWeight.bold)),
+                          title: Text(strings.myFreeTime, style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.freeTime ?? ""),
                         ),
                       ),
@@ -207,7 +207,7 @@ class RecommendationsList extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
-                          title: Text('Me dedico a ', style: TextStyle(fontWeight: FontWeight.bold)),
+                          title: Text(strings.myDedication, style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.occupation ?? ""),
                         ),
                       ),
@@ -221,7 +221,7 @@ class RecommendationsList extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: ListTile(
-                          title: Text('Me interesa', style: TextStyle(fontWeight: FontWeight.bold)),
+                          title: Text(strings.myInterestsDes, style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.interests ?? ""),
                         ),
                       ),

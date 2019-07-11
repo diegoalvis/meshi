@@ -30,7 +30,8 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
     UserDetail userDetails = ModalRoute.of(context).settings.arguments;
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindSingleton(InterestsProfileBloc(userDetails.id, InjectorWidget.of(context).get()));
+          binder.bindSingleton(InterestsProfileBloc(
+              userDetails.id, InjectorWidget.of(context).get()));
         },
         child: Scaffold(body: InterestsProfileBody(userDetails)));
   }
@@ -72,47 +73,103 @@ class InterestsProfileBody extends StatelessWidget {
           }
           if (state is ErrorState) {
             onWidgetDidBuild(() {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
+              Scaffold.of(context).showSnackBar(
+                  SnackBar(content: Text(strings.anErrorOccurred)));
             });
           }
           return user == null
               ? Center(child: Text(strings.noInformationAvailable))
-              : Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: InterestsProfileImage(
-                        user: user,
-                        widget1: Padding(
-                          padding: const EdgeInsets.only(top: 18.0, left: 8.0, right: 8.0),
-                          child: CompatibilityIndicator(compatibility: user.score, similarities: user.similarities),
-                        ),
-                        widget2: Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                title: Container(
-                                  height: 40,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
-                                      Spacer(),
-                                      user.type == TYPE_PREMIUM
-                                          ? PremiumSpeechBubble()
-                                          : SizedBox(),
-                                    ],
-                                  ),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Text(
-                                    user?.description ?? "",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 10,
-                                  ),
-                                ),
+              : InterestsProfileImage(
+                  user: user,
+                  content: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 18.0, left: 8.0, right: 8.0),
+                      child: CompatibilityIndicator(
+                          compatibility: user.score,
+                          similarities: user.similarities),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Container(
+                              height: 40,
+                              child: Row(
+                                children: <Widget>[
+                                  Text(strings.aboutMe,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  Spacer(),
+                                  user.type == TYPE_PREMIUM
+                                      ? PremiumSpeechBubble()
+                                      : SizedBox(),
+                                ],
                               ),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text(
+                                user?.description ?? "",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Text(strings.myFreeTime,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.freeTime ?? ""),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Text(strings.myDedication,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.occupation ?? ""),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Text(strings.myInterestsDes,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.interests ?? ""),
                             ),
                           ),
                         ),
@@ -160,7 +217,8 @@ class InterestsProfileBody extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           strings.imNotInterested,
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ],
@@ -170,7 +228,8 @@ class InterestsProfileBody extends StatelessWidget {
                   onPressed: () {
                     _bloc.dispatch(InterestsProfileEvents.AddMatch);
                   },
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0)),
                   color: Theme.of(context).accentColor,
                   child: Row(
                     children: <Widget>[
@@ -214,7 +273,8 @@ class InterestsProfileBody extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           strings.imNotInterestedNow,
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ],

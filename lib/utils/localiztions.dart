@@ -234,6 +234,11 @@ class MyLocalizations {
 
   String get aboutMe => _localizedSingleValues[locale.languageCode]['about_me'];
 
+  String get myFreeTime => _localizedSingleValues[locale.languageCode]['my_free_time'];
+  String get myInterestsDes => _localizedSingleValues[locale.languageCode]['my_interests_des'];
+  String get myDedication => _localizedSingleValues[locale.languageCode]['my_occupation'];
+
+
   String get youDoNotHaveMutualsYet =>
       _localizedSingleValues[locale.languageCode]
           ['you_do_not_have_mutuals_yet'];
@@ -444,6 +449,9 @@ class MyLocalizations {
       'log_in': 'Log In',
       'placeholder_user': 'User',
       'educational_level_caption': '¿What is your educational level?',
+      'my_free_time':'In my free times',
+      'my_occupation':"I'm dedicated to",
+      'my_interests_des':"I'm interested in",
     },
 
 /* Spanish text resources */
@@ -559,6 +567,9 @@ class MyLocalizations {
       'log_in': 'Ingresar',
       'placeholder_user': 'Usuario',
       'educational_level_caption': '¿Cual es tu grado de escolaridad?',
+      'my_free_time':'En mis tiempos libres',
+      'my_occupation':"Me dedico a",
+      'my_interests_des':"Me interesa",
     },
   };
 

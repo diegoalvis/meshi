@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/user_repository.dart';
+import 'package:meshi/main.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
@@ -26,8 +27,6 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/notification_utils.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-import '../../main.dart';
 
 class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
