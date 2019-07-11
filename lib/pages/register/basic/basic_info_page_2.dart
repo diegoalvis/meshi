@@ -133,7 +133,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                         ),
                         showLikeGenderText ?
                         Text(
-                          (snapshot.data.likeGender.contains("male") && snapshot.data.likeGender.contains("female")) ? "Hombres\n\Mujeres" : snapshot.data.likeGender.contains("female") ? "Mujeres" : snapshot.data.likeGender.contains("male")  ? "Hombres" : "" ,
+                          (snapshot.data.likeGender.contains("male") && snapshot.data.likeGender.contains("female")) ? "Hombres\n\  Mujeres" : snapshot.data.likeGender.contains("female") ? "Mujeres" : snapshot.data.likeGender.contains("male")  ? "Hombres" : "" ,
                           style: TextStyle(color: Theme.of(context).primaryColor))
                             : SizedBox()
                       ],
