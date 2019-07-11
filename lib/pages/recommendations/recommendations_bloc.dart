@@ -23,7 +23,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
       yield* _loadRecommendationsToState();
     } else if (event is AddMatchEvent) {
       try {
-        yield PerformingRequestState();
+        yield AddingMatchState(event.user.id);
         await _repository.addMatch(event.user.id);
         users.remove(event.user);
         yield SuccessState<List<Recomendation>>(data: users);
@@ -61,3 +61,13 @@ class AddMatchEvent extends RecommendationsEvents {
   @override
   String toString() => 'AddMatch {user: $user}';
 }
+
+class AddingMatchState extends BaseState {
+  final int idMatch;
+
+  AddingMatchState(this.idMatch): super(props: [idMatch]);
+
+  @override
+  String toString() => 'state-adding-match';
+}
+

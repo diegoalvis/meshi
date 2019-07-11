@@ -38,12 +38,16 @@ class BaseApi {
 
   Future<Response<Map<String, dynamic>>> put(String path, {Map<String, dynamic> body}) async {
     final auth = await _mkAuth(session);
-    return await _dio.put<Map<String, dynamic>>(path, data: body, options: auth);
+    return await _dio.put<Map<String, dynamic>>(path, data: body, options: auth).catchError((error) {
+      print(error);
+    });
   }
 
   Future<Response<Map<String, dynamic>>> delete(String path) async {
     final auth = await _mkAuth(session);
-    return await _dio.delete<Map<String, dynamic>>(path, options: auth);
+    return await _dio.delete<Map<String, dynamic>>(path, options: auth).catchError((error) {
+      print(error);
+    });
   }
 
   Future<Options> _mkAuth(SessionManager session) async {

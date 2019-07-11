@@ -38,14 +38,13 @@ class RecommendationsPage extends StatelessWidget {
 }
 
 class RecommendationsList extends StatelessWidget {
-  List<Recomendation> users = [];
   RecommendationsBloc _bloc;
-  bool loading = false;
-  Recomendation currentUser = Recomendation();
 
   @override
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
+    List<Recomendation> users = [];
+    int itemLoadingIndex = -1;
     final strings = MyLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -58,9 +57,6 @@ class RecommendationsList extends StatelessWidget {
           BlocBuilder(
               bloc: _bloc,
               builder: (context, state) {
-                if (state is PerformingRequestState) {
-                  loading = true;
-                }
                 if (state is LoadingState) {
                   return Flexible(
                     child: Container(
@@ -72,7 +68,6 @@ class RecommendationsList extends StatelessWidget {
                   );
                 }
                 if (state is SuccessState<List<Recomendation>>) {
-                  loading = false;
                   users = state.data;
                 }
                 if (state is ErrorState) {
@@ -83,20 +78,23 @@ class RecommendationsList extends StatelessWidget {
                 if (state is InitialState) {
                   _bloc.dispatch(GetRecommendationsEvent());
                 }
+                if (state is AddingMatchState) {
+                  itemLoadingIndex = state.idMatch;
+                }
                 return Flexible(
-                  child: Container(
-                      color: Theme.of(context).primaryColor,
-                      child: users.length > 0
-                          ? Container(child: recommendationsCarousel(context))
-                          : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
-                );
+                        child: Container(
+                            color: Theme.of(context).primaryColor,
+                            child: users.length > 0
+                                ? Container(child: recommendationsCarousel(context, users, itemLoadingIndex))
+                                : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
+                      );
               }),
         ],
       ),
     );
   }
 
-  Widget recommendationsCarousel(BuildContext context) {
+  Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex) {
     return CarouselSlider(
       viewportFraction: 0.85,
       autoPlayCurve: Curves.easeIn,
@@ -107,13 +105,13 @@ class RecommendationsList extends StatelessWidget {
           return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
-              child: carouselWidget(context, user));
+              child: carouselWidget(context, user, itemLoadingIndex));
         },
       ).toList(),
     );
   }
 
-  Widget carouselWidget(BuildContext context, Recomendation user) {
+  Widget carouselWidget(BuildContext context, Recomendation user, int itemLoadingIndex) {
     final strings = MyLocalizations.of(context);
     RecommendationsBloc _bloc;
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
@@ -178,8 +176,6 @@ class RecommendationsList extends StatelessWidget {
                               ],
                             ),
                           ),
-
-//                          Text('Acerca de mi', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(user?.description ?? ""),
                         ),
                       ),
@@ -231,7 +227,7 @@ class RecommendationsList extends StatelessWidget {
               ],
             ),
           ),
-        loading
+          user.id == itemLoadingIndex
               ? Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Center(
