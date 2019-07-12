@@ -3,17 +3,22 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ListPremium extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() => ListPremiumState();
+
 }
 
 class ListPremiumState extends State<ListPremium> {
-  int _index;
+  int _index = 0;
+  SessionManager _sessionManager;
 
   @override
   void initState() {
@@ -24,6 +29,7 @@ class ListPremiumState extends State<ListPremium> {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
+    _sessionManager = InjectorWidget.of(context).get();
 
     List<Widget> listTiles = [
       premiumListTile(context, "1", "Un mes", "\$\ 19.000", "", 0),
@@ -45,7 +51,7 @@ class ListPremiumState extends State<ListPremium> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: _lunchUrlPay,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 color: Theme.of(context).accentColor,
                 child: Text(
@@ -88,5 +94,11 @@ class ListPremiumState extends State<ListPremium> {
             _index = index;
           });
         });
+  }
+
+  _lunchUrlPay() async {
+    int id = await _sessionManager.userId;
+    String url = 'https://meshi-app.herokuapp.com/payment/$id/$_index';
+    await launch(url);
   }
 }
