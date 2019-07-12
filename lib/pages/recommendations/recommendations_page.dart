@@ -44,7 +44,7 @@ class RecommendationsList extends StatelessWidget {
   Widget build(BuildContext context) {
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
     List<Recomendation> users = [];
-    int itemLoadingIndex = -1;
+    int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -79,13 +79,13 @@ class RecommendationsList extends StatelessWidget {
                   _bloc.dispatch(GetRecommendationsEvent());
                 }
                 if (state is AddingMatchState) {
-                  itemLoadingIndex = state.idMatch;
+                  idRecommendationAdded = state.idMatch;
                 }
                 return Flexible(
                         child: Container(
                             color: Theme.of(context).primaryColor,
                             child: users.length > 0
-                                ? Container(child: recommendationsCarousel(context, users, itemLoadingIndex))
+                                ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded))
                                 : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
                       );
               }),

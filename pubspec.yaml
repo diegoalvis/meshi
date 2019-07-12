@@ -1,7 +1,7 @@
 name: meshi
 description: Meshi mobile app.
 
-version: 0.0.1+1
+version: 0.0.2+1
 
 environment:
   sdk: ">=2.3.0-dev.0.5.flutter-a1668566e5 <3.0.0"
@@ -33,6 +33,8 @@ dependencies:
   firebase_messaging: ^5.0.4
   flutter_local_notifications:
   speech_bubble: ^0.0.1
+  flutter_offline: "^0.2.4"
+
   flutter:
     sdk: flutter
 

@@ -10,6 +10,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/user_repository.dart';
@@ -132,7 +133,8 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
         default:
           Navigator.pushReplacementNamed(context, HOME_ROUTE);
           break;
-      }});
+      }
+    });
 
     _fcm.getToken().then((token) {
       print('TOKEEEEEN');
@@ -168,27 +170,59 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
           backTitle: Text(strings.menu),
           frontTitle: _currentPage.getTitle(context),
           frontLayer: SafeArea(
-            child: _currentPage as Widget,
+            child: OfflineBuilder(
+              connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
+                final bool connected = connectivity != ConnectivityResult.none;
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    child,
+                    connected
+                        ? SizedBox()
+                        : Positioned(
+                            left: 0.0,
+                            right: 0.0,
+                            bottom: 0.0,
+                            child: Wrap(
+                              children: <Widget>[
+                                Container(
+                                  color: Color(0xFF303030),
+                                  padding: EdgeInsets.all(8),
+                                  child: Center(
+                                      child: Text("Sin conexion a internet",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ))),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ],
+                );
+              },
+              child: _currentPage as Widget,
+            ),
           ),
         ),
       ),
-      floatingActionButton: _currentPage.showFloatingButton() ?
-          Container(
-            width: 65,
-            height: 65,
-            child: FloatingActionButton(
-                shape: DiamondBorder(),
-                onPressed: () => _currentPage.onFloatingButtonPressed(context),
-                tooltip: 'Increment',
-                child: Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: Icon(
-                    AppIcons.logo,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                )),
-          )
+      floatingActionButton: _currentPage.showFloatingButton()
+          ? Container(
+              width: 65,
+              height: 65,
+              child: FloatingActionButton(
+                  shape: DiamondBorder(),
+                  onPressed: () => _currentPage.onFloatingButtonPressed(context),
+                  tooltip: 'Increment',
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Icon(
+                      AppIcons.logo,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  )),
+            )
           : null, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -217,13 +251,14 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
 
   Future showNotification(int id, String title, String body, dynamic message) async {
     final data = jsonEncode(message);
-    var android = AndroidNotificationDetails("channel_id", "channel_name", "channel_description", priority: Priority.High, importance: Importance.Max);
+    var android = AndroidNotificationDetails("channel_id", "channel_name", "channel_description",
+        priority: Priority.High, importance: Importance.Max);
     var iOS = IOSNotificationDetails();
     var platform = NotificationDetails(android, iOS);
     await flutterLocalNotificationsPlugin.show(0, title, body, platform, payload: data);
   }
 
-  Future onSelectedNotification(String payload) async{
+  Future onSelectedNotification(String payload) async {
     dynamic message = jsonDecode(payload);
     switch (message["data"]["typeMessage"]) {
       case NOTIFICATION_CHAT:

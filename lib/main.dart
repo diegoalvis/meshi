@@ -8,22 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/chat/chat_page.dart';
+import 'package:meshi/pages/contact/contact_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/utils/custom_widgets/premium_page.dart';
-import 'package:meshi/pages/recommendations/recommendations_page.dart';
-import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
-import 'package:meshi/pages/home/settings/settings_page.dart';
+import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/rewards/select_partner_page.dart';
+import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/interests_profile_page.dart';
 import 'package:meshi/pages/login_page.dart';
+import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/terms_and_condition_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
+import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/pages/contact/contact_page.dart';
 
 void main() {
   runApp(new App());
