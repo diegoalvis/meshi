@@ -33,6 +33,7 @@ dependencies:
   firebase_messaging: ^5.0.4
   flutter_local_notifications:
   speech_bubble: ^0.0.1
+  drop_cap_text: ^1.0.1
   flutter_offline: "^0.2.4"
 
   flutter:

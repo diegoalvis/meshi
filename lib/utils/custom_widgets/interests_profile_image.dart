@@ -74,8 +74,7 @@ class InterestsProfileImage extends StatefulWidget {
   InterestsProfileImage({this.image, this.content, this.user});
 
   @override
-  State<StatefulWidget> createState() =>
-      InterestsProfileImageState(image: image, content: content, user: user);
+  State<StatefulWidget> createState() => InterestsProfileImageState(image: image, content: content, user: user);
 }
 
 class InterestsProfileImageState extends State<InterestsProfileImage> {
@@ -99,7 +98,7 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
-                titlePadding: EdgeInsets.only(left: 80.0, bottom: 15),
+                titlePadding: EdgeInsets.only(left: 85.0, bottom: 15),
                 title: Align(
                   alignment: Alignment.bottomLeft,
                   child: Container(
@@ -121,31 +120,35 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
                     PageView.builder(
                         controller: _controller,
                         physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: user?.images != null
-                            ? user.images.length > 4 ? 4 : user.images.length
-                            : 0,
+                        itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
                         itemBuilder: (BuildContext context, int index) {
                           return sliderImage(user.images[index]);
                         }),
+                    Container(
+                      //height: 250,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                              Colors.transparent.withOpacity(0.1),
+                              Colors.transparent.withOpacity(0.15),
+                            ])
+                        )
+                    ),
                     Positioned(
                       right: 20,
                       child: SafeArea(
                         top: true,
                         child: DotsIndicator(
                           controller: _controller,
-                          itemCount: user?.images != null
-                              ? user.images.length > 4 ? 4 : user.images.length
-                              : 0,
+                          itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
                           onPageSelected: (int page) {
-                            _controller.animateToPage(page,
-                                duration: _kDuration, curve: _kCurve);
+                            _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
                           },
                         ),
                       ),
                     )
                   ],
                 ),
-              ),
+              )
             ),
           ];
         },

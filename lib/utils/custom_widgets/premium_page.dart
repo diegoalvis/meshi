@@ -98,11 +98,14 @@ class PremiumPageState extends State<PremiumPage> {
           child: ClipOval(child: Container(height: 8, width: 8, color: Colors.white70)),
         ),
         SizedBox(width: 8),
-        Text(title,
-            maxLines: 2,
-            style: TextStyle(
-              color: Colors.white70,
-            )),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Text(title,
+              maxLines: 2,
+              style: TextStyle(
+                color: Colors.white70,
+              )),
+        ),
       ],
     );
   }

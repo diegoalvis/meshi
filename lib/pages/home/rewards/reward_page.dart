@@ -16,6 +16,7 @@ import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:drop_cap_text/drop_cap_text.dart';
 
 import '../../../main.dart';
 
@@ -130,7 +131,9 @@ class RewardContainer extends StatelessWidget {
                                                   child: Text(rewardInfo?.winner == true
                                                       ? strings.validUntil
                                                       : strings.participateUp)),
-                                              Align(alignment: Alignment.centerLeft, child: Text(getRewardDate(rewardInfo))),
+                                              Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(getRewardDate(rewardInfo))),
                                             ],
                                           ),
                                         ),
@@ -183,7 +186,8 @@ class RewardContainer extends StatelessWidget {
         shape: winner || joined ? null : RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         color: winner || joined ? null : Theme.of(context).accentColor,
         child: Text(
-          "${winner ? "${strings.lookClaim}" : joined ? "${strings.alreadyJoined}" : "${strings.takePart}"}".toUpperCase(),
+          "${winner ? "${strings.lookClaim}" : joined ? "${strings.alreadyJoined}" : "${strings.takePart}"}"
+              .toUpperCase(),
           textAlign: TextAlign.center,
           style: TextStyle(color: winner || joined ? Theme.of(context).accentColor : Colors.white),
         ),

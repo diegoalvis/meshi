@@ -96,10 +96,10 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
           showNotification(0, match.name, match.lastMessage, message);
           break;
         case NOTIFICATION_REWARD:
-          showNotification(1, "Nueva cita", "Tenemos una nueva cita por la cual puedes participar", message);
+          showNotification(1, "Nueva Cita de Regalo", "Participa por una cita de", message);
           break;
         default:
-          showNotification(2, "Eres ganador", "Ganaste la cita en juego", message);
+          showNotification(2, '! Ganaste una cita ¡', "Eres el ganador de una fabulosa cita", message);
           break;
       }
     }, onResume: (Map<String, dynamic> message) async {

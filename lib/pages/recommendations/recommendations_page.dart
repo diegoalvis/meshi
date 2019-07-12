@@ -134,6 +134,15 @@ class RecommendationsList extends StatelessWidget {
                     )),
                   ),
                 ),
+                Container(
+                  //height: 250,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                          Colors.transparent.withOpacity(0),
+                          Colors.transparent.withOpacity(0.15),
+                        ])
+                    )
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Align(

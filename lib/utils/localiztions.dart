@@ -407,7 +407,7 @@ class MyLocalizations {
       'participate_by_appointment': 'PARTICIPATE FOR THE APPOINTMENT',
       'Choose_who_you_would':
           'Choose who you would like to go with and do not worry that person will not know',
-      'Select_your_partner': 'Select your partner',
+      'Select_your_partner': 'Choose',
       'appointment_of_week': 'Appointment of the week',
       'i_do_not_have_those': 'I do not have those establishments in my city',
       'Communicat_with_us':
@@ -484,7 +484,7 @@ class MyLocalizations {
       'valid_until': 'Válido hasta',
       'value': 'Valor',
       'meshi_invitation':
-          'Elige con cuales de tus mutuos quisieras participar. En caso coincidas con alguno de estos, tendrán la oportunidad deganar una cita paga por Meshi.',
+          'Elige con cuales de tus mutuos quisieras participar. En caso coincidas con alguno de estos, tendrán la oportunidad de ganar una cita paga por Meshi.',
       'won_appointment': ' ganaron una cita!!',
       'try_error': 'Ocurrio un error, por favor intentelo mas tarde',
       'or_more': 'o mas ',
@@ -525,7 +525,7 @@ class MyLocalizations {
       'participate_by_appointment': 'PARTICIPA POR LA CITA',
       'Choose_who_you_would':
           'Escoge con quién te gustaría ir y no te preocupes que esa persona no lo sabrá',
-      'Select_your_partner': 'Selecciona tu pareja',
+      'Select_your_partner': 'Elige',
       'appointment_of_week': 'Cita de la semana',
       'i_do_not_have_those': 'No tengo esos establecimientos en mi ciudad',
       'Communicat_with_us':
@@ -590,7 +590,7 @@ class MyLocalizations {
       'home_sections': [
         'Mis intereses',
         'Participa por una cita regalo',
-        'Hacerme Premiun',
+        'Hacerme Premium',
         'Ver mi perfil',
         'Ajustes'
       ],
