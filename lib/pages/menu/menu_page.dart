@@ -47,11 +47,11 @@ class MenuPage extends StatelessWidget {
           : Row(
               children: <Widget>[
                 Spacer(),
-                category == strings.homeSections[2]
+                category == strings.homeSections[3]
                     ? Padding(
                         padding: const EdgeInsets.only(right: 16.0),
                         child: Icon(
-                          AppIcons.crown,
+                          AppIcons.diamond,
                           color: theme.onPrimary,
                           size: 16,
                         ))

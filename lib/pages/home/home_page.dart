@@ -17,6 +17,7 @@ import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
+import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
@@ -57,6 +58,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
   List<HomeSection> homePages = [
+    RecommendationsPage(),
     InterestsMainPage(),
     RewardPage(),
     PremiumPage(),
@@ -64,7 +66,9 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     SettingsPage(),
   ];
 
-  HomeSection _currentPage = InterestsMainPage();
+  HomeSection _currentPage = RecommendationsPage();
+
+  Text title = Text("meshi", style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'BettyLavea'));
 
   @override
   void initState() {
@@ -162,6 +166,8 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
       body: HomeBlocProvider(
         bloc: _bloc,
         child: BackdropMenu(
+          menuTitle: title,
+          // This trailing comma makes auto-formatting nicer for build methods.,
           backLayer: MenuPage(
             currentCategory: _currentCategory ?? strings.homeSections[0],
             onCategoryTap: (category, pos) => setCurrentHomePage(pos, category, context),
@@ -169,40 +175,38 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
           ),
           backTitle: Text(strings.menu),
           frontTitle: _currentPage.getTitle(context),
-          frontLayer: SafeArea(
-            child: OfflineBuilder(
-              connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
-                final bool connected = connectivity != ConnectivityResult.none;
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    child,
-                    connected
-                        ? SizedBox()
-                        : Positioned(
-                            left: 0.0,
-                            right: 0.0,
-                            bottom: 0.0,
-                            child: Wrap(
-                              children: <Widget>[
-                                Container(
-                                  color: Color(0xFF303030),
-                                  padding: EdgeInsets.all(8),
-                                  child: Center(
-                                      child: Text("Sin conexion a internet",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ))),
-                                ),
-                              ],
-                            ),
+          frontLayer: OfflineBuilder(
+            connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
+              final bool connected = connectivity != ConnectivityResult.none;
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  child,
+                  connected
+                      ? SizedBox()
+                      : Positioned(
+                          left: 0.0,
+                          right: 0.0,
+                          bottom: 0.0,
+                          child: Wrap(
+                            children: <Widget>[
+                              Container(
+                                color: Color(0xFF303030),
+                                padding: EdgeInsets.all(8),
+                                child: Center(
+                                    child: Text("Sin conexion a internet",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ))),
+                              ),
+                            ],
                           ),
-                  ],
-                );
-              },
-              child: _currentPage as Widget,
-            ),
+                        ),
+                ],
+              );
+            },
+            child: _currentPage as Widget,
           ),
         ),
       ),
@@ -212,7 +216,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
               height: 65,
               child: FloatingActionButton(
                   shape: DiamondBorder(),
-                  onPressed: () => _currentPage.onFloatingButtonPressed(context),
+                  onPressed: () => setCurrentHomePage(0, MyLocalizations.of(context).homeSections.elementAt(0), context),
                   tooltip: 'Increment',
                   child: Padding(
                     padding: EdgeInsets.only(right: 5),
@@ -223,13 +227,19 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
                     ),
                   )),
             )
-          : null, // This trailing comma makes auto-formatting nicer for build methods.
+          : null,
     );
   }
 
   void setCurrentHomePage(int pos, String category, BuildContext context) {
     setState(() {
-      if (pos != 2) {
+      if (pos < 2) {
+        title = Text("meshi", style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'BettyLavea'));
+      } else if (pos != 3) {
+        title = Text(category, style: TextStyle(color: Colors.white));
+      }
+
+      if (pos != 3) {
         _previousPage = homePages[pos];
         _previousCategory = category;
         _currentCategory = category;

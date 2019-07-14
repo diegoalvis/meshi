@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
+import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -26,7 +27,7 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
-class RecommendationsPage extends StatelessWidget {
+class RecommendationsPage extends StatelessWidget with HomeSection {
   @override
   Widget build(BuildContext context) {
     return InjectorWidget.bind(
@@ -47,11 +48,6 @@ class RecommendationsList extends StatelessWidget {
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(strings.recommendations, style: TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
       body: Column(
         children: <Widget>[
           BlocBuilder(

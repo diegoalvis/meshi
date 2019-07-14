@@ -15,14 +15,14 @@ class BackdropMenu extends StatefulWidget {
   final Widget backLayer;
   final Widget frontTitle;
   final Widget backTitle;
-  final Widget floatingActionButton;
+  final Text menuTitle;
 
   const BackdropMenu({
     @required this.frontLayer,
     @required this.backLayer,
     @required this.frontTitle,
     @required this.backTitle,
-    this.floatingActionButton,
+    this.menuTitle,
   })  : assert(frontLayer != null),
         assert(backLayer != null),
         assert(backTitle != null);
@@ -106,11 +106,11 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
           onTap: _toggleBackdropLayerVisibility,
           child: Icon(AppIcons.menu),
         ),
-        title:
-            GestureDetector(onTap: _toggleBackdropLayerVisibility, child: Text('Meshi', style: TextStyle(color: Colors.white))),
+        title: GestureDetector(
+            onTap: _toggleBackdropLayerVisibility,
+            child: widget.menuTitle),
       ),
       body: LayoutBuilder(builder: _buildStack),
-      floatingActionButton: widget.floatingActionButton,
     );
   }
 }
@@ -129,7 +129,7 @@ class _FrontLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     const cornerInclination = 35.0;
     return Material(
-      elevation: 16.0,
+      elevation: 0.0,
       shape: BeveledRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(cornerInclination)),
       ),

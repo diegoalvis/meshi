@@ -43,14 +43,14 @@ const List<String> CoupleActivities = [
 ];
 
 const List<String> RelevantTopics = [
-  "ARTE",
-  "EXPERIENCIAS",
-  "PROFESIONALES",
-  "SOCIALES",
-  "POLITICA",
-  "FARANDULA",
-  "HISTORIA",
-  "MUSICA",
+  "Arte",
+  "Experiencias",
+  "Profesionales",
+  "Sociales",
+  "Politica",
+  "Farandula",
+  "Historia",
+  "Musica",
 ];
 
 

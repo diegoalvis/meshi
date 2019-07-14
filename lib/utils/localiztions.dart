@@ -577,6 +577,7 @@ class MyLocalizations {
     /* English text resources */
     'en': {
       'home_sections': [
+        'Recommendations',
         'My interests',
         'Participate for a real date',
         'Meshi Premium',
@@ -588,6 +589,7 @@ class MyLocalizations {
     /* Spanish text resources */
     'es': {
       'home_sections': [
+        'Sugerencias',
         'Mis intereses',
         'Participa por una cita regalo',
         'Hacerme Premium',

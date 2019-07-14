@@ -8,6 +8,7 @@ import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/register/advance/form_section.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/custom_widgets/gender_selector.dart';
+import 'package:meshi/utils/gender.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BasicInfoPageTwo extends StatelessWidget with FormSection {
@@ -15,15 +16,13 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
   final _focusEmail = FocusNode();
   final _focusName = FocusNode();
   final _focusDate = FocusNode();
-  bool showLikeGenderText = false;
-  bool showGenderText = false;
 
   @override
   bool isInfoComplete() => infoComplete;
 
   formatDate(DateTime date) {
-    DateTime currentDate = DateTime.now();
-    return "${date?.day ?? currentDate.day}/${date?.month ?? currentDate.month}/${date?.year ?? currentDate.year}";
+    if (date == null) return "";
+    return "${date?.day}/${date?.month}/${date?.year}";
   }
 
   @override
@@ -44,6 +43,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
 
           infoComplete = emailController.text.trim().length > 0 &&
               nameController.text.trim().length > 0 &&
+              snapshot.data?.birthdate != null &&
               snapshot.data?.gender != null &&
               snapshot.data?.likeGender != null &&
               snapshot.data.likeGender.length > 0;
@@ -77,8 +77,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                         initialDate: snapshot.data?.birthdate ?? DateTime.now(),
                         firstDate: DateTime(1950),
                         lastDate: DateTime.now())
-                    .then<DateTime>(
-                        (DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
+                    .then<DateTime>((DateTime pickedDate) => bloc.birthDate = pickedDate ?? snapshot.data.birthdate),
                 child: Container(
                   color: Colors.transparent,
                   child: IgnorePointer(
@@ -99,25 +98,19 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                 children: [
                   Expanded(
                       child: Column(
-                        children: <Widget>[
-                          Text(strings.self,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Theme.of(context).primaryColor)),
-                          showGenderText ?
-                          Text(snapshot.data?.gender.toString() == "male" ? "Hombre" : "Mujer",
-                              style: TextStyle(color: Theme.of(context).primaryColor))
-                              : SizedBox()
-                        ],
-                      )),
+                    children: <Widget>[
+                      Text(strings.self,
+                          textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryColor)),
+                      Text(setGenderLabel(snapshot), style: TextStyle(color: Theme.of(context).primaryColor))
+                    ],
+                  )),
                   Expanded(
                     flex: 2,
                     child: GenderSelector(
-                      data: [snapshot.data?.gender].toSet(),
-                      onGenderSelected: (gender) {
-                        showGenderText = true;
-                        bloc.userGender = gender;
-                      }
-                    ),
+                        data: [snapshot.data?.gender].toSet(),
+                        onGenderSelected: (gender) {
+                          bloc.userGender = gender;
+                        }),
                   ),
                 ],
               ),
@@ -131,11 +124,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Theme.of(context).primaryColor),
                         ),
-                        showLikeGenderText ?
-                        Text(
-                          (snapshot.data.likeGender.contains("male") && snapshot.data.likeGender.contains("female")) ? "Hombres\n\  Mujeres" : snapshot.data.likeGender.contains("female") ? "Mujeres" : snapshot.data.likeGender.contains("male")  ? "Hombres" : "" ,
-                          style: TextStyle(color: Theme.of(context).primaryColor))
-                            : SizedBox()
+                        Text(setLikeGenderLabel(snapshot), style: TextStyle(color: Theme.of(context).primaryColor))
                       ],
                     ),
                   ),
@@ -144,7 +133,6 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
                     child: GenderSelector(
                         data: snapshot.data?.likeGender?.toSet(),
                         onGenderSelected: (gender) {
-                          showLikeGenderText = true;
                           if (snapshot.data?.likeGender?.contains(gender) == true) {
                             bloc.removeGender(gender);
                           } else {
@@ -157,5 +145,30 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
             ],
           );
         });
+  }
+
+  String setLikeGenderLabel(AsyncSnapshot<User> snapshot) {
+    if (snapshot.data?.likeGender == null || snapshot.data?.likeGender.length == 0) {
+      return "";
+    }
+    if (snapshot.data.likeGender.contains(Gender.male.name) && snapshot.data.likeGender.contains(Gender.female.name))
+      return "Hombres\n\  Mujeres";
+    if (snapshot.data.likeGender.contains(Gender.female.name)) {
+      return "Mujeres";
+    }
+    if (snapshot.data.likeGender.contains(Gender.male.name)) {
+      return "Hombres";
+    }
+    return "";
+  }
+
+  String setGenderLabel(AsyncSnapshot<User> snapshot) {
+    if (snapshot.data?.gender.toString() == Gender.male.name) {
+      return "Hombre";
+    }
+    if (snapshot.data?.gender.toString() == Gender.female.name) {
+      return "Mujes";
+    }
+    return "";
   }
 }

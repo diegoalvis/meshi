@@ -10,7 +10,7 @@ import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
-import 'package:meshi/utils/enum_helper.dart';
+import 'package:meshi/utils/enum_utils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 import '../advanced_register_page.dart';
