@@ -11,7 +11,7 @@ import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
-import 'package:meshi/utils/notification_utils.dart';
+import 'package:meshi/utils/notification_manager.dart';
 
 class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
@@ -19,7 +19,7 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final NotificationManager notificationsManager;
 
   InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, SessionManager session) : super(session: session) {
-    notificationsManager.notificationSubject.stream.listen((matchIndex) {
+    notificationsManager.messageNotificationSubject.stream.listen((matchIndex) {
       int index = matches.indexWhere((match) => match.idMatch == matchIndex.idMatch);
       matches[index].lastMessage = matchIndex.lastMessage;
       matches[index].lastDate = matchIndex.lastDate;

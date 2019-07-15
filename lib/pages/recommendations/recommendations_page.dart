@@ -4,12 +4,14 @@
  */
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
+import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -26,32 +28,27 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
-class RecommendationsPage extends StatelessWidget {
+class RecommendationsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
-  Widget build(BuildContext context) {
+  Widget buildWithInjector(BuildContext context, Injector injector) {
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindSingleton(RecommendationsBloc(InjectorWidget.of(context).get()));
+          binder.bindLazySingleton((inject, params) => RecommendationsBloc(injector.get()));
         },
         child: RecommendationsList());
   }
 }
 
-class RecommendationsList extends StatelessWidget {
+class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   RecommendationsBloc _bloc;
 
   @override
-  Widget build(BuildContext context) {
-    _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    _bloc = injector.get<RecommendationsBloc>();
     List<Recomendation> users = [];
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(strings.recommendations, style: TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
       body: Column(
         children: <Widget>[
           BlocBuilder(
@@ -133,6 +130,15 @@ class RecommendationsList extends StatelessWidget {
                       fit: BoxFit.cover,
                     )),
                   ),
+                ),
+                Container(
+                  //height: 250,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                          Colors.transparent.withOpacity(0),
+                          Colors.transparent.withOpacity(0.15),
+                        ])
+                    )
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),

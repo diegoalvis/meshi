@@ -9,7 +9,7 @@ import '../advanced_register_page.dart';
 import '../form_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/enum_helper.dart';
+import 'package:meshi/utils/enum_utils.dart';
 
 class SpecificsFormPageEight extends StatelessWidget with FormSection {
   bool infoComplete;

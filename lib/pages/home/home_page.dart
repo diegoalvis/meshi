@@ -3,31 +3,25 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:meshi/bloc/home_bloc.dart';
-import 'package:meshi/data/models/user_match.dart';
-import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/main.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/reward_page.dart';
 import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/menu/backdrop_menu.dart';
 import 'package:meshi/pages/menu/menu_page.dart';
+import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/utils/app_icons.dart';
+import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/notification_utils.dart';
+import 'package:meshi/utils/notification_manager.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class HomeBlocProvider extends InheritedWidget {
   final HomeBloc bloc;
@@ -57,6 +51,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
   List<HomeSection> homePages = [
+    RecommendationsPage(),
     InterestsMainPage(),
     RewardPage(),
     PremiumPage(),
@@ -64,83 +59,15 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     SettingsPage(),
   ];
 
-  HomeSection _currentPage = InterestsMainPage();
+  HomeSection _currentPage = RecommendationsPage();
+
+  Text title = Text("meshi", style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'BettyLavea'));
 
   @override
   void initState() {
     super.initState();
-    fcmListener();
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
-
-    var android = AndroidInitializationSettings("drawable/ic_logo");
-    var iOS = IOSInitializationSettings();
-    var platform = InitializationSettings(android, iOS);
-    flutterLocalNotificationsPlugin.initialize(platform, onSelectNotification: onSelectedNotification);
-  }
-
-  void fcmListener() {
-    FirebaseMessaging _fcm = FirebaseMessaging();
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
-
-      _fcm.onIosSettingsRegistered.listen((settings) {
-        print("Settings registered: $settings");
-      });
-    }
-    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
-      final match = UserMatch.fromMessage(message);
-      foregroundNotification.notificationSubject.sink.add(match);
-      switch (message["data"]["typeMessage"]) {
-        case NOTIFICATION_CHAT:
-          showNotification(0, match.name, match.lastMessage, message);
-          break;
-        case NOTIFICATION_REWARD:
-          showNotification(1, "Nueva cita", "Tenemos una nueva cita por la cual puedes participar", message);
-          break;
-        default:
-          showNotification(2, "Eres ganador", "Ganaste la cita en juego", message);
-          break;
-      }
-    }, onResume: (Map<String, dynamic> message) async {
-      switch (message["data"]["typeMessage"]) {
-        case NOTIFICATION_CHAT:
-          final match = UserMatch.fromMessage(message);
-          Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
-          break;
-        case NOTIFICATION_REWARD:
-          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-          break;
-        case NOTIFICATION_WINNER:
-          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-          break;
-        default:
-          Navigator.pushReplacementNamed(context, HOME_ROUTE);
-          break;
-      }
-    }, onLaunch: (Map<String, dynamic> message) async {
-      switch (message["data"]["typeMessage"]) {
-        case NOTIFICATION_CHAT:
-          final match = UserMatch.fromMessage(message);
-          Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
-          break;
-        case NOTIFICATION_REWARD:
-          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-          break;
-        case NOTIFICATION_WINNER:
-          setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-          break;
-        default:
-          Navigator.pushReplacementNamed(context, HOME_ROUTE);
-          break;
-      }
-    });
-
-    _fcm.getToken().then((token) {
-      print('TOKEEEEEN');
-      print(token);
-      _bloc.updateToken(token);
-    });
   }
 
   @override
@@ -151,17 +78,22 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    UserRepository repo = InjectorWidget.of(context).get();
     setState(() {
       foregroundNotification = InjectorWidget.of(context).get<NotificationManager>();
+      foregroundNotification.onChangePageSubject.listen((pagePos) {
+        setCurrentHomePage(pagePos, MyLocalizations.of(context).homeSections.elementAt(pagePos), context);
+      });
     });
-    _bloc = HomeBloc(repo);
+    _bloc = HomeBloc(injector.get(), injector.get());
     final strings = MyLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: HomeBlocProvider(
         bloc: _bloc,
         child: BackdropMenu(
+          bloc: _bloc,
+          menuTitle: title,
+          // This trailing comma makes auto-formatting nicer for build methods.,
           backLayer: MenuPage(
             currentCategory: _currentCategory ?? strings.homeSections[0],
             onCategoryTap: (category, pos) => setCurrentHomePage(pos, category, context),
@@ -169,40 +101,38 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
           ),
           backTitle: Text(strings.menu),
           frontTitle: _currentPage.getTitle(context),
-          frontLayer: SafeArea(
-            child: OfflineBuilder(
-              connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
-                final bool connected = connectivity != ConnectivityResult.none;
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    child,
-                    connected
-                        ? SizedBox()
-                        : Positioned(
-                            left: 0.0,
-                            right: 0.0,
-                            bottom: 0.0,
-                            child: Wrap(
-                              children: <Widget>[
-                                Container(
-                                  color: Color(0xFF303030),
-                                  padding: EdgeInsets.all(8),
-                                  child: Center(
-                                      child: Text("Sin conexion a internet",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ))),
-                                ),
-                              ],
-                            ),
+          frontLayer: OfflineBuilder(
+            connectivityBuilder: (BuildContext context, ConnectivityResult connectivity, Widget child) {
+              final bool connected = connectivity != ConnectivityResult.none;
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  child,
+                  connected
+                      ? SizedBox()
+                      : Positioned(
+                          left: 0.0,
+                          right: 0.0,
+                          bottom: 0.0,
+                          child: Wrap(
+                            children: <Widget>[
+                              Container(
+                                color: Color(0xFF303030),
+                                padding: EdgeInsets.all(8),
+                                child: Center(
+                                    child: Text("Sin conexion a internet",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ))),
+                              ),
+                            ],
                           ),
-                  ],
-                );
-              },
-              child: _currentPage as Widget,
-            ),
+                        ),
+                ],
+              );
+            },
+            child: _currentPage as Widget,
           ),
         ),
       ),
@@ -212,7 +142,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
               height: 65,
               child: FloatingActionButton(
                   shape: DiamondBorder(),
-                  onPressed: () => _currentPage.onFloatingButtonPressed(context),
+                  onPressed: () => setCurrentHomePage(0, MyLocalizations.of(context).homeSections.elementAt(0), context),
                   tooltip: 'Increment',
                   child: Padding(
                     padding: EdgeInsets.only(right: 5),
@@ -223,13 +153,19 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
                     ),
                   )),
             )
-          : null, // This trailing comma makes auto-formatting nicer for build methods.
+          : null,
     );
   }
 
   void setCurrentHomePage(int pos, String category, BuildContext context) {
     setState(() {
-      if (pos != 2) {
+      if (pos < 2) {
+        title = Text("meshi", style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'BettyLavea'));
+      } else if (pos != 3) {
+        title = Text(category, style: TextStyle(color: Colors.white));
+      }
+
+      if (pos != 3) {
         _previousPage = homePages[pos];
         _previousCategory = category;
         _currentCategory = category;
@@ -247,33 +183,5 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
             });
       }
     });
-  }
-
-  Future showNotification(int id, String title, String body, dynamic message) async {
-    final data = jsonEncode(message);
-    var android = AndroidNotificationDetails("channel_id", "channel_name", "channel_description",
-        priority: Priority.High, importance: Importance.Max);
-    var iOS = IOSNotificationDetails();
-    var platform = NotificationDetails(android, iOS);
-    await flutterLocalNotificationsPlugin.show(0, title, body, platform, payload: data);
-  }
-
-  Future onSelectedNotification(String payload) async {
-    dynamic message = jsonDecode(payload);
-    switch (message["data"]["typeMessage"]) {
-      case NOTIFICATION_CHAT:
-        final match = UserMatch.fromMessage(message);
-        Navigator.pushNamed(context, CHAT_ROUTE, arguments: match);
-        break;
-      case NOTIFICATION_REWARD:
-        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-        break;
-      case NOTIFICATION_WINNER:
-        setCurrentHomePage(1, MyLocalizations.of(context).homeSections.elementAt(1), context);
-        break;
-      default:
-        Navigator.pushReplacementNamed(context, HOME_ROUTE);
-        break;
-    }
   }
 }

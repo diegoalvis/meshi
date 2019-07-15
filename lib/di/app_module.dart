@@ -15,16 +15,16 @@ import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/data/sockets/ChatSocket.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/utils/notification_utils.dart';
+import 'package:meshi/utils/notification_manager.dart';
 
 class AppModule implements Module {
   @override
   void configure(Binder binder) {
     binder
 //      ..bindSingleton(FirebaseMessaging())
-      ..bindSingleton(NotificationManager())
       ..bindSingleton(SessionManager())
       ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 15000)))
+      ..bindLazySingleton((injector, params) => NotificationManager(injector.get()))
       //DAO
       ..bindLazySingleton((injector, params) => AppDatabase())
       ..bindLazySingleton((injector, params) => MessageDao(injector.get()))
@@ -36,9 +36,10 @@ class AppModule implements Module {
       ..bindLazySingleton((injector, params) => ChatApi(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => ChatSocket())
       // REPOSITORY
-      ..bindLazySingleton((injector, params) => UserRepository(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => MatchRepository(injector.get(), injector.get()))
+      ..bindLazySingleton((injector, params) => UserRepository(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => RewardRepository(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => ChatRepository(injector.get(), injector.get(), injector.get()));
+    // Notifications
   }
 }

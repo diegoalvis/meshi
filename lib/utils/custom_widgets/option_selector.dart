@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../enum_helper.dart';
+import '../enum_utils.dart';
 import '../localiztions.dart';
 
 class OptionSelector extends StatelessWidget {
