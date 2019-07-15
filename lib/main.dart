@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -24,6 +25,7 @@ import 'package:meshi/pages/terms_and_condition_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/notification_manager.dart';
 
 void main() {
   runApp(new App());
@@ -36,39 +38,51 @@ class App extends StatelessWidget {
         bindFunc: (binder) {
           binder.install(AppModule());
         },
-        child: MaterialApp(
-          title: 'Meshi',
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: [
-            const MyLocalizationsDelegate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: [
+        child: AppContainer());
+  }
+}
+
+class AppContainer extends StatelessWidget with InjectorWidgetMixin {
+
+  @override
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
+    final notificationManager = InjectorWidget.of(context).get<NotificationManager>();
+    notificationManager.setNotificationsConfig(globalNavigatorKey);
+    return MaterialApp(
+      title: 'Meshi',
+      debugShowCheckedModeBanner: false,
+      navigatorKey: globalNavigatorKey,
+      localizationsDelegates: [
+        const MyLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
 //            const Locale('en', ''),
-            const Locale('es', ''),
-          ],
-          theme: buildTheme(),
-          initialRoute: LOGIN_ROUTE,
-          routes: <String, WidgetBuilder>{
-            LOGIN_ROUTE: (BuildContext context) => LoginPage(),
-            HOME_ROUTE: (BuildContext context) => HomePage(),
-            REGISTER_ROUTE: (BuildContext context) => BasicRegisterPage(),
-            FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
-            WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
-            BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
-            SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
-            INTERESTS_MAIN_ROUTE: (BuildContext context) => InterestsMainPage(),
-            INTERESTS_PROFILE_ROUTE: (BuildContext context) => InterestsProfilePage(),
-            CHAT_ROUTE: (BuildContext context) => ChatPage(),
-            RECOMMENDATIONS_ROUTE: (BuildContext context) => RecommendationsPage(),
-            PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
-            SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
-            CONTACT_ROUTE: (BuildContext context) => ContactPage(),
-            TERM_AND_CONDITIONS: (BuildContext context) => TermsAndConditionsPage(),
-            PREMIUM: (BuildContext context) => PremiumPage(),
-          },
-        ));
+        const Locale('es', ''),
+      ],
+      theme: buildTheme(),
+      initialRoute: LOGIN_ROUTE,
+      routes: <String, WidgetBuilder>{
+        LOGIN_ROUTE: (BuildContext context) => LoginPage(),
+        HOME_ROUTE: (BuildContext context) => HomePage(),
+        REGISTER_ROUTE: (BuildContext context) => BasicRegisterPage(),
+        FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
+        WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
+        BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
+        SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
+//        INTERESTS_MAIN_ROUTE: (BuildContext context) => InterestsMainPage(),
+        INTERESTS_PROFILE_ROUTE: (BuildContext context) => InterestsProfilePage(),
+        CHAT_ROUTE: (BuildContext context) => ChatPage(),
+//        RECOMMENDATIONS_ROUTE: (BuildContext context) => RecommendationsPage(),
+//        PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
+        SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
+        CONTACT_ROUTE: (BuildContext context) => ContactPage(),
+        TERM_AND_CONDITIONS: (BuildContext context) => TermsAndConditionsPage(),
+//        PREMIUM: (BuildContext context) => PremiumPage(),
+      },
+    );
   }
 }
 

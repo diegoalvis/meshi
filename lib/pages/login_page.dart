@@ -3,8 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'dart:io';
-
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +32,11 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
+  final LoginBloc _bloc;
+
   bool loading = false;
   BuildContext buildContext;
   TextEditingController txtController = TextEditingController();
-
-  final LoginBloc _bloc;
 
   _LoginPageState(this._bloc);
 
@@ -54,7 +52,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     txtController.text = "100";
@@ -84,7 +81,6 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-
     return Builder(
       builder: (context) {
         buildContext = context;
@@ -105,11 +101,9 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                   ),
                 )),
             Expanded(
-              child: Text("meshi",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 45,
-                    fontFamily: 'BettyLavea'),
+              child: Text(
+                "meshi",
+                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 45, fontFamily: 'BettyLavea'),
               ),
             ),
             Expanded(
@@ -141,8 +135,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                 alignment: Alignment.bottomCenter,
                 child: FadeTransition(
                   opacity: animation,
-                  child: Text(strings.logInWith,
-                      style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+                  child: Text(strings.logInWith, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
                 ),
               ),
             ),
@@ -153,8 +146,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                   alignment: loading ? Alignment.center : Alignment.topCenter,
                   child: loading
                       ? CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
+                          valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary))
                       : ButtonTheme(
                           minWidth: 180.0,
                           child: FlatButton(

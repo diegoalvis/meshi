@@ -6,20 +6,20 @@
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
+
 
 class HomeBloc extends BaseBloc {
   final _categorySelectedSubject = PublishSubject<String>();
   final _userSubject = PublishSubject<User>();
 
   Stream<User> get userStream => _userSubject.stream;
-
   Stream<String> get categorySelectedStream => _categorySelectedSubject.stream;
 
   final UserRepository _repository;
 
-  HomeBloc(this._repository);
-
+  HomeBloc(this._repository, SessionManager session): super(session: session);
 
   set category(String category) {
     _categorySelectedSubject.sink.add(category);
