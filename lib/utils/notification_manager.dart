@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/user_repository.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../main.dart';
@@ -20,10 +21,11 @@ class NotificationManager {
   final UserRepository _repository;
   final messageNotificationSubject = PublishSubject<UserMatch>();
   final onChangePageSubject = PublishSubject<int>();
+  //final SessionManager sessionManager;
 
   GlobalKey<NavigatorState> _navigatorKey;
 
-  NotificationManager(this._repository);
+  NotificationManager(this._repository/*, this.sessionManager*/);
 
   void dispose() {
     messageNotificationSubject.close();
@@ -63,7 +65,12 @@ class NotificationManager {
       messageNotificationSubject.sink.add(match);
       switch (message["data"]["typeMessage"]) {
         case NOTIFICATION_CHAT:
-          showNotification(0, match.name, match.lastMessage, message, flutterLocalNotificationsPlugin);
+          /*if(sessionManager.currentChatId != message["data"]["idMatch"]){
+            showNotification(0, match.name, match.lastMessage, message, flutterLocalNotificationsPlugin);
+          }else{
+            print(message);
+          }*/
+          showNotification(0, match.name, match.lastMessage, match, flutterLocalNotificationsPlugin);
           break;
         case NOTIFICATION_REWARD:
           showNotification(1, "Nueva Cita de Regalo", "Participa por una cita de", message, flutterLocalNotificationsPlugin);

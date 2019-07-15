@@ -24,7 +24,7 @@ class AppModule implements Module {
 //      ..bindSingleton(FirebaseMessaging())
       ..bindSingleton(SessionManager())
       ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 15000)))
-      ..bindLazySingleton((injector, params) => NotificationManager(injector.get()))
+      ..bindLazySingleton((injector, params) => NotificationManager(injector.get()/*, injector.get()*/))
       //DAO
       ..bindLazySingleton((injector, params) => AppDatabase())
       ..bindLazySingleton((injector, params) => MessageDao(injector.get()))
