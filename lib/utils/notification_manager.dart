@@ -21,11 +21,11 @@ class NotificationManager {
   final UserRepository _repository;
   final messageNotificationSubject = PublishSubject<UserMatch>();
   final onChangePageSubject = PublishSubject<int>();
-  //final SessionManager sessionManager;
+  final SessionManager sessionManager;
 
   GlobalKey<NavigatorState> _navigatorKey;
 
-  NotificationManager(this._repository/*, this.sessionManager*/);
+  NotificationManager(this._repository, this.sessionManager);
 
   void dispose() {
     messageNotificationSubject.close();
@@ -65,12 +65,12 @@ class NotificationManager {
       messageNotificationSubject.sink.add(match);
       switch (message["data"]["typeMessage"]) {
         case NOTIFICATION_CHAT:
-          /*if(sessionManager.currentChatId != message["data"]["idMatch"]){
+          if(sessionManager.currentChatId != message["data"]["idMatch"]){
             showNotification(0, match.name, match.lastMessage, message, flutterLocalNotificationsPlugin);
           }else{
             print(message);
-          }*/
-          showNotification(0, match.name, match.lastMessage, match, flutterLocalNotificationsPlugin);
+          }
+          //showNotification(0, match.name, match.lastMessage, match, flutterLocalNotificationsPlugin);
           break;
         case NOTIFICATION_REWARD:
           showNotification(1, "Nueva Cita de Regalo", "Participa por una cita de", message, flutterLocalNotificationsPlugin);

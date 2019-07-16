@@ -16,8 +16,8 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserMatch match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
-    /*final SessionManager sessionManager = inject.get();
-    sessionManager.setCurrentChatId(match.idMatch);*/
+    final SessionManager sessionManager = inject.get();
+    sessionManager.setCurrentChatId(match.idMatch);
     return InjectorWidget.bind(
       bindFunc: (binder) {
         binder.bindLazySingleton((injector, params) =>

@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    //_bloc.session.setCurrentChatId(-1);
+    _bloc.session.setCurrentChatId(-1);
     super.initState();
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
