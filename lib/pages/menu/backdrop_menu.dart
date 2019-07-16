@@ -23,7 +23,8 @@ class BackdropMenu extends StatefulWidget {
     @required this.backLayer,
     @required this.frontTitle,
     @required this.backTitle,
-    this.menuTitle, this.bloc,
+    this.menuTitle,
+    this.bloc,
   })  : assert(frontLayer != null),
         assert(backLayer != null),
         assert(backTitle != null);
@@ -105,9 +106,15 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
           onTap: _toggleBackdropLayerVisibility,
           child: Icon(AppIcons.menu),
         ),
-        title: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: widget.menuTitle),
+        title: GestureDetector(
+            onTap: _toggleBackdropLayerVisibility,
+            child: Row(children: [
+              Expanded(child: widget.menuTitle),
+            ])),
       ),
-      body: LayoutBuilder(builder: _buildStack),
+      body: GestureDetector(
+          onTap: _toggleBackdropLayerVisibility ,
+          child: LayoutBuilder(builder: _buildStack)),
     );
   }
 }

@@ -25,45 +25,51 @@ class MenuPage extends StatelessWidget {
   Widget _buildCategory(BuildContext context, String category, int pos) {
     final theme = Theme.of(context).colorScheme;
     final strings = MyLocalizations.of(context);
-    return GestureDetector(
-      onTap: () => onCategoryTap(category, pos),
-      child: category == currentCategory
-          ? Column(
-              children: <Widget>[
-                Spacer(),
-                Text(
-                  category,
-                  style: TextStyle(color: theme.onPrimary, fontSize: 18.0),
-                  textAlign: TextAlign.center,
-                ),
-                Container(
-                  width: category.length * 8.0,
-                  height: 2.0,
-                  color: theme.onPrimary,
-                ),
-                Spacer(),
-              ],
-            )
-          : Row(
-              children: <Widget>[
-                Spacer(),
-                category == strings.homeSections[3]
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Icon(
-                          AppIcons.crown,
-                          color: theme.onPrimary,
-                          size: 16,
-                        ))
-                    : SizedBox(),
-                Text(
-                  category,
-                  style: TextStyle(color: theme.onPrimary, fontSize: 17.0),
-                  textAlign: TextAlign.center,
-                ),
-                Spacer(),
-              ],
-            ),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: GestureDetector(
+            onTap: () => onCategoryTap(category, pos),
+            child: category == currentCategory
+                ? Column(
+                    children: <Widget>[
+                      Spacer(),
+                      Text(
+                        category,
+                        style: TextStyle(color: theme.onPrimary, fontSize: 18.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        width: category.length * 8.0,
+                        height: 2.0,
+                        color: theme.onPrimary,
+                      ),
+                      Spacer(),
+                    ],
+                  )
+                : Row(
+                    children: <Widget>[
+                      Spacer(),
+                      category == strings.homeSections[3]
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                AppIcons.crown,
+                                color: theme.onPrimary,
+                                size: 16,
+                              ))
+                          : SizedBox(),
+                      Text(
+                        category,
+                        style: TextStyle(color: theme.onPrimary, fontSize: 17.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+          ),
+        ),
+      ],
     );
   }
 
