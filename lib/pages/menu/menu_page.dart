@@ -51,7 +51,7 @@ class MenuPage extends StatelessWidget {
                     ? Padding(
                         padding: const EdgeInsets.only(right: 16.0),
                         child: Icon(
-                          AppIcons.diamond,
+                          AppIcons.crown,
                           color: theme.onPrimary,
                           size: 16,
                         ))

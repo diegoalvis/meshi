@@ -3,7 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
@@ -125,7 +124,7 @@ class _FrontLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const cornerInclination = 35.0;
+    const cornerInclination = 30.0;
     return Material(
       elevation: 0.0,
       shape: BeveledRectangleBorder(

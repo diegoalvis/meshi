@@ -43,9 +43,9 @@ class PremiumPageState extends State<PremiumPage> {
                               children: <Widget>[
                                 Spacer(),
                                 Icon(
-                                  AppIcons.diamond,
+                                  AppIcons.crown,
                                   color: Colors.white70,
-                                  size: 40,
+                                  size: 34,
                                 ),
                                 SizedBox(width: 32),
                                 Text(
