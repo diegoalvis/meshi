@@ -132,7 +132,9 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
                 ],
               );
             },
-            child: _currentPage as Widget,
+            child: GestureDetector(
+              onTap: () => _bloc.category = _currentCategory,
+                child: _currentPage as Widget),
           ),
         ),
       ),

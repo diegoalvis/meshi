@@ -138,10 +138,11 @@ class ChatBodyState extends State<ChatBody> {
                   if (state is MessageState) {
                     if(state.newPage){
                       _data.addAll(state.messages);
+                    }else if(state.newMessage){
+                      _data.insert(0, state.messages[0]);
                     }else{
                       _me = state.me;
                       _data = state.messages;
-
                     }
 
                     return ListView.builder(

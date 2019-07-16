@@ -3,7 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
@@ -24,7 +23,8 @@ class BackdropMenu extends StatefulWidget {
     @required this.backLayer,
     @required this.frontTitle,
     @required this.backTitle,
-    this.menuTitle, this.bloc,
+    this.menuTitle,
+    this.bloc,
   })  : assert(frontLayer != null),
         assert(backLayer != null),
         assert(backTitle != null);
@@ -106,9 +106,15 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
           onTap: _toggleBackdropLayerVisibility,
           child: Icon(AppIcons.menu),
         ),
-        title: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: widget.menuTitle),
+        title: GestureDetector(
+            onTap: _toggleBackdropLayerVisibility,
+            child: Row(children: [
+              Expanded(child: widget.menuTitle),
+            ])),
       ),
-      body: LayoutBuilder(builder: _buildStack),
+      body: GestureDetector(
+          onTap: _toggleBackdropLayerVisibility ,
+          child: LayoutBuilder(builder: _buildStack)),
     );
   }
 }
@@ -125,7 +131,7 @@ class _FrontLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const cornerInclination = 35.0;
+    const cornerInclination = 30.0;
     return Material(
       elevation: 0.0,
       shape: BeveledRectangleBorder(

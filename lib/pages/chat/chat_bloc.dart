@@ -28,9 +28,6 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
   void connectSocket() async {
     final _obs = await _socket.connect(_match.idMatch);
     _subs = _obs
-        .flatMap((msg) =>
-            Observable.fromFuture(_messageRepository.insertMessage(msg))
-                .map((x) => msg))
         .listen((msg) => dispatch(NewMessageEvent(msg)), onError: (error) {});
   }
 
@@ -49,14 +46,16 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
       if (event is LoadedChatEvent) {
         final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
-        final remotes = await _messageRepository.getMessages(_match.idMatch, from: _match.erasedDate?.millisecondsSinceEpoch);
+        final remotes = await _messageRepository.getMessages(_match.idMatch,
+            from: _match.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
-      } else if(event is LoadPageEvent){
-        final remotes = await _messageRepository.getPreviousMessages(_match.idMatch,
+      } else if (event is LoadPageEvent) {
+        final remotes = await _messageRepository.getPreviousMessages(
+            _match.idMatch,
             from: _match.erasedDate?.millisecondsSinceEpoch,
             skipFrom: event.from);
         yield MessageState(remotes, _me, newPage: true);
-      }else if (event is SendMessageEvent) {
+      } else if (event is SendMessageEvent) {
         /*await _messageRepository.sendMessageLocal(_match.idMatch, event.message);
         final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
@@ -67,8 +66,8 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
         yield MessageState(local, _me);
         await _messageRepository.sendMessage(_match.idMatch, event.message);
       } else if (event is NewMessageEvent) {
-        final local = await _messageRepository.getLocalMessages(_match.idMatch);
-        yield MessageState(local, _me);
+        yield MessageState([event.message],_me, newMessage: true);
+        await _messageRepository.insertMessage(event.message);
       } else if (event is ClearChatEvent) {
         yield LoadingState();
         await _messageRepository.clear(event.matchId);
@@ -86,8 +85,10 @@ class MessageState extends BaseState {
   List<Message> messages;
   int me;
   bool newPage;
+  bool newMessage;
 
-  MessageState(this.messages, this.me, {this.newPage = false}) : super(props: messages);
+  MessageState(this.messages, this.me, {this.newPage = false, this.newMessage = false})
+      : super(props: messages);
 
   @override
   String toString() {
