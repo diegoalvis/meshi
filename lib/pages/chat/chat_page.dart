@@ -67,8 +67,6 @@ class ChatBodyState extends State<ChatBody> {
     });
   }
 
-
-
   void _handleSubmit() {
     Message message = Message(
         content: _chatController.text,
@@ -85,6 +83,7 @@ class ChatBodyState extends State<ChatBody> {
   void dispose() {
     _bloc.dispose();
     _controller.dispose();
+    _bloc.session.setCurrentChatId(-1);
     super.dispose();
   }
 

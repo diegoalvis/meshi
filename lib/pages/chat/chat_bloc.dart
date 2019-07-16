@@ -17,11 +17,12 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
   final ChatSocket _socket;
   final ChatRepository _messageRepository;
   final MatchRepository _matchRepository;
+  final SessionManager session;
   int _me;
   StreamSubscription _subs;
 
   ChatBloc(this._match, this._socket, this._messageRepository,
-      this._matchRepository, SessionManager session) {
+      this._matchRepository, this.session) {
     session.userId.then((id) => _me = id);
   }
 

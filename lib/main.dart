@@ -11,21 +11,18 @@ import 'package:meshi/di/app_module.dart';
 import 'package:meshi/pages/chat/chat_page.dart';
 import 'package:meshi/pages/contact/contact_page.dart';
 import 'package:meshi/pages/home/home_page.dart';
-import 'package:meshi/pages/home/interests/interests_main_page.dart';
-import 'package:meshi/pages/home/profile/profile_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/rewards/select_partner_page.dart';
 import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/interests_profile_page.dart';
 import 'package:meshi/pages/login_page.dart';
-import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/terms_and_condition_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
-import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/notification_manager.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   runApp(new App());
@@ -48,40 +45,39 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
   Widget buildWithInjector(BuildContext context, Injector injector) {
     final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();
     final notificationManager = InjectorWidget.of(context).get<NotificationManager>();
-    notificationManager.setNotificationsConfig(globalNavigatorKey);
-    return MaterialApp(
-      title: 'Meshi',
-      debugShowCheckedModeBanner: false,
-      navigatorKey: globalNavigatorKey,
-      localizationsDelegates: [
-        const MyLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
+    notificationManager.navigatorKey = globalNavigatorKey;
+    notificationManager.fcmListener(context);
+    return OverlaySupport(
+      child: MaterialApp(
+        title: 'Meshi',
+        debugShowCheckedModeBanner: false,
+        navigatorKey: globalNavigatorKey,
+        localizationsDelegates: [
+          const MyLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
 //            const Locale('en', ''),
-        const Locale('es', ''),
-      ],
-      theme: buildTheme(),
-      initialRoute: LOGIN_ROUTE,
-      routes: <String, WidgetBuilder>{
-        LOGIN_ROUTE: (BuildContext context) => LoginPage(),
-        HOME_ROUTE: (BuildContext context) => HomePage(),
-        REGISTER_ROUTE: (BuildContext context) => BasicRegisterPage(),
-        FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
-        WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
-        BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
-        SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
-//        INTERESTS_MAIN_ROUTE: (BuildContext context) => InterestsMainPage(),
-        INTERESTS_PROFILE_ROUTE: (BuildContext context) => InterestsProfilePage(),
-        CHAT_ROUTE: (BuildContext context) => ChatPage(),
-//        RECOMMENDATIONS_ROUTE: (BuildContext context) => RecommendationsPage(),
-//        PROFILE_ROUTE: (BuildContext context) => ProfilePage(),
-        SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
-        CONTACT_ROUTE: (BuildContext context) => ContactPage(),
-        TERM_AND_CONDITIONS: (BuildContext context) => TermsAndConditionsPage(),
-//        PREMIUM: (BuildContext context) => PremiumPage(),
-      },
+          const Locale('es', ''),
+        ],
+        theme: buildTheme(),
+        initialRoute: LOGIN_ROUTE,
+        routes: <String, WidgetBuilder>{
+          LOGIN_ROUTE: (BuildContext context) => LoginPage(),
+          HOME_ROUTE: (BuildContext context) => HomePage(),
+          REGISTER_ROUTE: (BuildContext context) => BasicRegisterPage(),
+          FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
+          WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
+          BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
+          SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
+          INTERESTS_PROFILE_ROUTE: (BuildContext context) => InterestsProfilePage(),
+          CHAT_ROUTE: (BuildContext context) => ChatPage(),
+          SETTINGS_ROUTE: (BuildContext context) => SettingsPage(),
+          CONTACT_ROUTE: (BuildContext context) => ContactPage(),
+          TERM_AND_CONDITIONS: (BuildContext context) => TermsAndConditionsPage(),
+        },
+      ),
     );
   }
 }
