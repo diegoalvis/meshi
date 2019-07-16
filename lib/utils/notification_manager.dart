@@ -65,7 +65,8 @@ class NotificationManager {
       messageNotificationSubject.sink.add(match);
       switch (message["data"]["typeMessage"]) {
         case NOTIFICATION_CHAT:
-          if(sessionManager.currentChatId != message["data"]["idMatch"]){
+          final idCurrentMatch = await sessionManager.currentChatId;
+          if(idCurrentMatch != match.idMatch){
             showNotification(0, match.name, match.lastMessage, message, flutterLocalNotificationsPlugin);
           }else{
             print(message);
