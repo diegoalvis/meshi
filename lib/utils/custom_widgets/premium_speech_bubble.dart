@@ -22,8 +22,7 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble>{
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        widget.isRecommendation ? SizedBox()
-        : isPremium ?
+        (widget.isRecommendation && isPremium)?
         GestureDetector(
           onTap: () {
             setState(() {

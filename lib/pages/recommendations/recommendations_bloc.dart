@@ -30,6 +30,15 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
       } on Exception catch (e) {
         yield ErrorState(exception: e);
       }
+    }else if (event is DeleteInterestEvent) {
+      try {
+        yield AddingMatchState(event.user.id);
+        await _repository.dislike(event.user.id);
+        users.remove(event.user);
+        yield SuccessState<List<Recomendation>>(data: users);
+      } on Exception catch (e) {
+        yield ErrorState(exception: e);
+      }
     }
   }
 
@@ -57,6 +66,15 @@ class AddMatchEvent extends RecommendationsEvents {
   final Recomendation user;
 
   AddMatchEvent(this.user);
+
+  @override
+  String toString() => 'AddMatch {user: $user}';
+}
+
+class DeleteInterestEvent extends RecommendationsEvents {
+  final Recomendation user;
+
+  DeleteInterestEvent(this.user);
 
   @override
   String toString() => 'AddMatch {user: $user}';

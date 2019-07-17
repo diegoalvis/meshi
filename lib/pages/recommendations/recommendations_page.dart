@@ -243,8 +243,25 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
               : Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Spacer(),
+                      FlatButton(
+                        onPressed: () {
+                          _bloc.dispatch(DeleteInterestEvent(user));
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                strings.imNotInterested,
+                                style:
+                                TextStyle(color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       RaisedButton(
                         onPressed: () {
                           _bloc.dispatch(AddMatchEvent(user));
