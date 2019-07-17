@@ -12,6 +12,8 @@ class InterestsItemPage extends StatelessWidget {
   MyLikes myLikes;
   Function(String likeId) onUserTap;
 
+
+
   InterestsItemPage({this.myLikes, this.onUserTap});
 
   @override
