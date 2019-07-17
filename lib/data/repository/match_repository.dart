@@ -34,7 +34,7 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<RecomendationDto> getRecommendations({int page}) async {
+  Future<RecomendationDto> getRecommendations({int page = 0}) async {
     final result = await this._api.getRecommendations(page:page);
     return result.data;
   }
