@@ -58,6 +58,6 @@ List<UserMatch> parseListMatch(List<Map<String, dynamic>> json) =>
 List<User> parseUser(List<Map<String, dynamic>> json) =>
     json.map((element) => User.fromJson(element)).toList();
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);
-RecomendationDto parseRecomendation(Map<String, dynamic> json) =>RecomendationDto.fromJson(json);
+RecomendationDto parseRecomendation(Map<String, dynamic> json) => RecomendationDto.fromJson(json);
 Recomendation parseSingleRecomendation(Map<String, dynamic> json) => Recomendation.fromJson(json);
 UserMatch parseSingleMatch(Map<String, dynamic> json) => UserMatch.fromJson(json);
