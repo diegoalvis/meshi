@@ -17,6 +17,7 @@ import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
 import 'package:meshi/utils/custom_widgets/premium_speech_bubble.dart';
+import 'package:meshi/utils/custom_widgets/view_more_recommendations.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -79,12 +80,12 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                   idRecommendationAdded = state.idMatch;
                 }
                 return Flexible(
-                        child: Container(
-                            color: Theme.of(context).primaryColor,
-                            child: users.length > 0
-                                ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded))
-                                : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
-                      );
+                  child: Container(
+                      color: Theme.of(context).primaryColor,
+                      child: users.length > 0
+                          ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded))
+                          : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
+                );
               }),
         ],
       ),
@@ -97,15 +98,21 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
       autoPlayCurve: Curves.easeIn,
       height: MediaQuery.of(context).size.height,
       autoPlay: false,
-      items: users.map(
-        (user) {
-          return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
-              child: carouselWidget(context, user, itemLoadingIndex));
-        },
-      ).toList(),
+      items: generateRecommendationList(users, context, itemLoadingIndex),
     );
+  }
+
+  List<Container> generateRecommendationList(List<Recomendation> users, BuildContext context, int itemLoadingIndex) {
+    final items = users.map(
+      (user) {
+        return Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
+            child: carouselWidget(context, user, itemLoadingIndex));
+      },
+    ).toList();
+    items.add(ViewMoreRecommendations(() => _bloc.dispatch(GetRecommendationsEvent())));
+    return items;
   }
 
   Widget carouselWidget(BuildContext context, Recomendation user, int itemLoadingIndex) {
@@ -132,14 +139,12 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                   ),
                 ),
                 Container(
-                  //height: 250,
+                    //height: 250,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                          Colors.transparent.withOpacity(0),
-                          Colors.transparent.withOpacity(0.15),
-                        ])
-                    )
-                ),
+                  Colors.transparent.withOpacity(0),
+                  Colors.transparent.withOpacity(0.15),
+                ]))),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Align(

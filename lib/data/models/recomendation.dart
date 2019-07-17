@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'recomendation.g.dart';
@@ -33,6 +35,20 @@ class Recomendation {
 
   factory Recomendation.fromJson(Map<String, dynamic> json) => _$RecomendationFromJson(json);
   Map<String, dynamic> toJson() => _$RecomendationToJson(this);
+
+  Map<String, dynamic> toDatabase() {
+    final json = this.toJson();
+    json['images'] = (json['images'] as List)?.join(",") ?? null;
+    json['similarity'] = jsonEncode(json['similarity']);
+    return json;
+  }
+
+  factory Recomendation.fromDatabase(Map<String, dynamic> json){
+    final obj = Map.of(json);
+    obj['images'] = (obj["images"] as String)?.split(",") ?? [];
+    obj['similarity'] = jsonDecode(obj['similarity']);
+    return Recomendation.fromJson(obj);
+  }
 }
 
 const String TYPE_INT = "int";
