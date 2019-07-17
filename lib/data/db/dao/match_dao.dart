@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:meshi/data/db/app_database.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:sqflite/sqlite_api.dart';
-
-import '../app_database.dart';
 
 class MatchDao {
 

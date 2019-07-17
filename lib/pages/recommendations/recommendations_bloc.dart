@@ -11,6 +11,7 @@ import 'package:meshi/data/repository/match_repository.dart';
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   final MatchRepository _repository;
   List<Recomendation> users;
+  int max = 0;
 
   RecommendationsBloc(this._repository);
 
@@ -36,7 +37,9 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   Stream<BaseState> _loadRecommendationsToState() async* {
     try {
       yield LoadingState();
-      users = await _repository.getRecommendations();
+      final data = await _repository.getRecommendations();
+      max = data.max;
+      users = data.recomendations;
       yield SuccessState<List<Recomendation>>(data: users);
     } on Exception catch (e) {
       yield ErrorState(exception: e);

@@ -45,5 +45,23 @@ class AppDatabase {
     matchId INTEGER
     )
     ''');
+
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS recomendation(
+    idLocal INTEGER PRIMARY KEY,
+    id INTEGER,
+    type VARCHAR(200),
+    name VARCHAR(255),
+    description TEXT,
+    freeTime TEXT,
+    occupation TEXT,
+    interests TEXT,
+    score INTEGER,
+    gender VARCHAR(50),
+    images VARCHAR(555),
+    similarity TEXT
+    )
+    ''');
+
   }
 }

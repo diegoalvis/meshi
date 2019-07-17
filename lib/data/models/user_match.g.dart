@@ -15,12 +15,12 @@ UserMatch _$UserMatchFromJson(Map<String, dynamic> json) {
           ? null
           : DateTime.parse(json['lastDate'] as String),
       idMatch: json['idMatch'] as int,
-      lastMessage: json['lastMessage'] as String)
-    ..type = json['type'] as String
-    ..state = json['state'] as String
-    ..erasedDate = json['erasedDate'] == null
-        ? null
-        : DateTime.parse(json['erasedDate'] as String);
+      lastMessage: json['lastMessage'] as String,
+      erasedDate: json['erasedDate'] == null
+          ? null
+          : DateTime.parse(json['erasedDate'] as String),
+      type: json['type'] as String)
+    ..state = json['state'] as String;
 }
 
 Map<String, dynamic> _$UserMatchToJson(UserMatch instance) => <String, dynamic>{

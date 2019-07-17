@@ -1,3 +1,4 @@
+import 'package:meshi/data/api/dto/recomendation_dto.dart';
 import 'package:meshi/data/api/match_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/models/recomendation.dart';
@@ -33,8 +34,8 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<List<Recomendation>> getRecommendations({int limit, int skip}) async {
-    final result = await this._api.getRecommendations(limit: limit, skip: skip);
+  Future<RecomendationDto> getRecommendations({int page}) async {
+    final result = await this._api.getRecommendations(page:page);
     return result.data;
   }
 

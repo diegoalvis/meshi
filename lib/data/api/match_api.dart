@@ -6,6 +6,8 @@ import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/managers/session_manager.dart';
 
+import 'dto/recomendation_dto.dart';
+
 class MatchApi extends BaseApi {
   MatchApi(Dio dio, SessionManager session) : super(dio, session);
 
@@ -27,9 +29,9 @@ class MatchApi extends BaseApi {
     return get("/users/profile/$id").then((response) => processResponse(response, parseSingleRecomendation));
   }
 
-  Future<BaseResponse<List<Recomendation>>> getRecommendations({int limit = 0, int skip = 0}) async {
-    return get("/users/recomendations")
-        .then((response) => processListResponse(response, parseRecomendation));
+  Future<BaseResponse<RecomendationDto>> getRecommendations({int page = 0}) async {
+    return get("/users/recomendations", query: {'page':page})
+        .then((response) => processResponse(response, parseRecomendation));
   }
 
   Future<BaseResponse<int>> addMatch(int id) async {
@@ -56,7 +58,6 @@ List<UserMatch> parseListMatch(List<Map<String, dynamic>> json) =>
 List<User> parseUser(List<Map<String, dynamic>> json) =>
     json.map((element) => User.fromJson(element)).toList();
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);
-List<Recomendation> parseRecomendation(List<Map<String, dynamic>> json) =>
-    json.map((element) => Recomendation.fromJson(element)).toList();
+RecomendationDto parseRecomendation(Map<String, dynamic> json) =>RecomendationDto.fromJson(json);
 Recomendation parseSingleRecomendation(Map<String, dynamic> json) => Recomendation.fromJson(json);
 UserMatch parseSingleMatch(Map<String, dynamic> json) => UserMatch.fromJson(json);
