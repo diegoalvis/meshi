@@ -104,7 +104,7 @@ class InterestsProfileBody extends StatelessWidget {
                                           fontWeight: FontWeight.bold)),
                                   Spacer(),
                                   user.type == TYPE_PREMIUM
-                                      ? PremiumSpeechBubble()
+                                      ? PremiumSpeechBubble(false)
                                       : SizedBox(),
                                 ],
                               ),

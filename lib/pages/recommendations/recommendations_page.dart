@@ -178,7 +178,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                               children: <Widget>[
                                 Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                                 Spacer(),
-                                user.type == TYPE_PREMIUM ? PremiumSpeechBubble() : SizedBox(),
+                                user.type == TYPE_PREMIUM ? PremiumSpeechBubble(true) : SizedBox(),
                               ],
                             ),
                           ),

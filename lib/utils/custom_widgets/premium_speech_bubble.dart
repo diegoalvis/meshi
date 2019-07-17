@@ -4,6 +4,10 @@ import 'package:speech_bubble/speech_bubble.dart';
 import '../app_icons.dart';
 
 class PremiumSpeechBubble extends StatefulWidget{
+  bool isRecommendation = false;
+
+  PremiumSpeechBubble(this.isRecommendation);
+
   @override
   State<StatefulWidget> createState() => PremiumSpeechBubbleState();
 }
@@ -18,7 +22,8 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble>{
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        isPremium ?
+        widget.isRecommendation ? SizedBox()
+        : isPremium ?
         GestureDetector(
           onTap: () {
             setState(() {
