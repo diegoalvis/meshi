@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:meshi/data/models/user_match.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/widget_util.dart';
 
@@ -15,6 +16,8 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserMatch match = ModalRoute.of(context).settings.arguments;
     final inject = InjectorWidget.of(context);
+    final SessionManager sessionManager = inject.get();
+    sessionManager.setCurrentChatId(match.idMatch);
     return InjectorWidget.bind(
       bindFunc: (binder) {
         binder.bindLazySingleton((injector, params) =>
@@ -64,8 +67,6 @@ class ChatBodyState extends State<ChatBody> {
     });
   }
 
-
-
   void _handleSubmit() {
     Message message = Message(
         content: _chatController.text,
@@ -82,6 +83,7 @@ class ChatBodyState extends State<ChatBody> {
   void dispose() {
     _bloc.dispose();
     _controller.dispose();
+    _bloc.session.setCurrentChatId(-1);
     super.dispose();
   }
 

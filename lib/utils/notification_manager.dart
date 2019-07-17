@@ -1,11 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/user_repository.dart';
+import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/utils/app_icons.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../main.dart';
@@ -20,37 +22,22 @@ class NotificationManager {
   final UserRepository _repository;
   final messageNotificationSubject = PublishSubject<UserMatch>();
   final onChangePageSubject = PublishSubject<int>();
+  final SessionManager sessionManager;
 
   GlobalKey<NavigatorState> _navigatorKey;
 
-  NotificationManager(this._repository);
+  NotificationManager(this._repository, this.sessionManager);
 
   void dispose() {
     messageNotificationSubject.close();
     onChangePageSubject.close();
   }
 
-  Future showNotification(int id, String title, String body, dynamic message,
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    final data = jsonEncode(message);
-    final android = AndroidNotificationDetails("channel_id", "channel_name", "channel_description",
-        priority: Priority.High, importance: Importance.Max);
-    final iOS = IOSNotificationDetails();
-    final platform = NotificationDetails(android, iOS);
-    await flutterLocalNotificationsPlugin.show(0, title, body, platform, payload: data);
+  set navigatorKey(GlobalKey<NavigatorState> value) {
+    _navigatorKey = value;
   }
 
-  void setNotificationsConfig(GlobalKey<NavigatorState> globalNavigatorKey) {
-    _navigatorKey = globalNavigatorKey;
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var android = AndroidInitializationSettings("drawable/ic_logo");
-    var iOS = IOSInitializationSettings();
-    var platform = InitializationSettings(android, iOS);
-    flutterLocalNotificationsPlugin.initialize(platform, onSelectNotification: (payload) => onSelectedNotification(payload));
-    fcmListener(flutterLocalNotificationsPlugin);
-  }
-
-  void fcmListener(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
+  void fcmListener(BuildContext context) {
     FirebaseMessaging _fcm = FirebaseMessaging();
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -63,14 +50,123 @@ class NotificationManager {
       messageNotificationSubject.sink.add(match);
       switch (message["data"]["typeMessage"]) {
         case NOTIFICATION_CHAT:
-          showNotification(0, match.name, match.lastMessage, message, flutterLocalNotificationsPlugin);
+          final idCurrentMatch = await sessionManager.currentChatId;
+          if (idCurrentMatch != match.idMatch) {
+            showSimpleNotification(
+                GestureDetector(
+                    onTap: () {
+                      _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                              SizedBox(width: 8),
+                              Text("meshi", style: TextStyle(color: Colors.black))
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child:
+                                  Text(match.name, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(match.lastMessage,
+                                  maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                        )
+                      ],
+                    )),
+                background: Colors.white);
+          } else {
+            print(message);
+          }
           break;
         case NOTIFICATION_REWARD:
-          showNotification(1, "Nueva Cita de Regalo", "Participa por una cita de", message, flutterLocalNotificationsPlugin);
+          showSimpleNotification(
+              GestureDetector(
+                  onTap: () {
+                    onChangePageSubject.add(2);
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                            SizedBox(width: 8),
+                            Text("meshi", style: TextStyle(color: Colors.black))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Nueva Cita de Regalo",
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Participa por una cita de",
+                                maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                      )
+                    ],
+                  )),
+              background: Colors.white);
           break;
         case NOTIFICATION_WINNER:
-          showNotification(
-              2, 'Ganaste una cita!', "Eres el ganador de una fabulosa cita", message, flutterLocalNotificationsPlugin);
+          showSimpleNotification(
+              GestureDetector(
+                  onTap: () {
+                    onChangePageSubject.add(2);
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                            SizedBox(width: 8),
+                            Text("meshi", style: TextStyle(color: Colors.black))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('Ganaste una cita!',
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Eres el ganador de una fabulosa cita",
+                                maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                      )
+                    ],
+                  )),
+              background: Colors.white);
+          break;
+        default:
+          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
           break;
       }
     }, onResume: (Map<String, dynamic> message) async {
@@ -110,22 +206,5 @@ class NotificationManager {
       print('TOKEEEEEN $token');
       _repository.updateFirebaseToken(token);
     });
-  }
-
-  Future onSelectedNotification(String payload) async {
-    dynamic message = jsonDecode(payload);
-    switch (message["data"]["typeMessage"]) {
-      case NOTIFICATION_CHAT:
-        final match = UserMatch.fromMessage(message);
-        _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
-        break;
-      case NOTIFICATION_REWARD:
-      case NOTIFICATION_WINNER:
-        onChangePageSubject.add(2);
-        break;
-      default:
-        _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
-        break;
-    }
   }
 }

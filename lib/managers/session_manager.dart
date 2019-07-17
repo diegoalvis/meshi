@@ -182,4 +182,14 @@ class SessionManager {
     await prefs.setString("firebaseToken", authToken);
   }
 
+  Future<int> get currentChatId async {
+    final prefs = await preferences;
+    return prefs.getInt("currentChatId");
+  }
+
+  void setCurrentChatId(int value) async {
+    final prefs = await preferences;
+    await prefs.setInt("currentChatId", value);
+  }
+
 }

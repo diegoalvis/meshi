@@ -6,7 +6,6 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:meshi/bloc/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
@@ -48,7 +47,6 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   String _previousCategory;
   HomeSection _previousPage;
   NotificationManager foregroundNotification;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
   List<HomeSection> homePages = [
     RecommendationsPage(),
@@ -132,7 +130,9 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
                 ],
               );
             },
-            child: _currentPage as Widget,
+            child: GestureDetector(
+              onTap: () => _bloc.category = _currentCategory,
+                child: _currentPage as Widget),
           ),
         ),
       ),
