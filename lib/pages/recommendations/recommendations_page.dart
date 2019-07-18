@@ -94,7 +94,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
 
   Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex) {
     return CarouselSlider(
-      viewportFraction: 0.85,
+      viewportFraction: 0.9,
       autoPlayCurve: Curves.easeIn,
       height: MediaQuery.of(context).size.height,
       autoPlay: false,
@@ -107,7 +107,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
       (user) {
         return Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 8.0, right: 8.0),
             child: carouselWidget(context, user, itemLoadingIndex));
       },
     ).toList();
@@ -240,19 +240,19 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
           ),
           user.id == itemLoadingIndex
               ? Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
                 )
               : Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       FlatButton(
                         onPressed: () {
-                          _bloc.dispatch(DeleteInterestEvent(user));
+                         // _bloc.dispatch(DeleteInterestEvent(user));
                         },
                         child: Row(
                           children: <Widget>[
@@ -261,7 +261,9 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                               child: Text(
                                 strings.imNotInterested,
                                 style:
-                                TextStyle(color: Theme.of(context).primaryColor),
+                                TextStyle(
+                                    fontSize: 11,
+                                    color: Theme.of(context).primaryColor),
                               ),
                             ),
                           ],
@@ -275,12 +277,13 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                         color: Theme.of(context).accentColor,
                         child: Row(
                           children: <Widget>[
-                            Icon(AppIcons.curve, size: 18, color: Colors.white),
+                            Icon(AppIcons.curve, size: 11, color: Colors.white),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 strings.myInterests,
                                 textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 11),
                               ),
                             ),
                           ],

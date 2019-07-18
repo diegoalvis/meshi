@@ -3,6 +3,8 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
@@ -11,10 +13,10 @@ class InterestsItemPage extends StatelessWidget {
   int index;
   MyLikes myLikes;
   Function(String likeId) onUserTap;
+  bool isPremium;
+  int isMyLike = -1;
 
-
-
-  InterestsItemPage({this.myLikes, this.onUserTap});
+  InterestsItemPage({this.myLikes, this.onUserTap, this.isPremium, this.isMyLike});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,10 @@ class InterestsItemPage extends StatelessWidget {
               )),
             ),
           ),
+          /*Positioned.fill(
+              child: BackdropFilter(
+                  child: Container(color: Colors.black.withOpacity(0),),
+                  filter: ImageFilter.blur(sigmaY: 0.8, sigmaX: 0.8))),*/
           Align(
             alignment: Alignment.bottomLeft,
             child: Wrap(

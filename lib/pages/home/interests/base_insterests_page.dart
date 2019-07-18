@@ -2,19 +2,18 @@
  * Created by Diego Alvis.
  * Copyright (c) 2019 - All rights reserved.
  */
-import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/pages/interests_profile_page.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/interests_image_item.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
-import 'package:meshi/pages/interests_profile_page.dart';
 
 import '../../../main.dart';
 
@@ -87,9 +86,13 @@ class BaseInterestsPage extends StatelessWidget {
                                   onTap: () {
                                     validatePremiumAndPerformAction(context, _bloc.session, index);
                                   },
-                                  child: InterestsItemPage(
-                                    myLikes: myLikes[index],
-                                  ));
+                                  child: _bloc.session?.user?.type == TYPE_PREMIUM
+                                      ? InterestsItemPage(
+                                    myLikes: myLikes[index], isPremium: true, isMyLike: isMyLike
+                                  )  : InterestsItemPage(
+                                      myLikes: myLikes[index], isPremium: false, isMyLike: isMyLike
+                                  )
+                              );
                             },
                           ),
                         ),
