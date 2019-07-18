@@ -21,7 +21,6 @@ class AppModule implements Module {
   @override
   void configure(Binder binder) {
     binder
-//      ..bindSingleton(FirebaseMessaging())
       ..bindSingleton(SessionManager())
       ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 15000)))
       ..bindLazySingleton((injector, params) => NotificationManager(injector.get(), injector.get()))

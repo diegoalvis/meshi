@@ -40,7 +40,7 @@ class UserRepository {
   Observable<bool> updateUserBasicInfo(User user) {
     return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
       if (response?.success == true) {
-        if(user.state != User.ADVANCED_USER) user.state = User.BASIC_USER;
+        if (user.state != User.ADVANCED_USER) user.state = User.BASIC_USER;
         _session.saveUser(user);
       }
       return response?.success ?? false;
@@ -96,29 +96,28 @@ class UserRepository {
     });
   }
 
-  Future<int> deactivateAccount() async{
+  Future<int> deactivateAccount() async {
     final res = await _api.changeActive(false);
     return res.data;
   }
 
-  Future<int> activeAccount() async{
+  Future<int> activeAccount() async {
     final res = await _api.changeActive(true);
     return res.data;
   }
 
-  Future<int> updateFirebaseToken(String token) async{
+  Future<int> updateFirebaseToken(String token) async {
     final logged = await _session.logged;
-    if(logged){
+    if (logged) {
       final prev = await _session.firebaseToken;
-      if(prev == token){
+      if (prev == token) {
         return 1;
       }
       final rspn = await _api.changeFirebaseToken(token);
       _session.setFirebaseToken(token);
       return rspn.data;
-    }else{
+    } else {
       return 1;
     }
-
   }
 }

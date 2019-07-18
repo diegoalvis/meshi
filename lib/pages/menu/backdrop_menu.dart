@@ -112,41 +112,28 @@ class _BackdropState extends State<BackdropMenu> with SingleTickerProviderStateM
               Expanded(child: widget.menuTitle),
             ])),
       ),
-      body: GestureDetector(
-          onTap: _toggleBackdropLayerVisibility ,
-          child: LayoutBuilder(builder: _buildStack)),
+      body: GestureDetector(onTap: _toggleBackdropLayerVisibility, child: LayoutBuilder(builder: _buildStack)),
     );
   }
 }
 
 class _FrontLayer extends StatelessWidget {
-  const _FrontLayer({
-    Key key,
-    this.child,
-    this.title,
-  }) : super(key: key);
-
   final Widget child;
   final Widget title;
+
+  const _FrontLayer({Key key, this.child, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const cornerInclination = 30.0;
     return Material(
-      elevation: 0.0,
+      elevation: 16.0,
       shape: BeveledRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(cornerInclination)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          title == null
-              ? SizedBox()
-              : Container(
-                  height: cornerInclination,
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 15.0),
-                  child: title),
           Expanded(
             child: child,
           ),

@@ -9,16 +9,8 @@ import 'package:meshi/data/models/reward_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
-  //User user;
-  //String fbUserId;
-  //String fbToken;
-  //String authToken;
-
   User user;
   RewardInfo rewardInfo;
-  String _fbUserId = "10219787681781369";
-  String _fbToken =
-      "EAADuaK7hfRIBAMkKI0yEfUUOCEgAwLSqz39hS7pcjtXP6gZB0rXQ5ZAZAiOJiZC0Fv3G8Y4ZAtPC2IGJBbHsMd06YZAnKb2EyfVIlIZAoNzZCoYUo1OstAHN6MsZA8VFtt9ItXoePXKxfUQcZCqW4Y3mt1rvK8VcGLCaCD5pRuhoaYL3lN8J0dIPqRRlUJHPy8ifgZD";
 
   SharedPreferences _preferences;
 
@@ -35,11 +27,13 @@ class SessionManager {
     await prefs.setBool("logged", value);
   }
 
+  SessionManager() {
+    initUser();
+  }
+
   Future<User> initUser() {
     return preferences.then((prefs) {
       try {
-        _fbToken = prefs.getString("fbToken");
-        _fbUserId = prefs.getString("fbUserId");
         user = User.fromJson(jsonDecode(prefs.getString("user")));
         return user;
       } catch (error) {
@@ -145,11 +139,14 @@ class SessionManager {
     prefs.clear();
   }
 
-  String get fbToken => _fbToken;
+  Future<String> get fbToken async {
+    final prefs = await preferences;
+    return prefs.getString("fbToken");
+  }
 
-  set fbToken(String value) {
-    preferences.then((prefs) => prefs.setString("fbToken", value));
-    _fbToken = value;
+  void setFbToken(String value) async {
+    final prefs = await preferences;
+    await prefs.setString("fbToken", value);
   }
 
   Future<String> get authToken async {
@@ -163,18 +160,19 @@ class SessionManager {
     await prefs.setString("authToken", authToken);
   }
 
-  String get fbUserId => _fbUserId;
-
-  set fbUserId(String value) {
-    preferences.then((prefs) => prefs.setString("fbUserId", value));
-    _fbUserId = value;
+  Future<String> get fbUserId async {
+    final prefs = await preferences;
+    return prefs.getString("fbUserId");
   }
 
+  void setFbUserId(String value) async {
+    final prefs = await preferences;
+    await prefs.setString("fbUserId", value);
+  }
 
   Future<String> get firebaseToken async {
     final prefs = await preferences;
     return prefs.getString("firebaseToken");
-
   }
 
   void setFirebaseToken(String authToken) async {
@@ -191,5 +189,4 @@ class SessionManager {
     final prefs = await preferences;
     await prefs.setInt("currentChatId", value);
   }
-
 }

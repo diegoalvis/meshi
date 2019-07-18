@@ -28,6 +28,7 @@ class SettingsPage extends StatelessWidget with HomeSection {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+          SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Align(

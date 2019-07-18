@@ -36,13 +36,8 @@ class MenuPage extends StatelessWidget {
                       Spacer(),
                       Text(
                         category,
-                        style: TextStyle(color: theme.onPrimary, fontSize: 18.0),
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
                         textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        width: category.length * 8.0,
-                        height: 2.0,
-                        color: theme.onPrimary,
                       ),
                       Spacer(),
                     ],
@@ -81,7 +76,7 @@ class MenuPage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Container(
-              height: constrains.biggest.height / 2 - 48.0,
+              height: (constrains.biggest.height / 2) - 48.0,
               child: Column(
                   children: categories
                       .map((String category) =>

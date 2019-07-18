@@ -9,14 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 
+import '../app_icons.dart';
+
 class InterestsItemPage extends StatelessWidget {
   int index;
   MyLikes myLikes;
   Function(String likeId) onUserTap;
-  bool isPremium;
   int isMyLike = -1;
+  final isPremium;
 
-  InterestsItemPage({this.myLikes, this.onUserTap, this.isPremium, this.isMyLike});
+  InterestsItemPage({this.myLikes, this.onUserTap, this.isMyLike, this.isPremium});
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +36,9 @@ class InterestsItemPage extends StatelessWidget {
               )),
             ),
           ),
-          /*Positioned.fill(
-              child: BackdropFilter(
-                  child: Container(color: Colors.black.withOpacity(0),),
-                  filter: ImageFilter.blur(sigmaY: 0.8, sigmaX: 0.8))),*/
+          isMyLike == 2 && !isPremium
+              ? Positioned.fill(child: Center(child: Icon(Icons.lock, size: 50, color: Colors.white.withAlpha(120))))
+              : SizedBox(),
           Align(
             alignment: Alignment.bottomLeft,
             child: Wrap(

@@ -45,7 +45,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                           .forEach((item) => snapshot.data?.images?.add(item));
                     }
                     return Padding(
-                      padding: EdgeInsets.all(24.0),
+                      padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0, top: 8.0),
                       child: ListView(children: [
                         Column(
                           children: [

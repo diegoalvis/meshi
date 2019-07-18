@@ -59,7 +59,7 @@ class BaseInterestsPage extends StatelessWidget {
 
           return RefreshIndicator(
               onRefresh: _refreshInterestsData,
-              child: myLikes == null //|| myLikes.length == 0
+              child: myLikes == null || myLikes.length == 0
                   ? ListView(children: <Widget>[
                       SizedBox(height: 100),
                       Center(
@@ -86,13 +86,7 @@ class BaseInterestsPage extends StatelessWidget {
                                   onTap: () {
                                     validatePremiumAndPerformAction(context, _bloc.session, index);
                                   },
-                                  child: _bloc.session?.user?.type == TYPE_PREMIUM
-                                      ? InterestsItemPage(
-                                    myLikes: myLikes[index], isPremium: true, isMyLike: isMyLike
-                                  )  : InterestsItemPage(
-                                      myLikes: myLikes[index], isPremium: false, isMyLike: isMyLike
-                                  )
-                              );
+                                  child: InterestsItemPage(myLikes: myLikes[index], isPremium: _bloc.session?.user?.type == TYPE_PREMIUM, isMyLike: isMyLike));
                             },
                           ),
                         ),
@@ -102,7 +96,7 @@ class BaseInterestsPage extends StatelessWidget {
   }
 
   void validatePremiumAndPerformAction(BuildContext context, SessionManager session, int index) {
-    if (session?.user?.type != TYPE_PREMIUM) {
+    if (isMyLike == 2 && session?.user?.type != TYPE_PREMIUM) {
       showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage());
     } else {
       Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE,
