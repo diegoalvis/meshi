@@ -244,6 +244,8 @@ class MyLocalizations {
 
   String getEnumDisplayName(String enumValue) => _localizedEnumValues[locale.languageCode][enumValue] ?? enumValue;
 
+  String getCompatibilityDisplayName(String enumValue) => _localizedCompatibilityValues[locale.languageCode][enumValue] ?? enumValue;
+
   String getUserProp(String property) => _localizedUserProps[locale.languageCode][property] ?? property;
 
   // string-arrays
@@ -506,6 +508,21 @@ class MyLocalizations {
   };
 
   static Map<String, Map<String, String>> _localizedUserProps = {
+    /* English text resources */
+    'en': {
+      'age': 'age',
+      'eduLevel': 'study level',
+      'marriage': 'marriage',
+      'children': 'children',
+      'planChildren': 'would you like to have children?',
+      'priorities': 'priorities',
+      'clothingStyle': 'Dress style',
+      'activities': 'activities',
+      'topics': 'hobbies',
+      'politcs': 'ideology',
+      'places': 'favorite places',
+      'music': 'music',
+    },
     /* Spanish text resources */
     'es': {
       'age': 'edad',
@@ -569,7 +586,7 @@ class MyLocalizations {
       'thin': 'Delgad@',
       'medium': 'Median@',
       'big': 'Grande',
-      'maybe': 'No he decidico',
+      'maybe': 'No he decidido',
       'important': 'Mucho',
       'normal': 'Normal',
       'refined': 'Refinados',
@@ -580,6 +597,70 @@ class MyLocalizations {
       'center':
           'Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.',
       'right': 'Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.',
+      'nothing': 'No importa',
+      'urban': 'Urbano',
+      'pop': 'Pop',
+      'rock': 'Rock',
+      'salsa': 'Salsa',
+      'crossover': 'Crossover',
+    }
+  };
+
+  static Map<String, Map<String, String>> _localizedCompatibilityValues = {
+    /* English text resources */
+    'en': {
+      'yes': 'Yes',
+      'no': 'No',
+      'sporadically': 'Sometimes',
+      'bachelor': 'Bachelor',
+      'technical': 'Technical',
+      'technologist': 'Technologist',
+      'professional': 'Professional',
+      'postgraduate': 'Postgraduate',
+      'thin': 'Thin',
+      'medium': 'Medium',
+      'big': 'Big',
+      'maybe': 'Maybe',
+      'important': 'Important',
+      'normal': 'Normal',
+      'nothing': 'No matter',
+      'refined': 'Refined',
+      'conventional': 'Conventional',
+      'simple': 'Simple',
+      'any': 'Any',
+      'left': 'Left',
+      'center': 'Center',
+      'right': 'Right',
+      'urban': 'Urban',
+      'pop': 'Pop',
+      'rock': 'Rock',
+      'salsa': 'Salsa',
+      'crossover': 'Crossover',
+    },
+
+    /* Spanish text resources */
+    'es': {
+      'yes': 'Si',
+      'no': 'No',
+      'sporadically': 'En ocasiones',
+      'bachelor': 'Bachiller',
+      'technical': 'Tecnico',
+      'technologist': 'Tecnologo',
+      'professional': 'Profesional',
+      'postgraduate': 'Postgrado',
+      'thin': 'Delgad@',
+      'medium': 'Median@',
+      'big': 'Grande',
+      'maybe': 'No he decidico',
+      'important': 'Mucho',
+      'normal': 'Normal',
+      'refined': 'Refinados',
+      'conventional': 'Convencionales',
+      'simple': 'Sencillos',
+      'any': 'Cualquiera',
+      'left': 'Izquierda',
+      'center': 'Centro',
+      'right': 'Derecha',
       'nothing': 'No importa',
       'urban': 'Urbano',
       'pop': 'Pop',
