@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
+    //_bloc.locationManager.getLocation(context);
     return Builder(
       builder: (context) {
         buildContext = context;

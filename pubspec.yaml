@@ -35,6 +35,8 @@ dependencies:
   drop_cap_text: ^1.0.1
   flutter_offline: ^0.2.4
   overlay_support: ^1.0.0
+  location: ^2.3.5
+  app_settings: ^1.0.6
 
   flutter:
     sdk: flutter
