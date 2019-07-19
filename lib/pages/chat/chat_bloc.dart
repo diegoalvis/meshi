@@ -28,8 +28,9 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
 
   void connectSocket() async {
     final _obs = await _socket.connect(_match.idMatch);
-    _subs = _obs
-        .listen((msg) => dispatch(NewMessageEvent(msg)), onError: (error) {});
+    _subs = _obs.listen((msg) => {
+      if(msg.fromUser != _me) dispatch(NewMessageEvent(msg))
+    },onError: (error) {});
   }
 
   @override
@@ -67,7 +68,7 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
         yield MessageState(local, _me);
         await _messageRepository.sendMessage(_match.idMatch, event.message);
       } else if (event is NewMessageEvent) {
-        yield MessageState([event.message],_me, newMessage: true);
+        yield MessageState([event.message], _me, newMessage: true);
         await _messageRepository.insertMessage(event.message);
       } else if (event is ClearChatEvent) {
         yield LoadingState();
@@ -88,7 +89,8 @@ class MessageState extends BaseState {
   bool newPage;
   bool newMessage;
 
-  MessageState(this.messages, this.me, {this.newPage = false, this.newMessage = false})
+  MessageState(this.messages, this.me,
+      {this.newPage = false, this.newMessage = false})
       : super(props: messages);
 
   @override
