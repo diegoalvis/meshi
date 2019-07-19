@@ -162,7 +162,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
       if (pos < 2) {
         title = Text("meshi", style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'BettyLavea'));
       } else if (pos != 3) {
-        title = Text(category, style: TextStyle(color: Colors.white));
+        title = Text(category, style: TextStyle(color: Colors.white, fontSize: 17));
       }
 
       if (pos != 3) {
