@@ -6,6 +6,7 @@
 import 'package:meshi/bloc/base_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc extends BaseBloc {
@@ -15,7 +16,7 @@ class LoginBloc extends BaseBloc {
 
   UserRepository repository;
 
-  LoginBloc(this.repository, session) : super(session: session) {
+  LoginBloc(this.repository, SessionManager session) : super(session: session) {
     session.initUser().then((user) => _userSubject.sink.add(user));
   }
 

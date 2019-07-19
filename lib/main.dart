@@ -40,7 +40,6 @@ class App extends StatelessWidget {
 }
 
 class AppContainer extends StatelessWidget with InjectorWidgetMixin {
-
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey<NavigatorState>();

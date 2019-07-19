@@ -99,8 +99,9 @@ class RegisterBloc extends BaseBloc {
 
   void loadFacebookProfile() async {
     progressSubject.sink.add(true);
+    final fbToken = await session.fbToken;
     var graphResponse = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200),age_range,birthday&access_token=${session.fbToken}');
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200),age_range,birthday&access_token=$fbToken');
 
     var profile = json.decode(graphResponse.body);
     try {
