@@ -10,14 +10,16 @@ import 'package:meshi/bloc/login_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
+import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/widget_util.dart';
 
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = LoginBloc(injector.get<UserRepository>(), injector.get<SessionManager>());
+    final bloc = LoginBloc(injector.get<UserRepository>(), injector.get<SessionManager>(), injector.get<LocationManager>());
     return LoginForm(bloc);
   }
 }
@@ -82,6 +84,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
+    //_bloc.locationManager.getLocation(context);
     return Builder(
       builder: (context) {
         buildContext = context;

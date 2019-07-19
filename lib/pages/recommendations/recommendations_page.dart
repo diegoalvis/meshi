@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
+import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
@@ -34,7 +35,7 @@ class RecommendationsPage extends StatelessWidget with HomeSection, InjectorWidg
   Widget buildWithInjector(BuildContext context, Injector injector) {
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindLazySingleton((inject, params) => RecommendationsBloc(injector.get()));
+          binder.bindLazySingleton((inject, params) => RecommendationsBloc(injector.get(), injector.get()));
         },
         child: RecommendationsList());
   }
@@ -46,6 +47,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     _bloc = injector.get<RecommendationsBloc>();
+    _bloc.locationManager.getLocation(context);
     List<Recomendation> users = [];
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);

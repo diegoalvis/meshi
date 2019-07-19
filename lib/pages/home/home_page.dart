@@ -8,6 +8,7 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:meshi/bloc/home_bloc.dart';
+import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
@@ -67,6 +68,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
   }
+
 
   @override
   void dispose() {

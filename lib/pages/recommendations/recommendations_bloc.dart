@@ -5,15 +5,17 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meshi/data/models/recomendation.dart';
+import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   final MatchRepository _repository;
+  LocationManager locationManager;
   List<Recomendation> users;
   int max = 0;
 
-  RecommendationsBloc(this._repository);
+  RecommendationsBloc(this._repository, this.locationManager);
 
   @override
   get initialState => InitialState();
