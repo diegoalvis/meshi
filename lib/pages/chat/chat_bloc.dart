@@ -49,7 +49,7 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
         final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
         final remotes = await _messageRepository.getMessages(_match.idMatch,
-            from: _match.erasedDate?.millisecondsSinceEpoch);
+           from: _match.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
       } else if (event is LoadPageEvent) {
         final remotes = await _messageRepository.getPreviousMessages(
@@ -58,15 +58,9 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
             skipFrom: event.from);
         yield MessageState(remotes, _me, newPage: true);
       } else if (event is SendMessageEvent) {
-        /*await _messageRepository.sendMessageLocal(_match.idMatch, event.message);
-        final local = await _messageRepository.getLocalMessages(_match.idMatch);
-        yield MessageState(local, _me);
-        await _messageRepository.sendMessage(_match.idMatch, event.message);*/
-        await _messageRepository.updateMatch(_match.idMatch, event.message);
-        final local = await _messageRepository.getLocalMessages(_match.idMatch);
-        local.insert(0, event.message);
-        yield MessageState(local, _me);
+        yield MessageState([event.message], _me, newMessage: true);
         await _messageRepository.sendMessage(_match.idMatch, event.message);
+        await _messageRepository.insertMessage(event.message);
       } else if (event is NewMessageEvent) {
         yield MessageState([event.message], _me, newMessage: true);
         await _messageRepository.insertMessage(event.message);
@@ -79,7 +73,9 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
         await _matchRepository.blockMatch(event.matchId);
         yield ExitState();
       }
-    } catch (e) {}
+    } catch (e) {
+      print('ERROR');
+    }
   }
 }
 
