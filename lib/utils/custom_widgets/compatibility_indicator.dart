@@ -59,13 +59,13 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                                       margin: EdgeInsets.only(top: 10),
                                       child: Row(
                                         children: <Widget>[
-                                          SizedBox(width: 24),
+                                          SizedBox(width: 16),
                                           Center(
                                             child: ClipOval(
-                                                child: Container(height: 12, width: 12, color: Theme.of(context).accentColor)),
+                                                child: Container(height: 8, width: 8, color: Theme.of(context).accentColor)),
                                           ),
-                                          SizedBox(width: 10),
-                                          Expanded(child: Text("${toBeginningOfSentenceCase(similarity.label)} ${similarity.value}")),
+                                          SizedBox(width: 8),
+                                          Expanded(child: Text("${toBeginningOfSentenceCase(strings.getUserProp(similarity.label))} ${getSimilarityValue(strings, similarity)}")),
                                         ],
                                       ),
                                     ))
@@ -80,5 +80,12 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
         ),
       ),
     );
+  }
+
+  String getSimilarityValue(MyLocalizations strings, Similarity similarity) {
+    if(similarity.type == 'array') {
+      return similarity.value.split(',').map((val) => strings.getEnumDisplayName(val)).join(", ");
+    }
+    return strings.getEnumDisplayName(similarity.value);
   }
 }
