@@ -84,7 +84,7 @@ class InterestsProfileBody extends StatelessWidget {
                   content: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 18.0, left: 8.0, right: 8.0),
+                          top: 0.0, left: 8.0, right: 8.0),
                       child: CompatibilityIndicator(
                           compatibility: user.score,
                           similarities: user.similarities),
