@@ -31,6 +31,7 @@ const List<String> LifeGoals = [
   "Amigos",
 ];
 
+
 const List<String> CoupleActivities = [
   "Viajar a otros países",
   "Hacer deporte",

@@ -34,7 +34,11 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<RecomendationDto> getRecommendations({int page = 0}) async {
+  Future<RecomendationDto> getRecommendations({int page = 0, List<Recomendation> looked}) async {
+    if(looked != null){
+      final ids = looked.map( (x){ return x.id; } );
+      await this._api.updateLooked(ids);
+    }
     final result = await this._api.getRecommendations(page:page);
     return result.data;
   }

@@ -38,7 +38,8 @@ class UserRepository {
 
   /// Updates the user basic info
   Observable<bool> updateUserBasicInfo(User user) {
-    return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
+    return Observable.fromFuture(_api.updateUserBasicInfo(user))
+        .map((response) {
       if (response?.success == true) {
         if (user.state != User.ADVANCED_USER) user.state = User.BASIC_USER;
         _session.saveUser(user);
@@ -51,7 +52,8 @@ class UserRepository {
 
   /// Updates the user advanced info
   Observable<bool> updateUserAdvancedInfo(User user) {
-    return Observable.fromFuture(_api.updateUserAdvancedInfo(user)).map((response) {
+    return Observable.fromFuture(_api.updateUserAdvancedInfo(user))
+        .map((response) {
       if (response?.success == true) {
         user.state = User.ADVANCED_USER;
         _session.saveUser(user);
@@ -108,16 +110,25 @@ class UserRepository {
 
   Future<int> updateFirebaseToken(String token) async {
     final logged = await _session.logged;
-    if (logged) {
-      final prev = await _session.firebaseToken;
-      if (prev == token) {
-        return 1;
-      }
-      final rspn = await _api.changeFirebaseToken(token);
-      _session.setFirebaseToken(token);
-      return rspn.data;
-    } else {
+    if (!logged) {
+      return -1;
+    }
+
+    final prev = await _session.firebaseToken;
+    if (prev == token) {
       return 1;
     }
+    final rspn = await _api.changeFirebaseToken(token);
+    _session.setFirebaseToken(token);
+    return rspn.data;
+  }
+
+  Future<int> updateLocation(double lat, double lon) async {
+    final logged = await _session.logged;
+    if (!logged) {
+      return -1;
+    }
+    final rspn = await _api.updateLocation(lat, lon);
+    return rspn.data;
   }
 }
