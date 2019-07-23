@@ -37,13 +37,13 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.topics?.length == 3;
                 return ListView.separated(
-                  itemCount: RelevantTopics.length,
+                  itemCount: Topics.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = RelevantTopics[index];
+                        String selected = Topics[index];
                         var hold = deepening?.topics ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
@@ -59,17 +59,17 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              deepening?.topics?.contains(RelevantTopics[index]) == true
+                              deepening?.topics?.contains(Topics[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: deepening?.topics?.contains(RelevantTopics[index]) == true
+                              color: deepening?.topics?.contains(Topics[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            RelevantTopics[index],
+                            Topics[index],
                             style: TextStyle(
-                                color: deepening?.topics?.contains(RelevantTopics[index]) == true
+                                color: deepening?.topics?.contains(Topics[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

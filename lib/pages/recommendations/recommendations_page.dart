@@ -97,20 +97,23 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex) {
     return CarouselSlider(
       viewportFraction: 0.9,
-      autoPlayCurve: Curves.easeIn,
+      enableInfiniteScroll: false,
+      autoPlayCurve: Curves.bounceInOut,
       height: MediaQuery.of(context).size.height,
       autoPlay: false,
       items: generateRecommendationList(users, context, itemLoadingIndex),
     );
   }
 
-  List<Container> generateRecommendationList(List<Recomendation> users, BuildContext context, int itemLoadingIndex) {
+  List<Widget> generateRecommendationList(List<Recomendation> users, BuildContext context, int itemLoadingIndex) {
     final items = users.map(
       (user) {
         return Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 8.0, right: 8.0),
-            child: carouselWidget(context, user, itemLoadingIndex));
+            margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 4.0, right: 4.0),
+            child: Card(
+                elevation: 8,
+                child: carouselWidget(context, user, itemLoadingIndex)));
       },
     ).toList();
     items.add(ViewMoreRecommendations(() => _bloc.dispatch(GetRecommendationsEvent())));
@@ -121,7 +124,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
     final strings = MyLocalizations.of(context);
     RecommendationsBloc _bloc;
     _bloc = InjectorWidget.of(context).get<RecommendationsBloc>();
-    return Container(
+    return Material(
       color: Color.fromARGB(255, 245, 245, 245),
       child: Column(
         children: <Widget>[
@@ -254,7 +257,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                     children: <Widget>[
                       FlatButton(
                         onPressed: () {
-                         // _bloc.dispatch(DeleteInterestEvent(user));
+                          // _bloc.dispatch(DeleteInterestEvent(user));
                         },
                         child: Row(
                           children: <Widget>[
@@ -262,10 +265,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 strings.imNotInterested,
-                                style:
-                                TextStyle(
-                                    fontSize: 11,
-                                    color: Theme.of(context).primaryColor),
+                                style: TextStyle(fontSize: 11, color: Theme.of(context).primaryColor),
                               ),
                             ),
                           ],

@@ -37,13 +37,13 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.activities?.length == 3;
                 return ListView.separated(
-                  itemCount: CoupleActivities.length,
+                  itemCount: Activities.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = CoupleActivities[index];
+                        String selected = Activities[index];
                         var hold = snapshot?.data?.activities ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
@@ -59,17 +59,17 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              deepening?.activities?.contains(CoupleActivities[index]) == true
+                              deepening?.activities?.contains(Activities[index]) == true
                                   ? Icons.check
                                   : null,
-                              color: deepening?.activities?.contains(CoupleActivities[index]) == true
+                              color: deepening?.activities?.contains(Activities[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            CoupleActivities[index],
+                            Activities[index],
                             style: TextStyle(
-                                color: deepening?.activities?.contains(CoupleActivities[index]) == true
+                                color: deepening?.activities?.contains(Activities[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),
