@@ -4,7 +4,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
@@ -74,15 +73,20 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                               child: RangeSlider(
                                 min: FormBloc.MIN_INCOME,
                                 max: FormBloc.MAX_INCOME,
-                                lowerValue: (snapshot.data?.minIncomePreferred ?? (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME))
-                                    .toDouble(),
-                                upperValue: (snapshot.data?.maxIncomePreferred ?? (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME))
-                                    .toDouble(),
-                                showValueIndicator: true,
+                                labels: RangeLabels(
+                                  (snapshot.data?.minIncomePreferred?.toString() ??
+                                      (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME)),
+                                  (snapshot.data?.maxIncomePreferred?.toString() ??
+                                      (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME)),
+                                ),
+                                values: RangeValues(
+                                  (snapshot.data?.minIncomePreferred ?? (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME))
+                                      .toDouble(),
+                                  (snapshot.data?.maxIncomePreferred ?? (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME))
+                                      .toDouble(),
+                                ),
                                 divisions: (FormBloc.MAX_INCOME - FormBloc.MIN_INCOME) ~/ FormBloc.STEP_INCOME,
-                                valueIndicatorMaxDecimals: 0,
-                                onChanged: (double newLowerValue, double newUpperValue) =>
-                                    bloc.incomeRangePreferred(newLowerValue, newUpperValue),
+                                onChanged: (values) => bloc.incomeRangePreferred(values.start, values.end),
                               ),
                             ),
                             Text("${FormBloc.MAX_INCOME.toInt()}\n ${strings.orMore}",

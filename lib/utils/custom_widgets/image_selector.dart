@@ -51,49 +51,53 @@ class ImageSelector extends StatelessWidget {
                     ],
                   ),
             ),
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: ClipRRect(
-            borderRadius: new BorderRadius.circular(16.0),
-            child: Container(
-              color: Colors.grey[300],
-              child: StreamBuilder<bool>(
-                stream: showLoader,
-                initialData: false,
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                  return snapshot.data
-                      ? Center(child: CircularProgressIndicator())
-                      : image != null && image.isNotEmpty && image != "null"
-                          ? DecoratedBox(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image: NetworkImage(BaseApi.IMAGES_URL_DEV + image),
-                                fit: BoxFit.cover,
-                              )),
-                              child: GestureDetector(
-                                onTap: () => onDeleteSelected(image),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: ClipOval(
-                                      child: Container(
-                                        height: 20,
-                                        width: 20,
-                                        color: Colors.transparent.withOpacity(0.20),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                          size: 17,
+        child: Material(
+          elevation: 4,
+          borderRadius: BorderRadius.circular(16),
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: ClipRRect(
+              borderRadius: new BorderRadius.circular(16.0),
+              child: Container(
+                color: Colors.grey[300],
+                child: StreamBuilder<bool>(
+                  stream: showLoader,
+                  initialData: false,
+                  builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    return snapshot.data
+                        ? Center(child: CircularProgressIndicator())
+                        : image != null && image.isNotEmpty && image != "null"
+                            ? DecoratedBox(
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: NetworkImage(BaseApi.IMAGES_URL_DEV + image),
+                                  fit: BoxFit.cover,
+                                )),
+                                child: GestureDetector(
+                                  onTap: () => onDeleteSelected(image),
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: ClipOval(
+                                        child: Container(
+                                          height: 20,
+                                          width: 20,
+                                          color: Colors.transparent.withOpacity(0.20),
+                                          child: Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            size: 17,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                          : Icon(Icons.add_a_photo);
-                },
+                              )
+                            : Icon(Icons.add_a_photo);
+                  },
+                ),
               ),
             ),
           ),

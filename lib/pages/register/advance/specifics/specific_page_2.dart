@@ -36,13 +36,13 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.priorities?.length == 3;
                 return ListView.separated(
-                  itemCount: LifeGoals.length,
+                  itemCount: Priorities.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = LifeGoals[index];
+                        String selected = Priorities[index];
                         var hold = deepening?.priorities ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
@@ -57,15 +57,15 @@ class SpecificsFormPageTwo extends StatelessWidget with FormSection {
                       },
                       title: Row(
                         children: <Widget>[
-                          Icon(deepening?.priorities?.contains(LifeGoals[index]) == true ? Icons.check : null,
-                              color: deepening?.priorities?.contains(LifeGoals[index]) == true
+                          Icon(deepening?.priorities?.contains(Priorities[index]) == true ? Icons.check : null,
+                              color: deepening?.priorities?.contains(Priorities[index]) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            LifeGoals[index],
+                            Priorities[index],
                             style: TextStyle(
-                                color: deepening?.priorities?.contains(LifeGoals[index]) == true
+                                color: deepening?.priorities?.contains(Priorities[index]) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

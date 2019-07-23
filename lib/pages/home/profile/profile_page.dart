@@ -44,10 +44,10 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                       List.generate(4 - (snapshot.data?.images?.length ?? 0), (index) => null)
                           .forEach((item) => snapshot.data?.images?.add(item));
                     }
-                    return Padding(
-                      padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0, top: 8.0),
-                      child: ListView(children: [
-                        Column(
+                    return ListView(children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0, top: 8.0),
+                        child: Column(
                           children: [
                             Text(
                               strings.myPictures,
@@ -73,13 +73,13 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                                     (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
+                      buildPremiumSection(context, snapshot?.data),
+                      buildProfileDetails(context, snapshot?.data),
+                      buildCompleteProfileBanner(context),
                           ],
                         ),
-                        buildPremiumSection(context, snapshot?.data),
-                        buildProfileDetails(context, snapshot?.data),
-                        buildCompleteProfileBanner(context),
-                      ]),
-                    );
+                      ),
+                    ]);
                   });
         });
   }
