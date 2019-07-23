@@ -44,7 +44,7 @@ class MatchRepository {
     final recomendation = result.data;
 
     final tries = await this._session.recomendationTry(result.data.max);
-    recomendation.triess = tries;
+    recomendation.tries = tries;
     if(looked != null){
       this._session.useRecomendationTry();
     }
