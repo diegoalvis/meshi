@@ -14,7 +14,7 @@ import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-class SettingsPage extends StatelessWidget with HomeSection {
+class SettingsPage extends StatefulWidget with HomeSection {
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -22,7 +22,28 @@ class SettingsPage extends StatelessWidget with HomeSection {
   }
 
   @override
+  State<StatefulWidget> createState() => SettingsPageState();
+}
+
+class SettingsPageState extends State<SettingsPage> {
+  SessionManager sessionManager;
+  bool sessionMessage;
+  bool sessionInterest;
+  bool sessionReward;
+
+  @override
+  void initState() {
+    setState(() {
+      sessionManager.getSettingsNotification("messageNotification").then((value) => sessionMessage = value);
+      sessionManager.getSettingsNotification("interestsNotification").then((value) => sessionInterest = value);
+      sessionManager.getSettingsNotification("rewardNotification").then((value) => sessionReward = value);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    sessionManager = InjectorWidget.of(context).get<SessionManager>();
     final strings = MyLocalizations.of(context);
     return SingleChildScrollView(
       child: Column(
@@ -38,10 +59,9 @@ class SettingsPage extends StatelessWidget with HomeSection {
                   textAlign: TextAlign.left),
             ),
           ),
-          rowSettings(context, strings.newMessage, true),
-          rowSettings(context, strings.newInterested, true),
-          rowSettings(context, strings.newDraw, false),
-          rowSettings(context, strings.awards, true),
+          rowSettings(context, strings.newMessage, sessionMessage, "messageNotification"),
+          rowSettings(context, strings.newInterested, sessionInterest, "interestsNotification"),
+          rowSettings(context, strings.newDraw, sessionReward, "rewardNotification"),
           Divider(
             color: Theme.of(context).dividerColor,
           ),
@@ -83,21 +103,31 @@ class SettingsPage extends StatelessWidget with HomeSection {
     Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
-  Widget rowSettings(BuildContext context, String rowName, bool notification) {
+  Widget rowSettings(BuildContext context, String rowName, bool notificationType, String key) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+            child: Text(rowName,
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
           ),
           //Spacer(),
           Expanded(
-            child: OptionSelector(
+              child: OptionSelector(
                 options: YesNoOptions,
-                optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
-                onSelected: (selected) => null),
+                optionSelected: (notificationType == null ? null : notificationType == true ? YesNoOptions[0] : YesNoOptions[1]),
+                onSelected: (selected) {
+                  if (selected == "no")
+                    selected = false;
+                  else
+                    selected = true;
+                  sessionManager.setSettingsNotification(selected, key);
+                  setState(() {
+                    notificationType = selected;
+                  });
+                }),
           ),
         ],
       ),
@@ -115,8 +145,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
-              child:
-                  Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              child: Text(itemName,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),

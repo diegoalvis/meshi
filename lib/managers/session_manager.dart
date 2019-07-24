@@ -189,4 +189,15 @@ class SessionManager {
     final prefs = await preferences;
     await prefs.setInt("currentChatId", value);
   }
+
+  Future<bool> getSettingsNotification(String key) async {
+    final prefs = await preferences;
+    return prefs.getBool(key);
+  }
+
+  void setSettingsNotification(bool value, String key) async {
+    final prefs = await preferences;
+    await prefs.setBool(key, value);
+  }
 }
+
