@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/data/repository/user_repository.dart';
@@ -14,7 +15,7 @@ import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-class SettingsPage extends StatefulWidget with HomeSection {
+class SettingsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
@@ -22,28 +23,39 @@ class SettingsPage extends StatefulWidget with HomeSection {
   }
 
   @override
-  State<StatefulWidget> createState() => SettingsPageState();
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    final SessionManager sessionManager = InjectorWidget.of(context).get();
+    return SettingsContainer(sessionManager);
+  }
 }
 
-class SettingsPageState extends State<SettingsPage> {
-  SessionManager sessionManager;
+class SettingsContainer extends StatefulWidget {
+  final SessionManager sessionManager;
+
+  SettingsContainer(this.sessionManager);
+
+  @override
+  Widget getTitle(BuildContext context) {
+    final strings = MyLocalizations.of(context);
+    return Text(strings.homeSections[4]);
+  }
+
+  @override
+  State<StatefulWidget> createState() => SettingsPageState(sessionManager);
+}
+
+class SettingsPageState extends State<SettingsContainer> {
+  final SessionManager sessionManager;
   bool sessionMessage;
   bool sessionInterest;
   bool sessionReward;
 
-  /*@override
-  void initState() {
-    setState(() {
-      sessionManager.getSettingsNotification("messageNotification").then((value) => sessionMessage = value);
-      sessionManager.getSettingsNotification("interestsNotification").then((value) => sessionInterest = value);
-      sessionManager.getSettingsNotification("rewardNotification").then((value) => sessionReward = value);
-    });
-    super.initState();
-  }*/
+  SettingsPageState(this.sessionManager) {
+    setNotificationPreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
-    sessionManager = InjectorWidget.of(context).get<SessionManager>();
     final strings = MyLocalizations.of(context);
     return SingleChildScrollView(
       child: Column(
@@ -97,41 +109,43 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   void clearSession(BuildContext context) async {
-    final session = InjectorWidget.of(context).get<SessionManager>();
-    session.clear();
-    session.setLogged(false);
+    sessionManager.clear();
+    sessionManager.setLogged(false);
     Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
   Widget rowSettings(BuildContext context, String rowName, bool notificationType, String key) {
+    setNotificationPreferences();
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(rowName,
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+            child:
+                Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
           ),
           //Spacer(),
           Expanded(
-              child: OptionSelector(
+            child: OptionSelector(
                 options: YesNoOptions,
-                optionSelected: (notificationType == null ? null : notificationType == true ? YesNoOptions[0] : YesNoOptions[1]),
+                optionSelected:
+                    (notificationType == null ? null : notificationType == true ? YesNoOptions[0] : YesNoOptions[1]),
                 onSelected: (selected) {
-                  if (selected == "no")
-                    selected = false;
-                  else
-                    selected = true;
-                  sessionManager.setSettingsNotification(selected, key);
-                  setState(() {
-                    notificationType = selected;
-                  });
+                  final enable = selected == "yes";
+                  notificationType = enable;
+                  sessionManager.setSettingsNotification(enable, key);
                 }),
           ),
         ],
       ),
     );
+  }
+
+  void setNotificationPreferences() {
+    sessionManager.getSettingsNotification("messageNotification").then((value) => setState(() => sessionMessage = value));
+    sessionManager.getSettingsNotification("interestsNotification").then((value) => setState(() => sessionInterest = value));
+    sessionManager.getSettingsNotification("rewardNotification").then((value) => setState(() => sessionReward = value));
   }
 
   Widget settingItem(BuildContext context, String route, String itemName) {

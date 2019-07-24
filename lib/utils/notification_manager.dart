@@ -38,7 +38,7 @@ class NotificationManager {
     _navigatorKey = value;
   }
 
-  void fcmListener(BuildContext context) async {
+  void setFcmListener(BuildContext context) async {
     FirebaseMessaging _fcm = FirebaseMessaging();
     final messageNotification = await sessionManager.getSettingsNotification("messageNotification");
     final interestNotification = await sessionManager.getSettingsNotification("interestNotification");
