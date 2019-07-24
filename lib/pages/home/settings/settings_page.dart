@@ -31,7 +31,7 @@ class SettingsPageState extends State<SettingsPage> {
   bool sessionInterest;
   bool sessionReward;
 
-  @override
+  /*@override
   void initState() {
     setState(() {
       sessionManager.getSettingsNotification("messageNotification").then((value) => sessionMessage = value);
@@ -39,7 +39,7 @@ class SettingsPageState extends State<SettingsPage> {
       sessionManager.getSettingsNotification("rewardNotification").then((value) => sessionReward = value);
     });
     super.initState();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
