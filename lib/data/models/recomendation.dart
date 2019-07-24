@@ -39,14 +39,14 @@ class Recomendation {
   Map<String, dynamic> toDatabase() {
     final json = this.toJson();
     json['images'] = (json['images'] as List)?.join(",") ?? null;
-    json['similarity'] = jsonEncode(json['similarity']);
+    json['similarities'] = jsonEncode(json['similarities']);
     return json;
   }
 
   factory Recomendation.fromDatabase(Map<String, dynamic> json){
     final obj = Map.of(json);
     obj['images'] = (obj["images"] as String)?.split(",") ?? [];
-    obj['similarity'] = jsonDecode(obj['similarity']);
+    obj['similarities'] = jsonDecode(obj['similarities']);
     return Recomendation.fromJson(obj);
   }
 }

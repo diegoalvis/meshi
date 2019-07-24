@@ -9,6 +9,7 @@ import 'package:meshi/data/api/user_api.dart';
 import 'package:meshi/data/db/app_database.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/message_dao.dart';
+import 'package:meshi/data/db/dao/recomendation_dao.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
@@ -30,6 +31,7 @@ class AppModule implements Module {
       ..bindLazySingleton((injector, params) => AppDatabase())
       ..bindLazySingleton((injector, params) => MessageDao(injector.get()))
       ..bindLazySingleton((injector, params) => MatchDao(injector.get()))
+      ..bindLazySingleton((injector, params) => RecomendationDao(injector.get()))
       // API
       ..bindLazySingleton((injector, params) => UserApi(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => RewardApi(injector.get(), injector.get()))

@@ -235,7 +235,7 @@ class SessionManager {
   void nextRecomendationPage() async {
     final prefs = await preferences;
     final page = prefs.getInt("recomendationPage");
-    await prefs.setInt("recomendationPage", page + 1);
+    await prefs.setInt("recomendationPage", (page ?? 0 ) + 1);
   }
 
 

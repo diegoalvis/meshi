@@ -62,7 +62,7 @@ class MatchApi extends BaseApi {
 
   Future<BaseResponse<int>> updateLocation(double lat, double lon) async{
     return put("/users/location", body: {'lat': lat, 'lon': lon})
-        .then((response) => processBasicResponse(response));
+        .then((response) => response != null ? processBasicResponse<int>(response) : BaseResponse(success: true, data: 0,error: 0));
   }
 }
 

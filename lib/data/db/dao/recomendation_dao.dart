@@ -26,7 +26,8 @@ class RecomendationDao {
     final db = await _db;
     final batch = db.batch();
     recomendations.forEach((r) {
-      batch.insert("recomendation", r.toDatabase());
+      final reco = r.toDatabase();
+      batch.insert("recomendation", reco);
     });
     return await batch.commit(noResult: true);
   }

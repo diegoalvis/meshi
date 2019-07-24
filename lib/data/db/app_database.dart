@@ -59,7 +59,7 @@ class AppDatabase {
     score INTEGER,
     gender VARCHAR(50),
     images VARCHAR(555),
-    similarity TEXT
+    similarities TEXT
     )
     ''');
 
