@@ -4,6 +4,7 @@
  */
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/utils/base_state.dart';
@@ -55,6 +56,11 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
     } on Exception catch (e) {
       yield ErrorState(exception: e);
     }
+  }
+
+  void sendLocation(BuildContext context) async {
+    final location = await locationManager.getLocation(context);
+    _repository.updateUserLocation(location.latitude, location.longitude);
   }
 }
 

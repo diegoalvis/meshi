@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/data/repository/user_repository.dart';
@@ -14,11 +15,43 @@ import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-class SettingsPage extends StatelessWidget with HomeSection {
+class SettingsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return Text(strings.homeSections[4]);
+  }
+
+  @override
+  Widget buildWithInjector(BuildContext context, Injector injector) {
+    final SessionManager sessionManager = InjectorWidget.of(context).get();
+    return SettingsContainer(sessionManager);
+  }
+}
+
+class SettingsContainer extends StatefulWidget {
+  final SessionManager sessionManager;
+
+  SettingsContainer(this.sessionManager);
+
+  @override
+  Widget getTitle(BuildContext context) {
+    final strings = MyLocalizations.of(context);
+    return Text(strings.homeSections[4]);
+  }
+
+  @override
+  State<StatefulWidget> createState() => SettingsPageState(sessionManager);
+}
+
+class SettingsPageState extends State<SettingsContainer> {
+  final SessionManager sessionManager;
+  bool sessionMessage;
+  bool sessionInterest;
+  bool sessionReward;
+
+  SettingsPageState(this.sessionManager) {
+    setNotificationPreferences();
   }
 
   @override
@@ -38,10 +71,9 @@ class SettingsPage extends StatelessWidget with HomeSection {
                   textAlign: TextAlign.left),
             ),
           ),
-          rowSettings(context, strings.newMessage, true),
-          rowSettings(context, strings.newInterested, true),
-          rowSettings(context, strings.newDraw, false),
-          rowSettings(context, strings.awards, true),
+          rowSettings(context, strings.newMessage, sessionMessage, "messageNotification"),
+          rowSettings(context, strings.newInterested, sessionInterest, "interestsNotification"),
+          rowSettings(context, strings.newDraw, sessionReward, "rewardNotification"),
           Divider(
             color: Theme.of(context).dividerColor,
           ),
@@ -77,31 +109,43 @@ class SettingsPage extends StatelessWidget with HomeSection {
   }
 
   void clearSession(BuildContext context) async {
-    final session = InjectorWidget.of(context).get<SessionManager>();
-    session.clear();
-    session.setLogged(false);
+    sessionManager.clear();
+    sessionManager.setLogged(false);
     Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
-  Widget rowSettings(BuildContext context, String rowName, bool notification) {
+  Widget rowSettings(BuildContext context, String rowName, bool notificationType, String key) {
+    setNotificationPreferences();
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+            child:
+                Text(rowName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
           ),
           //Spacer(),
           Expanded(
             child: OptionSelector(
                 options: YesNoOptions,
-                optionSelected: (notification == null ? null : notification == true ? YesNoOptions[0] : YesNoOptions[1]),
-                onSelected: (selected) => null),
+                optionSelected:
+                    (notificationType == null ? null : notificationType == true ? YesNoOptions[0] : YesNoOptions[1]),
+                onSelected: (selected) {
+                  final enable = selected == "yes";
+                  notificationType = enable;
+                  sessionManager.setSettingsNotification(enable, key);
+                }),
           ),
         ],
       ),
     );
+  }
+
+  void setNotificationPreferences() {
+    sessionManager.getSettingsNotification("messageNotification").then((value) => setState(() => sessionMessage = value));
+    sessionManager.getSettingsNotification("interestsNotification").then((value) => setState(() => sessionInterest = value));
+    sessionManager.getSettingsNotification("rewardNotification").then((value) => setState(() => sessionReward = value));
   }
 
   Widget settingItem(BuildContext context, String route, String itemName) {
@@ -115,8 +159,8 @@ class SettingsPage extends StatelessWidget with HomeSection {
             },
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
-              child:
-                  Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              child: Text(itemName,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),

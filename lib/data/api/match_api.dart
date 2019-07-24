@@ -55,9 +55,14 @@ class MatchApi extends BaseApi {
     return put("/users/matches/$idMatch/block").then((response) => processBasicResponse(response));
   }
 
-  Future<BaseResponse<int>> maxTries() async{
+  Future<BaseResponse<int>> maxTries() async {
     return get("/users/recomendations/max-tries")
         .then((response) => processBasicResponse<int>(response));
+  }
+
+  Future<BaseResponse<int>> updateLocation(double lat, double lon) async{
+    return put("/users/location", body: {'lat': lat, 'lon': lon})
+        .then((response) => processBasicResponse(response));
   }
 }
 

@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
+import 'package:meshi/utils/enum_utils.dart';
 import '../advanced_register_page.dart';
 import '../form_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
@@ -37,13 +38,13 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.topics?.length == 3;
                 return ListView.separated(
-                  itemCount: Topics.length,
+                  itemCount: UserRelevantTopics.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = Topics[index];
+                        String selected = enumValue(UserRelevantTopics.values[index]);
                         var hold = deepening?.topics ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
@@ -59,17 +60,17 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              deepening?.topics?.contains(Topics[index]) == true
+                              deepening?.topics?.contains(enumValue(UserRelevantTopics.values[index])) == true
                                   ? Icons.check
                                   : null,
-                              color: deepening?.topics?.contains(Topics[index]) == true
+                              color: deepening?.topics?.contains(enumValue(UserRelevantTopics.values[index])) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            Topics[index],
+                            strings.getCompatibilityDisplayName(enumValue(UserRelevantTopics.values[index])),
                             style: TextStyle(
-                                color: deepening?.topics?.contains(Topics[index]) == true
+                                color: deepening?.topics?.contains(enumValue(UserRelevantTopics.values[index])) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),
