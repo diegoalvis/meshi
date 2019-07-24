@@ -68,3 +68,13 @@ enum UserPlaces { refined, conventional, simple, any }
 enum UserPolitics { left, center, right, nothing }
 
 enum UserMusic { urban, pop, rock, salsa, crossover }
+
+enum UserDressStyle { sexy, light, own, elegant, casual, sport}
+
+enum UserLifeGoals { family, work, study, progress, friends}
+
+enum UserCoupleActivities{ international_travel, do_sports, local_travel, cook, new_restaurants, dancing, stay_home, go_for_drinks}
+
+enum UserRelevantTopics { art, experiences, professional, social, politic, history, music, show}
+
+

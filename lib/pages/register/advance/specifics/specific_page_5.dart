@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
+import 'package:meshi/utils/enum_utils.dart';
 import '../advanced_register_page.dart';
 import '../form_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
@@ -37,13 +38,13 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
                 final deepening = snapshot.data;
                 infoComplete = deepening?.activities?.length == 3;
                 return ListView.separated(
-                  itemCount: CoupleActivities.length,
+                  itemCount: UserCoupleActivities.values.length,
                   separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                       onTap: () {
-                        String selected = CoupleActivities[index];
+                        String selected = enumValue(UserCoupleActivities.values[index]);
                         var hold = snapshot?.data?.activities ?? [];
                         if (hold.contains(selected)) {
                           hold.remove(selected);
@@ -59,17 +60,17 @@ class SpecificsFormPageFive extends StatelessWidget with FormSection {
                       title: Row(
                         children: <Widget>[
                           Icon(
-                              deepening?.activities?.contains(CoupleActivities[index]) == true
+                              deepening?.activities?.contains(enumValue(UserCoupleActivities.values[index])) == true
                                   ? Icons.check
                                   : null,
-                              color: deepening?.activities?.contains(CoupleActivities[index]) == true
+                              color: deepening?.activities?.contains(enumValue(UserCoupleActivities.values[index])) == true
                                   ? Theme.of(context).accentColor
                                   : Colors.black),
                           SizedBox(width: 5),
                           Text(
-                            CoupleActivities[index],
+                            strings.getCompatibilityDisplayName(enumValue(UserCoupleActivities.values[index])),
                             style: TextStyle(
-                                color: deepening?.activities?.contains(CoupleActivities[index]) == true
+                                color: deepening?.activities?.contains(enumValue(UserCoupleActivities.values[index])) == true
                                     ? Theme.of(context).accentColor
                                     : Colors.black),
                           ),

@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
+import 'package:meshi/utils/enum_utils.dart';
 import '../advanced_register_page.dart';
 import '../form_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
@@ -64,13 +65,13 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
               child: deepening.isImportantClothing != true
                   ? SizedBox()
                   : ListView.separated(
-                      itemCount: DressStyle.length,
+                      itemCount: UserDressStyle.values.length,
                       separatorBuilder: (BuildContext context, int index) => Divider(),
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                           onTap: () {
-                            String selected = DressStyle[index];
+                            String selected = enumValue(UserDressStyle.values[index]);
                             var hold = snapshot?.data?.likeClothing ?? [];
                             if (hold.contains(selected)) {
                               hold.remove(selected);
@@ -83,17 +84,17 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
                           title: Row(
                             children: <Widget>[
                               Icon(
-                                  snapshot?.data?.likeClothing?.contains(DressStyle[index]) == true
+                                  snapshot?.data?.likeClothing?.contains(enumValue(UserDressStyle.values[index])) == true
                                       ? Icons.check
                                       : null,
-                                  color: snapshot?.data?.likeClothing?.contains(DressStyle[index]) == true
+                                  color: snapshot?.data?.likeClothing?.contains(enumValue(UserDressStyle.values[index])) == true
                                       ? Theme.of(context).accentColor
                                       : Colors.black),
                               SizedBox(width: 5),
                               Text(
-                                DressStyle[index],
+                                strings.getCompatibilityDisplayName(enumValue(UserDressStyle.values[index])),
                                 style: TextStyle(
-                                    color: snapshot?.data?.likeClothing?.contains(DressStyle[index]) == true
+                                    color: snapshot?.data?.likeClothing?.contains(enumValue(UserDressStyle.values[index])) == true
                                         ? Theme.of(context).accentColor
                                         : Colors.black),
                               ),
