@@ -197,6 +197,7 @@ class SessionManager {
     }
 
     final prefs = await preferences;
+
     final now = DateTime.now().toLocal();
     final valid = prefs.getString("dateTry");
 
@@ -215,5 +216,26 @@ class SessionManager {
     await prefs.setInt("recomendationTry", tryValue - 1);
   }
 
+  Future<int> recomendationPage() async{
+
+    final prefs = await preferences;
+
+    final now = DateTime.now().toLocal();
+    final valid = prefs.getString("dateTry");
+
+    if(valid == "${now.year}-${now.month}-${now.day}"){
+      return prefs.getInt("recomendationPage");
+    }else{
+      await prefs.setInt("recomendationPage", 0);
+      await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
+      return 0;
+    }
+  }
+
+  void nextRecomendationPage() async {
+    final prefs = await preferences;
+    final page = prefs.getInt("recomendationPage");
+    await prefs.setInt("recomendationPage", page + 1);
+  }
 
 }

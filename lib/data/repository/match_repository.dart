@@ -1,6 +1,7 @@
 import 'package:meshi/data/api/dto/recomendation_dto.dart';
 import 'package:meshi/data/api/match_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
+import 'package:meshi/data/db/dao/recomendation_dao.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
@@ -9,9 +10,10 @@ import 'package:meshi/managers/session_manager.dart';
 class MatchRepository {
   final MatchApi _api;
   final MatchDao _dao;
+  final RecomendationDao _recoDao;
   final SessionManager _session;
 
-  MatchRepository(this._api, this._dao, this._session);
+  MatchRepository(this._api, this._dao, this._recoDao, this._session);
 
   Future<List<MyLikes>> getMyLikes() async {
     final result = await this._api.getMyLikes();
@@ -35,28 +37,67 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<RecomendationDto> getRecommendations({int page = 0, List<Recomendation> looked}) async {
+  Future<RecomendationDto> getRecommendations({List<Recomendation> looked}) async {
+
+    RecomendationDto recomendation;
     if(looked != null){
-      final ids = looked.map( (x){ return x.id; } );
-      await this._api.updateLooked(ids);
+      recomendation = await _nextRecomendations(looked);
+    }else{
+      recomendation = await _localRecomendations();
     }
+
+    await this._recoDao.removeAll();
+    await this._recoDao.insertAll(recomendation.recomendations);
+
+    return recomendation;
+  }
+
+  Future<RecomendationDto> _localRecomendations() async{
+    RecomendationDto recomendation;
+    final listReco = await _recoDao.getAll();
+
+    if(listReco.isEmpty){
+      final result = await this._api.getRecommendations();
+      final tries = await this._session.recomendationTry(result.data.max);
+      this._session.nextRecomendationPage();
+
+      recomendation = result.data;
+      recomendation.tries = tries;
+      recomendation = result.data;
+    }else{
+      final triesResult = await this._api.maxTries();
+      final tries = await this._session.recomendationTry(triesResult.data);
+      recomendation = RecomendationDto(max: triesResult.data, recomendations: listReco);
+      recomendation.tries = tries;
+    }
+    return recomendation;
+  }
+
+  Future<RecomendationDto> _nextRecomendations(List<Recomendation> looked) async{
+    final ids = looked.map( (x){ return x.id; } );
+    await this._api.updateLooked(ids);
+
+    final page = await this._session.recomendationPage();
     final result = await this._api.getRecommendations(page:page);
     final recomendation = result.data;
 
+    _session.nextRecomendationPage();
+
     final tries = await this._session.recomendationTry(result.data.max);
     recomendation.tries = tries;
-    if(looked != null){
-      this._session.useRecomendationTry();
-    }
+    this._session.useRecomendationTry();
+
     return recomendation;
   }
 
   Future addMatch(int toUserId) async {
     await this._api.addMatch(toUserId);
+    await this._recoDao.removeById(toUserId);
   }
 
   Future dislike(int toUserId) async {
     await this._api.disLike(toUserId);
+    await this._recoDao.removeById(toUserId);
   }
 
   Future blockMatch(int matchId) async{

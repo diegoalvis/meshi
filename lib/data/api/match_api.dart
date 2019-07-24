@@ -54,6 +54,11 @@ class MatchApi extends BaseApi {
   Future<BaseResponse<int>> block(int idMatch) async {
     return put("/users/matches/$idMatch/block").then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<int>> maxTries() async{
+    return get("/users/recomendations/max-tries")
+        .then((response) => processBasicResponse<int>(response));
+  }
 }
 
 List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>

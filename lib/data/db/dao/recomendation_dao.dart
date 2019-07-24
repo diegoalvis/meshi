@@ -31,6 +31,11 @@ class RecomendationDao {
     return await batch.commit(noResult: true);
   }
 
+  Future removeById(int id) async{
+    final db = await _db;
+    await db.delete('recomendation', where: 'id = ?', whereArgs: [id]);
+  }
+
 }
 
 List<Recomendation> parseList(List<Map<String, dynamic>> json) => json.map((x) => Recomendation.fromDatabase(x)).toList();
