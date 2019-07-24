@@ -48,31 +48,6 @@ class LocationManager {
     return _currentLocation;
   }
 
-  validatePermissions(BuildContext context) async {
-    if (permissionDenied == PERMISSION_DENIED || permissionDenied == PERMISSION_ALWAYS_DENIED) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text("Permiso requerido", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              content: Text("Meshi requiere el permiso de ubicacion para brindar una mejor experiencia"),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    AppSettings.openAppSettings();
-                    _dismissDialog(context);
-                  },
-                  child: Text('Aceptar'),
-                )
-              ],
-            );
-          });
-    } else {
-      print(_currentLocation.latitude);
-      print(_currentLocation.longitude);
-    }
-  }
-
   _dismissDialog(BuildContext context) {
     Navigator.pop(context);
   }

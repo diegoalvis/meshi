@@ -54,6 +54,11 @@ class MatchApi extends BaseApi {
   Future<BaseResponse<int>> block(int idMatch) async {
     return put("/users/matches/$idMatch/block").then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<int>> updateLocation(double lat, double lon) async{
+    return put("/users/location", body: {'lat': lat, 'lon': lon})
+        .then((response) => processBasicResponse(response));
+  }
 }
 
 List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>

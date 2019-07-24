@@ -47,7 +47,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     _bloc = injector.get<RecommendationsBloc>();
-    _bloc.locationManager.getLocation(context);
+    _bloc.sendLocation(context);
     List<Recomendation> users = [];
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);

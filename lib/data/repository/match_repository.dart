@@ -68,4 +68,12 @@ class MatchRepository {
     return result.data;
   }
 
+  Future<int> updateUserLocation(double lat, double lon) async {
+    final logged = await _session.logged;
+    if (!logged) {
+      return -1;
+    }
+    final rspn = await _api.updateLocation(lat, lon);
+    return rspn.data;
+  }
 }
