@@ -7,6 +7,7 @@ part 'recomendation_dto.g.dart';
 class RecomendationDto{
 
   int max;
+  int tries;
   @JsonSerializable(nullable: true)
   List<Recomendation> recomendations;
 

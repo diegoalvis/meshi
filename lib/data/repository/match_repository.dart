@@ -4,13 +4,14 @@ import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/models/my_likes.dart';
-import 'package:meshi/data/models/user.dart';
+import 'package:meshi/managers/session_manager.dart';
 
 class MatchRepository {
   final MatchApi _api;
   final MatchDao _dao;
+  final SessionManager _session;
 
-  MatchRepository(this._api, this._dao);
+  MatchRepository(this._api, this._dao, this._session);
 
   Future<List<MyLikes>> getMyLikes() async {
     final result = await this._api.getMyLikes();
@@ -34,9 +35,20 @@ class MatchRepository {
     return result.data;
   }
 
-  Future<RecomendationDto> getRecommendations({int page = 0}) async {
+  Future<RecomendationDto> getRecommendations({int page = 0, List<Recomendation> looked}) async {
+    if(looked != null){
+      final ids = looked.map( (x){ return x.id; } );
+      await this._api.updateLooked(ids);
+    }
     final result = await this._api.getRecommendations(page:page);
-    return result.data;
+    final recomendation = result.data;
+
+    final tries = await this._session.recomendationTry(result.data.max);
+    recomendation.tries = tries;
+    if(looked != null){
+      this._session.useRecomendationTry();
+    }
+    return recomendation;
   }
 
   Future addMatch(int toUserId) async {

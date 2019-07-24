@@ -4,11 +4,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/utils/localiztions.dart';
-
 import '../advanced_register_page.dart';
 import '../form_section.dart';
 
@@ -26,8 +24,9 @@ class BasicFormPageThree extends StatelessWidget with FormSection {
       stream: bloc.userStream,
       initialData: bloc.session.user,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-        infoComplete =
-            snapshot.data?.income != null && snapshot.data?.minAgePreferred != null && snapshot.data?.maxAgePreferred != null;
+        infoComplete = snapshot.data?.income != null &&
+            snapshot.data?.minAgePreferred != null &&
+            snapshot.data?.maxAgePreferred != null;
         return Column(
           children: [
             SizedBox(height: 20),
@@ -37,7 +36,8 @@ class BasicFormPageThree extends StatelessWidget with FormSection {
                 height: 40,
                 child: Row(
                   children: [
-                    Text("${FormBloc.MIN_INCOME.toInt()}\n ${strings.orLess}", textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
+                    Text("${FormBloc.MIN_INCOME.toInt()}\n ${strings.orLess}",
+                        textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
                     Expanded(
                         child: Slider(
                             label: snapshot.data?.income?.toInt()?.toString() ?? "",
@@ -46,7 +46,8 @@ class BasicFormPageThree extends StatelessWidget with FormSection {
                             divisions: (FormBloc.MAX_INCOME - FormBloc.MIN_INCOME) ~/ FormBloc.STEP_INCOME,
                             value: snapshot.data?.income ?? (FormBloc.MIN_INCOME + FormBloc.MAX_INCOME) / 2,
                             onChanged: (newUpperValue) => bloc.income = newUpperValue)),
-                    Text("${FormBloc.MAX_INCOME.toInt()}\n ${strings.orMore}", textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
+                    Text("${FormBloc.MAX_INCOME.toInt()}\n ${strings.orMore}",
+                        textAlign: TextAlign.center, style: TextStyle(fontSize: 10)),
                   ],
                 )),
             SizedBox(height: 80),
@@ -61,13 +62,12 @@ class BasicFormPageThree extends StatelessWidget with FormSection {
                   child: RangeSlider(
                       min: FormBloc.MIN_AGE.toDouble(),
                       max: FormBloc.MAX_AGE.toDouble(),
-                      lowerValue: (snapshot.data?.minAgePreferred ?? (FormBloc.MIN_AGE + 5)).toDouble(),
-                      upperValue: (snapshot.data?.maxAgePreferred ?? (FormBloc.MAX_AGE - 5)).toDouble(),
-                      showValueIndicator: true,
+                      values: RangeValues(
+                        (snapshot.data?.minAgePreferred ?? (FormBloc.MIN_AGE + 5)).toDouble(),
+                        (snapshot.data?.maxAgePreferred ?? (FormBloc.MAX_AGE - 5)).toDouble(),
+                      ),
                       divisions: FormBloc.MAX_AGE - FormBloc.MIN_AGE,
-                      valueIndicatorMaxDecimals: 0,
-                      onChanged: (double newLowerValue, double newUpperValue) =>
-                          bloc.ageRangePreferred(newLowerValue.toInt(), newUpperValue.toInt())),
+                      onChanged: (values) => bloc.ageRangePreferred(values.start.toInt(), values.end.toInt())),
                 ),
                 Text((snapshot.data?.maxAgePreferred ?? FormBloc.MAX_AGE).toString()),
               ]),

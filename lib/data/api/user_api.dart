@@ -57,4 +57,9 @@ class UserApi extends BaseApi {
     return put("/users/firebase", body: {'firebaseToken': token})
         .then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<int>> updateLocation(double lat, double lon) async{
+    return put("/users/location", body: {'lat': lat, 'lon': lon})
+        .then((response) => processBasicResponse(response));
+  }
 }

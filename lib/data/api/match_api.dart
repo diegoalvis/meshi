@@ -34,6 +34,11 @@ class MatchApi extends BaseApi {
         .then((response) => processResponse(response, parseRecomendation));
   }
 
+  Future<BaseResponse<int>> updateLooked(List<int> users) async{
+    return put("/users/looked", body: {'ids': users})
+        .then((response) => processBasicResponse(response));
+  }
+
   Future<BaseResponse<int>> addMatch(int id) async {
     return post("/users/matches/$id").then((response) => processBasicResponse(response));
   }

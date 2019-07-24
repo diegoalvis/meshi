@@ -83,8 +83,11 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
   }
 
   String getSimilarityValue(MyLocalizations strings, Similarity similarity) {
-    if(similarity.type == 'array') {
+    if(similarity.type == TYPE_ARRAY) {
       return similarity.value.split(',').map((val) => strings.getCompatibilityDisplayName(val)).join(", ");
+    }
+    if(similarity.type == TYPE_INT && similarity.value == "0") {
+      return "No";
     }
     return strings.getCompatibilityDisplayName(similarity.value);
   }

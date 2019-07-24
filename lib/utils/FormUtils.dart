@@ -14,7 +14,7 @@ const List<String> YesNoOptions = [
   "no",
 ];
 
-const List<String> DressStyle = [
+const List<String> ClothingStyle = [
   "Seductor",
   "Suelto y ligero",
   "Propio",
@@ -23,7 +23,7 @@ const List<String> DressStyle = [
   "Deportivo",
 ];
 
-const List<String> LifeGoals = [
+const List<String> Priorities = [
   "Familia",
   "Trabajo",
   "Conocimiento/estudio",
@@ -31,7 +31,8 @@ const List<String> LifeGoals = [
   "Amigos",
 ];
 
-const List<String> CoupleActivities = [
+
+const List<String> Activities = [
   "Viajar a otros países",
   "Hacer deporte",
   "Viajes locales",
@@ -42,7 +43,7 @@ const List<String> CoupleActivities = [
   "Salir a tomar unos tragos y conversar",
 ];
 
-const List<String> RelevantTopics = [
+const List<String> Topics = [
   "Arte",
   "Experiencias",
   "Profesionales",
@@ -52,13 +53,3 @@ const List<String> RelevantTopics = [
   "Historia",
   "Musica",
 ];
-
-
-/*
-const List<String> PoliticIdeology = [
-  "Derecha, tengo la creencia que las cosas deben ganarse por mérito y por libre competitividad.",
-  "Izquierda, tengo la creencia que la igualdad social es el camino hacia la prosperidad de un país",
-  "Centro, tengo la creencia que debe de haber un balance entre la libre competitividad y la propiedad privada y la oferta de oportunidades para los más vulnerables.",
-  "No tengo ideología política",
-];
-*/

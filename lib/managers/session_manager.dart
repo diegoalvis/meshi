@@ -190,6 +190,33 @@ class SessionManager {
     await prefs.setInt("currentChatId", value);
   }
 
+  Future<int> recomendationTry(int maxTry) async{
+
+    if(maxTry == 0){
+      return 0;
+    }
+
+    final prefs = await preferences;
+    final now = DateTime.now().toLocal();
+    final valid = prefs.getString("dateTry");
+
+    if(valid == "${now.year}-${now.month}-${now.day}"){
+      return prefs.getInt("recomendationTry");
+    }else{
+      await prefs.setInt("recomendationTry", maxTry);
+      await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
+      return maxTry;
+    }
+  }
+
+  void useRecomendationTry() async {
+    final prefs = await preferences;
+    final tryValue = prefs.getInt("recomendationTry");
+    await prefs.setInt("recomendationTry", tryValue - 1);
+  }
+
+
+
   Future<bool> getSettingsNotification(String key) async {
     final prefs = await preferences;
     return prefs.getBool(key);
@@ -200,4 +227,3 @@ class SessionManager {
     await prefs.setBool(key, value);
   }
 }
-
