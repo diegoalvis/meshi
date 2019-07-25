@@ -38,7 +38,6 @@ class MatchRepository {
   }
 
   Future<RecomendationDto> getRecommendations({List<Recomendation> looked}) async {
-
     RecomendationDto recomendation;
     if(looked != null){
       recomendation = await _nextRecomendations(looked);

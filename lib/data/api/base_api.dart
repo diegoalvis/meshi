@@ -22,9 +22,7 @@ class BaseApi {
 
   Future<Response<Map<String, dynamic>>> get(String path, {Map<String, dynamic> query}) async {
     final auth = await _mkAuth(session);
-    return await _dio
-        .get<Map<String, dynamic>>(path, queryParameters: query, options: auth)
-        .catchError((error) {
+    return await _dio.get<Map<String, dynamic>>(path, queryParameters: query, options: auth).catchError((error) {
       print(error);
     });
   }
@@ -56,8 +54,7 @@ class BaseApi {
   }
 
   //process responses
-  Future<BaseResponse<T>> processResponse<T>(
-      Response response, ComputeCallback<Map<String, dynamic>, T> callback) async {
+  Future<BaseResponse<T>> processResponse<T>(Response response, ComputeCallback<Map<String, dynamic>, T> callback) async {
     if ((response.statusCode >= 200 && response.statusCode < 300) || response.statusCode == 304) {
       final body = response.data;
       bool success = body["success"] as bool;
@@ -102,12 +99,10 @@ class BaseApi {
 
       T data;
       if (body["data"] != null) {
-        data = await compute<List<Map<String, dynamic>>, T>(
-            callback, (body["data"] as List).cast<Map<String, dynamic>>());
+        data = await compute<List<Map<String, dynamic>>, T>(callback, (body["data"] as List).cast<Map<String, dynamic>>());
       }
 
       return BaseResponse(success: success, data: data, error: error);
-
     } else if (response.statusCode == 403) {
       throw AuthorizationException(cause: "Unauthorized");
     } else if (response.statusCode == 404) {

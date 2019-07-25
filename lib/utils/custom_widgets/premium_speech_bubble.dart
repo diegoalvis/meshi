@@ -6,7 +6,7 @@ import '../app_icons.dart';
 class PremiumSpeechBubble extends StatefulWidget {
   bool isRecommendation = false;
 
-  PremiumSpeechBubble(this.isRecommendation);
+  PremiumSpeechBubble({this.isRecommendation});
 
   @override
   State<StatefulWidget> createState() => PremiumSpeechBubbleState(this.isRecommendation);
