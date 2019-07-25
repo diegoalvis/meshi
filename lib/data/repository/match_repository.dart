@@ -74,7 +74,7 @@ class MatchRepository {
   }
 
   Future<RecomendationDto> _nextRecomendations(List<Recomendation> looked) async{
-    final ids = looked.map( (x){ return x.id; } );
+    final ids = looked.map( (x){ return x.id; } ).toList();
     await this._api.updateLooked(ids);
 
     final page = await this._session.recomendationPage();

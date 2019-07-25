@@ -235,6 +235,11 @@ class SessionManager {
   void nextRecomendationPage() async {
     final prefs = await preferences;
     final page = prefs.getInt("recomendationPage");
+
+    if(page == null){
+      final now = DateTime.now().toLocal();
+      await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
+    }
     await prefs.setInt("recomendationPage", (page ?? 0 ) + 1);
   }
 
