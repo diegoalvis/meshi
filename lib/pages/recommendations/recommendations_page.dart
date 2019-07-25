@@ -97,7 +97,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex) {
     return CarouselSlider(
       viewportFraction: 0.9,
-      enableInfiniteScroll: false,
+//      enableInfiniteScroll: false,
       autoPlayCurve: Curves.bounceInOut,
       height: MediaQuery.of(context).size.height,
       autoPlay: false,
@@ -105,8 +105,8 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
     );
   }
 
-  List<Widget> generateRecommendationList(List<Recomendation> users, BuildContext context, int itemLoadingIndex) {
-    final items = users.map(
+  List<Widget> generateRecommendationList(List<Recomendation> recommendations, BuildContext context, int itemLoadingIndex) {
+    final items = recommendations.map(
       (user) {
         return Container(
             width: MediaQuery.of(context).size.width,
@@ -116,7 +116,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                 child: carouselWidget(context, user, itemLoadingIndex)));
       },
     ).toList();
-    items.add(ViewMoreRecommendations(() => _bloc.dispatch(GetRecommendationsEvent())));
+    items.add(ViewMoreRecommendations(() => _bloc.dispatch(GetRecommendationsEvent(looked: recommendations))));
     return items;
   }
 
@@ -188,7 +188,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                               children: <Widget>[
                                 Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
                                 Spacer(),
-                                user.type == TYPE_PREMIUM ? PremiumSpeechBubble(true) : SizedBox(),
+                                user.type == TYPE_PREMIUM ? PremiumSpeechBubble(isRecommendation: true) : SizedBox(),
                               ],
                             ),
                           ),

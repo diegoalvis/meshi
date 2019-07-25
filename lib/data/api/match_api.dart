@@ -19,8 +19,7 @@ class MatchApi extends BaseApi {
     return get("/users/likes-me").then((response) => processListResponse(response, parseMyLikes));
   }
 
-  Future<BaseResponse<List<UserMatch>>> getMatches(
-      {bool interacted = false, bool premium = false}) async {
+  Future<BaseResponse<List<UserMatch>>> getMatches({bool interacted = false, bool premium = false}) async {
     return get("/users/matches", query: {"interacted": interacted, "premium": premium})
         .then((response) => processListResponse(response, parseListMatch));
   }
@@ -30,13 +29,12 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<RecomendationDto>> getRecommendations({int page = 0}) async {
-    return get("/users/recomendations", query: {'page':page})
+    return get("/users/recomendations", query: {'page': page})
         .then((response) => processResponse(response, parseRecomendation));
   }
 
-  Future<BaseResponse<int>> updateLooked(List<int> users) async{
-    return put("/users/looked", body: {'ids': users})
-        .then((response) => processBasicResponse(response));
+  Future<BaseResponse<int>> updateLooked(List<int> users) async {
+    return put("/users/looked", body: {'ids': users}).then((response) => processBasicResponse(response));
   }
 
   Future<BaseResponse<int>> addMatch(int id) async {
@@ -56,23 +54,26 @@ class MatchApi extends BaseApi {
   }
 
   Future<BaseResponse<int>> maxTries() async {
-    return get("/users/recomendations/max-tries")
-        .then((response) => processBasicResponse<int>(response));
+    return get("/users/recomendations/max-tries").then((response) => processBasicResponse<int>(response));
   }
 
-  Future<BaseResponse<int>> updateLocation(double lat, double lon) async{
-    return put("/users/location", body: {'lat': lat, 'lon': lon})
-        .then((response) => response != null ? processBasicResponse<int>(response) : BaseResponse(success: true, data: 0,error: 0));
+  Future<BaseResponse<int>> updateLocation(double lat, double lon) async {
+    return put("/users/location", body: {'lat': lat, 'lon': lon}).then((response) =>
+        response != null ? processBasicResponse<int>(response) : BaseResponse(success: true, data: 0, error: 0));
   }
 }
 
-List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) =>
-    json.map((element) => MyLikes.fromJson(element)).toList();
+List<MyLikes> parseMyLikes(List<Map<String, dynamic>> json) => json.map((element) => MyLikes.fromJson(element)).toList();
+
 List<UserMatch> parseListMatch(List<Map<String, dynamic>> json) =>
     json.map((element) => UserMatch.fromJson(element)).toList();
-List<User> parseUser(List<Map<String, dynamic>> json) =>
-    json.map((element) => User.fromJson(element)).toList();
+
+List<User> parseUser(List<Map<String, dynamic>> json) => json.map((element) => User.fromJson(element)).toList();
+
 User parseSingleUser(Map<String, dynamic> json) => User.fromJson(json);
+
 RecomendationDto parseRecomendation(Map<String, dynamic> json) => RecomendationDto.fromJson(json);
+
 Recomendation parseSingleRecomendation(Map<String, dynamic> json) => Recomendation.fromJson(json);
+
 UserMatch parseSingleMatch(Map<String, dynamic> json) => UserMatch.fromJson(json);

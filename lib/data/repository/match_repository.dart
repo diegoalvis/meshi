@@ -30,19 +30,18 @@ class MatchRepository {
   }
 
   Future<List<UserMatch>> getMatches({bool interacted = false, bool premium = false}) async {
-    final result = await this._api.getMatches(interacted: interacted, premium: premium)
-        .catchError((error) => getLocalMatches());
+    final result =
+    await this._api.getMatches(interacted: interacted, premium: premium).catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);
     return result.data;
   }
 
   Future<RecomendationDto> getRecommendations({List<Recomendation> looked}) async {
-
     RecomendationDto recomendation;
-    if(looked != null){
+    if (looked != null) {
       recomendation = await _nextRecomendations(looked);
-    }else{
+    } else {
       recomendation = await _localRecomendations();
     }
 
@@ -52,11 +51,11 @@ class MatchRepository {
     return recomendation;
   }
 
-  Future<RecomendationDto> _localRecomendations() async{
+  Future<RecomendationDto> _localRecomendations() async {
     RecomendationDto recomendation;
     final listReco = await _recoDao.getAll();
 
-    if(listReco.isEmpty){
+    if (listReco.isEmpty) {
       final result = await this._api.getRecommendations();
       final tries = await this._session.recomendationTry(result.data.max);
       this._session.nextRecomendationPage();
@@ -64,7 +63,7 @@ class MatchRepository {
       recomendation = result.data;
       recomendation.tries = tries;
       recomendation = result.data;
-    }else{
+    } else {
       final triesResult = await this._api.maxTries();
       final tries = await this._session.recomendationTry(triesResult.data);
       recomendation = RecomendationDto(max: triesResult.data, recomendations: listReco);
@@ -73,12 +72,11 @@ class MatchRepository {
     return recomendation;
   }
 
-  Future<RecomendationDto> _nextRecomendations(List<Recomendation> looked) async{
-    final ids = looked.map( (x){ return x.id; } );
-    await this._api.updateLooked(ids);
+  Future<RecomendationDto> _nextRecomendations(List<Recomendation> looked) async {
+    await this._api.updateLooked(looked.map((x) => x.id).toList());
 
     final page = await this._session.recomendationPage();
-    final result = await this._api.getRecommendations(page:page);
+    final result = await this._api.getRecommendations(page: page);
     final recomendation = result.data;
 
     _session.nextRecomendationPage();
@@ -100,11 +98,11 @@ class MatchRepository {
     await this._recoDao.removeById(toUserId);
   }
 
-  Future blockMatch(int matchId) async{
+  Future blockMatch(int matchId) async {
     await this._api.block(matchId);
   }
 
-  Future<Recomendation> getProfile(int toUserId) async{
+  Future<Recomendation> getProfile(int toUserId) async {
     final result = await this._api.getProfile(toUserId);
     return result.data;
   }

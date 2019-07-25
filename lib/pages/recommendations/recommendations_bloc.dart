@@ -24,7 +24,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   @override
   Stream<BaseState> mapEventToState(RecommendationsEvents event) async* {
     if (event is GetRecommendationsEvent) {
-      yield* _loadRecommendationsToState();
+      yield* _loadRecommendationsToState(looked: event.looked);
     } else if (event is AddMatchEvent) {
       try {
         yield AddingMatchState(event.user.id);
@@ -34,7 +34,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
       } on Exception catch (e) {
         yield ErrorState(exception: e);
       }
-    }else if (event is DeleteInterestEvent) {
+    } else if (event is DeleteInterestEvent) {
       try {
         yield AddingMatchState(event.user.id);
         await _repository.dislike(event.user.id);
@@ -46,10 +46,10 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
     }
   }
 
-  Stream<BaseState> _loadRecommendationsToState() async* {
+  Stream<BaseState> _loadRecommendationsToState({List<Recomendation> looked}) async* {
     try {
       yield LoadingState();
-      final data = await _repository.getRecommendations();
+      final data = await _repository.getRecommendations(looked: looked);
       max = data.max;
       users = data.recomendations;
       yield SuccessState<List<Recomendation>>(data: users);
@@ -67,10 +67,12 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
 abstract class RecommendationsEvents {}
 
 class GetRecommendationsEvent extends RecommendationsEvents {
+  List<Recomendation> looked;
+
+  GetRecommendationsEvent({this.looked});
+
   @override
-  String toString() {
-    return "GetRecommendations";
-  }
+  String toString() => "GetRecommendations";
 }
 
 class AddMatchEvent extends RecommendationsEvents {
@@ -94,9 +96,8 @@ class DeleteInterestEvent extends RecommendationsEvents {
 class AddingMatchState extends BaseState {
   final int idMatch;
 
-  AddingMatchState(this.idMatch): super(props: [idMatch]);
+  AddingMatchState(this.idMatch) : super(props: [idMatch]);
 
   @override
   String toString() => 'state-adding-match';
 }
-
