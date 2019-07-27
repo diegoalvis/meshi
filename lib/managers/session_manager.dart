@@ -244,13 +244,13 @@ class SessionManager {
   }
 
 
-  Future<bool> getSettingsNotification(String key) async {
+  Future<bool> getNotificationEnable(String notificationType) async {
     final prefs = await preferences;
-    return prefs.getBool(key);
+    return prefs.getBool(notificationType) ?? true;
   }
 
-  void setSettingsNotification(bool value, String key) async {
+  void setNotificationEnable(String notificationType, bool value) async {
     final prefs = await preferences;
-    await prefs.setBool(key, value);
+    await prefs.setBool(notificationType, value);
   }
 }
