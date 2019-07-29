@@ -204,16 +204,16 @@ class SessionManager {
     if(valid == "${now.year}-${now.month}-${now.day}"){
       return prefs.getInt("recomendationTry");
     }else{
-      await prefs.setInt("recomendationTry", maxTry);
+      await prefs.setInt("recomendationTry", 0);
       await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
-      return maxTry;
+      return 0;
     }
   }
 
   void useRecomendationTry() async {
     final prefs = await preferences;
     final tryValue = prefs.getInt("recomendationTry");
-    await prefs.setInt("recomendationTry", tryValue - 1);
+    await prefs.setInt("recomendationTry", tryValue + 1);
   }
 
   Future<int> recomendationPage() async{

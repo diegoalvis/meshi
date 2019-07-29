@@ -66,7 +66,6 @@ class MatchRepository {
 
       recomendation = result.data;
       recomendation.tries = tries;
-      recomendation = result.data;
     } else {
       final triesResult = await this._api.maxTries();
       final tries = await this._session.recomendationTry(triesResult.data);
@@ -87,9 +86,10 @@ class MatchRepository {
 
     _session.nextRecomendationPage();
 
+    this._session.useRecomendationTry();
     final tries = await this._session.recomendationTry(result.data.max);
     recomendation.tries = tries;
-    this._session.useRecomendationTry();
+
 
     return recomendation;
   }
