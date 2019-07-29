@@ -224,7 +224,11 @@ class SessionManager {
     final valid = prefs.getString("dateTry");
 
     if(valid == "${now.year}-${now.month}-${now.day}"){
-      return prefs.getInt("recomendationPage");
+      final page = prefs.getInt("recomendationPage");
+      if(page == null){
+        await prefs.setInt("recomendationPage", 0);
+      }
+      return page ?? 0;
     }else{
       await prefs.setInt("recomendationPage", 0);
       await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
