@@ -10,8 +10,12 @@ import 'package:meshi/utils/custom_widgets/list_premium.dart';
 import '../app_icons.dart';
 
 class PremiumPage extends StatefulWidget with HomeSection {
+  bool isFromRecommendation = false;
+
   @override
   State<StatefulWidget> createState() => PremiumPageState();
+
+  PremiumPage(this.isFromRecommendation);
 }
 
 class PremiumPageState extends State<PremiumPage> {
@@ -78,7 +82,7 @@ class PremiumPageState extends State<PremiumPage> {
                       ),
                     ),
                     Container(
-                      child: ListPremium(),
+                      child: ListPremium(widget.isFromRecommendation),
                       decoration: BoxDecoration(
                           color: Colors.white, borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
                     ),

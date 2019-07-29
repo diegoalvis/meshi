@@ -203,7 +203,7 @@ class MutualPage extends StatelessWidget {
 
   void validatePremiumAndPerformAction(BuildContext context, SessionManager session, UserMatch match) {
     if (session?.user?.type != TYPE_PREMIUM) {
-      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage());
+      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage(false));
     } else {
       Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE, arguments: UserDetail(id: match.id, isMyLike: 0));
     }

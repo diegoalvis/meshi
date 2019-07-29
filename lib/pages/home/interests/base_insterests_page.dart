@@ -97,7 +97,7 @@ class BaseInterestsPage extends StatelessWidget {
 
   void validatePremiumAndPerformAction(BuildContext context, SessionManager session, int index) {
     if (isMyLike == 2 && session?.user?.type != TYPE_PREMIUM) {
-      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage());
+      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage(false));
     } else {
       Navigator.pushNamed(context, INTERESTS_PROFILE_ROUTE,
           arguments: UserDetail(id: myLikes[index].id, isMyLike: isMyLike));

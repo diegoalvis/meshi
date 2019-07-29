@@ -27,7 +27,7 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble> {
                   barrierDismissible: true,
                   context: context,
                   builder: (BuildContext context) {
-                    return PremiumPage();
+                    return PremiumPage(false);
                   });
             },
             child: Container(
@@ -48,7 +48,7 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble> {
                             barrierDismissible: true,
                             context: context,
                             builder: (BuildContext context) {
-                              return PremiumPage();
+                              return PremiumPage(false);
                             });
                       },
                       child: SpeechBubble(

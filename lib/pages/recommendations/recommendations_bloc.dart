@@ -24,7 +24,26 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   @override
   Stream<BaseState> mapEventToState(RecommendationsEvents event) async* {
     if (event is GetRecommendationsEvent) {
-      yield* _loadRecommendationsToState(looked: event.looked);
+      //yield* _loadRecommendationsToState(looked: event.looked);
+      try {
+        yield LoadingState();
+        final data = await _repository.getRecommendations(looked: event.looked);
+        users = data.recomendations;
+        max = data.max;
+        int tries = data.tries;
+        if (max < 1)
+          yield SuccessState<List<Recomendation>>(data: users);
+        else {
+          if (tries <= max) {
+            yield SuccessState<List<Recomendation>>(data: users);
+          } else {
+            yield TriesCompleteState(true);
+            yield SuccessState<List<Recomendation>>(data: event.looked);
+          }
+        }
+      } on Exception catch (e) {
+        yield ErrorState(exception: e);
+      }
     } else if (event is AddMatchEvent) {
       try {
         yield AddingMatchState(event.user.id);
@@ -50,9 +69,19 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
     try {
       yield LoadingState();
       final data = await _repository.getRecommendations(looked: looked);
-      max = data.max;
       users = data.recomendations;
-      yield SuccessState<List<Recomendation>>(data: users);
+      max = data.max;
+      int tries = data.tries;
+      if (max < 1)
+        yield SuccessState<List<Recomendation>>(data: users);
+      else {
+        if (tries <= max) {
+          yield SuccessState<List<Recomendation>>(data: users);
+        } else {
+          yield TriesCompleteState(true);
+          yield SuccessState<List<Recomendation>>(data: looked);
+        }
+      }
     } on Exception catch (e) {
       yield ErrorState(exception: e);
     }
@@ -100,4 +129,13 @@ class AddingMatchState extends BaseState {
 
   @override
   String toString() => 'state-adding-match';
+}
+
+class TriesCompleteState extends BaseState {
+  final bool isMaxComplete;
+
+  TriesCompleteState(this.isMaxComplete) : super(props: [isMaxComplete]);
+
+  @override
+  String toString() => 'state-tries-complete';
 }

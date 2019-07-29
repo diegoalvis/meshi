@@ -93,63 +93,60 @@ class InterestsProfileImageState extends State<InterestsProfileImage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 250.0,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.parallax,
-                titlePadding: EdgeInsets.only(left: 85.0, bottom: 15),
-                title: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    height: 20,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                expandedHeight: 250.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+                  titlePadding: EdgeInsets.only(left: 85.0, bottom: 15),
+                  title: Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text(user?.name ?? "",
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )),
-                  ),
-                ),
-                background: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    PageView.builder(
-                        controller: _controller,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          return sliderImage(user.images[index]);
-                        }),
-                    Container(
-                      //height: 250,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                              Colors.transparent.withOpacity(0.1),
-                              Colors.transparent.withOpacity(0.15),
-                            ])
-                        )
+                    child: Container(
+                      height: 20,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      alignment: Alignment.bottomLeft,
+                      child: Text(user?.name ?? "",
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          )),
                     ),
-                    Positioned(
-                      right: 20,
-                      child: SafeArea(
-                        top: true,
-                        child: DotsIndicator(
+                  ),
+                  background: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      PageView.builder(
                           controller: _controller,
+                          physics: AlwaysScrollableScrollPhysics(),
                           itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
-                          onPageSelected: (int page) {
-                            _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
-                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return sliderImage(user.images[index]);
+                          }),
+                      Container(
+                          //height: 250,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                        Colors.transparent.withOpacity(0.1),
+                        Colors.transparent.withOpacity(0.15),
+                      ]))),
+                      Positioned(
+                        right: 20,
+                        child: SafeArea(
+                          top: true,
+                          child: DotsIndicator(
+                            controller: _controller,
+                            itemCount: user?.images != null ? user.images.length > 4 ? 4 : user.images.length : 0,
+                            onPageSelected: (int page) {
+                              _controller.animateToPage(page, duration: _kDuration, curve: _kCurve);
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ),
+                      )
+                    ],
+                  ),
+                )),
           ];
         },
         body: ListView(
@@ -166,6 +163,7 @@ Widget sliderImage(String url) {
           image: DecorationImage(
         image: NetworkImage(BaseApi.IMAGES_URL_DEV + url),
         fit: BoxFit.cover,
+        alignment: FractionalOffset.topCenter,
       )),
     ),
   );

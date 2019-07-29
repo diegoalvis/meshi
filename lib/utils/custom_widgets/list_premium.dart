@@ -10,10 +10,12 @@ import 'package:meshi/utils/localiztions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ListPremium extends StatefulWidget {
+  bool isFromRecommendation = false;
 
   @override
   State<StatefulWidget> createState() => ListPremiumState();
 
+  ListPremium(this.isFromRecommendation);
 }
 
 class ListPremiumState extends State<ListPremium> {
@@ -46,23 +48,40 @@ class ListPremiumState extends State<ListPremium> {
           listTiles[1],
           listTiles[2],
           SizedBox(height: 16),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                onPressed: _lunchUrlPay,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                color: Theme.of(context).accentColor,
-                child: Text(
-                  "CONTINUAR",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              widget.isFromRecommendation
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Text(
+                            "* Obtendras mas intentos el dia de mañana",
+                            style: TextStyle(fontSize: 12),
+                            textAlign: TextAlign.center,
+                          )),
+                    )
+                  : Spacer(),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    onPressed: _lunchUrlPay,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                    color: Theme.of(context).accentColor,
+                    child: Text(
+                      "CONTINUAR",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

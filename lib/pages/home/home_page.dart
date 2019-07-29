@@ -53,7 +53,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     RecommendationsPage(),
     InterestsMainPage(),
     RewardPage(),
-    PremiumPage(),
+    PremiumPage(false),
     ProfilePage(),
     SettingsPage(),
   ];
@@ -181,7 +181,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
             barrierDismissible: true,
             context: context,
             builder: (BuildContext context) {
-              return PremiumPage();
+              return PremiumPage(false);
             });
       }
     });

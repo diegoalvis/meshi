@@ -33,6 +33,7 @@ class InterestsItemPage extends StatelessWidget {
                   image: DecorationImage(
                 image: NetworkImage(BaseApi.IMAGES_URL_DEV + myLikes.images.first),
                 fit: BoxFit.cover,
+                alignment: FractionalOffset.topCenter,
               )),
             ),
           ),

@@ -17,6 +17,7 @@ import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
+import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/custom_widgets/premium_speech_bubble.dart';
 import 'package:meshi/utils/custom_widgets/view_more_recommendations.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -43,6 +44,7 @@ class RecommendationsPage extends StatelessWidget with HomeSection, InjectorWidg
 
 class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   RecommendationsBloc _bloc;
+  bool isMaxComplete = false;
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
@@ -69,6 +71,9 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                 }
                 if (state is SuccessState<List<Recomendation>>) {
                   users = state.data;
+                }
+                if(state is TriesCompleteState){
+                  isMaxComplete = state.isMaxComplete;
                 }
                 if (state is ErrorState) {
                   onWidgetDidBuild(() {
@@ -105,18 +110,21 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
     );
   }
 
-  List<Widget> generateRecommendationList(List<Recomendation> recommendations, BuildContext context, int itemLoadingIndex) {
+  List<Widget> generateRecommendationList(
+      List<Recomendation> recommendations, BuildContext context, int itemLoadingIndex) {
     final items = recommendations.map(
       (user) {
         return Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 4.0, right: 4.0),
-            child: Card(
-                elevation: 8,
-                child: carouselWidget(context, user, itemLoadingIndex)));
+            child: Card(elevation: 8, child: carouselWidget(context, user, itemLoadingIndex)));
       },
     ).toList();
-    items.add(ViewMoreRecommendations(() => _bloc.dispatch(GetRecommendationsEvent(looked: recommendations))));
+    items.add(ViewMoreRecommendations(() {
+      isMaxComplete ?
+      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage(true))
+      : _bloc.dispatch(GetRecommendationsEvent(looked: recommendations));
+    }));
     return items;
   }
 
@@ -140,6 +148,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                         image: DecorationImage(
                       image: NetworkImage(BaseApi.IMAGES_URL_DEV + user.images[0]),
                       fit: BoxFit.cover,
+                      alignment: FractionalOffset.topCenter,
                     )),
                   ),
                 ),
