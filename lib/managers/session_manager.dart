@@ -4,6 +4,7 @@
  */
 
 import 'dart:convert';
+import 'package:meshi/data/db/app_database.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/models/reward_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SessionManager {
   User user;
   RewardInfo rewardInfo;
-
+  final AppDatabase database;
   SharedPreferences _preferences;
 
   Future<SharedPreferences> get preferences async {
@@ -27,7 +28,7 @@ class SessionManager {
     await prefs.setBool("logged", value);
   }
 
-  SessionManager() {
+  SessionManager(this.database) {
     initUser();
   }
 
@@ -135,6 +136,7 @@ class SessionManager {
   }
 
   void clear() async {
+    database.cleanDB();
     final prefs = await preferences;
     prefs.clear();
   }

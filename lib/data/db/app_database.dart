@@ -18,6 +18,13 @@ class AppDatabase {
     );
   }
 
+  Future cleanDB() async {
+    final db = await database;
+    ["recomendation", 'message', "match"].forEach((table) {
+      db.delete(table);
+    });
+  }
+
   Future _onCreate(Database db, int version) async {
     await db.execute('''
     CREATE TABLE IF NOT EXISTS match(
@@ -62,6 +69,5 @@ class AppDatabase {
     similarities TEXT
     )
     ''');
-
   }
 }
