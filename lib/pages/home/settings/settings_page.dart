@@ -25,7 +25,10 @@ class SettingsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    return SettingsContainer(InjectorWidget.of(context).get(), InjectorWidget.of(context).get());
+    return SettingsContainer(
+      InjectorWidget.of(context).get(),
+      InjectorWidget.of(context).get(),
+    );
   }
 }
 
