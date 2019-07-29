@@ -46,6 +46,7 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
     final notificationManager = InjectorWidget.of(context).get<NotificationManager>();
     notificationManager.navigatorKey = globalNavigatorKey;
     notificationManager.setFcmListener(context);
+    notificationManager.subscribeToTopics();
     return OverlaySupport(
       child: MaterialApp(
         title: 'Meshi',

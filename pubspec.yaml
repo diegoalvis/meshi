@@ -33,7 +33,7 @@ dependencies:
   speech_bubble: ^0.0.1
   drop_cap_text: ^1.0.1
   flutter_offline: ^0.2.4
-  overlay_support: ^1.0.0
+  overlay_support: ^1.0.1
   location: ^2.3.5
   app_settings: ^1.0.6
 

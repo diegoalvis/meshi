@@ -13,6 +13,7 @@ import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/notification_manager.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
@@ -24,15 +25,15 @@ class SettingsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final SessionManager sessionManager = InjectorWidget.of(context).get();
-    return SettingsContainer(sessionManager);
+    return SettingsContainer(InjectorWidget.of(context).get(), InjectorWidget.of(context).get());
   }
 }
 
 class SettingsContainer extends StatefulWidget {
   final SessionManager sessionManager;
+  final NotificationManager notificationManager;
 
-  SettingsContainer(this.sessionManager);
+  SettingsContainer(this.sessionManager, this.notificationManager);
 
   @override
   Widget getTitle(BuildContext context) {
@@ -41,16 +42,18 @@ class SettingsContainer extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() => SettingsPageState(sessionManager);
+  State<StatefulWidget> createState() => SettingsPageState(sessionManager, notificationManager);
 }
 
 class SettingsPageState extends State<SettingsContainer> {
   final SessionManager sessionManager;
+  final NotificationManager notificationManager;
+
   bool sessionMessage;
   bool sessionInterest;
   bool sessionReward;
 
-  SettingsPageState(this.sessionManager) {
+  SettingsPageState(this.sessionManager, this.notificationManager) {
     setNotificationPreferences();
   }
 
@@ -71,9 +74,9 @@ class SettingsPageState extends State<SettingsContainer> {
                   textAlign: TextAlign.left),
             ),
           ),
-          rowSettings(context, strings.newMessage, sessionMessage, "messageNotification"),
-          rowSettings(context, strings.newInterested, sessionInterest, "interestsNotification"),
-          rowSettings(context, strings.newDraw, sessionReward, "rewardNotification"),
+          rowSettings(context, strings.newMessage, sessionMessage, "messageNotification", TOPIC_CHAT),
+          rowSettings(context, strings.newInterested, sessionInterest, "interestsNotification", TOPIC_INTEREST),
+          rowSettings(context, strings.newDraw, sessionReward, "rewardNotification", TOPIC_REWARD),
           Divider(
             color: Theme.of(context).dividerColor,
           ),
@@ -114,7 +117,7 @@ class SettingsPageState extends State<SettingsContainer> {
     Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
-  Widget rowSettings(BuildContext context, String rowName, bool notificationType, String key) {
+  Widget rowSettings(BuildContext context, String rowName, bool notificationType, String key, String topic) {
     setNotificationPreferences();
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
@@ -134,7 +137,12 @@ class SettingsPageState extends State<SettingsContainer> {
                 onSelected: (selected) {
                   final enable = selected == "yes";
                   notificationType = enable;
-                  sessionManager.setSettingsNotification(enable, key);
+                  sessionManager.setNotificationEnable(key, enable);
+                  if (enable) {
+                    notificationManager.subscribeToTopic(topic);
+                  } else {
+                    notificationManager.unsubscribeFromTopic(topic);
+                  }
                 }),
           ),
         ],
@@ -143,9 +151,9 @@ class SettingsPageState extends State<SettingsContainer> {
   }
 
   void setNotificationPreferences() {
-    sessionManager.getSettingsNotification("messageNotification").then((value) => setState(() => sessionMessage = value));
-    sessionManager.getSettingsNotification("interestsNotification").then((value) => setState(() => sessionInterest = value));
-    sessionManager.getSettingsNotification("rewardNotification").then((value) => setState(() => sessionReward = value));
+    sessionManager.getNotificationEnable("messageNotification").then((value) => setState(() => sessionMessage = value));
+    sessionManager.getNotificationEnable("interestsNotification").then((value) => setState(() => sessionInterest = value));
+    sessionManager.getNotificationEnable("rewardNotification").then((value) => setState(() => sessionReward = value));
   }
 
   Widget settingItem(BuildContext context, String route, String itemName) {
