@@ -51,8 +51,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _bloc.session.setCurrentChatId(-1);
     super.initState();
+    _bloc.session.setCurrentChatId(-1);
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     txtController.text = "100";
@@ -132,6 +132,12 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
               textAlign: TextAlign.center,
               style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
             )),
+            RaisedButton(
+              elevation: 0,
+              color: Theme.of(context).accentColor,
+              onPressed: () => _bloc.initLoginTest(txtController.text),
+              child: Text("Testing"),
+            ),
             Expanded(
               child: Container(
                 alignment: Alignment.bottomCenter,
@@ -155,10 +161,11 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                             padding: const EdgeInsets.all(8.0),
                             textColor: Colors.white,
                             color: Color(0xFF4267B2),
-                            onPressed: () => _bloc.initFacebookLogin(txtController.text),
+                            onPressed: () => _bloc.initFacebookLogin(),
                             child: Text("Facebook"),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                          )),
+                          ),
+                        ),
                 ),
               ),
             )
