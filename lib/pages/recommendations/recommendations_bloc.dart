@@ -37,8 +37,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
           if (tries <= max) {
             yield SuccessState<List<Recomendation>>(data: users);
           } else {
-            yield TriesCompleteState(true);
-            yield SuccessState<List<Recomendation>>(data: event.looked);
+            yield TriesCompleteState(true, users);
           }
         }
       } on Exception catch (e) {
@@ -78,7 +77,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
         if (tries <= max) {
           yield SuccessState<List<Recomendation>>(data: users);
         } else {
-          yield TriesCompleteState(true);
+          yield TriesCompleteState(true, looked);
           yield SuccessState<List<Recomendation>>(data: looked);
         }
       }
@@ -133,8 +132,9 @@ class AddingMatchState extends BaseState {
 
 class TriesCompleteState extends BaseState {
   final bool isMaxComplete;
+  final List<Recomendation> looked;
 
-  TriesCompleteState(this.isMaxComplete) : super(props: [isMaxComplete]);
+  TriesCompleteState(this.isMaxComplete, this.looked) : super(props: [isMaxComplete, looked]);
 
   @override
   String toString() => 'state-tries-complete';

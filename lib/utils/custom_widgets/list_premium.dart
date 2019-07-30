@@ -44,44 +44,47 @@ class ListPremiumState extends State<ListPremium> {
           border: Border.all(color: Colors.grey), borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: Column(
         children: <Widget>[
+          widget.isFromRecommendation
+              ? Align(
+            alignment: Alignment.centerLeft,
+                  child: Padding(
+                  padding: const EdgeInsets.only(left: 21.0, top: 8, bottom: 4, right: 8),
+                  child: Row(
+                    children: <Widget>[
+                      Center(
+                        child: Icon(Icons.alarm, color: Colors.grey, size: 18),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.75,
+                            child: Text("Obtendras mas recomendados el dia de mañana", style: TextStyle(fontSize: 13))),
+                      ),
+                    ],
+                  ),
+                ))
+              : SizedBox(),
           listTiles[0],
           listTiles[1],
           listTiles[2],
           SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              widget.isFromRecommendation
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Text(
-                            "* Obtendras mas intentos el dia de mañana",
-                            style: TextStyle(fontSize: 12),
-                            textAlign: TextAlign.center,
-                          )),
-                    )
-                  : Spacer(),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    onPressed: _lunchUrlPay,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      "CONTINUAR",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                onPressed: _lunchUrlPay,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                color: Theme.of(context).accentColor,
+                child: Text(
+                  "CONTINUAR",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ],
       ),

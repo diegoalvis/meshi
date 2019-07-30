@@ -44,12 +44,12 @@ class RecommendationsPage extends StatelessWidget with HomeSection, InjectorWidg
 
 class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   RecommendationsBloc _bloc;
-  bool isMaxComplete = false;
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     _bloc = injector.get<RecommendationsBloc>();
     _bloc.sendLocation(context);
+    bool isMaxComplete = false;
     List<Recomendation> users = [];
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);
@@ -73,6 +73,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                   users = state.data;
                 }
                 if(state is TriesCompleteState){
+                  users = state.looked;
                   isMaxComplete = state.isMaxComplete;
                 }
                 if (state is ErrorState) {
@@ -90,7 +91,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                   child: Container(
                       color: Theme.of(context).primaryColor,
                       child: users.length > 0
-                          ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded))
+                          ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
                           : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
                 );
               }),
@@ -99,19 +100,19 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
     );
   }
 
-  Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex) {
+  Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex, bool isMaxComplete) {
     return CarouselSlider(
       viewportFraction: 0.9,
 //      enableInfiniteScroll: false,
       autoPlayCurve: Curves.bounceInOut,
       height: MediaQuery.of(context).size.height,
       autoPlay: false,
-      items: generateRecommendationList(users, context, itemLoadingIndex),
+      items: generateRecommendationList(users, context, itemLoadingIndex, isMaxComplete),
     );
   }
 
   List<Widget> generateRecommendationList(
-      List<Recomendation> recommendations, BuildContext context, int itemLoadingIndex) {
+      List<Recomendation> recommendations, BuildContext context, int itemLoadingIndex, bool isMaxComplete) {
     final items = recommendations.map(
       (user) {
         return Container(
