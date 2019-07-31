@@ -74,6 +74,7 @@ class NotificationManager {
 
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
+        print(message);
         final match = UserMatch.fromMessage(message);
         messageNotificationSubject.sink.add(match);
         switch (message["data"]["typeMessage"]) {
@@ -102,8 +103,8 @@ class NotificationManager {
                         padding: const EdgeInsets.all(2.0),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child:
-                                Text(match?.name ?? "", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                            child: Text(match?.name ?? "",
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
@@ -120,78 +121,16 @@ class NotificationManager {
             }
             break;
           case NOTIFICATION_REWARD:
-            showSimpleNotification(
-                GestureDetector(
-                    onTap: () {
-                      onChangePageSubject.add(2);
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
-                              SizedBox(width: 8),
-                              Text("meshi", style: TextStyle(color: Colors.black))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Nueva Cita de Regalo",
-                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Participa por una cita de",
-                                  maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
-                        )
-                      ],
-                    )),
-                background: Colors.white);
+            showNotificationDialog(onChangePageSubject, 2, "Nueva cita regalo", "Participa por una cita");
             break;
           case NOTIFICATION_WINNER:
-            showSimpleNotification(
-                GestureDetector(
-                    onTap: () {
-                      onChangePageSubject.add(2);
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
-                              SizedBox(width: 8),
-                              Text("meshi", style: TextStyle(color: Colors.black))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text('Ganaste una cita!',
-                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text("Eres el ganador de una fabulosa cita",
-                                  maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
-                        )
-                      ],
-                    )),
-                background: Colors.white);
+            showNotificationDialog(onChangePageSubject, 2, 'Ganaste una cita!', "Eres el ganador de una fabulosa cita");
+            break;
+          case NOTIFICATION_INTEREST:
+            showNotificationDialog(onChangePageSubject, 1, 'Le interesas a alguien nuevo', "Le interesas a ${match.name}");
+            break;
+          case NOTIFICATION_MATCH:
+            showNotificationDialog(onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match");
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -207,6 +146,10 @@ class NotificationManager {
           case NOTIFICATION_REWARD:
           case NOTIFICATION_WINNER:
             onChangePageSubject.add(2);
+            break;
+          case NOTIFICATION_INTEREST:
+          case NOTIFICATION_MATCH:
+            onChangePageSubject.add(1);
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -226,6 +169,10 @@ class NotificationManager {
           case NOTIFICATION_WINNER:
             onChangePageSubject.add(2);
             break;
+          case NOTIFICATION_INTEREST:
+          case NOTIFICATION_MATCH:
+            onChangePageSubject.add(1);
+            break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
             break;
@@ -233,4 +180,42 @@ class NotificationManager {
       },
     );
   }
+}
+
+void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, String title, String description){
+  showSimpleNotification(
+      GestureDetector(
+          onTap: () {
+            onChangePageSubject.add(pos);
+          },
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                    SizedBox(width: 8),
+                    Text("meshi", style: TextStyle(color: Colors.black))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(title,
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(description,
+                        maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+              )
+            ],
+          )),
+      background: Colors.white);
 }
