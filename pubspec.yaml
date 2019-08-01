@@ -36,6 +36,8 @@ dependencies:
   overlay_support: ^1.0.1
   location: ^2.3.5
   app_settings: ^1.0.6
+  image_cropper: ^1.0.2
+  flutter_image_compress: ^0.6.3
 
   flutter:
     sdk: flutter
