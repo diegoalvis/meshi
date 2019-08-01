@@ -6,6 +6,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/utils/localiztions.dart';
@@ -20,7 +22,21 @@ class ImageSelector extends StatelessWidget {
 
   _getImage(ImageSource source) async {
     var image = await ImagePicker.pickImage(source: source);
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: image.path,
+      ratioX: 1.0,
+      ratioY: 1.0,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    var result = await FlutterImageCompress.compressAndGetFile(
+      croppedFile.path,
+      croppedFile.path,
+      quality: 80,
+    );
+
     if (image != null) {
+      image = result;
       onImageSelected(image);
     }
   }
@@ -31,26 +47,26 @@ class ImageSelector extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () => showDialog(
-              context: context,
-              builder: (BuildContext context) => SimpleDialog(
-                    children: <Widget>[
-                      ListTile(
-                          leading: Icon(Icons.photo_camera),
-                          title: Text(strings.camera),
-                          onTap: () {
-                            _getImage(ImageSource.camera);
-                            Navigator.pop(context);
-                          }),
-                      ListTile(
-                          leading: Icon(Icons.photo_library),
-                          title: Text(strings.gallery),
-                          onTap: () {
-                            _getImage(ImageSource.gallery);
-                            Navigator.pop(context);
-                          }),
-                    ],
-                  ),
-            ),
+          context: context,
+          builder: (BuildContext context) => SimpleDialog(
+            children: <Widget>[
+              ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text(strings.camera),
+                  onTap: () {
+                    _getImage(ImageSource.camera);
+                    Navigator.pop(context);
+                  }),
+              ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text(strings.gallery),
+                  onTap: () {
+                    _getImage(ImageSource.gallery);
+                    Navigator.pop(context);
+                  }),
+            ],
+          ),
+        ),
         child: Material(
           elevation: 4,
           borderRadius: BorderRadius.circular(16),
