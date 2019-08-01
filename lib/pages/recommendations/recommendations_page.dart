@@ -154,11 +154,15 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                   ),
                 ),
                 Container(
-                    //height: 250,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                  Colors.transparent.withOpacity(0),
+                        gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
+                  Colors.transparent.withOpacity(0.20),
                   Colors.transparent.withOpacity(0.15),
+                  Colors.transparent.withOpacity(0.1),
+                  Colors.transparent.withOpacity(0.05),
+                  Colors.transparent.withOpacity(0),
                 ]))),
                 Padding(
                   padding: const EdgeInsets.all(10.0),

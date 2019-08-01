@@ -17,6 +17,7 @@ const String NOTIFICATION_CHAT = "notification_chat";
 const String NOTIFICATION_MATCH = "notification_match";
 const String NOTIFICATION_INTEREST = "notification_interest";
 const String NOTIFICATION_WINNER = "notification_winner";
+const String NOTIFICATION_PAYMENT = "notification_payment";
 
 const String TOPIC_CHAT = "topic_chat";
 const String TOPIC_INTEREST = "topic_interest";
@@ -132,6 +133,9 @@ class NotificationManager {
           case NOTIFICATION_MATCH:
             showNotificationDialog(onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match");
             break;
+          case NOTIFICATION_PAYMENT:
+            showNotificationDialog(onChangePageSubject, 0, 'Pago mensual', "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium");
+            break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
             break;
@@ -150,6 +154,9 @@ class NotificationManager {
           case NOTIFICATION_INTEREST:
           case NOTIFICATION_MATCH:
             onChangePageSubject.add(1);
+            break;
+          case NOTIFICATION_PAYMENT:
+            _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -172,6 +179,9 @@ class NotificationManager {
           case NOTIFICATION_INTEREST:
           case NOTIFICATION_MATCH:
             onChangePageSubject.add(1);
+            break;
+          case NOTIFICATION_PAYMENT:
+            _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
