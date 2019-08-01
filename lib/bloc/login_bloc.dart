@@ -21,7 +21,7 @@ class LoginBloc extends BaseBloc {
     session.initUser().then((user) => _userSubject.sink.add(user));
   }
 
-  void initFacebookLogin(String facebookId) async {
+  void initLoginTest(String facebookId) async {
     progressSubject.sink.add(true);
     repository.loginUser(facebookId).catchError((error) {
       errorSubject.sink.add(error.toString());
@@ -32,35 +32,36 @@ class LoginBloc extends BaseBloc {
       session.setLogged(true);
       _userSubject.sink.add(session.user);
     });
+  }
 
+  void initFacebookLogin() async {
+    progressSubject.sink.add(true);
 
-//    progressSubject.sink.add(true);
-//
-//    var facebookLogin = FacebookLogin();
-//    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'user_birthday']);
-//
-//    switch (facebookLoginResult.status) {
-//      case FacebookLoginStatus.error:
-//        errorSubject.sink.add("Error trying to log in in facebook");
-//        progressSubject.sink.add(false);
-//        break;
-//      case FacebookLoginStatus.cancelledByUser:
-//        print("CancelledByUser");
-//        progressSubject.sink.add(false);
-//        break;
-//      case FacebookLoginStatus.loggedIn:
-//        final String fbId = facebookLoginResult.accessToken.userId;
-//        session.setFbToken(facebookLoginResult.accessToken.token);
-//        session.setFbUserId(facebookLoginResult.accessToken.userId);
-//        repository.loginUser(fbId).catchError((error) {
-//          errorSubject.sink.add(error.toString());
-//        }).whenComplete(() {
-//          progressSubject.sink.add(false);
-//        }).then((success) {
-//          _userSubject.sink.add(session.user);
-//        });
-//        break;
-//    }
+    var facebookLogin = FacebookLogin();
+    var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'user_birthday']);
+
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        errorSubject.sink.add("Error trying to log in in facebook");
+        progressSubject.sink.add(false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("CancelledByUser");
+        progressSubject.sink.add(false);
+        break;
+      case FacebookLoginStatus.loggedIn:
+        final String fbId = facebookLoginResult.accessToken.userId;
+        session.setFbToken(facebookLoginResult.accessToken.token);
+        session.setFbUserId(facebookLoginResult.accessToken.userId);
+        repository.loginUser(fbId).catchError((error) {
+          errorSubject.sink.add(error.toString());
+        }).whenComplete(() {
+          progressSubject.sink.add(false);
+        }).then((success) {
+          _userSubject.sink.add(session.user);
+        });
+        break;
+    }
   }
 
   @override
