@@ -72,7 +72,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                 if (state is SuccessState<List<Recomendation>>) {
                   users = state.data;
                 }
-                if(state is TriesCompleteState){
+                if (state is TriesCompleteState) {
                   users = state.looked;
                   isMaxComplete = state.isMaxComplete;
                 }
@@ -103,7 +103,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
   Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex, bool isMaxComplete) {
     return CarouselSlider(
       viewportFraction: 0.9,
-//      enableInfiniteScroll: false,
+      enableInfiniteScroll: false,
       autoPlayCurve: Curves.bounceInOut,
       height: MediaQuery.of(context).size.height,
       autoPlay: false,
@@ -122,9 +122,9 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
       },
     ).toList();
     items.add(ViewMoreRecommendations(() {
-      isMaxComplete ?
-      showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage(true))
-      : _bloc.dispatch(GetRecommendationsEvent(looked: recommendations));
+      isMaxComplete
+          ? showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage(true))
+          : _bloc.dispatch(GetRecommendationsEvent(looked: recommendations));
     }));
     return items;
   }
@@ -153,17 +153,25 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                     )),
                   ),
                 ),
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                  Colors.transparent.withOpacity(0.20),
-                  Colors.transparent.withOpacity(0.15),
-                  Colors.transparent.withOpacity(0.1),
-                  Colors.transparent.withOpacity(0.05),
-                  Colors.transparent.withOpacity(0),
-                ]))),
+                        gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.transparent.withOpacity(0.20),
+                        Colors.transparent.withOpacity(0.25),
+                        Colors.transparent.withOpacity(0.1),
+                        Colors.transparent.withOpacity(0.05),
+                        Colors.transparent.withOpacity(0),
+                      ],
+                    )),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Align(
