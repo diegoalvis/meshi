@@ -128,6 +128,11 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                 ],
               ),
               SizedBox(height: 8.0),
+              Text(
+                'Te quedan 20 días de suscripción Premium',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 10),
+              ),
             ],
           )
         : SizedBox();
