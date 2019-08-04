@@ -11,14 +11,15 @@ import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
-import 'package:meshi/utils/notification_manager.dart';
+import 'package:meshi/managers/notification_manager.dart';
 
 class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final MatchRepository repository;
   final ChatRepository chatRepository;
   final NotificationManager notificationsManager;
 
-  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, SessionManager session) : super(session: session) {
+  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, SessionManager session)
+      : super(session: session) {
     notificationsManager.messageNotificationSubject.stream.listen((matchIndex) {
       int index = matches.indexWhere((match) => match.idMatch == matchIndex.idMatch);
       matches[index].lastMessage = matchIndex.lastMessage;
@@ -99,7 +100,14 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
     if (matches != null && !refresh) {
       yield SuccessState<List<UserMatch>>(data: matches);
     } else {
-      yield LoadingState();
+      matches = await repository.getLocalMatches();
+      if (matches == null || matches.isEmpty) {
+        yield LoadingState();
+      } else {
+        yield SuccessState<List<UserMatch>>(data: matches);
+        await Future.delayed(Duration(milliseconds: 200));
+        yield PerformingRequestState();
+      }
       matches = await repository.getMatches();
       yield SuccessState<List<UserMatch>>(data: matches);
     }

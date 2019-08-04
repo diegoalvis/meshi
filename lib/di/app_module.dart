@@ -17,7 +17,7 @@ import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/data/sockets/ChatSocket.dart';
 import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/utils/notification_manager.dart';
+import 'package:meshi/managers/notification_manager.dart';
 
 class AppModule implements Module {
   @override

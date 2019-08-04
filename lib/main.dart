@@ -21,7 +21,7 @@ import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/terms_and_condition_page.dart';
 import 'package:meshi/pages/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/notification_manager.dart';
+import 'package:meshi/managers/notification_manager.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() {

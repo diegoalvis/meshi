@@ -13,7 +13,7 @@ import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/notification_manager.dart';
+import 'package:meshi/managers/notification_manager.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 class SettingsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {

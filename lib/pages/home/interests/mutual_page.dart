@@ -24,7 +24,6 @@ class MutualPage extends StatelessWidget {
   InterestsBloc _bloc;
   List<UserMatch> matches;
   List<int> blockMatch;
-  bool showLoader = false;
 
   Future<Null> _fetchRewardData() async {
     _bloc.dispatch(InterestsEvent(InterestsEventType.refreshMutuals));
@@ -32,11 +31,9 @@ class MutualPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _bloc = InjectorWidget.of(context).get<InterestsBloc>();
-    if (matches == null) {
-      _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
-    }
+    bool showLoader = false;
     final strings = MyLocalizations.of(context);
+    _bloc = InjectorWidget.of(context).get<InterestsBloc>();
 
     void _showDialog(String name, int matchId, int index) {
       showDialog(
@@ -69,13 +66,14 @@ class MutualPage extends StatelessWidget {
                             content: Text("¿Estas seguro que deseas eliminar de mutuos a $name?"),
                             actions: <Widget>[
                               FlatButton(
-                                child: new Text("Cancelar", style: TextStyle(fontWeight: FontWeight.bold)),
+                                child:
+                                    new Text("Cancelar", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                               FlatButton(
-                                child: new Text("Confirmar", style: TextStyle(fontWeight: FontWeight.bold)),
+                                child: new Text("Confirmar"),
                                 onPressed: () {
                                   _bloc.dispatch(
                                       InterestsEvent(InterestsEventType.blockMatch, data: blockMatch = [matchId, index]));
@@ -106,7 +104,7 @@ class MutualPage extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
             if (state is PerformingRequestState) {
-              showLoader = true;
+              showLoader = state is PerformingRequestState;
             }
             if (state is SuccessState<List<UserMatch>>) {
               matches = state.data;
@@ -130,12 +128,7 @@ class MutualPage extends StatelessWidget {
                             ? Center(
                                 child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    )),
+                                child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
                               ))
                             : SizedBox(),
                         Expanded(
@@ -183,12 +176,14 @@ class MutualPage extends StatelessWidget {
                                                   : DateTime.now().toLocal().difference(match.lastDate.toLocal()).inDays > 0
                                                       ? DateFormat.yMd().format(match.lastDate.toLocal())
                                                       : DateFormat.jm().format(match.lastDate.toLocal()),
-                                              style: TextStyle(color: Theme.of(context).accentColor))
+                                              style: TextStyle(color: Theme.of(context).accentColor, fontSize: 10))
                                         ]),
                                         Align(
                                           alignment: Alignment.bottomLeft,
                                           child:
-                                              Text(erased ? "" : match?.lastMessage ?? "", overflow: TextOverflow.ellipsis),
+                                              Text(erased ? "" : match?.lastMessage ?? "", overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13)
+                                              ),
                                         )
                                       ],
                                     ))

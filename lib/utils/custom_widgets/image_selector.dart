@@ -24,7 +24,7 @@ class ImageSelector extends StatelessWidget {
     var image = await ImagePicker.pickImage(source: source);
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
-      ratioX: 1.0,
+      ratioX: 1.3,
       ratioY: 1.0,
       maxWidth: 512,
       maxHeight: 512,
@@ -71,7 +71,7 @@ class ImageSelector extends StatelessWidget {
           elevation: 4,
           borderRadius: BorderRadius.circular(16),
           child: AspectRatio(
-            aspectRatio: 1,
+            aspectRatio: 1.2,
             child: ClipRRect(
               borderRadius: new BorderRadius.circular(16.0),
               child: Container(

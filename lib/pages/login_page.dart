@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _bloc.session.setCurrentChatId(-1);
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
-    txtController.text = "100";
+    txtController.text = "";
     _bloc.userStream?.listen((user) async {
       if (user == null) {
         controller.forward();
@@ -123,19 +123,23 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                 child: TextField(
                   controller: txtController,
                   textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: "150",
+                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3)),
+                  ),
                   style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
                 )),
             SizedBox(height: 8),
             Center(
                 child: Text(
-              "(100 - 127)",
+              "(100 - 199)",
               textAlign: TextAlign.center,
               style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),
             )),
             RaisedButton(
               elevation: 0,
               color: Theme.of(context).accentColor,
-              onPressed: () => _bloc.initLoginTest(txtController.text),
+              onPressed: () => txtController.text.isEmpty ? null : _bloc.initLoginTest(txtController.text),
               child: Text("Testing"),
             ),
             Expanded(
