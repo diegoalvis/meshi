@@ -83,42 +83,43 @@ class NotificationManager {
             final idCurrentMatch = await sessionManager.currentChatId;
             if (idCurrentMatch != match?.idMatch) {
               showSimpleNotification(
-                GestureDetector(
-                  onTap: () {
-                    _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
-                  },
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
-                            SizedBox(width: 8),
-                            Text("meshi", style: TextStyle(color: Colors.black))
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                              SizedBox(width: 8),
+                              Text("meshi", style: TextStyle(color: Colors.black))
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(match?.name ?? "",
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(match?.lastMessage ?? "",
-                                maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(match?.name ?? "",
+                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(match?.lastMessage ?? "",
+                                  maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                background: Colors.white,
-              );
+                  background: Colors.white,
+                  autoDismiss: false,
+                  slideDismiss: true);
             }
             break;
           case NOTIFICATION_REWARD:
@@ -134,7 +135,8 @@ class NotificationManager {
             showNotificationDialog(onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match");
             break;
           case NOTIFICATION_PAYMENT:
-            showNotificationDialog(onChangePageSubject, 0, 'Pago mensual', "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium");
+            showNotificationDialog(onChangePageSubject, 0, 'Pago mensual',
+                "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium");
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -192,7 +194,7 @@ class NotificationManager {
   }
 }
 
-void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, String title, String description){
+void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, String title, String description) {
   showSimpleNotification(
       GestureDetector(
           onTap: () {
@@ -215,8 +217,7 @@ void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, St
                 padding: const EdgeInsets.all(2.0),
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(title,
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                    child: Text(title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
               ),
               Padding(
                 padding: const EdgeInsets.all(2.0),
