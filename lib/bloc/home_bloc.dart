@@ -33,6 +33,6 @@ class HomeBloc extends BaseBloc {
   }
 
   void updateToken(String token) async{
-    await _repository.updateFirebaseToken(token);
+    await _repository.updateFirebaseToken(token:token);
   }
 }

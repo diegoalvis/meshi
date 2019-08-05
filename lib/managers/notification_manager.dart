@@ -66,12 +66,17 @@ class NotificationManager {
 
   void setFcmListener(BuildContext context) async {
     if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
-      _fcm.onIosSettingsRegistered.listen((settings) => print("Settings registered: $settings"));
+      _fcm.requestNotificationPermissions(
+          const IosNotificationSettings(sound: true, badge: true, alert: true));
+      _fcm.onIosSettingsRegistered
+          .listen((settings) => print("Settings registered: $settings"));
     }
 
-    _fcm.getToken().then((token) => _repository.updateFirebaseToken(token));
-    _fcm.onTokenRefresh.listen((token) => _repository.updateFirebaseToken(token));
+    _fcm
+        .getToken()
+        .then((token) => _repository.updateFirebaseToken(token: token));
+    _fcm.onTokenRefresh
+        .listen((token) => _repository.updateFirebaseToken(token: token));
 
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -85,7 +90,8 @@ class NotificationManager {
               showSimpleNotification(
                   GestureDetector(
                     onTap: () {
-                      _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
+                      _navigatorKey.currentState
+                          .pushNamed(CHAT_ROUTE, arguments: match);
                     },
                     child: Column(
                       children: <Widget>[
@@ -94,9 +100,11 @@ class NotificationManager {
                           padding: const EdgeInsets.all(2.0),
                           child: Row(
                             children: <Widget>[
-                              Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                              Icon(AppIcons.logo,
+                                  color: Color(0xFF80065E), size: 15),
                               SizedBox(width: 8),
-                              Text("meshi", style: TextStyle(color: Colors.black))
+                              Text("meshi",
+                                  style: TextStyle(color: Colors.black))
                             ],
                           ),
                         ),
@@ -105,14 +113,18 @@ class NotificationManager {
                           child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(match?.name ?? "",
-                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold))),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(match?.lastMessage ?? "",
-                                  maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(color: Colors.black))),
                         )
                       ],
                     ),
@@ -123,16 +135,20 @@ class NotificationManager {
             }
             break;
           case NOTIFICATION_REWARD:
-            showNotificationDialog(onChangePageSubject, 2, "Nueva cita regalo", "Participa por una cita");
+            showNotificationDialog(onChangePageSubject, 2, "Nueva cita regalo",
+                "Participa por una cita");
             break;
           case NOTIFICATION_WINNER:
-            showNotificationDialog(onChangePageSubject, 2, 'Ganaste una cita!', "Eres el ganador de una fabulosa cita");
+            showNotificationDialog(onChangePageSubject, 2, 'Ganaste una cita!',
+                "Eres el ganador de una fabulosa cita");
             break;
           case NOTIFICATION_INTEREST:
-            showNotificationDialog(onChangePageSubject, 1, 'Le interesas a alguien nuevo', "Le interesas a ${match.name}");
+            showNotificationDialog(onChangePageSubject, 1,
+                'Le interesas a alguien nuevo', "Le interesas a ${match.name}");
             break;
           case NOTIFICATION_MATCH:
-            showNotificationDialog(onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match");
+            showNotificationDialog(onChangePageSubject, 1, 'Nuevo match',
+                "${match.name} es tu nuevo match");
             break;
           case NOTIFICATION_PAYMENT:
             showNotificationDialog(onChangePageSubject, 0, 'Pago mensual',
@@ -172,7 +188,9 @@ class NotificationManager {
             final match = UserMatch.fromMessage(message);
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
             Future.delayed(
-                Duration(milliseconds: 200), () => _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match));
+                Duration(milliseconds: 200),
+                () => _navigatorKey.currentState
+                    .pushNamed(CHAT_ROUTE, arguments: match));
             break;
           case NOTIFICATION_REWARD:
           case NOTIFICATION_WINNER:
@@ -194,7 +212,8 @@ class NotificationManager {
   }
 }
 
-void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, String title, String description) {
+void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos,
+    String title, String description) {
   showSimpleNotification(
       GestureDetector(
           onTap: () {
@@ -217,14 +236,18 @@ void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, St
                 padding: const EdgeInsets.all(2.0),
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                    child: Text(title,
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold))),
               ),
               Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(description,
-                        maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.black))),
               )
             ],
           )),

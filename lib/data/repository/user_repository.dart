@@ -109,18 +109,22 @@ class UserRepository {
     return res.data;
   }
 
-  Future<int> updateFirebaseToken(String token) async {
+  Future<int> updateFirebaseToken({String token}) async {
+
+    String tk = token;
+
+    if(token != null){
+      _session.setFirebaseToken(token);
+    }else{
+      tk = await _session.firebaseToken;
+    }
+
     final logged = await _session.logged;
     if (!logged) {
       return -1;
     }
 
-    final prev = await _session.firebaseToken;
-    if (prev == token) {
-      return 1;
-    }
-    final rspn = await _api.changeFirebaseToken(token);
-    _session.setFirebaseToken(token);
+    final rspn = await _api.changeFirebaseToken(tk);
     return rspn.data;
   }
 
