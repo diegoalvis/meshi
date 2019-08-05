@@ -20,7 +20,7 @@ import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/utils/notification_manager.dart';
+import 'package:meshi/managers/notification_manager.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
 
 class HomeBlocProvider extends InheritedWidget {

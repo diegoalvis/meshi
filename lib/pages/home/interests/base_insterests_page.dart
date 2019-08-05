@@ -69,14 +69,6 @@ class BaseInterestsPage extends StatelessWidget {
                     ])
                   : Column(
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            alignment: Alignment.centerRight,
-                            child: Text(title ?? "",
-                                textAlign: TextAlign.end, style: TextStyle(color: ThemeData.light().colorScheme.onSurface)),
-                          ),
-                        ),
                         Flexible(
                           child: GridView.builder(
                             itemCount: myLikes.length,

@@ -24,7 +24,6 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   @override
   Stream<BaseState> mapEventToState(RecommendationsEvents event) async* {
     if (event is GetRecommendationsEvent) {
-      //yield* _loadRecommendationsToState(looked: event.looked);
       try {
         yield LoadingState();
         final data = await _repository.getRecommendations(looked: event.looked);
@@ -34,7 +33,7 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
         if (max < 1)
           yield SuccessState<List<Recomendation>>(data: users);
         else {
-          if (tries <= max) {
+          if (tries < max) {
             yield SuccessState<List<Recomendation>>(data: users);
           } else {
             yield TriesCompleteState(true, users);
@@ -61,28 +60,6 @@ class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
       } on Exception catch (e) {
         yield ErrorState(exception: e);
       }
-    }
-  }
-
-  Stream<BaseState> _loadRecommendationsToState({List<Recomendation> looked}) async* {
-    try {
-      yield LoadingState();
-      final data = await _repository.getRecommendations(looked: looked);
-      users = data.recomendations;
-      max = data.max;
-      int tries = data.tries;
-      if (max < 1)
-        yield SuccessState<List<Recomendation>>(data: users);
-      else {
-        if (tries <= max) {
-          yield SuccessState<List<Recomendation>>(data: users);
-        } else {
-          yield TriesCompleteState(true, looked);
-          yield SuccessState<List<Recomendation>>(data: looked);
-        }
-      }
-    } on Exception catch (e) {
-      yield ErrorState(exception: e);
     }
   }
 
