@@ -59,12 +59,13 @@ class BaseApi {
       final body = response.data;
       bool success = body["success"] as bool;
       int error = body["error"] as int;
+      String type = body["type"] as String;
 
       T data;
       if (body["data"] != null) {
         data = await compute<Map<String, dynamic>, T>(callback, body["data"]);
       }
-      return BaseResponse(success: success, data: data, error: error);
+      return BaseResponse(success: success, data: data, error: error, type:type);
     } else if (response.statusCode == 403) {
       throw AuthorizationException(cause: "Unauthorized");
     } else if (response.statusCode == 404) {
@@ -80,7 +81,8 @@ class BaseApi {
       bool success = body["success"] as bool;
       int error = body["error"] as int;
       T data = body["data"] as T;
-      return BaseResponse(success: success, data: data, error: error);
+      String type = body["type"] as String;
+      return BaseResponse(success: success, data: data, error: error, type:type);
     } else if (response.statusCode == 403) {
       throw AuthorizationException(cause: "Unauthorized");
     } else if (response.statusCode == 404) {
@@ -96,13 +98,14 @@ class BaseApi {
       final body = response.data;
       bool success = body["success"] as bool;
       int error = body["error"] as int;
+      String type = body["type"] as String;
 
       T data;
       if (body["data"] != null) {
         data = await compute<List<Map<String, dynamic>>, T>(callback, (body["data"] as List).cast<Map<String, dynamic>>());
       }
 
-      return BaseResponse(success: success, data: data, error: error);
+      return BaseResponse(success: success, data: data, error: error, type:type);
     } else if (response.statusCode == 403) {
       throw AuthorizationException(cause: "Unauthorized");
     } else if (response.statusCode == 404) {
@@ -117,6 +120,7 @@ class BaseResponse<T> {
   bool success;
   T data;
   int error;
+  String type;
 
-  BaseResponse({this.success, this.data, this.error});
+  BaseResponse({this.success, this.data, this.error, this.type});
 }
