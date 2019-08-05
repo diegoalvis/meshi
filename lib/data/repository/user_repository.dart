@@ -6,6 +6,7 @@
 import 'package:dio/dio.dart';
 import 'package:meshi/data/api/user_api.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/user_preferences.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -121,5 +122,15 @@ class UserRepository {
     final rspn = await _api.changeFirebaseToken(token);
     _session.setFirebaseToken(token);
     return rspn.data;
+  }
+
+  Future<UserPreferences> fetchUserPreferences() async{
+    final res = await _api.fetchPreferences();
+    return res.data;
+  }
+
+  Future<int> updateUserPreferences(UserPreferences preferences) async{
+    final res = await _api.updatePreferences(preferences);
+    return res.data;
   }
 }
