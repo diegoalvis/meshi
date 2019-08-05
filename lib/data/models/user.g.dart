@@ -44,7 +44,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
           : Habits.fromJson(json['habits'] as Map<String, dynamic>),
       deepening: json['deepening'] == null
           ? null
-          : Deepening.fromJson(json['deepening'] as Map<String, dynamic>));
+          : Deepening.fromJson(json['deepening'] as Map<String, dynamic>),
+      preferences: json['preferences'] == null
+          ? null
+          : UserPreferences.fromJson(json['preferences'] as Map<String, dynamic>));
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -75,5 +78,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'maxIncomePreferred': instance.maxIncomePreferred,
       'isIncomeImportant': instance.isIncomeImportant,
       'habits': instance.habits,
-      'deepening': instance.deepening
+      'deepening': instance.deepening,
+      'preferences': instance.preferences
     };

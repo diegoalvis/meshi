@@ -7,9 +7,11 @@ import 'package:dio/dio.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/api/dto/user_dto.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/user_preferences.dart';
 import 'package:meshi/managers/session_manager.dart';
 
 UserDto parseUser(Map<String, dynamic> map) => UserDto.fromJson(map);
+UserPreferences parsePreferences(Map<String, dynamic> map) => UserPreferences.fromJson(map);
 
 class UserApi extends BaseApi {
   UserApi(Dio dio, SessionManager session) : super(dio, session);
@@ -57,4 +59,15 @@ class UserApi extends BaseApi {
     return put("/users/firebase", body: {'firebaseToken': token})
         .then((response) => processBasicResponse(response));
   }
+
+  Future<BaseResponse<UserPreferences>> fetchPreferences() async{
+    return get("/users/preferences")
+        .then((response) => processResponse(response, parsePreferences));
+  }
+
+  Future<BaseResponse<int>> updatePreferences(UserPreferences preferences) async{
+    return put("/users/preferences")
+        .then((response) => processBasicResponse<int>(response));
+  }
 }
+

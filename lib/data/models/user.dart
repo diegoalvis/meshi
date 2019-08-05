@@ -6,6 +6,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/habits.dart';
+import 'package:meshi/data/models/user_preferences.dart';
 
 part 'user.g.dart';
 
@@ -30,28 +31,37 @@ class User {
   String occupation;
   String interests;
   String idFacebook;
-  @JsonSerializable(nullable: true) DateTime birthdate;
-  @JsonSerializable(nullable: true) List<String> images;
+  @JsonSerializable(nullable: true)
+  DateTime birthdate;
+  @JsonSerializable(nullable: true)
+  List<String> images;
   String gender;
-  @JsonSerializable(nullable: true) List<String> likeGender;
+  @JsonSerializable(nullable: true)
+  List<String> likeGender;
   String eduLevel;
   String bodyShape;
-  @JsonSerializable(nullable: true) List<String> bodyShapePreferred;
+  @JsonSerializable(nullable: true)
+  List<String> bodyShapePreferred;
   int height;
   double income;
   int minAgePreferred, maxAgePreferred;
   double minIncomePreferred, maxIncomePreferred;
   bool isIncomeImportant;
+
   // form questions
-  @JsonSerializable(nullable: true) Habits habits = Habits();
-  @JsonSerializable(nullable: true) Deepening deepening = Deepening();
+  @JsonSerializable(nullable: true)
+  Habits habits = Habits();
+  @JsonSerializable(nullable: true)
+  Deepening deepening = Deepening();
+  @JsonSerializable(nullable: true)
+  UserPreferences preferences = UserPreferences();
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
-  User({
-      this.id,
+  User(
+      {this.id,
       this.createdDate,
       this.type,
       this.state,
@@ -78,5 +88,6 @@ class User {
       this.maxIncomePreferred,
       this.isIncomeImportant,
       this.habits,
-      this.deepening});
+      this.deepening,
+      this.preferences});
 }

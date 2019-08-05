@@ -13,11 +13,13 @@ RecomendationDto _$RecomendationDtoFromJson(Map<String, dynamic> json) {
           ?.map((e) => e == null
               ? null
               : Recomendation.fromJson(e as Map<String, dynamic>))
-          ?.toList());
+          ?.toList())
+    ..tries = json['tries'] as int;
 }
 
 Map<String, dynamic> _$RecomendationDtoToJson(RecomendationDto instance) =>
     <String, dynamic>{
       'max': instance.max,
+      'tries': instance.tries,
       'recomendations': instance.recomendations
     };
