@@ -69,61 +69,23 @@ class NotificationManager {
           case NOTIFICATION_CHAT:
             final idCurrentMatch = await sessionManager.currentChatId;
             if (idCurrentMatch != match?.idMatch) {
-              showSimpleNotification(
-                  GestureDetector(
-                    onTap: () {
-                      _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Row(
-                            children: <Widget>[
-                              Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
-                              SizedBox(width: 8),
-                              Text("meshi", style: TextStyle(color: Colors.black))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(match?.name ?? "",
-                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(match?.lastMessage ?? "",
-                                  maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
-                        )
-                      ],
-                    ),
-                  ),
-                  background: Colors.white,
-                  autoDismiss: false,
-                  slideDismiss: true);
+              showNotificationDialog(NOTIFICATION_CHAT, onChangePageSubject, 2, "Tienes un nuevo mensaje de ${match?.name}", "${match?.lastMessage}", _navigatorKey, match);
             }
             break;
           case NOTIFICATION_REWARD:
-            showNotificationDialog(onChangePageSubject, 2, "Nueva cita regalo", "Participa por una cita");
+            showNotificationDialog(NOTIFICATION_REWARD, onChangePageSubject, 2, "Nueva cita regalo", "Participa por una cita", _navigatorKey, match);
             break;
           case NOTIFICATION_WINNER:
-            showNotificationDialog(onChangePageSubject, 2, 'Ganaste una cita!', "Eres el ganador de una fabulosa cita");
+            showNotificationDialog(NOTIFICATION_WINNER, onChangePageSubject, 2, 'Ganaste una cita!', "Eres el ganador de una fabulosa cita", _navigatorKey, match);
             break;
           case NOTIFICATION_INTEREST:
-            showNotificationDialog(onChangePageSubject, 1, 'Le interesas a alguien nuevo', "Le interesas a ${match.name}");
+            showNotificationDialog(NOTIFICATION_INTEREST, onChangePageSubject, 1, 'Le interesas a alguien nuevo', "Le interesas a ${match.name}", _navigatorKey, match);
             break;
           case NOTIFICATION_MATCH:
-            showNotificationDialog(onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match");
+            showNotificationDialog(NOTIFICATION_MATCH, onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match", _navigatorKey, match);
             break;
           case NOTIFICATION_PAYMENT:
-            showNotificationDialog(onChangePageSubject, 0, 'Pago mensual',
-                "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium");
+            showNotificationDialog(NOTIFICATION_PAYMENT, onChangePageSubject, 0, 'Pago mensual', "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium", _navigatorKey, match);
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -163,11 +125,15 @@ class NotificationManager {
             break;
           case NOTIFICATION_REWARD:
           case NOTIFICATION_WINNER:
-            onChangePageSubject.add(2);
+          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
+          Future.delayed(
+              Duration(milliseconds: 200), () => onChangePageSubject.add(2));
             break;
           case NOTIFICATION_INTEREST:
           case NOTIFICATION_MATCH:
-            onChangePageSubject.add(1);
+          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
+          Future.delayed(
+              Duration(milliseconds: 200), () => onChangePageSubject.add(1));
             break;
           case NOTIFICATION_PAYMENT:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -181,12 +147,10 @@ class NotificationManager {
   }
 }
 
-void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, String title, String description) {
+void showNotificationDialog(String notificationType, PublishSubject<int> onPageChange, int pos, String title, String description, GlobalKey<NavigatorState> _navigatorKey, UserMatch match){
   showSimpleNotification(
       GestureDetector(
-          onTap: () {
-            onChangePageSubject.add(pos);
-          },
+          onTap: () =>  notificationAction(notificationType, onPageChange, pos, _navigatorKey, match),
           child: Column(
             children: <Widget>[
               SizedBox(height: 10),
@@ -216,4 +180,19 @@ void showNotificationDialog(PublishSubject<int> onChangePageSubject, int pos, St
             ],
           )),
       background: Colors.white);
+}
+
+void notificationAction(String notificationType, PublishSubject<int> onChangePage, int pos, GlobalKey<NavigatorState> _navigatorKey, UserMatch match){
+  switch(notificationType){
+    case NOTIFICATION_CHAT:
+      _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
+      break;
+    case NOTIFICATION_PAYMENT:
+    case NOTIFICATION_REWARD:
+    case NOTIFICATION_WINNER:
+    case NOTIFICATION_MATCH:
+    case NOTIFICATION_INTEREST:
+      onChangePage.add(pos);
+      break;
+  }
 }

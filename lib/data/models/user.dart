@@ -47,6 +47,10 @@ class User {
   int minAgePreferred, maxAgePreferred;
   double minIncomePreferred, maxIncomePreferred;
   bool isIncomeImportant;
+  @JsonSerializable(nullable: true)
+  DateTime planStartDate;
+  @JsonSerializable(nullable: true)
+  DateTime planEndDate;
 
   // form questions
   @JsonSerializable(nullable: true)
@@ -87,6 +91,8 @@ class User {
       this.minIncomePreferred,
       this.maxIncomePreferred,
       this.isIncomeImportant,
+      this.planStartDate,
+      this.planEndDate,
       this.habits,
       this.deepening,
       this.preferences});
