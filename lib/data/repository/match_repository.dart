@@ -29,19 +29,14 @@ class MatchRepository {
     return _dao.getAll();
   }
 
-  Future<List<UserMatch>> getMatches(
-      {bool interacted = false, bool premium = false}) async {
-    final result = await this
-        ._api
-        .getMatches(interacted: interacted, premium: premium)
-        .catchError((error) => getLocalMatches());
+  Future<List<UserMatch>> getMatches({bool interacted = false, bool premium = false}) async {
+    final result = await this._api.getMatches(interacted: interacted, premium: premium).catchError((error) => getLocalMatches());
     await _dao.removeAll();
     await _dao.insertAll(result.data);
     return result.data;
   }
 
-  Future<RecomendationDto> getRecommendations(
-      {List<Recomendation> looked}) async {
+  Future<RecomendationDto> getRecommendations({List<Recomendation> looked}) async {
     RecomendationDto recomendation;
     if (looked != null) {
       recomendation = await _nextRecomendations(looked);
@@ -69,15 +64,13 @@ class MatchRepository {
     } else {
       final triesResult = await this._api.maxTries();
       final tries = await this._session.recomendationTry(triesResult.data);
-      recomendation =
-          RecomendationDto(max: triesResult.data, recomendations: listReco);
+      recomendation = RecomendationDto(max: triesResult.data, recomendations: listReco);
       recomendation.tries = tries;
     }
     return recomendation;
   }
 
-  Future<RecomendationDto> _nextRecomendations(
-      List<Recomendation> looked) async {
+  Future<RecomendationDto> _nextRecomendations(List<Recomendation> looked) async {
     await this._api.updateLooked(looked.map((x) => x.id).toList());
 
     final page = await this._session.recomendationPage();
@@ -86,10 +79,12 @@ class MatchRepository {
 
     _session.nextRecomendationPage();
 
-    this._session.useRecomendationTry();
+    if (result.data.recomendations != null && result.data.recomendations.isNotEmpty) {
+      _session.useRecomendationTry();
+    }
+
     final tries = await this._session.recomendationTry(result.data.max);
     recomendation.tries = tries;
-
 
     return recomendation;
   }
