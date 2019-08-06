@@ -4,9 +4,11 @@
  */
 
 import 'dart:convert';
+
 import 'package:meshi/data/db/app_database.dart';
-import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/models/reward_info.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/data/models/user_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
@@ -65,6 +67,21 @@ class SessionManager {
       this.user = user;
       preferences.then((prefs) => prefs.setString("user", jsonEncode(user.toJson())));
     }
+  }
+
+  void saveUserPreferences(UserPreferences userPreferences) {
+    if (userPreferences != null) {
+      preferences.then((prefs) => prefs.setString("user_preferences", jsonEncode(userPreferences.toJson())));
+    }
+  }
+
+  Future<UserPreferences> getUserPreferences() async {
+    final prefs = await preferences;
+    if (prefs.getString("user_preferences") == null) {
+      return UserPreferences(chat: true, match: true, reward: true);
+    }
+    return UserPreferences.fromJson(jsonDecode(prefs.getString("user_preferences"))) ??
+        UserPreferences(chat: true, match: true, reward: true);
   }
 
   void setToken(String value) async {
@@ -192,9 +209,8 @@ class SessionManager {
     await prefs.setInt("currentChatId", value);
   }
 
-  Future<int> recomendationTry(int maxTry) async{
-
-    if(maxTry == 0){
+  Future<int> recomendationTry(int maxTry) async {
+    if (maxTry == 0) {
       return 0;
     }
 
@@ -203,9 +219,9 @@ class SessionManager {
     final now = DateTime.now().toLocal();
     final valid = prefs.getString("dateTry");
 
-    if(valid == "${now.year}-${now.month}-${now.day}"){
+    if (valid == "${now.year}-${now.month}-${now.day}") {
       return prefs.getInt("recomendationTry");
-    }else{
+    } else {
       await prefs.setInt("recomendationTry", 0);
       await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
       return 0;
@@ -218,20 +234,19 @@ class SessionManager {
     await prefs.setInt("recomendationTry", tryValue + 1);
   }
 
-  Future<int> recomendationPage() async{
-
+  Future<int> recomendationPage() async {
     final prefs = await preferences;
 
     final now = DateTime.now().toLocal();
     final valid = prefs.getString("dateTry");
 
-    if(valid == "${now.year}-${now.month}-${now.day}"){
+    if (valid == "${now.year}-${now.month}-${now.day}") {
       final page = prefs.getInt("recomendationPage");
-      if(page == null){
+      if (page == null) {
         await prefs.setInt("recomendationPage", 0);
       }
       return page ?? 0;
-    }else{
+    } else {
       await prefs.setInt("recomendationPage", 0);
       await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
       return 0;
@@ -242,21 +257,10 @@ class SessionManager {
     final prefs = await preferences;
     final page = prefs.getInt("recomendationPage");
 
-    if(page == null){
+    if (page == null) {
       final now = DateTime.now().toLocal();
       await prefs.setString("dateTry", "${now.year}-${now.month}-${now.day}");
     }
-    await prefs.setInt("recomendationPage", (page ?? 0 ) + 1);
-  }
-
-
-  Future<bool> getNotificationEnable(String notificationType) async {
-    final prefs = await preferences;
-    return prefs.getBool(notificationType) ?? true;
-  }
-
-  void setNotificationEnable(String notificationType, bool value) async {
-    final prefs = await preferences;
-    await prefs.setBool(notificationType, value);
+    await prefs.setInt("recomendationPage", (page ?? 0) + 1);
   }
 }

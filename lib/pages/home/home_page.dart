@@ -7,8 +7,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
-import 'package:meshi/bloc/home_bloc.dart';
-import 'package:meshi/managers/location_manager.dart';
+import 'package:meshi/managers/notification_manager.dart';
+import 'package:meshi/pages/home/home_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_main_page.dart';
 import 'package:meshi/pages/home/profile/profile_page.dart';
@@ -20,7 +20,6 @@ import 'package:meshi/pages/recommendations/recommendations_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
 import 'package:meshi/utils/localiztions.dart';
-import 'package:meshi/managers/notification_manager.dart';
 import 'package:meshi/utils/view_utils/diamond_border.dart';
 
 class HomeBlocProvider extends InheritedWidget {

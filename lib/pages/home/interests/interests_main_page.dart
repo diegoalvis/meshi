@@ -5,9 +5,8 @@
 
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/interests_bloc.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
+import 'package:meshi/pages/home/interests/interests_bloc.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 

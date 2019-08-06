@@ -53,13 +53,19 @@ class BaseApi {
     return Options(headers: {HttpHeaders.authorizationHeader: token});
   }
 
-  //process responses
+
+  /* process responses */
   Future<BaseResponse<T>> processResponse<T>(Response response, ComputeCallback<Map<String, dynamic>, T> callback) async {
     if ((response.statusCode >= 200 && response.statusCode < 300) || response.statusCode == 304) {
       final body = response.data;
       bool success = body["success"] as bool;
       int error = body["error"] as int;
       String type = body["type"] as String;
+
+      if(session?.user?.type != null) {
+        session.user?.type = type;
+        session.saveUser(session.user);
+      }
 
       T data;
       if (body["data"] != null) {
@@ -82,6 +88,12 @@ class BaseApi {
       int error = body["error"] as int;
       T data = body["data"] as T;
       String type = body["type"] as String;
+
+      if(session?.user?.type != null) {
+        session.user?.type = type;
+        session.saveUser(session.user);
+      }
+
       return BaseResponse(success: success, data: data, error: error, type:type);
     } else if (response.statusCode == 403) {
       throw AuthorizationException(cause: "Unauthorized");
@@ -99,6 +111,11 @@ class BaseApi {
       bool success = body["success"] as bool;
       int error = body["error"] as int;
       String type = body["type"] as String;
+
+      if(session?.user?.type != null) {
+        session.user?.type = type;
+        session.saveUser(session.user);
+      }
 
       T data;
       if (body["data"] != null) {

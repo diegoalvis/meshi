@@ -6,17 +6,18 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/base_bloc.dart';
-import 'package:meshi/bloc/register_bloc.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/register/advance/form_section.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_1.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_2.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_3.dart';
+import 'package:meshi/pages/register/register_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
+
 
 class BasicRegisterPage extends StatelessWidget with InjectorWidgetMixin {
   final doWhenFinish;

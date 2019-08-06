@@ -66,7 +66,7 @@ class UserApi extends BaseApi {
   }
 
   Future<BaseResponse<int>> updatePreferences(UserPreferences preferences) async{
-    return put("/users/preferences")
+    return put("/users/preferences", body: preferences.toJson())
         .then((response) => processBasicResponse<int>(response));
   }
 }

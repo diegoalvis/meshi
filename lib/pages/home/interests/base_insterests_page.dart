@@ -5,10 +5,10 @@
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meshi/bloc/interests_bloc.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:meshi/pages/interests_profile_page.dart';
+import 'package:meshi/pages/home/interests/interests_bloc.dart';
+import 'package:meshi/pages/interes_profile_page/interests_profile_page.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/interests_image_item.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';

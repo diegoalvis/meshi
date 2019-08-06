@@ -4,9 +4,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/pages/register/advance/form_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
+
 import '../advanced_register_page.dart';
 import '../form_section.dart';
 
