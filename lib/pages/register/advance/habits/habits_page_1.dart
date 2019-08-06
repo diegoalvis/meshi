@@ -23,7 +23,7 @@ class HabitsFormPageOne extends StatelessWidget with FormSection {
     final bloc = FormBlocProvider.of(context).bloc;
     return StreamBuilder<Habits>(
         stream: bloc.habitsStream,
-        initialData: bloc.session.user.habits,
+        initialData: bloc.session.user.habits ?? Habits(),
         builder: (BuildContext context, AsyncSnapshot<Habits> snapshot) {
           final habits = snapshot.data;
           infoComplete = habits?.smoke != null && habits?.drink != null && habits?.sport != null;

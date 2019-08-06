@@ -75,9 +75,9 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                                 max: FormBloc.MAX_INCOME,
                                 labels: RangeLabels(
                                   (snapshot.data?.minIncomePreferred?.toString() ??
-                                      (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME)),
+                                      (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME).toString()),
                                   (snapshot.data?.maxIncomePreferred?.toString() ??
-                                      (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME)),
+                                      (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME).toString()),
                                 ),
                                 values: RangeValues(
                                   (snapshot.data?.minIncomePreferred ?? (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME))

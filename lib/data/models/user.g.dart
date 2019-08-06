@@ -47,7 +47,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
           : Deepening.fromJson(json['deepening'] as Map<String, dynamic>),
       preferences: json['preferences'] == null
           ? null
-          : UserPreferences.fromJson(json['preferences'] as Map<String, dynamic>));
+          : UserPreferences.fromJson(
+              json['preferences'] as Map<String, dynamic>));
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
