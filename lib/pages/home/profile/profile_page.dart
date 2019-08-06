@@ -73,9 +73,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                                     (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
-                      buildPremiumSection(context, snapshot?.data),
-                      buildProfileDetails(context, snapshot?.data),
-                      buildCompleteProfileBanner(context),
+                            buildPremiumSection(context, snapshot?.data),
+                            buildProfileDetails(context, snapshot?.data),
+                            buildCompleteProfileBanner(context),
                           ],
                         ),
                       ),
@@ -105,6 +105,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
   }
 
   Widget buildPremiumSection(BuildContext context, User user) {
+    final subscriptionTime = user?.planStartDate?.difference(user?.planEndDate);
+    final subscriptionDaysLeft = subscriptionTime?.inDays;
+
     final isPremium = user?.type == TYPE_PREMIUM;
     return isPremium
         ? Column(
@@ -128,11 +131,13 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                 ],
               ),
               SizedBox(height: 8.0),
-              Text(
-                'Te quedan 20 días de suscripción Premium',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 10),
-              ),
+              subscriptionDaysLeft != null
+                  ? Text(
+                      'Te quedan $subscriptionDaysLeft días de suscripción Premium',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 10),
+                    )
+                  : SizedBox(),
             ],
           )
         : SizedBox();

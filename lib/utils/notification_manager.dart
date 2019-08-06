@@ -139,11 +139,15 @@ class NotificationManager {
             break;
           case NOTIFICATION_REWARD:
           case NOTIFICATION_WINNER:
-            onChangePageSubject.add(2);
+          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
+          Future.delayed(
+              Duration(milliseconds: 200), () => onChangePageSubject.add(2));
             break;
           case NOTIFICATION_INTEREST:
           case NOTIFICATION_MATCH:
-            onChangePageSubject.add(1);
+          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
+          Future.delayed(
+              Duration(milliseconds: 200), () => onChangePageSubject.add(1));
             break;
           case NOTIFICATION_PAYMENT:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
