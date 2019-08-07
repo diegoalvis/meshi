@@ -167,7 +167,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
       return "Hombre";
     }
     if (snapshot.data?.gender.toString() == Gender.female.name) {
-      return "Mujes";
+      return "Mujer";
     }
     return "";
   }
