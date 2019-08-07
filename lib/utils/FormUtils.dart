@@ -4,8 +4,8 @@
  */
 
 const Map<String, List<int>> FormSections = {
-  "BASIC": [1, 4],
-  "HABITS": [5, 6],
+  "BASICO": [1, 4],
+  "HÁBITOS": [5, 6],
   "OTROS": [7, 16],
 };
 
