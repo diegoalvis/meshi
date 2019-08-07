@@ -6,9 +6,7 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/register/advance/form_section.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_1.dart';
@@ -18,7 +16,6 @@ import 'package:meshi/pages/register/register_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-
 class BasicRegisterPage extends StatelessWidget with InjectorWidgetMixin {
   final doWhenFinish;
 
@@ -26,7 +23,7 @@ class BasicRegisterPage extends StatelessWidget with InjectorWidgetMixin {
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = RegisterBloc(injector.get<UserRepository>(), injector.get<SessionManager>(), doWhenFinish);
+    final bloc = RegisterBloc(injector.get(), injector.get(), injector.get(), doWhenFinish);
     return RegisterContainer(bloc: bloc);
   }
 }
@@ -63,10 +60,8 @@ class _RegisterPageState extends State<RegisterContainer> {
 
   _RegisterPageState(this._bloc);
 
-
   @override
   void didUpdateWidget(RegisterContainer oldWidget) {
-
     super.didUpdateWidget(oldWidget);
   }
 
@@ -137,10 +132,10 @@ class _RegisterPageState extends State<RegisterContainer> {
             alignment: Alignment.center,
             child: FlatButton(
               onPressed: () => setState(() {
-                    currentPageIndex--;
-                    if (currentPageIndex < 1) currentPageIndex = 1;
-                    currentPage = pages[currentPageIndex - 1];
-                  }),
+                currentPageIndex--;
+                if (currentPageIndex < 1) currentPageIndex = 1;
+                currentPage = pages[currentPageIndex - 1];
+              }),
               child: Text(
                 (currentPageIndex == 1 ? '' : strings.back).toUpperCase(),
                 textAlign: TextAlign.center,

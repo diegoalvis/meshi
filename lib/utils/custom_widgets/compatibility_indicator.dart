@@ -48,11 +48,13 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                           size: 25,
                         ),
                         SizedBox(width: 20),
-                        Expanded(child: Text("${strings.weAgree} $compatibilityPercent", style: TextStyle(fontWeight: FontWeight.bold))),
+                        Expanded(
+                            child: Text("${strings.weAgree}  ${widget.compatibility > 30 ? compatibilityPercent : '?'}",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
                         RotatedBox(quarterTurns: showMore ? 3 : 1, child: Icon(Icons.arrow_forward_ios))
                       ],
                     ),
-                    showMore && widget.similarities != null
+                    showMore && widget.similarities != null && widget.compatibility > 30
                         ? Column(
                             children: widget.similarities
                                 .map((similarity) => Container(
@@ -65,7 +67,9 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
                                                 child: Container(height: 8, width: 8, color: Theme.of(context).accentColor)),
                                           ),
                                           SizedBox(width: 8),
-                                          Expanded(child: Text("${toBeginningOfSentenceCase(strings.getUserProp(similarity.label))} ${getSimilarityValue(strings, similarity)}")),
+                                          Expanded(
+                                              child: Text(
+                                                  "${toBeginningOfSentenceCase(strings.getUserProp(similarity.label))} ${getSimilarityValue(strings, similarity)}")),
                                         ],
                                       ),
                                     ))
@@ -83,10 +87,10 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
   }
 
   String getSimilarityValue(MyLocalizations strings, Similarity similarity) {
-    if(similarity.type == TYPE_ARRAY) {
+    if (similarity.type == TYPE_ARRAY) {
       return similarity.value.split(',').map((val) => strings.getCompatibilityDisplayName(val)).join(", ");
     }
-    if(similarity.type == TYPE_INT && similarity.value == "0") {
+    if (similarity.type == TYPE_INT && similarity.value == "0") {
       return "No";
     }
     return strings.getCompatibilityDisplayName(similarity.value);

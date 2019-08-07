@@ -7,8 +7,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:meshi/data/db/dao/recomendation_dao.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,9 +21,10 @@ class RegisterBloc extends BaseBloc {
 
   Stream<User> get userStream => _userSubject.stream;
 
-  UserRepository repository;
+  final UserRepository repository;
+  final RecomendationDao _recoDao;
 
-  RegisterBloc(this.repository, session, this.doWhenFinish) : super(session: session);
+  RegisterBloc(this.repository, this._recoDao, SessionManager session, this.doWhenFinish) : super(session: session);
 
   @override
   dispose() {
@@ -120,6 +123,7 @@ class RegisterBloc extends BaseBloc {
     progressSubject.sink.add(true);
     return repository.updateUserBasicInfo(session.user).map((success) {
       if (success) {
+        this._recoDao.removeAll();
         return doWhenFinish;
       } else {
         throw Exception();
