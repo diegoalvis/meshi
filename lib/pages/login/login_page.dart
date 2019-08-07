@@ -14,7 +14,6 @@ import 'package:meshi/pages/login/login_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
@@ -125,7 +124,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                   controller: txtController,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    hintText: "150",
+                    hintText: "123",
                     hintStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3)),
                   ),
                   style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 20),

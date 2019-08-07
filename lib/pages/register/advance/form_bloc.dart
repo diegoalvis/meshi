@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:meshi/data/db/dao/recomendation_dao.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/habits.dart';
 import 'package:meshi/data/models/user.dart';
@@ -10,7 +11,6 @@ import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-
 
 class FormBloc extends BaseBloc {
   static const MIN_INCOME = 1000000.0;
@@ -25,15 +25,18 @@ class FormBloc extends BaseBloc {
   final _habitsSubject = PublishSubject<Habits>();
   final _deepeningSubject = PublishSubject<Deepening>();
 
+  final int doWhenFinish;
+
   Stream<User> get userStream => _userSubject.stream;
 
   Stream<Habits> get habitsStream => _habitsSubject.stream;
 
   Stream<Deepening> get deepeningStream => _deepeningSubject.stream;
 
-  UserRepository repository;
+  final UserRepository repository;
+  final RecomendationDao _recoDao;
 
-  FormBloc(this.repository, SessionManager session) : super(session: session) {
+  FormBloc(this.repository, this._recoDao, SessionManager session, this.doWhenFinish) : super(session: session) {
     if (session.user?.deepening?.children == null) session.user?.deepening?.children = 0;
   }
 
@@ -102,9 +105,16 @@ class FormBloc extends BaseBloc {
     _deepeningSubject.sink.add(session.user.deepening);
   }
 
-  Observable<bool> updateUserInfo() {
+  Observable<int> updateUserInfo() {
     progressSubject.sink.add(true);
-    return repository.updateUserAdvancedInfo(session.user).handleError((error) {
+    return repository.updateUserAdvancedInfo(session.user).map((success) {
+      if (success) {
+        this._recoDao.removeAll();
+        return doWhenFinish;
+      } else {
+        throw Exception();
+      }
+    }).handleError((error) {
       errorSubject.sink.add(error.toString());
     }).doOnEach((data) => progressSubject.sink.add(false));
   }
@@ -117,5 +127,4 @@ class FormBloc extends BaseBloc {
     _habitsSubject.close();
     _deepeningSubject.close();
   }
-
 }

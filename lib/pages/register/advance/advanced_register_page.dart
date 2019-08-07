@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/register/advance/form_bloc.dart';
 import 'package:meshi/pages/register/advance/specifics/specific_page_1.dart';
 import 'package:meshi/pages/register/advance/specifics/specific_page_2.dart';
@@ -24,6 +25,7 @@ import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/page_selector.dart';
 import 'package:meshi/utils/custom_widgets/section_indicator.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/widget_util.dart';
 
 import 'basic/basic_page_1.dart';
 import 'basic/basic_page_2.dart';
@@ -34,10 +36,13 @@ import 'habits/habits_page_1.dart';
 import 'habits/habits_page_2.dart';
 
 class AdvancedRegisterPage extends StatelessWidget with InjectorWidgetMixin {
+  final doWhenFinish;
+
+  const AdvancedRegisterPage({Key key, this.doWhenFinish}) : super(key: key);
+
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = FormBloc(
-        injector.get<UserRepository>(), injector.get<SessionManager>());
+    final bloc = FormBloc(injector.get(), injector.get(), injector.get(), doWhenFinish);
     return FormContainer(bloc);
   }
 }
@@ -46,12 +51,10 @@ class FormBlocProvider extends InheritedWidget {
   final FormBloc bloc;
   final Widget child;
 
-  FormBlocProvider({Key key, @required this.bloc, this.child})
-      : super(key: key, child: child);
+  FormBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
 
   static FormBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(FormBlocProvider)
-        as FormBlocProvider);
+    return (context.inheritFromWidgetOfExactType(FormBlocProvider) as FormBlocProvider);
   }
 
   @override
@@ -102,8 +105,7 @@ class _FormPageState extends State<FormContainer> {
   @override
   void initState() {
     super.initState();
-    _bloc.errorSubject.listen((message) =>
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(message))));
+    _bloc.errorSubject.listen((message) => Scaffold.of(context).showSnackBar(SnackBar(content: Text(message))));
   }
 
   @override
@@ -118,9 +120,9 @@ class _FormPageState extends State<FormContainer> {
             alignment: Alignment.center,
             child: FlatButton(
               onPressed: () => setState(() {
-                    currentPagePos--;
-                    if (currentPagePos < 1) currentPagePos = 1;
-                  }),
+                currentPagePos--;
+                if (currentPagePos < 1) currentPagePos = 1;
+              }),
               child: Text(
                 (currentPagePos == 1 ? '' : strings.back).toUpperCase(),
                 textAlign: TextAlign.center,
@@ -131,8 +133,7 @@ class _FormPageState extends State<FormContainer> {
         ),
         Expanded(
             child: Container(
-          child: Text("$currentPagePos ${strings.ofLabel} $TOTAL_PAGES",
-              textAlign: TextAlign.center),
+          child: Text("$currentPagePos ${strings.ofLabel} $TOTAL_PAGES", textAlign: TextAlign.center),
         )),
         Expanded(
           child: Container(
@@ -145,47 +146,35 @@ class _FormPageState extends State<FormContainer> {
                     ? CircularProgressIndicator()
                     : Builder(
                         builder: (contextInt) => FlatButton(
-                              onPressed: () => !(pages.elementAt(
-                                          currentPagePos - 1) as FormSection)
-                                      .isInfoComplete()
-                                  ? Scaffold.of(contextInt).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              strings.incompleteInformation)))
-                                  : setState(() {
-                                      currentPagePos++;
-                                      if (currentPagePos > TOTAL_PAGES) {
-                                        currentPagePos = TOTAL_PAGES;
-                                        _bloc.updateUserInfo().listen(
-                                            (success) {
-                                          if (success) {
-                                            Navigator.of(this.context)
-                                                .pushReplacementNamed(
-                                                    HOME_ROUTE);
-                                          } else {
-                                            _bloc.errorSubject.sink
-                                                .add(strings.tryError);
-                                          }
-                                        },
-                                            onError: (error) => _bloc
-                                                .errorSubject.sink
-                                                .add(error.toString()));
+                          onPressed: () => !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
+                              ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
+                              : setState(() {
+                                  currentPagePos++;
+                                  if (currentPagePos > TOTAL_PAGES) {
+                                    currentPagePos = TOTAL_PAGES;
+                                    _bloc.updateUserInfo().listen((doWhenFinish) {
+                                      if (doWhenFinish == BaseBloc.ACTION_POP_PAGE) {
+                                        Navigator.of(this.context).pop();
+                                      } else {
+                                        Navigator.of(this.context).pushReplacementNamed(HOME_ROUTE);
                                       }
-                                    }),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0)),
-                              color: Theme.of(context).accentColor,
-                              child: Text(
-                                (currentPagePos == TOTAL_PAGES
-                                        ? strings.finish
-                                        : strings.next)
-                                    .toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
+                                    }, onError: (error) {
+                                      onWidgetDidBuild(() {
+                                        Scaffold.of(this.context).showSnackBar(SnackBar(content: Text(strings.tryError)));
+                                      });
+                                    });
+                                  }
+                                }),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                          color: Theme.of(context).accentColor,
+                          child: Text(
+                            (currentPagePos == TOTAL_PAGES ? strings.finish : strings.next).toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
+                          ),
+                        ),
                       );
               },
             ),

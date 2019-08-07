@@ -155,7 +155,7 @@ class SessionManager {
   void clear() async {
     database.cleanDB();
     final prefs = await preferences;
-    prefs.clear();
+    await prefs.clear();
   }
 
   Future<String> get fbToken async {
