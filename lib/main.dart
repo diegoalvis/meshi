@@ -5,6 +5,7 @@
 
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
@@ -56,9 +57,10 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
           const MyLocalizationsDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
-//            const Locale('en', ''),
+//          const Locale('en', ''),
           const Locale('es', ''),
         ],
         theme: buildTheme(),

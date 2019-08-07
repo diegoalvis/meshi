@@ -63,6 +63,13 @@ class _RegisterPageState extends State<RegisterContainer> {
 
   _RegisterPageState(this._bloc);
 
+
+  @override
+  void didUpdateWidget(RegisterContainer oldWidget) {
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   void initState() {
     super.initState();

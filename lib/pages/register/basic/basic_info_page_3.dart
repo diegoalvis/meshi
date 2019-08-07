@@ -10,15 +10,31 @@ import 'package:meshi/pages/register/basic/basic_register_page.dart';
 
 import 'package:meshi/utils/localiztions.dart';
 
-class BasicInfoPageThree extends StatelessWidget with FormSection {
+class BasicInfoPageThree extends StatefulWidget with FormSection {
   bool infoComplete;
+
+  @override
+  bool isInfoComplete() => infoComplete;
+
+  @override
+  _BasicInfoPageThreeState createState() => _BasicInfoPageThreeState();
+}
+
+class _BasicInfoPageThreeState extends State<BasicInfoPageThree> {
+
   final _focusDescription = FocusNode();
   final _focusOcuppation = FocusNode();
   final _focusFreeTime = FocusNode();
   final _focusInterests = FocusNode();
 
   @override
-  bool isInfoComplete() => infoComplete;
+  void didUpdateWidget(BasicInfoPageThree oldWidget) {
+    _focusDescription.unfocus();
+    _focusOcuppation.unfocus();
+    _focusFreeTime.unfocus();
+    _focusInterests.unfocus();
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +62,7 @@ class BasicInfoPageThree extends StatelessWidget with FormSection {
           interestsController.text = snapshot.data?.interests ?? "";
           interestsController.addListener(() => bloc.session.user.interests = interestsController.text);
 
-          infoComplete = descriptionController.text.trim().length > 0 &&
+          widget.infoComplete = descriptionController.text.trim().length > 0 &&
               occupationController.text.trim().length > 0 &&
               freeTimeController.text.trim().length > 0 &&
               interestsController.text.trim().length > 0;
