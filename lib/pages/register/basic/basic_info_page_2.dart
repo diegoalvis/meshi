@@ -148,7 +148,7 @@ class BasicInfoPageTwo extends StatelessWidget with FormSection {
   }
 
   String setLikeGenderLabel(AsyncSnapshot<User> snapshot) {
-    if (snapshot.data?.likeGender == null || snapshot.data?.likeGender.length == 0) {
+    if (snapshot.data?.likeGender == null || snapshot.data?.likeGender?.length == 0) {
       return "";
     }
     if (snapshot.data.likeGender.contains(Gender.male.name) && snapshot.data.likeGender.contains(Gender.female.name))

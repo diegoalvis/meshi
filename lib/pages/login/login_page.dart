@@ -13,6 +13,7 @@ import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/login/login_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/localiztions.dart';
+import 'package:meshi/utils/widget_util.dart';
 
 class LoginPage extends StatelessWidget with InjectorWidgetMixin {
   @override
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
     _bloc.progressSubject.listen((show) => setState(() => loading = show));
     _bloc.errorSubject.listen((error) {
       final strings = MyLocalizations.of(context);
-      Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text(strings.tryError)));
+      onWidgetDidBuild(() => Scaffold.of(buildContext).showSnackBar(SnackBar(content: Text(strings.tryError))));
     });
   }
 

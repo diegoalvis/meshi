@@ -27,23 +27,24 @@ class AppModule implements Module {
       ..bindLazySingleton((injector, params) => SessionManager(injector.get()))
       ..bindLazySingleton((injector, params) => NotificationManager(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => LocationManager())
-      //DAO
+      // Data base
       ..bindLazySingleton((injector, params) => AppDatabase())
-      ..bindLazySingleton((injector, params) => MessageDao(injector.get()))
-      ..bindLazySingleton((injector, params) => MatchDao(injector.get()))
-      ..bindLazySingleton((injector, params) => RecomendationDao(injector.get()))
+      // DAO
+      ..bindFactory((injector, params) => MessageDao(injector.get()))
+      ..bindFactory((injector, params) => MatchDao(injector.get()))
+      ..bindFactory((injector, params) => RecomendationDao(injector.get()))
       // API
-      ..bindLazySingleton((injector, params) => UserApi(injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => RewardApi(injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => MatchApi(injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => ChatApi(injector.get(), injector.get()))
+      ..bindFactory((injector, params) => UserApi(injector.get(), injector.get()))
+      ..bindFactory((injector, params) => RewardApi(injector.get(), injector.get()))
+      ..bindFactory((injector, params) => MatchApi(injector.get(), injector.get()))
+      ..bindFactory((injector, params) => ChatApi(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => ChatSocket())
       // REPOSITORY
-      ..bindLazySingleton(
+      ..bindFactory(
           (injector, params) => MatchRepository(injector.get(), injector.get(), injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => UserRepository(injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => RewardRepository(injector.get(), injector.get()))
-      ..bindLazySingleton((injector, params) => ChatRepository(injector.get(), injector.get(), injector.get()));
+      ..bindFactory((injector, params) => UserRepository(injector.get(), injector.get()))
+      ..bindFactory((injector, params) => RewardRepository(injector.get(), injector.get()))
+      ..bindFactory((injector, params) => ChatRepository(injector.get(), injector.get(), injector.get()));
     // Notifications
   }
 }
