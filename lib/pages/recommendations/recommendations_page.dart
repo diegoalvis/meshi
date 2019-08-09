@@ -68,7 +68,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                   users = state.data;
                   if (users.isEmpty) {
                     Future.delayed(Duration(milliseconds: 2500), () {
-                      setCompleteProfileAlert(context, _bloc.session.user);
+                      showCompleteProfileAlert(context);
                     });
                   }
                 }
@@ -100,7 +100,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
     );
   }
 
-  void setCompleteProfileAlert(BuildContext context, User user) {
+  void showCompleteProfileAlert(BuildContext context) {
     showDialog(
         context: context,
         builder: (cxt) {
@@ -310,7 +310,11 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                     children: <Widget>[
                       FlatButton(
                         onPressed: () {
-                          // _bloc.dispatch(DeleteInterestEvent(user));
+                          if (_bloc.session.user.type != User.ADVANCED_USER) {
+                            showCompleteProfileAlert(context);
+                          } else {
+                            _bloc.dispatch(DeleteInterestEvent(user));
+                          }
                         },
                         child: Row(
                           children: <Widget>[
@@ -326,7 +330,11 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          _bloc.dispatch(AddMatchEvent(user));
+                          if (_bloc.session.user.type != User.ADVANCED_USER) {
+                            showCompleteProfileAlert(context);
+                          } else {
+                            _bloc.dispatch(AddMatchEvent(user));
+                          }
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         color: Theme.of(context).accentColor,

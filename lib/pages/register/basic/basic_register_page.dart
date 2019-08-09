@@ -98,7 +98,7 @@ class _RegisterPageState extends State<RegisterContainer> {
                   alignment: Alignment.center,
                   child: pages.indexOf(currentPage) != (pages.length + 1)
                       ? Text(
-                          "Información personal",
+                          "Informaci\ón personal",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,

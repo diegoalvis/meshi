@@ -163,11 +163,26 @@ class SettingsPageState extends State<SettingsContainer> {
                           ],
                         ),
                       ),
-                      Divider(
-                        color: Theme.of(context).dividerColor,
-                      ),
+                      Divider(color: Theme.of(context).dividerColor),
                       settingItem(context, CONTACT_ROUTE, strings.contactUs),
                       settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: InkWell(
+                          onTap: () {
+                            onWidgetDidBuild(() {
+                              deactivateAccount(context);
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
+                            child: Text(strings.deactivateAccount,
+                                style:
+                                    TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                          ),
+                        ),
+                      ),
+                      Divider(color: Theme.of(context).dividerColor),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: InkWell(
@@ -184,9 +199,7 @@ class SettingsPageState extends State<SettingsContainer> {
                           ),
                         ),
                       ),
-                      Divider(
-                        color: Theme.of(context).dividerColor,
-                      )
+                      Divider(color: Theme.of(context).dividerColor),
                     ],
                   ),
                 );
@@ -194,9 +207,27 @@ class SettingsPageState extends State<SettingsContainer> {
   }
 
   void deactivateAccount(BuildContext context) async {
-    final userRepository = InjectorWidget.of(context).get<UserRepository>();
-    await userRepository.deactivateAccount();
-    clearSession(context);
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              content: Text("Está seguro que desea desactivar su cuenta?"),
+              actions: <Widget>[
+                FlatButton(
+                  child: const Text('DESACTIVAR'),
+                  onPressed: () {
+                    final userRepository = InjectorWidget.of(context).get<UserRepository>();
+                    userRepository.deactivateAccount();
+                    clearSession(context);
+                  },
+                ),
+                FlatButton(
+                  child: const Text('CANCELAR'),
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                ),
+              ],
+            ));
   }
 
   void clearSession(BuildContext context) async {
