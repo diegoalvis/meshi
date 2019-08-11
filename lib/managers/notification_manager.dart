@@ -61,31 +61,43 @@ class NotificationManager {
     _fcm.onTokenRefresh.listen((token) => _repository.updateFirebaseToken(token: token));
 
     _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print(message);
-        final match = UserMatch.fromMessage(message);
-        messageNotificationSubject.sink.add(match);
-        switch (message["data"]["typeMessage"]) {
+      onMessage: (Map<String, dynamic> msg) async {
+        Map<String, dynamic> notification = msg["notification"].cast<String, dynamic>();
+        Map<String, dynamic> data = Platform.isAndroid ?  msg["data"].cast<String, dynamic>() : msg;
+        switch (data["typeMessage"]) {
           case NOTIFICATION_CHAT:
+            final match = UserMatch.fromMessage(data);
+            messageNotificationSubject.sink.add(match);
             final idCurrentMatch = await sessionManager.currentChatId;
             if (idCurrentMatch != match?.idMatch) {
-              showNotificationDialog(NOTIFICATION_CHAT, onChangePageSubject, 2, "Tienes un nuevo mensaje de ${match?.name}", "${match?.lastMessage}", _navigatorKey, match);
+              showNotificationDialog(NOTIFICATION_CHAT, onChangePageSubject, 2, "${match?.name}",
+                  "${match?.lastMessage}", _navigatorKey,
+                  match: match);
             }
             break;
           case NOTIFICATION_REWARD:
-            showNotificationDialog(NOTIFICATION_REWARD, onChangePageSubject, 2, "Nueva cita regalo", "Participa por una cita", _navigatorKey, match);
+            showNotificationDialog(
+                NOTIFICATION_REWARD, onChangePageSubject, 2, '', '${notification["body"]}', _navigatorKey);
             break;
           case NOTIFICATION_WINNER:
-            showNotificationDialog(NOTIFICATION_WINNER, onChangePageSubject, 2, 'Ganaste una cita!', "Eres el ganador de una fabulosa cita", _navigatorKey, match);
+            showNotificationDialog(NOTIFICATION_WINNER, onChangePageSubject, 2, 'Ganaste una cita!',
+                "Eres el ganador de una fabulosa cita", _navigatorKey);
             break;
           case NOTIFICATION_INTEREST:
-            showNotificationDialog(NOTIFICATION_INTEREST, onChangePageSubject, 1, 'Le interesas a alguien nuevo', "Le interesas a ${match.name}", _navigatorKey, match);
+            final match = UserMatch.fromMessage(data);
+            showNotificationDialog(NOTIFICATION_INTEREST, onChangePageSubject, 1, 'Le interesas a alguien!',
+                "Le interesas a ${match.name}", _navigatorKey,
+                match: match);
             break;
           case NOTIFICATION_MATCH:
-            showNotificationDialog(NOTIFICATION_MATCH, onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match", _navigatorKey, match);
+            final match = UserMatch.fromMessage(data);
+            showNotificationDialog(
+                NOTIFICATION_MATCH, onChangePageSubject, 1, 'Nuevo match', "${match.name} es tu nuevo match", _navigatorKey,
+                match: match);
             break;
           case NOTIFICATION_PAYMENT:
-            showNotificationDialog(NOTIFICATION_PAYMENT, onChangePageSubject, 0, 'Pago mensual', "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium", _navigatorKey, match);
+            showNotificationDialog(NOTIFICATION_PAYMENT, onChangePageSubject, 0, 'Meshi Premium',
+                "Realiza el pago a timepo para seguir disfrutando de las funcionalidades premium", _navigatorKey);
             break;
           default:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -93,7 +105,7 @@ class NotificationManager {
         }
       },
       onResume: (Map<String, dynamic> message) async {
-        switch (message["data"]["typeMessage"]) {
+        switch (message["typeMessage"]) {
           case NOTIFICATION_CHAT:
             final match = UserMatch.fromMessage(message);
             _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
@@ -116,7 +128,7 @@ class NotificationManager {
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("on launch");
-        switch (message["data"]["typeMessage"]) {
+        switch (message["typeMessage"]) {
           case NOTIFICATION_CHAT:
             final match = UserMatch.fromMessage(message);
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -125,15 +137,13 @@ class NotificationManager {
             break;
           case NOTIFICATION_REWARD:
           case NOTIFICATION_WINNER:
-          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
-          Future.delayed(
-              Duration(milliseconds: 200), () => onChangePageSubject.add(2));
+            _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
+            Future.delayed(Duration(milliseconds: 200), () => onChangePageSubject.add(2));
             break;
           case NOTIFICATION_INTEREST:
           case NOTIFICATION_MATCH:
-          _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
-          Future.delayed(
-              Duration(milliseconds: 200), () => onChangePageSubject.add(1));
+            _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
+            Future.delayed(Duration(milliseconds: 200), () => onChangePageSubject.add(1));
             break;
           case NOTIFICATION_PAYMENT:
             _navigatorKey.currentState.pushReplacementNamed(HOME_ROUTE);
@@ -147,10 +157,12 @@ class NotificationManager {
   }
 }
 
-void showNotificationDialog(String notificationType, PublishSubject<int> onPageChange, int pos, String title, String description, GlobalKey<NavigatorState> _navigatorKey, UserMatch match){
+void showNotificationDialog(String notificationType, PublishSubject<int> onPageChange, int pos, String title,
+    String description, GlobalKey<NavigatorState> _navigatorKey,
+    {UserMatch match}) {
   showSimpleNotification(
       GestureDetector(
-          onTap: () =>  notificationAction(notificationType, onPageChange, pos, _navigatorKey, match),
+          onTap: () => notificationAction(notificationType, onPageChange, pos, _navigatorKey, match: match),
           child: Column(
             children: <Widget>[
               SizedBox(height: 10),
@@ -182,8 +194,10 @@ void showNotificationDialog(String notificationType, PublishSubject<int> onPageC
       background: Colors.white);
 }
 
-void notificationAction(String notificationType, PublishSubject<int> onChangePage, int pos, GlobalKey<NavigatorState> _navigatorKey, UserMatch match){
-  switch(notificationType){
+void notificationAction(
+    String notificationType, PublishSubject<int> onChangePage, int pos, GlobalKey<NavigatorState> _navigatorKey,
+    {UserMatch match}) {
+  switch (notificationType) {
     case NOTIFICATION_CHAT:
       _navigatorKey.currentState.pushNamed(CHAT_ROUTE, arguments: match);
       break;

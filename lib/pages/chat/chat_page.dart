@@ -20,8 +20,8 @@ class ChatPage extends StatelessWidget {
     sessionManager.setCurrentChatId(match.idMatch);
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindLazySingleton((injector, params) =>
-            ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
+        binder.bindLazySingleton(
+            (injector, params) => ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
       },
       child: ChatBody(match),
     );
@@ -60,8 +60,8 @@ class ChatBodyState extends State<ChatBody> {
       _bloc.dispatch(LoadedChatEvent());
     });
     super.initState();
-    _controller.addListener((){
-      if(_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60){
+    _controller.addListener(() {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60) {
         _bloc.dispatch(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
       }
     });
@@ -135,11 +135,13 @@ class ChatBodyState extends State<ChatBody> {
                   }
 
                   if (state is MessageState) {
-                    if(state.newPage){
+                    if (state.newPage) {
                       _data.addAll(state.messages);
-                    }else if(state.newMessage){
-                      _data.insert(0, state.messages[0]);
-                    }else{
+                    } else if (state.newMessage) {
+                      if (_data?.first?.date?.isAtSameMomentAs(state.messages?.first?.date) != true) {
+                        _data.insert(0, state.messages[0]);
+                      }
+                    } else {
                       _me = state.me;
                       _data = state.messages;
                     }
@@ -148,8 +150,7 @@ class ChatBodyState extends State<ChatBody> {
                       controller: _controller,
                       padding: new EdgeInsets.all(8.0),
                       reverse: true,
-                      itemBuilder: (_, int index) =>
-                          ChatMessage(_me, _data[index], _timeFormat, _dateFormat),
+                      itemBuilder: (_, int index) => ChatMessage(_me, _data[index], _timeFormat, _dateFormat),
                       itemCount: _data.length,
                     );
                   }
@@ -158,8 +159,7 @@ class ChatBodyState extends State<ChatBody> {
               ),
             ),
             if (_matches.state == MATCH_BLOCKED)
-              Text(
-                  "${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
+              Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
             _chatInput()
           ],
         ));
@@ -246,37 +246,26 @@ class ChatMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: 10,
-          bottom: 10,
-          left: _message.fromUser == _me ? 40 : 10,
-          right: _message.fromUser == _me ? 10 : 40),
+          top: 10, bottom: 10, left: _message.fromUser == _me ? 40 : 10, right: _message.fromUser == _me ? 10 : 40),
       child: Column(
         crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style:
-                Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style: Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: _message.fromUser == _me
-                  ? Color.fromARGB(255, 240, 240, 240)
-                  : Color.fromARGB(255, 225, 225, 225),
+              color: _message.fromUser == _me ? Color.fromARGB(255, 240, 240, 240) : Color.fromARGB(255, 225, 225, 225),
               borderRadius: _message.fromUser == _me
                   ? BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8))
+                      topLeft: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))
                   : BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8)),
+                      topRight: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
               boxShadow: [
-                BoxShadow(
-                    color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
+                BoxShadow(color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
               ],
             ),
             child: Text(

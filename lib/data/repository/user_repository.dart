@@ -32,6 +32,8 @@ class UserRepository {
       _session.saveUser(response.data.user);
       _session.setLogged(true);
       return response.success;
+    }).then((success) {
+      return activeAccount();
     }).catchError((error) {
       return Observable.error(error.toString());
     });
@@ -102,9 +104,9 @@ class UserRepository {
     return res.data;
   }
 
-  Future<int> activeAccount() async {
+  Future<bool> activeAccount() async {
     final res = await _api.changeActive(true);
-    return res.data;
+    return res.success;
   }
 
   Future<int> updateFirebaseToken({String token}) async {

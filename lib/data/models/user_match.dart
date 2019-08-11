@@ -26,8 +26,7 @@ class UserMatch {
       this.erasedDate,
       this.type});
 
-  factory UserMatch.fromMessage(Map<String, dynamic> msg) {
-    final data = msg["data"];
+  factory UserMatch.fromMessage(Map<String, dynamic> data) {
     final id = data["id"] == null ? null : int.parse(data["id"]);
     final name = data["name"] as String;
     final lastDate = data["lastDate"] == null ? null : DateTime.parse(data["lastDate"] as String);

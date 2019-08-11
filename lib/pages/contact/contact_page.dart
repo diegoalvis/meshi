@@ -27,7 +27,7 @@ class ContactPage extends StatelessWidget {
                   style: TextStyle(color: themeColor.secondary, fontSize: 45, fontFamily: 'BettyLavea'),
                 ),
                 Text(
-                  'Medellin - Colombia',
+                  'Medellín - Colombia',
                   style: TextStyle(
                     color: themeColor.onSurface,
                   ),
@@ -45,7 +45,7 @@ class ContactPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '301 234 56 78',
+                        '+57 318 795 3517',
                         style: TextStyle(
                           color: themeColor.onSurface,
                         ),
@@ -64,7 +64,7 @@ class ContactPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'info@mesh-e.com',
+                      'info@meshi.com',
                       style: TextStyle(
                         color: themeColor.onSurface,
                       ),
