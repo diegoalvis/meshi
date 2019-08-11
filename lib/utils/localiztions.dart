@@ -136,6 +136,8 @@ class MyLocalizations {
 
   String get signOut => _localizedSingleValues[locale.languageCode]['sign_out'];
 
+  String get deactivateAccount => _localizedSingleValues[locale.languageCode]['deactivate_account'];
+
   String get termsAndConditions => _localizedSingleValues[locale.languageCode]['terms_and_conditions'];
 
   String get contactUs => _localizedSingleValues[locale.languageCode]['contact_us'];
@@ -314,6 +316,7 @@ class MyLocalizations {
       'recommendations': 'Recommendations',
       'menu': 'Menu',
       'sign_out': 'Sign out',
+      'deactivate_account': 'Deactivate account',
       'terms_and_conditions': 'Terms and conditions',
       'contact_us': 'Contact us',
       'awards': 'Awards',
@@ -426,6 +429,7 @@ class MyLocalizations {
       'recommendations': 'Recomendaciones',
       'menu': 'Menú',
       'sign_out': 'Cerrar sesión',
+      'deactivate_account': 'Desactivar cuenta',
       'terms_and_conditions': 'Términos y condiciones',
       'contact_us': 'Contáctanos',
       'awards': 'Premiación',

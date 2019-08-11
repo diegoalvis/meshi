@@ -69,39 +69,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     super.initState();
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
-
-    Future.delayed(Duration(seconds: 2), () {
-      if (_bloc.session.user.state != User.ADVANCED_USER) {
-        showDialog(
-            context: context,
-            builder: (cxt) {
-              final strings = MyLocalizations.of(context);
-              return SimpleDialog(
-                contentPadding: const EdgeInsets.all(16.0),
-                children: [
-                  Text(
-                    strings.completeYourProfile,
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 16.0),
-                  ListTile(
-                    title: FlatButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdvancedRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE)));
-                        },
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                        color: Theme.of(context).accentColor,
-                        child: Text(strings.completeProfileButton)),
-                  ),
-                ],
-              );
-            });
-      }
-    });
+    setCompleteProfileAlert();
   }
 
   @override
@@ -214,6 +182,41 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
             context: context,
             builder: (BuildContext context) {
               return PremiumPage(false);
+            });
+      }
+    });
+  }
+
+  void setCompleteProfileAlert() {
+    Future.delayed(Duration(seconds: 1), () {
+      if (_bloc.session.user.state != User.ADVANCED_USER) {
+        showDialog(
+            context: context,
+            builder: (cxt) {
+              final strings = MyLocalizations.of(context);
+              return SimpleDialog(
+                contentPadding: const EdgeInsets.all(16.0),
+                children: [
+                  Text(
+                    strings.completeYourProfile,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 16.0),
+                  ListTile(
+                    title: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdvancedRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE)));
+                        },
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                        color: Theme.of(context).accentColor,
+                        child: Text(strings.completeProfileButton)),
+                  ),
+                ],
+              );
             });
       }
     });

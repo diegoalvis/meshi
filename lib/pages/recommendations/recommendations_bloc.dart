@@ -7,16 +7,18 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/managers/location_manager.dart';
+import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 
 class RecommendationsBloc extends Bloc<RecommendationsEvents, BaseState> {
   final MatchRepository _repository;
-  LocationManager locationManager;
+  final LocationManager locationManager;
+  final SessionManager session;
   List<Recomendation> users;
   int max = 0;
 
-  RecommendationsBloc(this._repository, this.locationManager);
+  RecommendationsBloc(this._repository, this.locationManager, this.session);
 
   @override
   get initialState => InitialState();
