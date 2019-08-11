@@ -198,13 +198,6 @@ class ChatBodyState extends State<ChatBody> {
                 ),
               ),
               Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.deferToChild,
-                  onTap: (){
-                    setState(() {
-                      showEmojis = false;
-                    });
-                  },
                       child: TextFormField(
                         controller: _chatController,
                         enabled: _matches.state != MATCH_BLOCKED,
@@ -216,7 +209,6 @@ class ChatBodyState extends State<ChatBody> {
                           focusedBorder: InputBorder.none,
                           border: InputBorder.none,
                         ),
-                      ),
                 ),
               ),
               InkWell(
