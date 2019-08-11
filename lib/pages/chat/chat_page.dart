@@ -6,6 +6,7 @@ import 'package:meshi/data/models/message.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/custom_widgets/emoji_picker.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 import 'chat_bloc.dart';
@@ -41,13 +42,14 @@ class ChatBodyState extends State<ChatBody> {
   final TextEditingController _chatController = new TextEditingController();
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
+  bool showEmojis;
 
   final UserMatch _matches;
 
   List<Message> _data = [];
   int _me;
 
-  ChatBodyState(this._matches);
+  ChatBodyState(this._matches, {this.showEmojis});
 
   ChatBloc _bloc;
 
@@ -64,6 +66,9 @@ class ChatBodyState extends State<ChatBody> {
       if (_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60) {
         _bloc.dispatch(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
       }
+    });
+    setState(() {
+      showEmojis = false;
     });
   }
 
@@ -138,9 +143,7 @@ class ChatBodyState extends State<ChatBody> {
                     if (state.newPage) {
                       _data.addAll(state.messages);
                     } else if (state.newMessage) {
-                      if (_data?.first?.date?.isAtSameMomentAs(state.messages?.first?.date) != true) {
-                        _data.insert(0, state.messages[0]);
-                      }
+                      _data.insert(0, state.messages[0]);
                     } else {
                       _me = state.me;
                       _data = state.messages;
@@ -160,7 +163,18 @@ class ChatBodyState extends State<ChatBody> {
             ),
             if (_matches.state == MATCH_BLOCKED)
               Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
-            _chatInput()
+            _chatInput(),
+            showEmojis
+                ? EmojiPicker(
+                    rows: 3,
+                    columns: 7,
+                    numRecommended: 10,
+                    onEmojiSelected: (emoji, category) {
+                      _chatController.text = _chatController.text + emoji.emoji;
+                      _chatController.selection = TextSelection.collapsed(offset: _chatController.text.length);
+                    },
+                  )
+                : SizedBox()
           ],
         ));
   }
@@ -173,7 +187,9 @@ class ChatBodyState extends State<ChatBody> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  print("");
+                  setState(() {
+                    showEmojis = !showEmojis;
+                  });
                 },
                 child: Container(
                   width: 55,
@@ -182,27 +198,19 @@ class ChatBodyState extends State<ChatBody> {
                 ),
               ),
               Expanded(
-                child: TextFormField(
-                  controller: _chatController,
-                  enabled: _matches.state != MATCH_BLOCKED,
-                  textCapitalization: TextCapitalization.sentences,
-                  textInputAction: TextInputAction.send,
-                  onFieldSubmitted: (v) => _handleSubmit(),
-                  decoration: InputDecoration(
-                    hintText: "Escribe un mensaje ...",
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                  ),
+                      child: TextFormField(
+                        controller: _chatController,
+                        enabled: _matches.state != MATCH_BLOCKED,
+                        textCapitalization: TextCapitalization.sentences,
+                        textInputAction: TextInputAction.send,
+                        onFieldSubmitted: (v) => _handleSubmit(),
+                        decoration: InputDecoration(
+                          hintText: "Escribe un mensaje ...",
+                          focusedBorder: InputBorder.none,
+                          border: InputBorder.none,
+                        ),
                 ),
               ),
-//              InkWell(
-//                onTap: () {},
-//                child: Container(
-//                  width: 55,
-//                  height: 55,
-//                  child: Icon(Icons.image),
-//                ),
-//              ),
               InkWell(
                 onTap: () {
                   if (_matches.state != MATCH_BLOCKED) _handleSubmit();
