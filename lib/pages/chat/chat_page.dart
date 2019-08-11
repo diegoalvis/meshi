@@ -6,6 +6,7 @@ import 'package:meshi/data/models/message.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/custom_widgets/emoji_picker.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 import 'chat_bloc.dart';
@@ -20,8 +21,8 @@ class ChatPage extends StatelessWidget {
     sessionManager.setCurrentChatId(match.idMatch);
     return InjectorWidget.bind(
       bindFunc: (binder) {
-        binder.bindLazySingleton((injector, params) =>
-            ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
+        binder.bindLazySingleton(
+            (injector, params) => ChatBloc(match, inject.get(), inject.get(), inject.get(), inject.get()));
       },
       child: ChatBody(match),
     );
@@ -41,13 +42,14 @@ class ChatBodyState extends State<ChatBody> {
   final TextEditingController _chatController = new TextEditingController();
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
+  bool showEmojis;
 
   final UserMatch _matches;
 
   List<Message> _data = [];
   int _me;
 
-  ChatBodyState(this._matches);
+  ChatBodyState(this._matches, {this.showEmojis});
 
   ChatBloc _bloc;
 
@@ -60,10 +62,13 @@ class ChatBodyState extends State<ChatBody> {
       _bloc.dispatch(LoadedChatEvent());
     });
     super.initState();
-    _controller.addListener((){
-      if(_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60){
+    _controller.addListener(() {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60) {
         _bloc.dispatch(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
       }
+    });
+    setState(() {
+      showEmojis = false;
     });
   }
 
@@ -135,11 +140,11 @@ class ChatBodyState extends State<ChatBody> {
                   }
 
                   if (state is MessageState) {
-                    if(state.newPage){
+                    if (state.newPage) {
                       _data.addAll(state.messages);
-                    }else if(state.newMessage){
+                    } else if (state.newMessage) {
                       _data.insert(0, state.messages[0]);
-                    }else{
+                    } else {
                       _me = state.me;
                       _data = state.messages;
                     }
@@ -148,8 +153,7 @@ class ChatBodyState extends State<ChatBody> {
                       controller: _controller,
                       padding: new EdgeInsets.all(8.0),
                       reverse: true,
-                      itemBuilder: (_, int index) =>
-                          ChatMessage(_me, _data[index], _timeFormat, _dateFormat),
+                      itemBuilder: (_, int index) => ChatMessage(_me, _data[index], _timeFormat, _dateFormat),
                       itemCount: _data.length,
                     );
                   }
@@ -158,9 +162,19 @@ class ChatBodyState extends State<ChatBody> {
               ),
             ),
             if (_matches.state == MATCH_BLOCKED)
-              Text(
-                  "${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
-            _chatInput()
+              Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
+            _chatInput(),
+            showEmojis
+                ? EmojiPicker(
+                    rows: 3,
+                    columns: 7,
+                    numRecommended: 10,
+                    onEmojiSelected: (emoji, category) {
+                      _chatController.text = _chatController.text + emoji.emoji;
+                      _chatController.selection = TextSelection.collapsed(offset: _chatController.text.length);
+                    },
+                  )
+                : SizedBox()
           ],
         ));
   }
@@ -173,7 +187,9 @@ class ChatBodyState extends State<ChatBody> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  print("");
+                  setState(() {
+                    showEmojis = !showEmojis;
+                  });
                 },
                 child: Container(
                   width: 55,
@@ -182,27 +198,27 @@ class ChatBodyState extends State<ChatBody> {
                 ),
               ),
               Expanded(
-                child: TextFormField(
-                  controller: _chatController,
-                  enabled: _matches.state != MATCH_BLOCKED,
-                  textCapitalization: TextCapitalization.sentences,
-                  textInputAction: TextInputAction.send,
-                  onFieldSubmitted: (v) => _handleSubmit(),
-                  decoration: InputDecoration(
-                    hintText: "Escribe un mensaje ...",
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                  ),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.deferToChild,
+                  onTap: (){
+                    setState(() {
+                      showEmojis = false;
+                    });
+                  },
+                      child: TextFormField(
+                        controller: _chatController,
+                        enabled: _matches.state != MATCH_BLOCKED,
+                        textCapitalization: TextCapitalization.sentences,
+                        textInputAction: TextInputAction.send,
+                        onFieldSubmitted: (v) => _handleSubmit(),
+                        decoration: InputDecoration(
+                          hintText: "Escribe un mensaje ...",
+                          focusedBorder: InputBorder.none,
+                          border: InputBorder.none,
+                        ),
+                      ),
                 ),
               ),
-//              InkWell(
-//                onTap: () {},
-//                child: Container(
-//                  width: 55,
-//                  height: 55,
-//                  child: Icon(Icons.image),
-//                ),
-//              ),
               InkWell(
                 onTap: () {
                   if (_matches.state != MATCH_BLOCKED) _handleSubmit();
@@ -246,37 +262,26 @@ class ChatMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: 10,
-          bottom: 10,
-          left: _message.fromUser == _me ? 40 : 10,
-          right: _message.fromUser == _me ? 10 : 40),
+          top: 10, bottom: 10, left: _message.fromUser == _me ? 40 : 10, right: _message.fromUser == _me ? 10 : 40),
       child: Column(
         crossAxisAlignment: _message.fromUser == _me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             _prepareDate(_message.date),
-            style:
-                Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
+            style: Theme.of(context).textTheme.caption.copyWith(color: Color.fromARGB(255, 205, 205, 205)),
           ),
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: _message.fromUser == _me
-                  ? Color.fromARGB(255, 240, 240, 240)
-                  : Color.fromARGB(255, 225, 225, 225),
+              color: _message.fromUser == _me ? Color.fromARGB(255, 240, 240, 240) : Color.fromARGB(255, 225, 225, 225),
               borderRadius: _message.fromUser == _me
                   ? BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8))
+                      topLeft: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8))
                   : BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8)),
+                      topRight: Radius.circular(8), bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
               boxShadow: [
-                BoxShadow(
-                    color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
+                BoxShadow(color: Color.fromARGB(255, 180, 180, 180), blurRadius: 1, offset: Offset(1, 1)),
               ],
             ),
             child: Text(

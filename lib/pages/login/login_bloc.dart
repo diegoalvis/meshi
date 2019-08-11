@@ -39,7 +39,7 @@ class LoginBloc extends BaseBloc {
 
     var facebookLogin = FacebookLogin();
     var facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'user_birthday']);
-
+    print(facebookLoginResult);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         errorSubject.sink.add("Error trying to log in in facebook");
