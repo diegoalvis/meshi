@@ -143,7 +143,9 @@ class ChatBodyState extends State<ChatBody> {
                     if (state.newPage) {
                       _data.addAll(state.messages);
                     } else if (state.newMessage) {
-                      _data.insert(0, state.messages[0]);
+                      if (_data?.first?.date?.isAtSameMomentAs(state.messages?.first?.date) != true) {
+                        _data.insert(0, state.messages[0]);
+                      }
                     } else {
                       _me = state.me;
                       _data = state.messages;
@@ -163,7 +165,6 @@ class ChatBodyState extends State<ChatBody> {
             ),
             if (_matches.state == MATCH_BLOCKED)
               Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
-            _chatInput(),
             showEmojis
                 ? EmojiPicker(
                     rows: 3,
@@ -174,7 +175,8 @@ class ChatBodyState extends State<ChatBody> {
                       _chatController.selection = TextSelection.collapsed(offset: _chatController.text.length);
                     },
                   )
-                : SizedBox()
+                : SizedBox(),
+            _chatInput(),
           ],
         ));
   }
@@ -198,17 +200,17 @@ class ChatBodyState extends State<ChatBody> {
                 ),
               ),
               Expanded(
-                      child: TextFormField(
-                        controller: _chatController,
-                        enabled: _matches.state != MATCH_BLOCKED,
-                        textCapitalization: TextCapitalization.sentences,
-                        textInputAction: TextInputAction.send,
-                        onFieldSubmitted: (v) => _handleSubmit(),
-                        decoration: InputDecoration(
-                          hintText: "Escribe un mensaje ...",
-                          focusedBorder: InputBorder.none,
-                          border: InputBorder.none,
-                        ),
+                child: TextFormField(
+                  controller: _chatController,
+                  enabled: _matches.state != MATCH_BLOCKED,
+                  textCapitalization: TextCapitalization.sentences,
+                  textInputAction: TextInputAction.send,
+                  onFieldSubmitted: (v) => _handleSubmit(),
+                  decoration: InputDecoration(
+                    hintText: "Escribe un mensaje ...",
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
               InkWell(
