@@ -39,6 +39,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
       minIncomePreferred: (json['minIncomePreferred'] as num)?.toDouble(),
       maxIncomePreferred: (json['maxIncomePreferred'] as num)?.toDouble(),
       isIncomeImportant: json['isIncomeImportant'] as bool,
+      planStartDate: json['planStartDate'] == null
+          ? null
+          : DateTime.parse(json['planStartDate'] as String),
+      planEndDate: json['planEndDate'] == null
+          ? null
+          : DateTime.parse(json['planEndDate'] as String),
       habits: json['habits'] == null
           ? null
           : Habits.fromJson(json['habits'] as Map<String, dynamic>),
@@ -47,7 +53,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
           : Deepening.fromJson(json['deepening'] as Map<String, dynamic>),
       preferences: json['preferences'] == null
           ? null
-          : UserPreferences.fromJson(json['preferences'] as Map<String, dynamic>));
+          : UserPreferences.fromJson(
+              json['preferences'] as Map<String, dynamic>));
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{

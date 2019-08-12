@@ -80,7 +80,7 @@ class RewardContainer extends StatelessWidget {
                             height: 30,
                             padding: EdgeInsets.only(right: 8),
                             alignment: Alignment.centerRight,
-                            child: Text("Cita de la semana"),
+                            child: Text(strings.weekDate),
                           ),
                           Expanded(
                             child: rewardInfo?.winner == true
@@ -156,6 +156,7 @@ class RewardContainer extends StatelessWidget {
   }
 
   Future buildShowMoreInfoDialog(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return showDialog(
         context: context,
         builder: (context) {
@@ -165,8 +166,7 @@ class RewardContainer extends StatelessWidget {
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                      "Puedes seleccionar a cuantos mutuos quieras, siempre y cuando hayas tenido interacción en chat con ellos.\n\nTranquilo, ellos (as) no se enterarán si los escogiste o no.Participarán por la cita exclusivamente quienes se escogieron mutuamente.\n\n¡La probabilidad de ganar es del 10%!\n\nLos ganadores serán responsables de movilizarse hasta el lugar de la cita.\n\nLa cita deberá redimirse en el tiempo establecido, de otra forma, se perderá la oportunidad de redimirla."),
+                  child: Text(strings.selectBestPictures),
                 ),
               ),
             ),

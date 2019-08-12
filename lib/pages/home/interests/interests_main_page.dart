@@ -5,9 +5,8 @@
 
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/interests_bloc.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/home/home_section.dart';
+import 'package:meshi/pages/home/interests/interests_bloc.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -37,22 +36,9 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
 }
 
 class InterestsMainPageContainer extends StatelessWidget {
-  final List<Widget> interestSPages = [
-    MutualPage(),
-    BaseInterestsPage(
-        title: "Personas que me interesan",
-        eventType: InterestsEventType.getMyLikes,
-        refreshEventType: InterestsEventType.refreshMyLikes,
-        isMyLike: 1),
-    BaseInterestsPage(
-        title: "Personas a quienes les intereso",
-        eventType: InterestsEventType.getLikesMe,
-        refreshEventType: InterestsEventType.refreshLikesMe,
-        isMyLike: 2),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    context = context;
     final strings = MyLocalizations.of(context);
     return DefaultTabController(
       length: 3,
@@ -73,7 +59,21 @@ class InterestsMainPageContainer extends StatelessWidget {
               ),
             ),
           ),
-          body: TabBarView(children: interestSPages)),
+          body: TabBarView(
+            children: <Widget>[
+              MutualPage(),
+              BaseInterestsPage(
+                  title: strings.myInterestTab,
+                  eventType: InterestsEventType.getMyLikes,
+                  refreshEventType: InterestsEventType.refreshMyLikes,
+                  isMyLike: 1),
+              BaseInterestsPage(
+                  title: strings.likesMeTab,
+                  eventType: InterestsEventType.getLikesMe,
+                  refreshEventType: InterestsEventType.refreshLikesMe,
+                  isMyLike: 2),
+            ],
+          )),
     );
   }
 }

@@ -32,6 +32,8 @@ class UserRepository {
       _session.saveUser(response.data.user);
       _session.setLogged(true);
       return response.success;
+    }).then((success) {
+      return activeAccount();
     }).catchError((error) {
       return Observable.error(error.toString());
     });
@@ -39,8 +41,7 @@ class UserRepository {
 
   /// Updates the user basic info
   Observable<bool> updateUserBasicInfo(User user) {
-    return Observable.fromFuture(_api.updateUserBasicInfo(user))
-        .map((response) {
+    return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
       if (response?.success == true) {
         if (user.state != User.ADVANCED_USER) user.state = User.BASIC_USER;
         _session.saveUser(user);
@@ -53,8 +54,7 @@ class UserRepository {
 
   /// Updates the user advanced info
   Observable<bool> updateUserAdvancedInfo(User user) {
-    return Observable.fromFuture(_api.updateUserAdvancedInfo(user))
-        .map((response) {
+    return Observable.fromFuture(_api.updateUserAdvancedInfo(user)).map((response) {
       if (response?.success == true) {
         user.state = User.ADVANCED_USER;
         _session.saveUser(user);
@@ -104,18 +104,17 @@ class UserRepository {
     return res.data;
   }
 
-  Future<int> activeAccount() async {
+  Future<bool> activeAccount() async {
     final res = await _api.changeActive(true);
-    return res.data;
+    return res.success;
   }
 
   Future<int> updateFirebaseToken({String token}) async {
-
     String tk = token;
 
-    if(token != null){
+    if (token != null) {
       _session.setFirebaseToken(token);
-    }else{
+    } else {
       tk = await _session.firebaseToken;
     }
 
@@ -128,12 +127,20 @@ class UserRepository {
     return rspn.data;
   }
 
-  Future<UserPreferences> fetchUserPreferences() async{
+  Future<UserPreferences> fetchUserPreferences() async {
     final res = await _api.fetchPreferences();
+    if (res.data != null) {
+      _session.saveUserPreferences(res.data);
+    }
     return res.data;
   }
 
-  Future<int> updateUserPreferences(UserPreferences preferences) async{
+  Future<UserPreferences> fetchLocalUserPreferences() async {
+    return _session.getUserPreferences();
+  }
+
+  Future<int> updateUserPreferences(UserPreferences preferences) async {
+    _session.saveUserPreferences(preferences);
     final res = await _api.updatePreferences(preferences);
     return res.data;
   }

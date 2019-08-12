@@ -6,14 +6,14 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/base_bloc.dart';
-import 'package:meshi/bloc/profile_bloc.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/main.dart';
 import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
+import 'package:meshi/pages/home/profile/profile_bloc.dart';
+import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
@@ -73,9 +73,9 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                                     (image) => bloc.addImage(image, 3), (image) => bloc.deleteImage(image, 0)),
                               ],
                             ),
-                      buildPremiumSection(context, snapshot?.data),
-                      buildProfileDetails(context, snapshot?.data),
-                      buildCompleteProfileBanner(context),
+                            buildPremiumSection(context, snapshot?.data),
+                            buildProfileDetails(context, snapshot?.data),
+                            buildCompleteProfileBanner(context),
                           ],
                         ),
                       ),
@@ -85,7 +85,6 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
   }
 
   Widget buildCompleteProfileBanner(BuildContext context) {
-    String route = FORM_ROUTE;
     final strings = MyLocalizations.of(context);
     return Column(
       children: [
@@ -96,7 +95,10 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
         ),
         SizedBox(height: 16.0),
         FlatButton(
-            onPressed: () => Navigator.of(context).pushNamed(route),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdvancedRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE)));
+            },
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             color: Theme.of(context).accentColor,
             child: Text(strings.completeProfileButton)),
@@ -105,6 +107,10 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
   }
 
   Widget buildPremiumSection(BuildContext context, User user) {
+    final subscriptionTime = user?.planStartDate?.difference(user?.planEndDate);
+    final subscriptionDaysLeft = subscriptionTime?.inDays;
+    final strings = MyLocalizations.of(context);
+
     final isPremium = user?.type == TYPE_PREMIUM;
     return isPremium
         ? Column(
@@ -120,7 +126,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                   ),
                   SizedBox(width: 16.0),
                   Text(
-                    'Eres usuario premium',
+                    strings.youArePremium,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Theme.of(context).primaryColorLight),
                   ),
@@ -128,6 +134,13 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                 ],
               ),
               SizedBox(height: 8.0),
+              subscriptionDaysLeft != null
+                  ? Text(
+                      'Te quedan $subscriptionDaysLeft días de suscripción Premium',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 10),
+                    )
+                  : SizedBox(),
             ],
           )
         : SizedBox();
@@ -141,8 +154,8 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
         Align(
           alignment: Alignment.centerRight,
           child: FlatButton(
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE))),
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => BasicRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE))),
             child: Text(strings.editButton, style: TextStyle(color: Theme.of(context).accentColor)),
           ),
         ),
@@ -155,7 +168,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           ),
         ),
         SizedBox(height: 8.0),
-        Text(user?.description ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
+        Text(user?.description ?? "",
             textAlign: TextAlign.left),
         SizedBox(height: 30.0),
 //        Align(
@@ -167,7 +180,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
 //          ),
 //        ),
         SizedBox(height: 8.0),
-        Text(user?.freeTime ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
+        Text(user?.freeTime ?? "",
             textAlign: TextAlign.left),
         SizedBox(height: 16.0),
       ],

@@ -25,7 +25,7 @@ class SpecificsFormPageFour extends StatelessWidget with FormSection {
     final bloc = FormBlocProvider.of(context).bloc;
     return StreamBuilder<Deepening>(
       stream: bloc.deepeningStream,
-      initialData: bloc.session.user.deepening,
+      initialData: bloc.session.user.deepening ?? Deepening(),
       builder: (BuildContext context, AsyncSnapshot<Deepening> snapshot) {
         final deepening = snapshot.data;
         infoComplete = deepening.isImportantAppearance != null && deepening.isImportantClothing != null && (deepening.isImportantClothing != true || deepening.likeClothing?.isNotEmpty == true);

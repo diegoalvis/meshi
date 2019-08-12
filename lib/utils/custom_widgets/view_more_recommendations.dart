@@ -4,6 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:meshi/utils/localiztions.dart';
 
 class ViewMoreRecommendations extends Container {
   final Function onShowMore;
@@ -12,6 +13,7 @@ class ViewMoreRecommendations extends Container {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     final fontColor = Theme.of(context).colorScheme.onPrimary;
     return GestureDetector(
       onTap: onShowMore,
@@ -23,7 +25,7 @@ class ViewMoreRecommendations extends Container {
             children: <Widget>[
               Spacer(),
               Icon(Icons.navigate_next, size: 48, color: fontColor),
-              Text("Ver mas", style: TextStyle(color: fontColor)),
+              Text(strings.viewMore, style: TextStyle(color: fontColor)),
               Spacer(),
             ],
           )),

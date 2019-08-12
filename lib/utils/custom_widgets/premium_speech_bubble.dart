@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/utils/custom_widgets/premium_page.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import '../app_icons.dart';
 
@@ -20,6 +21,7 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return widget.isRecommendation
         ? GestureDetector(
             onTap: () {
@@ -52,7 +54,7 @@ class PremiumSpeechBubbleState extends State<PremiumSpeechBubble> {
                             });
                       },
                       child: SpeechBubble(
-                        child: Text("Usuario premium", style: TextStyle(color: Theme.of(context).accentColor)),
+                        child: Text(strings.premiumUser, style: TextStyle(color: Theme.of(context).accentColor)),
                         color: Colors.white,
                         nipLocation: NipLocation.RIGHT,
                       ),

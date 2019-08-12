@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meshi/utils/const_utils.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,11 +24,11 @@ class ContactPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'meshi',
+                  strings.titleAppMin,
                   style: TextStyle(color: themeColor.secondary, fontSize: 45, fontFamily: 'BettyLavea'),
                 ),
                 Text(
-                  'Medellin - Colombia',
+                  strings.meshiCityLocation,
                   style: TextStyle(
                     color: themeColor.onSurface,
                   ),
@@ -45,7 +46,7 @@ class ContactPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '301 234 56 78',
+                        MESHI_PHONE,
                         style: TextStyle(
                           color: themeColor.onSurface,
                         ),
@@ -64,7 +65,7 @@ class ContactPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'info@mesh-e.com',
+                      MESHI_EMAIL,
                       style: TextStyle(
                         color: themeColor.onSurface,
                       ),
@@ -78,7 +79,7 @@ class ContactPage extends StatelessWidget {
             child: GestureDetector(
               onTap: _openMap,
               child: Image.network(
-                  'https://d500.epimg.net/cincodias/imagenes/2015/10/29/lifestyle/1446136907_063470_1446137018_noticia_normal.jpg',
+                  MAP_IMAGE,
                   fit: BoxFit.cover),
             ),
           )
@@ -96,3 +97,5 @@ _openMap() async {
     throw 'Could not launch $url';
   }
 }
+
+const String MAP_IMAGE = 'https://d500.epimg.net/cincodias/imagenes/2015/10/29/lifestyle/1446136907_063470_1446137018_noticia_normal.jpg';

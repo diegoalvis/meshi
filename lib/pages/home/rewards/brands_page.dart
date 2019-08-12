@@ -12,6 +12,7 @@ import 'package:meshi/data/models/brand.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/pages/home/rewards/rewards_bloc.dart';
 import 'package:meshi/utils/base_state.dart';
+import 'package:meshi/utils/const_utils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
@@ -104,13 +105,13 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
               ListTile(title: Text(title)),
               ListTile(
                   leading: Icon(Icons.phone),
-                  title: Text("31234567890"),
+                  title: Text(MESHI_PHONE),
                   onTap: () {
                     Navigator.pop(context);
                   }),
               ListTile(
                   leading: Icon(Icons.email),
-                  title: Text("info@meshi.com"),
+                  title: Text(MESHI_EMAIL),
                   onTap: () {
                     Navigator.pop(context);
                   }),

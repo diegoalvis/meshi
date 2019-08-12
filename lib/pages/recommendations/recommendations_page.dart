@@ -11,9 +11,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
-import 'package:meshi/managers/location_manager.dart';
+import 'package:meshi/data/models/user.dart';
+import 'package:meshi/managers/session_manager.dart';
+import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
+import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
@@ -23,20 +26,12 @@ import 'package:meshi/utils/custom_widgets/view_more_recommendations.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-List<T> map<T>(List list, Function handler) {
-  List<T> result = [];
-  for (var i = 0; i < list.length; i++) {
-    result.add(handler(i, list[i]));
-  }
-  return result;
-}
-
 class RecommendationsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     return InjectorWidget.bind(
         bindFunc: (binder) {
-          binder.bindLazySingleton((inject, params) => RecommendationsBloc(injector.get(), injector.get()));
+          binder.bindLazySingleton((inject, params) => RecommendationsBloc(injector.get(), injector.get(), injector.get()));
         },
         child: RecommendationsList());
   }
@@ -71,6 +66,11 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                 }
                 if (state is SuccessState<List<Recomendation>>) {
                   users = state.data;
+                  if (users.isEmpty) {
+                    Future.delayed(Duration(milliseconds: 2500), () {
+                      showCompleteProfileAlert(context);
+                    });
+                  }
                 }
                 if (state is TriesCompleteState) {
                   users = state.looked;
@@ -98,6 +98,37 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
         ],
       ),
     );
+  }
+
+  void showCompleteProfileAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (cxt) {
+          final strings = MyLocalizations.of(context);
+          return SimpleDialog(
+            contentPadding: const EdgeInsets.all(16.0),
+            children: [
+              Text(
+                strings.completeYourProfile,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 16.0),
+              ListTile(
+                title: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdvancedRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE)));
+                    },
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                    color: Theme.of(context).accentColor,
+                    child: Text(strings.completeProfileButton)),
+              ),
+            ],
+          );
+        });
   }
 
   Widget recommendationsCarousel(BuildContext context, List<Recomendation> users, int itemLoadingIndex, bool isMaxComplete) {
@@ -279,7 +310,11 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                     children: <Widget>[
                       FlatButton(
                         onPressed: () {
-                          // _bloc.dispatch(DeleteInterestEvent(user));
+                          if (_bloc.session.user.type != User.ADVANCED_USER) {
+                            showCompleteProfileAlert(context);
+                          } else {
+                            _bloc.dispatch(DeleteInterestEvent(user));
+                          }
                         },
                         child: Row(
                           children: <Widget>[
@@ -295,7 +330,11 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          _bloc.dispatch(AddMatchEvent(user));
+                          if (_bloc.session.user.type != User.ADVANCED_USER) {
+                            showCompleteProfileAlert(context);
+                          } else {
+                            _bloc.dispatch(AddMatchEvent(user));
+                          }
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         color: Theme.of(context).accentColor,

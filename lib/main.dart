@@ -5,6 +5,7 @@
 
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:meshi/di/app_module.dart';
@@ -14,8 +15,8 @@ import 'package:meshi/pages/home/home_page.dart';
 import 'package:meshi/pages/home/rewards/brands_page.dart';
 import 'package:meshi/pages/home/rewards/select_partner_page.dart';
 import 'package:meshi/pages/home/settings/settings_page.dart';
-import 'package:meshi/pages/interests_profile_page.dart';
-import 'package:meshi/pages/login_page.dart';
+import 'package:meshi/pages/interes_profile_page/interests_profile_page.dart';
+import 'package:meshi/pages/login/login_page.dart';
 import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/pages/terms_and_condition_page.dart';
@@ -56,9 +57,10 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
           const MyLocalizationsDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
-//            const Locale('en', ''),
+//          const Locale('en', ''),
           const Locale('es', ''),
         ],
         theme: buildTheme(),

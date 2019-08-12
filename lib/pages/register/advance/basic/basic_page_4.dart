@@ -4,9 +4,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/form_bloc.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/data/models/user.dart';
+import 'package:meshi/pages/register/advance/form_bloc.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/enum_utils.dart';
@@ -75,9 +75,9 @@ class BasicFormPageFour extends StatelessWidget with FormSection {
                                 max: FormBloc.MAX_INCOME,
                                 labels: RangeLabels(
                                   (snapshot.data?.minIncomePreferred?.toString() ??
-                                      (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME)),
+                                      (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME).toString()),
                                   (snapshot.data?.maxIncomePreferred?.toString() ??
-                                      (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME)),
+                                      (FormBloc.MAX_INCOME - FormBloc.STEP_INCOME).toString()),
                                 ),
                                 values: RangeValues(
                                   (snapshot.data?.minIncomePreferred ?? (FormBloc.MIN_INCOME + FormBloc.STEP_INCOME))

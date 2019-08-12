@@ -58,7 +58,7 @@ class ListPremiumState extends State<ListPremium> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.75,
-                            child: Text("Obtendras mas recomendados el dia de mañana", style: TextStyle(fontSize: 13))),
+                            child: Text(strings.moreRecommendations, style: TextStyle(fontSize: 13))),
                       ),
                     ],
                   ),
@@ -77,7 +77,7 @@ class ListPremiumState extends State<ListPremium> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 color: Theme.of(context).accentColor,
                 child: Text(
-                  "CONTINUAR",
+                  strings.continueButton,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:meshi/bloc/home_bloc.dart';
+import 'package:meshi/pages/home/home_bloc.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meta/meta.dart';
 
