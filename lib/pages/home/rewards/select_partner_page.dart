@@ -25,12 +25,11 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
     UserMatch matchSelected;
     bool showSmallProgress;
     final dialog = AlertDialog(
-      title: Text("Gracias por participar!"),
-      content: Text(
-          "Te avisaremos si ganaste la cita una vez se realice el sorteo."),
+      title: Text(strings.thanksForParticipate),
+      content: Text(strings.letYouKnowIfWin),
       actions: <Widget>[
         FlatButton(
-          child: Text("OK"),
+          child: Text(strings.okButton),
           onPressed: () {
             Navigator.of(context).pop();
           },

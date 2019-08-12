@@ -1,4 +1,5 @@
 import 'package:dependencies_flutter/dependencies_flutter.dart';
+import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +7,7 @@ import 'package:meshi/data/models/message.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
-import 'package:meshi/utils/custom_widgets/emoji_picker.dart';
+import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
 import 'chat_bloc.dart';
@@ -31,7 +32,6 @@ class ChatPage extends StatelessWidget {
 
 class ChatBody extends StatefulWidget {
   final UserMatch _matches;
-
   ChatBody(this._matches) : super(key: ValueKey("chat-body"));
 
   @override
@@ -94,6 +94,7 @@ class ChatBodyState extends State<ChatBody> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     if (_bloc == null) {
       _bloc = InjectorWidget.of(context).get();
     }
@@ -112,11 +113,11 @@ class ChatBodyState extends State<ChatBody> {
                 itemBuilder: (context) => [
                       PopupMenuItem(
                         value: 1,
-                        child: Text('Vaciar chat'),
+                        child: Text(strings.clearChat),
                       ),
                       PopupMenuItem(
                         value: 2,
-                        child: Text('Eliminar match'),
+                        child: Text(strings.deleteMatch),
                       )
                     ]),
           ],
@@ -164,7 +165,7 @@ class ChatBodyState extends State<ChatBody> {
               ),
             ),
             if (_matches.state == MATCH_BLOCKED)
-              Text("${_matches.name} te ha retirado de sus contactos, no puedes chatear con esta persona"),
+              Text("${_matches.name} ${strings.youHaveBeenBlocked}"),
             showEmojis
                 ? EmojiPicker(
                     rows: 3,
@@ -176,63 +177,66 @@ class ChatBodyState extends State<ChatBody> {
                     },
                   )
                 : SizedBox(),
-            _chatInput(),
+            _chatInput(context),
           ],
         ));
   }
 
-  Widget _chatInput() => Material(
-        child: Container(
-          height: 65,
-          decoration: BoxDecoration(color: Color.fromARGB(255, 221, 221, 221)),
-          child: Row(
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    showEmojis = !showEmojis;
-                  });
-                },
+  Widget _chatInput(BuildContext context) {
+    final strings = MyLocalizations.of(context);
+    return Material(
+      child: Container(
+        height: 65,
+        decoration: BoxDecoration(color: Color.fromARGB(255, 221, 221, 221)),
+        child: Row(
+          children: <Widget>[
+            InkWell(
+              onTap: () {
+                setState(() {
+                  showEmojis = !showEmojis;
+                });
+              },
+              child: Container(
+                width: 55,
+                height: 55,
+                child: Icon(Icons.tag_faces),
+              ),
+            ),
+            Expanded(
+              child: TextFormField(
+                controller: _chatController,
+                enabled: _matches.state != MATCH_BLOCKED,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.send,
+                onFieldSubmitted: (v) => _handleSubmit(),
+                decoration: InputDecoration(
+                  hintText: strings.typeMessage,
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                if (_matches.state != MATCH_BLOCKED) _handleSubmit();
+              },
+              child: Container(
+                color: Theme.of(context).primaryColor,
                 child: Container(
                   width: 55,
                   height: 55,
-                  child: Icon(Icons.tag_faces),
-                ),
-              ),
-              Expanded(
-                child: TextFormField(
-                  controller: _chatController,
-                  enabled: _matches.state != MATCH_BLOCKED,
-                  textCapitalization: TextCapitalization.sentences,
-                  textInputAction: TextInputAction.send,
-                  onFieldSubmitted: (v) => _handleSubmit(),
-                  decoration: InputDecoration(
-                    hintText: "Escribe un mensaje ...",
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
+                  child: Icon(
+                    Icons.send,
+                    color: Colors.white,
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  if (_matches.state != MATCH_BLOCKED) _handleSubmit();
-                },
-                child: Container(
-                  color: Theme.of(context).primaryColor,
-                  child: Container(
-                    width: 55,
-                    height: 55,
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 class ChatMessage extends StatelessWidget {

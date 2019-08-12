@@ -44,7 +44,7 @@ class MutualPage extends StatelessWidget {
               ListTile(title: Text(name, style: TextStyle(fontWeight: FontWeight.bold))),
               Divider(),
               FlatButton(
-                child: Text("Vaciar chat", style: TextStyle(color: Theme.of(context).primaryColor)),
+                child: Text(strings.clearChat, style: TextStyle(color: Theme.of(context).primaryColor)),
                 onPressed: () {
                   _bloc.dispatch(InterestsEvent(InterestsEventType.clearChat, data: matchId));
                   Navigator.of(context).pop();
@@ -52,7 +52,7 @@ class MutualPage extends StatelessWidget {
               ),
               Divider(),
               FlatButton(
-                  child: Text("Eliminar match", style: TextStyle(color: Theme.of(context).primaryColor)),
+                  child: Text(strings.deleteMatch, style: TextStyle(color: Theme.of(context).primaryColor)),
                   onPressed: () {
                     Navigator.of(context).pop();
                     showDialog(
@@ -60,20 +60,20 @@ class MutualPage extends StatelessWidget {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text(
-                              "Eliminar match",
+                              strings.deleteMatch,
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            content: Text("¿Estas seguro que deseas eliminar de mutuos a $name?"),
+                            content: Text("${strings.confirmDelete} $name?"),
                             actions: <Widget>[
                               FlatButton(
                                 child:
-                                    new Text("Cancelar", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+                                    new Text(strings.cancelButtonMin, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                               FlatButton(
-                                child: new Text("Confirmar"),
+                                child: new Text(strings.confirmButton),
                                 onPressed: () {
                                   _bloc.dispatch(
                                       InterestsEvent(InterestsEventType.blockMatch, data: blockMatch = [matchId, index]));

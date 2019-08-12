@@ -122,7 +122,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
                                 color: Color(0xFF303030),
                                 padding: EdgeInsets.all(8),
                                 child: Center(
-                                    child: Text("Sin conexion a internet",
+                                    child: Text(strings.noInternetConnection,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,

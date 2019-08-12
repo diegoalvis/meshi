@@ -80,7 +80,7 @@ class RewardContainer extends StatelessWidget {
                             height: 30,
                             padding: EdgeInsets.only(right: 8),
                             alignment: Alignment.centerRight,
-                            child: Text("Cita de la semana"),
+                            child: Text(strings.weekDate),
                           ),
                           Expanded(
                             child: rewardInfo?.winner == true
@@ -156,6 +156,7 @@ class RewardContainer extends StatelessWidget {
   }
 
   Future buildShowMoreInfoDialog(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return showDialog(
         context: context,
         builder: (context) {
@@ -165,8 +166,7 @@ class RewardContainer extends StatelessWidget {
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                      "Selecciona tus mejores fotos."),
+                  child: Text(strings.selectBestPictures),
                 ),
               ),
             ),

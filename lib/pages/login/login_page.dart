@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                             textColor: Colors.white,
                             color: Color(0xFF4267B2),
                             onPressed: () => _bloc.initFacebookLogin(),
-                            child: Text("Facebook"),
+                            child: Text(strings.facebookButton),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),

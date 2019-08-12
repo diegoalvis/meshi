@@ -30,6 +30,8 @@ class MyLocalizations {
 
   String get titleApp => 'Meshi';
 
+  String get titleAppMin => 'meshi';
+
   String get pictureSelectCaption => _localizedSingleValues[locale.languageCode]['picture_select_caption'];
 
   String get noData => _localizedSingleValues[locale.languageCode]['no_data'];
@@ -138,6 +140,10 @@ class MyLocalizations {
 
   String get deactivateAccount => _localizedSingleValues[locale.languageCode]['deactivate_account'];
 
+  String get confirmDeactivateAccount => _localizedSingleValues[locale.languageCode]['confirm_deactivate_account'];
+
+  String get deactivateText => _localizedSingleValues[locale.languageCode]['deactivate_text'];
+
   String get termsAndConditions => _localizedSingleValues[locale.languageCode]['terms_and_conditions'];
 
   String get contactUs => _localizedSingleValues[locale.languageCode]['contact_us'];
@@ -244,6 +250,64 @@ class MyLocalizations {
 
   String get educationalLevelCaption => _localizedSingleValues[locale.languageCode]['educational_level_caption'];
 
+  String get clearChat => _localizedSingleValues[locale.languageCode]['clear_chat'];
+
+  String get deleteMatch => _localizedSingleValues[locale.languageCode]['delete_match'];
+
+  String get youHaveBeenBlocked => _localizedSingleValues[locale.languageCode]['you_have_been_blocked'];
+
+  String get typeMessage => _localizedSingleValues[locale.languageCode]['type_message'];
+
+  String get meshiCityLocation => _localizedSingleValues[locale.languageCode]['meshi_location'];
+
+  String get likesMeTab => _localizedSingleValues[locale.languageCode]['likes_me_tab'];
+
+  String get myInterestTab => _localizedSingleValues[locale.languageCode]['my_interest_tab'];
+
+  String get confirmDelete => _localizedSingleValues[locale.languageCode]['confirm_delete'];
+
+  String get cancelButtonMin => _localizedSingleValues[locale.languageCode]['cancel_button_min'];
+
+  String get cancelButtonMay => _localizedSingleValues[locale.languageCode]['cancel_button_may'];
+
+  String get confirmButton => _localizedSingleValues[locale.languageCode]['confirm_button'];
+
+  String get youArePremium => _localizedSingleValues[locale.languageCode]['you_are_premium'];
+
+  String get weekDate => _localizedSingleValues[locale.languageCode]['week_date'];
+
+  String get thanksForParticipate => _localizedSingleValues[locale.languageCode]['thanks_for_participate'];
+
+  String get selectBestPictures => _localizedSingleValues[locale.languageCode]['select_best_pictures'];
+
+  String get letYouKnowIfWin => _localizedSingleValues[locale.languageCode]['let_you_know_if_win'];
+
+  String get okButton => _localizedSingleValues[locale.languageCode]['ok_button'];
+
+  String get noInternetConnection => _localizedSingleValues[locale.languageCode]['no_internet_connection'];
+
+  String get interestProfile => _localizedSingleValues[locale.languageCode]['interest_profile'];
+
+  String get facebookButton => _localizedSingleValues[locale.languageCode]['facebook_text'];
+
+  String get moreRecommendations => _localizedSingleValues[locale.languageCode]['more_recommendations'];
+
+  String get continueButton => _localizedSingleValues[locale.languageCode]['continue_button'];
+
+  String get bePremium => _localizedSingleValues[locale.languageCode]['be_premium'];
+
+  String get chatWithoutLimits => _localizedSingleValues[locale.languageCode]['chat_without_limits'];
+
+  String get participateGiftDate => _localizedSingleValues[locale.languageCode]['participate_gift_date'];
+
+  String get seeCompatible => _localizedSingleValues[locale.languageCode]['see_compatible'];
+
+  String get findInterestInYou => _localizedSingleValues[locale.languageCode]['find_interest_in_you'];
+
+  String get premiumUser => _localizedSingleValues[locale.languageCode]['premium_user'];
+
+  String get viewMore => _localizedSingleValues[locale.languageCode]['view_more'];
+
   String getEnumDisplayName(String enumValue) => _localizedEnumValues[locale.languageCode][enumValue] ?? enumValue;
 
   String getCompatibilityDisplayName(String enumValue) => _localizedCompatibilityValues[locale.languageCode][enumValue] ?? enumValue;
@@ -317,6 +381,7 @@ class MyLocalizations {
       'menu': 'Menu',
       'sign_out': 'Sign out',
       'deactivate_account': 'Deactivate account',
+      'confirm_deactivate_account': 'Are you sure you want to deactivate your account?',
       'terms_and_conditions': 'Terms and conditions',
       'contact_us': 'Contact us',
       'awards': 'Awards',
@@ -368,6 +433,36 @@ class MyLocalizations {
       'my_free_time': 'In my free times',
       'my_occupation': "I'm dedicated to",
       'my_interests_des': "I'm interested in",
+      "clear_chat": "Clear chat",
+      "delete_match": "Delete match",
+      "you_have_been_blocked": "has blocked you from your contacts",
+      "type_message": "Type a message",
+      "meshi_location": "Medellin - Colombia",
+      "likes_me_tab": "People interest in me",
+      "my_interest_tab": "People that interest me",
+      "confirm_delete": "Are you sure you want to delete",
+      "cancel_button_min": "Cancel",
+      "cancel_button_may": "CANCEL",
+      "confirm_button": "Confirm",
+      "you_are_premium": "You are premium",
+      "week_date": "Date of the week",
+      "select_best_pictures": "Select your best pictures",
+      "thanks_for_participate": "Thanks to participate!",
+      "let_you_know_if_win": "We will let you know if you won the date when the draw is held",
+      "ok_button": "OK",
+      "deactivate_text": "DEACTIVATE",
+      "no_internet_connection": "No internet connection",
+      "interest_profile": "Interest profile",
+      "facebook_text": "Facebook",
+      "more_recommendations": "You'll get more recommendations tomorrow",
+      "continue_button": "CONTINUE",
+      "be_premium": "Be Premium",
+      "chat_without_limits": "Chat without limits",
+      "participate_gift_date": "Participate for a gift date",
+      "see_compatible": "See what you are compatible with each person",
+      "find_interest_in_you": "Find out who you are interested in",
+      "premium_user": "Premium user",
+      "view_more": "View more",
     },
 
 /* Spanish text resources */
@@ -430,6 +525,7 @@ class MyLocalizations {
       'menu': 'Menú',
       'sign_out': 'Cerrar sesión',
       'deactivate_account': 'Desactivar cuenta',
+      'confirm_deactivate_account': 'Está seguro que desea desactivar su cuenta?',
       'terms_and_conditions': 'Términos y condiciones',
       'contact_us': 'Contáctanos',
       'awards': 'Premiación',
@@ -482,6 +578,36 @@ class MyLocalizations {
       'my_free_time': 'En mis tiempos libres',
       'my_occupation': "Me dedico a",
       'my_interests_des': "Me interesa",
+      "clear_chat": "Vaciar chat",
+      "delete_match": "Eliminar match",
+      "you_have_been_blocked": "te ha bloqueado de sus contactos",
+      "type_message": "Escribe un mensaje",
+      "meshi_location": "Medellín - Colombia",
+      "likes_me_tab": "Personas a quienes les intereso",
+      "my_interest_tab": "Personas que me interesan",
+      "confirm_delete": "Estas seguro que deseas eliminar a",
+      "cancel_button_min": "Cancelar",
+      "cancel_button_may": "CANCELAR",
+      "confirm_button": "Confirmar",
+      "you_are_premium": "Eres usuario premuim",
+      "week_date": "Cita de la semana",
+      "select_best_pictures": "Selecciona tus mejores fotos",
+      "thanks_for_participate": "¡Gracias por participar!",
+      "let_you_know_if_win": "Te avisaremos si ganaste la cita una vez se realice el sorteo.",
+      "ok_button": "OK",
+      "deactivate_text": "DESACTIVAR",
+      "no_internet_connection": "Sin conexión a internet",
+      "interest_profile": "Perfil de intereses",
+      "facebook_text": "Facebook",
+      "more_recommendations": "Obtendrás más recomendados el día de mañana",
+      "continue_button": "CONTINUAR",
+      "be_premium": "Sé Premium",
+      "chat_without_limits": "Chatea sin límites",
+      "participate_gift_date": "Participa por citas regalo",
+      "see_compatible": "Mira en qué eres compatible con cada persona",
+      "find_interest_in_you": "Entérate a quién le interesas",
+      "premium_user": "Usuario premium",
+      "view_more": "Ver más",
     },
   };
 

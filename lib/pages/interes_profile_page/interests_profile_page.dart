@@ -22,7 +22,7 @@ class InterestsProfilePage extends StatelessWidget with HomeSection {
   @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    return Text("Perfil de intereses");
+    return Text(strings.interestProfile);
   }
 
   @override

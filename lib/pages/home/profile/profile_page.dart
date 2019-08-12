@@ -109,6 +109,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
   Widget buildPremiumSection(BuildContext context, User user) {
     final subscriptionTime = user?.planStartDate?.difference(user?.planEndDate);
     final subscriptionDaysLeft = subscriptionTime?.inDays;
+    final strings = MyLocalizations.of(context);
 
     final isPremium = user?.type == TYPE_PREMIUM;
     return isPremium
@@ -125,7 +126,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                   ),
                   SizedBox(width: 16.0),
                   Text(
-                    'Eres usuario premium',
+                    strings.youArePremium,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Theme.of(context).primaryColorLight),
                   ),
@@ -167,7 +168,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
           ),
         ),
         SizedBox(height: 8.0),
-        Text(user?.description ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
+        Text(user?.description ?? "",
             textAlign: TextAlign.left),
         SizedBox(height: 30.0),
 //        Align(
@@ -179,7 +180,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
 //          ),
 //        ),
         SizedBox(height: 8.0),
-        Text(user?.freeTime ?? "skajdlksadlksajdjlkjsa dlksa jdlksa jdlksa dlksa jdlk jsdlk jsalkd jsald",
+        Text(user?.freeTime ?? "",
             textAlign: TextAlign.left),
         SizedBox(height: 16.0),
       ],

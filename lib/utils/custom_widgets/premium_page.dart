@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/utils/custom_widgets/list_premium.dart';
+import 'package:meshi/utils/localiztions.dart';
 
 import '../app_icons.dart';
 
@@ -21,6 +22,7 @@ class PremiumPage extends StatefulWidget with HomeSection {
 class PremiumPageState extends State<PremiumPage> {
   @override
   Widget build(BuildContext context) {
+    final strings = MyLocalizations.of(context);
     return Center(
       child: Wrap(
         children: <Widget>[
@@ -53,7 +55,7 @@ class PremiumPageState extends State<PremiumPage> {
                                 ),
                                 SizedBox(width: 32),
                                 Text(
-                                  "Sé premium",
+                                  strings.bePremium,
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 34,
@@ -68,13 +70,13 @@ class PremiumPageState extends State<PremiumPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               SizedBox(height: 16),
-                              buildPremiumFeatureItem('Chatea sin límites'),
+                              buildPremiumFeatureItem(strings.chatWithoutLimits),
                               SizedBox(height: 16),
-                              buildPremiumFeatureItem('Participa por citas regalo'),
+                              buildPremiumFeatureItem(strings.participateGiftDate),
                               SizedBox(height: 16),
-                              buildPremiumFeatureItem('Mira en qué eres compatible con cada persona'),
+                              buildPremiumFeatureItem(strings.seeCompatible),
                               SizedBox(height: 16),
-                              buildPremiumFeatureItem('Entérate a quién le interesas'),
+                              buildPremiumFeatureItem(strings.findInterestInYou),
                               SizedBox(height: 16),
                             ],
                           )

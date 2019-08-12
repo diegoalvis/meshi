@@ -207,13 +207,14 @@ class SettingsPageState extends State<SettingsContainer> {
   }
 
   void deactivateAccount(BuildContext context) async {
+    final strings = MyLocalizations.of(context);
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              content: Text("Está seguro que desea desactivar su cuenta?"),
+              content: Text(strings.confirmDeactivateAccount),
               actions: <Widget>[
                 FlatButton(
-                  child: const Text('DESACTIVAR'),
+                  child:  Text(strings.deactivateText),
                   onPressed: () {
                     final userRepository = InjectorWidget.of(context).get<UserRepository>();
                     userRepository.deactivateAccount();
@@ -221,7 +222,7 @@ class SettingsPageState extends State<SettingsContainer> {
                   },
                 ),
                 FlatButton(
-                  child: const Text('CANCELAR'),
+                  child:  Text(strings.cancelButtonMay),
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
