@@ -4,8 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ChatSocket {
 
-  static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com";
-  static const SOCKET_NAMESPACE = "/socket/chat";
+  static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com/socket/chat";
 
   SocketIOManager _manager;
   PublishSubject<Message> _messageSubject;
@@ -16,11 +15,19 @@ class ChatSocket {
   }
 
   Future<Observable<Message>> connect(int matchId) async {
-    final options = SocketOptions(SOCKET_BASE_URL, enableLogging: true, nameSpace:SOCKET_NAMESPACE );
+    final options = SocketOptions(SOCKET_BASE_URL, enableLogging: true, namesapce: '');
     SocketIO _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
       _socket.emit('subscribe', [{'match': matchId}]);
+    });
+
+    _socket.onConnectError((d){
+      print(d);
+    });
+
+    _socket.onError((d){
+      print(d);
     });
 
     _socket.on('messages', (data) {
