@@ -3,6 +3,7 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,8 +67,8 @@ class MutualPage extends StatelessWidget {
                             content: Text("${strings.confirmDelete} $name?"),
                             actions: <Widget>[
                               FlatButton(
-                                child:
-                                    new Text(strings.cancelButtonMin, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+                                child: new Text(strings.cancelButtonMin,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -152,8 +153,8 @@ class MutualPage extends StatelessWidget {
                                           width: 50.0,
                                           child: GestureDetector(
                                             onTap: () => validatePremiumAndPerformAction(context, _bloc.session, match),
-                                            child: Image.network(
-                                                BaseApi.IMAGES_URL_DEV +
+                                            child: CachedNetworkImage(
+                                                imageUrl: BaseApi.IMAGES_URL_DEV +
                                                         match?.images?.firstWhere((image) => image != null) ??
                                                     "",
                                                 fit: BoxFit.cover),
@@ -180,10 +181,10 @@ class MutualPage extends StatelessWidget {
                                         ]),
                                         Align(
                                           alignment: Alignment.bottomLeft,
-                                          child:
-                                              Text(erased ? "" : match?.lastMessage ?? "", overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13)
-                                              ),
+                                          child: Text(erased ? "" : match?.lastMessage ?? "",
+                                              overflow: TextOverflow.ellipsis,
+                                              style:
+                                                  TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13)),
                                         )
                                       ],
                                     ))

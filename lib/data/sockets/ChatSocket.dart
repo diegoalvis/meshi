@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class ChatSocket {
 
   static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com/socket/chat";
-  static const SOCKET_NAMESPACE = "/socket/chat";
+  static const SOCKET_NAMESPACE = "";
 
   SocketIOManager _manager;
   PublishSubject<Message> _messageSubject;
