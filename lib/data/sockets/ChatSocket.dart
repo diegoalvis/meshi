@@ -2,9 +2,12 @@ import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'dart:io' show Platform;
+
 class ChatSocket {
 
-  static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com/socket/chat";
+  static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com";
+  static const SOCKET_NAMESPACE = "/socket-chat";
 
   SocketIOManager _manager;
   PublishSubject<Message> _messageSubject;
@@ -15,19 +18,22 @@ class ChatSocket {
   }
 
   Future<Observable<Message>> connect(int matchId) async {
-    final options = SocketOptions(SOCKET_BASE_URL, enableLogging: true, namesapce: '');
+
+    String url = SOCKET_BASE_URL;
+    String namespace = SOCKET_NAMESPACE;
+
+    if(Platform.isAndroid){
+      url += namespace;
+      namespace = '';
+    }else{
+      url += '/';
+    }
+
+    final options = SocketOptions(url, enableLogging: true, namesapce: namespace);
     SocketIO _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
       _socket.emit('subscribe', [matchId]);
-    });
-
-    _socket.onConnectError((d){
-      print(d);
-    });
-
-    _socket.onError((d){
-      print(d);
     });
 
     _socket.on('messages', (data) {
