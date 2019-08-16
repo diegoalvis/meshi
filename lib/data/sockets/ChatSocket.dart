@@ -38,8 +38,7 @@ class ChatSocket {
     });
 
     _socket.on('messages', (data) {
-      final msg = Message.fromJson(data);
-      _messageSubject.add(msg);
+      _processMessage(data);
     });
 
     _socket.connect();
@@ -49,6 +48,12 @@ class ChatSocket {
       _manager.clearInstance(_socket);
       _socket = null;
     });
+  }
+
+  void _processMessage(Map<dynamic, dynamic> data) async{
+    final json = Map<String, dynamic>.from(data);
+    final msg = Message.fromJson(json);
+    _messageSubject.add(msg);
   }
 
 }
