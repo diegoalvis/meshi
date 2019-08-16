@@ -1,4 +1,4 @@
-package android.src.main.java.com.infitio.adharasocketio;
+package com.infitio.adharasocketio;
 
 import android.util.Log;
 

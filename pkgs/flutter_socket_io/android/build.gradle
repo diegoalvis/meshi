@@ -1,4 +1,3 @@
-package android
 
 group 'com.infitio.adharasocketio'
 version '1.0-SNAPSHOT'
