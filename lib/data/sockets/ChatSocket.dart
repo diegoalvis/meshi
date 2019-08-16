@@ -2,12 +2,15 @@ import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:meshi/data/models/message.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'dart:io' show Platform;
+
 class ChatSocket {
 
-  static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com/socket/chat";
-  static const SOCKET_NAMESPACE = "";
+  static const SOCKET_BASE_URL= "https://meshi-app.herokuapp.com";
+  static const SOCKET_NAMESPACE = "/socket-chat";
 
   SocketIOManager _manager;
+  SocketIO _socket;
   PublishSubject<Message> _messageSubject;
 
   ChatSocket() {
@@ -16,12 +19,22 @@ class ChatSocket {
   }
 
   Future<Observable<Message>> connect(int matchId) async {
-    final options = SocketOptions(SOCKET_BASE_URL, enableLogging: true, namesapce:SOCKET_NAMESPACE );
-    SocketIO _socket = await _manager.createInstance(options);
 
+    String url = SOCKET_BASE_URL;
+    String namespace = SOCKET_NAMESPACE;
+
+    if(Platform.isAndroid){
+      url += namespace;
+      namespace = '';
+    }else{
+      url += '/';
+    }
+
+    final options = SocketOptions(url, enableLogging: true, nameSpace: namespace);
+    _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
-      _socket.emit('subscribe', [{'match': matchId}]);
+      _socket.emit('subscribe', [matchId]);
     });
 
     _socket.on('messages', (data) {
@@ -32,8 +45,9 @@ class ChatSocket {
     _socket.connect();
 
     return _messageSubject.doOnCancel(() {
-      _socket.emit('unsubscribe', [{'match': matchId}]);
+      _socket.emit('unsubscribe', [matchId]);
       _manager.clearInstance(_socket);
+      _socket = null;
     });
   }
 
