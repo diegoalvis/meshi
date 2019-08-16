@@ -10,6 +10,7 @@ class ChatSocket {
   static const SOCKET_NAMESPACE = "/socket-chat";
 
   SocketIOManager _manager;
+  SocketIO _socket;
   PublishSubject<Message> _messageSubject;
 
   ChatSocket() {
@@ -29,8 +30,8 @@ class ChatSocket {
       url += '/';
     }
 
-    final options = SocketOptions(url, enableLogging: true, namesapce: namespace);
-    SocketIO _socket = await _manager.createInstance(options);
+    final options = SocketOptions(url, enableLogging: true, nameSpace: namespace);
+    _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
       _socket.emit('subscribe', [matchId]);
@@ -46,6 +47,7 @@ class ChatSocket {
     return _messageSubject.doOnCancel(() {
       _socket.emit('unsubscribe', [matchId]);
       _manager.clearInstance(_socket);
+      _socket = null;
     });
   }
 
