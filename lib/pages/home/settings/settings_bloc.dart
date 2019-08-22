@@ -39,6 +39,12 @@ class SettingsBloc extends BaseBloc<SettingsEvent, BaseState> {
       yield ErrorState(exception: e);
     }
   }
+
+  Future closeSession() async {
+    await session.clear();
+    await session.setLogged(false);
+    await notificationManager.deleteInstance();
+  }
 }
 
 enum SettingsEventType { getUserPreferences, updateUserPreferences }
