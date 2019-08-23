@@ -10,6 +10,7 @@ class ChatSocket {
   static const SOCKET_NAMESPACE = "/socket-chat";
 
   SocketIOManager _manager;
+  SocketIO _socket;
   PublishSubject<Message> _messageSubject;
 
   ChatSocket() {
@@ -29,16 +30,15 @@ class ChatSocket {
       url += '/';
     }
 
-    final options = SocketOptions(url, enableLogging: true, namesapce: namespace);
-    SocketIO _socket = await _manager.createInstance(options);
+    final options = SocketOptions(url, enableLogging: true, nameSpace: namespace);
+    _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
       _socket.emit('subscribe', [matchId]);
     });
 
     _socket.on('messages', (data) {
-      final msg = Message.fromJson(data);
-      _messageSubject.add(msg);
+      _processMessage(data);
     });
 
     _socket.connect();
@@ -46,7 +46,14 @@ class ChatSocket {
     return _messageSubject.doOnCancel(() {
       _socket.emit('unsubscribe', [matchId]);
       _manager.clearInstance(_socket);
+      _socket = null;
     });
+  }
+
+  void _processMessage(Map<dynamic, dynamic> data) async{
+    final json = Map<String, dynamic>.from(data);
+    final msg = Message.fromJson(json);
+    _messageSubject.add(msg);
   }
 
 }

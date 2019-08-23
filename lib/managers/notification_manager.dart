@@ -52,6 +52,10 @@ class NotificationManager {
     _fcm.unsubscribeFromTopic(topic);
   }
 
+  Future deleteInstance() async {
+    await _fcm.deleteInstanceID();
+  }
+
   void setFcmListener(BuildContext context) async {
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -61,6 +65,7 @@ class NotificationManager {
     _fcm.getToken().then((token) => _repository.updateFirebaseToken(token: token));
     _fcm.onTokenRefresh.listen((token) => _repository.updateFirebaseToken(token: token));
 
+    _fcm.setAutoInitEnabled(true);
     _fcm.configure(
       onMessage: (Map<String, dynamic> msg) async {
         Map<String, dynamic> notification = msg["notification"].cast<String, dynamic>();

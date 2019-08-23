@@ -25,7 +25,7 @@ class SessionManager {
 
   Future<bool> get logged async => await preferences.then((value) => value.getBool("logged") ?? false);
 
-  void setLogged(bool value) async {
+  Future setLogged(bool value) async {
     final prefs = await preferences;
     await prefs.setBool("logged", value);
   }
@@ -152,8 +152,8 @@ class SessionManager {
     await prefs.setString("lastTransaction", date);
   }
 
-  void clear() async {
-    database.cleanDB();
+  Future clear() async {
+    await database.cleanDB();
     final prefs = await preferences;
     await prefs.clear();
   }

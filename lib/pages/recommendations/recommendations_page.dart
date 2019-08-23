@@ -310,7 +310,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                     children: <Widget>[
                       FlatButton(
                         onPressed: () {
-                          if (_bloc.session.user.type != User.ADVANCED_USER) {
+                          if (_bloc.session.user.state != User.ADVANCED_USER) {
                             showCompleteProfileAlert(context);
                           } else {
                             _bloc.dispatch(DeleteInterestEvent(user));
@@ -330,7 +330,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          if (_bloc.session.user.type != User.ADVANCED_USER) {
+                          if (_bloc.session.user.state != User.ADVANCED_USER) {
                             showCompleteProfileAlert(context);
                           } else {
                             _bloc.dispatch(AddMatchEvent(user));

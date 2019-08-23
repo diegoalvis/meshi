@@ -26,7 +26,8 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
 
   void connectSocket() async {
     final _obs = await _socket.connect(_match.idMatch);
-    _subs = _obs.listen((msg) => {if (msg.fromUser != _me) dispatch(NewMessageEvent(msg))}, onError: (error) {
+    _subs = _obs.listen((msg) => {
+      if (msg.fromUser != _me) dispatch(NewMessageEvent(msg))}, onError: (error) {
       print(error);
     });
   }

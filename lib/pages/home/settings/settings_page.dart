@@ -166,14 +166,14 @@ class SettingsPageState extends State<SettingsContainer> {
                       Divider(color: Theme.of(context).dividerColor),
                       settingItem(context, CONTACT_ROUTE, strings.contactUs),
                       settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: InkWell(
-                          onTap: () {
-                            onWidgetDidBuild(() {
-                              deactivateAccount(context);
-                            });
-                          },
+                      InkWell(
+                        onTap: () {
+                          onWidgetDidBuild(() {
+                            deactivateAccount(context);
+                          });
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
                             child: Text(strings.deactivateAccount,
@@ -183,14 +183,14 @@ class SettingsPageState extends State<SettingsContainer> {
                         ),
                       ),
                       Divider(color: Theme.of(context).dividerColor),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: InkWell(
-                          onTap: () {
-                            onWidgetDidBuild(() {
-                              clearSession(context);
-                            });
-                          },
+                      InkWell(
+                        onTap: () {
+                          onWidgetDidBuild(() {
+                            clearSession(context);
+                          });
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
                             child: Text(strings.signOut,
@@ -232,20 +232,19 @@ class SettingsPageState extends State<SettingsContainer> {
   }
 
   void clearSession(BuildContext context) async {
-    _bloc.session.clear();
-    _bloc.session.setLogged(false);
+    await _bloc.closeSession();
     Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
   }
 
   Widget settingItem(BuildContext context, String route, String itemName) {
     return Column(
       children: <Widget>[
-        Align(
-          alignment: Alignment.centerLeft,
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, route);
-            },
+        InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, route);
+          },
+          child: Align(
+            alignment: Alignment.centerLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
               child: Text(itemName,

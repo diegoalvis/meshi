@@ -49,7 +49,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   String _currentCategory;
   String _previousCategory;
   HomeSection _previousPage;
-  NotificationManager foregroundNotification;
+  NotificationManager notificationManager;
 
   List<HomeSection> homePages = [
     RecommendationsPage(),
@@ -80,9 +80,11 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
+    notificationManager = InjectorWidget.of(context).get<NotificationManager>();
+    notificationManager.setFcmListener(context);
+    notificationManager.subscribeToTopics();
     setState(() {
-      foregroundNotification = InjectorWidget.of(context).get<NotificationManager>();
-      foregroundNotification.onChangePageSubject.listen((pagePos) {
+      notificationManager.onChangePageSubject.listen((pagePos) {
         setCurrentHomePage(pagePos, MyLocalizations.of(context).homeSections.elementAt(pagePos), context);
       });
     });
