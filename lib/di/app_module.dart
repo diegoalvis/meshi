@@ -15,6 +15,7 @@ import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/data/sockets/chat_socket.dart';
+import 'package:meshi/data/sockets/user_socket.dart';
 import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/managers/notification_manager.dart';
@@ -39,6 +40,7 @@ class AppModule implements Module {
       ..bindFactory((injector, params) => MatchApi(injector.get(), injector.get()))
       ..bindFactory((injector, params) => ChatApi(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => ChatSocket())
+      ..bindLazySingleton((injector, params) => UserSocket())
       // REPOSITORY
       ..bindFactory(
           (injector, params) => MatchRepository(injector.get(), injector.get(), injector.get(), injector.get()))

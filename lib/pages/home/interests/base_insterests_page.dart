@@ -2,7 +2,6 @@
  * Created by Diego Alvis.
  * Copyright (c) 2019 - All rights reserved.
  */
-import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/data/models/my_likes.dart';
@@ -34,7 +33,7 @@ class BaseInterestsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _bloc = InjectorWidget.of(context).get<InterestsBloc>();
+    _bloc = BlocProvider.of<InterestsBloc>(context);
     final strings = MyLocalizations.of(context);
     if (myLikes == null) {
       _bloc.dispatch(InterestsEvent(eventType));

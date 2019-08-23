@@ -9,6 +9,7 @@ import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
 import 'package:meshi/data/repository/match_repository.dart';
+import 'package:meshi/data/sockets/user_socket.dart';
 import 'package:meshi/managers/notification_manager.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
@@ -19,25 +20,52 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   final ChatRepository chatRepository;
   final NotificationManager notificationsManager;
 
-  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager, SessionManager session)
-      : super(session: session) {
-    notificationsManager.messageNotificationSubject.stream.listen((matchIndex) {
-      int index = matches.indexWhere((match) => match.idMatch == matchIndex.idMatch);
-      matches[index].lastMessage = matchIndex.lastMessage;
-      matches[index].lastDate = matchIndex.lastDate;
-      dispatch(InterestsEvent(InterestsEventType.updateMatchLastMessage));
-    });
-  }
-
-  @override
-  BaseState get initialState => InitialState();
-
   List<UserMatch> matches;
   int idUserBlock;
   List<MyLikes> myLikes;
   List<MyLikes> likesMe;
   String lastMessage;
   bool refresh = false;
+
+  final UserSocket socket;
+  StreamSubscription _subs;
+
+
+  InterestsBloc(this.repository, this.chatRepository, this.notificationsManager,
+      this.socket, SessionManager session)
+      : super(session: session) {
+    notificationsManager.messageNotificationSubject.stream.listen((matchIndex) {
+      int index =
+          matches.indexWhere((match) => match.idMatch == matchIndex.idMatch);
+      matches[index].lastMessage = matchIndex.lastMessage;
+      matches[index].lastDate = matchIndex.lastDate;
+      dispatch(InterestsEvent(InterestsEventType.updateMatchLastMessage));
+    });
+
+    connectSocket();
+  }
+
+  connectSocket() async {
+    final id = await session.userId;
+    final _obs = await socket.connect(id);
+    _subs = _obs.listen(
+        (msg) => {
+              if (msg.fromUser != id)
+                dispatch(
+                    InterestsEvent(InterestsEventType.newMessage, data: msg))
+            }, onError: (error) {
+      print(error);
+    });
+  }
+
+  @override
+  void dispose() {
+    _subs.cancel();
+    super.dispose();
+  }
+
+  @override
+  BaseState get initialState => InitialState();
 
   @override
   Stream<BaseState> mapEventToState(InterestsEvent event) async* {
@@ -62,10 +90,12 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
           yield* _loadMyLikes(true, event.type);
           break;
         case InterestsEventType.onMyLikesPageSelected:
-          yield InitialState<InterestsEventType>(initialData: InterestsEventType.getMyLikes);
+          yield InitialState<InterestsEventType>(
+              initialData: InterestsEventType.getMyLikes);
           break;
         case InterestsEventType.onLikesMePageSelected:
-          yield InitialState<InterestsEventType>(initialData: InterestsEventType.getLikesMe);
+          yield InitialState<InterestsEventType>(
+              initialData: InterestsEventType.getLikesMe);
           break;
         case InterestsEventType.onMutualPageSelected:
           yield InitialState();
@@ -83,6 +113,11 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
           break;
         case InterestsEventType.updateMatchLastMessage:
           yield PerformingRequestState();
+          yield SuccessState<List<UserMatch>>(data: matches);
+          break;
+
+        case InterestsEventType.newMessage:
+          matches = await repository.processNotify(event.data);
           yield SuccessState<List<UserMatch>>(data: matches);
           break;
       }
@@ -108,7 +143,8 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
     }
   }
 
-  Stream<BaseState> _loadMyLikes(bool refresh, InterestsEventType event) async* {
+  Stream<BaseState> _loadMyLikes(
+      bool refresh, InterestsEventType event) async* {
     if (myLikes != null && !refresh) {
       yield LikesFetchedState(myLikes, event);
     } else {
@@ -118,7 +154,8 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
     }
   }
 
-  Stream<BaseState> _loadLikesMe(bool refresh, InterestsEventType event) async* {
+  Stream<BaseState> _loadLikesMe(
+      bool refresh, InterestsEventType event) async* {
     if (likesMe != null && !refresh) {
       yield LikesFetchedState(likesMe, event);
     } else {
@@ -140,7 +177,8 @@ class LikesFetchedState extends BaseState {
   final List<MyLikes> myLikes;
   final InterestsEventType eventGenerator;
 
-  LikesFetchedState(this.myLikes, this.eventGenerator) : super(props: [myLikes, eventGenerator]);
+  LikesFetchedState(this.myLikes, this.eventGenerator)
+      : super(props: [myLikes, eventGenerator]);
 
   @override
   String toString() => 'state-likes-fetched';
@@ -158,5 +196,6 @@ enum InterestsEventType {
   onMutualPageSelected,
   clearChat,
   blockMatch,
-  updateMatchLastMessage
+  updateMatchLastMessage,
+  newMessage
 }
