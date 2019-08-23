@@ -34,7 +34,7 @@ class MutualPage extends StatelessWidget {
   Widget build(BuildContext context) {
     bool showLoader = false;
     final strings = MyLocalizations.of(context);
-    _bloc = BlocProvider.of<InterestsBloc>(context);
+    _bloc = InjectorWidget.of(context).get();
 
     void _showDialog(String name, int matchId, int index) {
       showDialog(
