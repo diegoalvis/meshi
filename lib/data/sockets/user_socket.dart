@@ -29,7 +29,7 @@ class UserSocket {
       url += '/';
     }
 
-    final options = SocketOptions(url, enableLogging: true, namesapce: namespace);
+    final options = SocketOptions(url, enableLogging: true, nameSpace: namespace);
     SocketIO _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
