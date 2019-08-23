@@ -5,7 +5,7 @@ import 'package:meshi/data/models/message.dart';
 import 'package:meshi/data/models/user_match.dart';
 import 'package:meshi/data/repository/chat_repository.dart';
 import 'package:meshi/data/repository/match_repository.dart';
-import 'package:meshi/data/sockets/ChatSocket.dart';
+import 'package:meshi/data/sockets/chat_socket.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/base_state.dart';
 

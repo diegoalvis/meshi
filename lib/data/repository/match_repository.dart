@@ -2,9 +2,10 @@ import 'package:meshi/data/api/dto/recomendation_dto.dart';
 import 'package:meshi/data/api/match_api.dart';
 import 'package:meshi/data/db/dao/match_dao.dart';
 import 'package:meshi/data/db/dao/recomendation_dao.dart';
+import 'package:meshi/data/models/message.dart';
+import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user_match.dart';
-import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/managers/session_manager.dart';
 
 class MatchRepository {
@@ -12,6 +13,7 @@ class MatchRepository {
   final MatchDao _dao;
   final RecomendationDao _recoDao;
   final SessionManager _session;
+
 
   MatchRepository(this._api, this._dao, this._recoDao, this._session);
 
@@ -116,4 +118,10 @@ class MatchRepository {
     final rspn = await _api.updateLocation(lat, lon);
     return rspn.data;
   }
+
+  Future<List<UserMatch>> processNotify(Message msg) async{
+    await this._dao.updateMatch(msg.matchId, msg);
+    return this._dao.getAllSorted();
+  }
+
 }

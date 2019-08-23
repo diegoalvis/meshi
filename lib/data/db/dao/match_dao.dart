@@ -18,6 +18,13 @@ class MatchDao {
     return compute(parseList, result);
   }
 
+  Future<List<UserMatch>> getAllSorted() async{
+    final db = await _db;
+    final result = await db.query('match', orderBy: 'lastDate DESC, name ASC');
+    return compute(parseList, result);
+  }
+
+
   Future removeAll() async{
     final db = await _db;
     await db.delete('match');

@@ -14,7 +14,7 @@ import 'package:meshi/data/repository/chat_repository.dart';
 import 'package:meshi/data/repository/match_repository.dart';
 import 'package:meshi/data/repository/reward_repository.dart';
 import 'package:meshi/data/repository/user_repository.dart';
-import 'package:meshi/data/sockets/ChatSocket.dart';
+import 'package:meshi/data/sockets/chat_socket.dart';
 import 'package:meshi/managers/location_manager.dart';
 import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/managers/notification_manager.dart';
