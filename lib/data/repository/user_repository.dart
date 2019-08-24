@@ -139,9 +139,9 @@ class UserRepository {
     return _session.getUserPreferences();
   }
 
-  Future<int> updateUserPreferences(UserPreferences preferences) async {
+  Future<UserPreferences> updateUserPreferences(UserPreferences preferences) async {
     _session.saveUserPreferences(preferences);
     final res = await _api.updatePreferences(preferences);
-    return res.data;
+    return preferences;
   }
 }

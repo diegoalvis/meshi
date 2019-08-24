@@ -31,8 +31,8 @@ class SettingsBloc extends BaseBloc<SettingsEvent, BaseState> {
           break;
         case SettingsEventType.updateUserPreferences:
           yield LoadingState();
-          repository.updateUserPreferences(event.data);
-          yield SuccessState<UserPreferences>(data: event.data);
+          final userPreferences = await repository.updateUserPreferences(event.data);
+          yield SuccessState<UserPreferences>(data: userPreferences);
           break;
       }
     } on Exception catch (e) {

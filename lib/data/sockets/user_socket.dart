@@ -10,9 +10,10 @@ class UserSocket {
   static const SOCKET_NAMESPACE = "/socket-user";
 
   SocketIOManager _manager;
+  SocketIO _socket;
   PublishSubject<Message> _messageSubject;
 
-  ChatSocket() {
+  UserSocket() {
     _manager = SocketIOManager();
     _messageSubject = PublishSubject();
   }
@@ -30,15 +31,14 @@ class UserSocket {
     }
 
     final options = SocketOptions(url, enableLogging: true, nameSpace: namespace);
-    SocketIO _socket = await _manager.createInstance(options);
+    _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
       _socket.emit('subscribe', ['$id']);
     });
 
-    _socket.on('messages', (data) {
-      final msg = Message.fromJson(data);
-      _messageSubject.add(msg);
+    _socket.on("messages", (data) {
+      _processMessage(data);
     });
 
     _socket.connect();
@@ -46,7 +46,14 @@ class UserSocket {
     return _messageSubject.doOnCancel(() {
       _socket.emit('unsubscribe', ['$id']);
       _manager.clearInstance(_socket);
+      _socket = null;
     });
+  }
+
+  void _processMessage(Map<dynamic, dynamic> data) async{
+    final json = Map<String, dynamic>.from(data);
+    final msg = Message.fromJson(json);
+    _messageSubject.add(msg);
   }
 
 }
