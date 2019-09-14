@@ -69,11 +69,11 @@ class ImageSelector extends StatelessWidget {
         ),
         child: Material(
           elevation: 4,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(10.0),
           child: AspectRatio(
             aspectRatio: 1.2,
             child: ClipRRect(
-              borderRadius: new BorderRadius.circular(16.0),
+              borderRadius: new BorderRadius.circular(10.0),
               child: Container(
                 color: Colors.grey[300],
                 child: StreamBuilder<bool>(

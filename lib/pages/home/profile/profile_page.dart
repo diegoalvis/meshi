@@ -53,7 +53,7 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                "${(snapshot.data?.name ?? "")}\n${(DateUtils.getAgeFromDate(snapshot.data.birthdate)?? "")} ",
+                                "${(snapshot.data?.name ?? "")}",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(color: Theme.of(context).accentColor, fontSize: 15),
                               ),

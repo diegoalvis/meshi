@@ -12,7 +12,6 @@ import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
 import 'package:meshi/data/models/recomendation.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
@@ -184,25 +183,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                     )),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 100,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.transparent.withOpacity(0.20),
-                        Colors.transparent.withOpacity(0.25),
-                        Colors.transparent.withOpacity(0.1),
-                        Colors.transparent.withOpacity(0.05),
-                        Colors.transparent.withOpacity(0),
-                      ],
-                    )),
-                  ),
-                ),
+                buildGradientContainer(context, height: 100),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Align(
@@ -219,80 +200,86 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
             ),
           ),
           Expanded(
-            child: ListView(
+            child: Stack(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CompatibilityIndicator(
-                    similarities: user.similarities,
-                    compatibility: user.score,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Container(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: ListTile(
-                          title: Container(
-                            height: 40,
-                            child: Row(
-                              children: <Widget>[
-                                Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
-                                Spacer(),
-                                user.type == TYPE_PREMIUM ? PremiumSpeechBubble(isRecommendation: true) : SizedBox(),
-                              ],
+                ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CompatibilityIndicator(
+                        isPremium: _bloc.session?.user?.type == TYPE_PREMIUM,
+                        similarities: user.similarities,
+                        compatibility: user.score,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Container(
+                                height: 40,
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(strings.aboutMe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                    Spacer(),
+                                    user.type == TYPE_PREMIUM ? PremiumSpeechBubble(isRecommendation: true) : SizedBox(),
+                                  ],
+                                ),
+                              ),
+                              subtitle: Text(user?.description ?? ""),
                             ),
                           ),
-                          subtitle: Text(user?.description ?? ""),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Container(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: ListTile(
-                          title: Text(strings.myFreeTime, style: TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text(user?.freeTime ?? ""),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Text(strings.myFreeTime, style: TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.freeTime ?? ""),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Container(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: ListTile(
-                          title: Text(strings.myDedication, style: TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text(user?.occupation ?? ""),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Text(strings.myDedication, style: TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.occupation ?? ""),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Container(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: ListTile(
-                          title: Text(strings.myInterestsDes, style: TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text(user?.interests ?? ""),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Container(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: ListTile(
+                              title: Text(strings.myInterestsDes, style: TextStyle(fontWeight: FontWeight.bold)),
+                              subtitle: Text(user?.interests ?? ""),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
+//                buildGradientContainer(context, height: 25),
               ],
             ),
           ),

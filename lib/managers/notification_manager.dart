@@ -69,15 +69,15 @@ class NotificationManager {
     _fcm.configure(
       onMessage: (Map<String, dynamic> msg) async {
         Map<String, dynamic> notification = msg["notification"].cast<String, dynamic>();
-        Map<String, dynamic> data = Platform.isAndroid ?  msg["data"].cast<String, dynamic>() : msg;
+        Map<String, dynamic> data = Platform.isAndroid ? msg["data"].cast<String, dynamic>() : msg;
         switch (data["typeMessage"]) {
           case NOTIFICATION_CHAT:
             final match = UserMatch.fromMessage(data);
             messageNotificationSubject.sink.add(match);
             final idCurrentMatch = await sessionManager.currentChatId;
             if (idCurrentMatch != match?.idMatch) {
-              showNotificationDialog(NOTIFICATION_CHAT, onChangePageSubject, 2, "${match?.name}",
-                  "${match?.lastMessage}", _navigatorKey,
+              showNotificationDialog(
+                  NOTIFICATION_CHAT, onChangePageSubject, 2, "${match?.name}", "${match?.lastMessage}", _navigatorKey,
                   match: match);
             }
             break;
@@ -166,38 +166,40 @@ class NotificationManager {
 void showNotificationDialog(String notificationType, PublishSubject<int> onPageChange, int pos, String title,
     String description, GlobalKey<NavigatorState> _navigatorKey,
     {UserMatch match}) {
-  showSimpleNotification(
-      GestureDetector(
-          onTap: () => notificationAction(notificationType, onPageChange, pos, _navigatorKey, match: match),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
-                    SizedBox(width: 8),
-                    Text("meshi", style: TextStyle(color: Colors.black))
-                  ],
+  onWidgetDidBuild(() {
+    showSimpleNotification(
+        GestureDetector(
+            onTap: () => notificationAction(notificationType, onPageChange, pos, _navigatorKey, match: match),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(AppIcons.logo, color: Color(0xFF80065E), size: 15),
+                      SizedBox(width: 8),
+                      Text("meshi", style: TextStyle(color: Colors.black))
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(description,
-                        maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
-              )
-            ],
-          )),
-      background: Colors.white);
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(description,
+                          maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black))),
+                )
+              ],
+            )),
+        background: Colors.white);
+  });
 }
 
 void notificationAction(

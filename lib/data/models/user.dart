@@ -21,8 +21,8 @@ class User {
 
   int id;
   String createdDate;
-  String type;
-  String state;
+  String type; // premium or not
+  String state; // new, basic, advanced, disabled
   String name;
   String email;
   String location;
