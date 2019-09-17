@@ -43,14 +43,14 @@ class ChatBodyState extends State<ChatBody> {
   final TextEditingController _chatController = new TextEditingController();
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
-  bool showEmojis = false;
+  bool showEmojis;
 
   final UserMatch _matches;
 
   List<Message> _data = [];
   int _me;
 
-  ChatBodyState(this._matches, {this.showEmojis});
+  ChatBodyState(this._matches, {this.showEmojis = false});
 
   ChatBloc _bloc;
 
