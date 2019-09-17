@@ -13,8 +13,9 @@ import '../localiztions.dart';
 class CompatibilityIndicator extends StatefulWidget {
   final int compatibility;
   final List<Similarity> similarities;
+  final bool isPremium;
 
-  const CompatibilityIndicator({Key key, this.compatibility, this.similarities}) : super(key: key);
+  const CompatibilityIndicator({Key key, this.compatibility, this.similarities, this.isPremium = false}) : super(key: key);
 
   @override
   _CompatibilityIndicatorState createState() => _CompatibilityIndicatorState();
@@ -30,9 +31,9 @@ class _CompatibilityIndicatorState extends State<CompatibilityIndicator> {
     return Center(
       child: Card(
         child: InkWell(
-          onTap: () {
+          onTap: widget.isPremium ? () {
             setState(() => showMore = !showMore);
-          },
+          } : null,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Wrap(

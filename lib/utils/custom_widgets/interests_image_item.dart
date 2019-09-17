@@ -5,6 +5,7 @@
 
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/models/my_likes.dart';
@@ -28,13 +29,9 @@ class InterestsItemPage extends StatelessWidget {
         children: <Widget>[
           AspectRatio(
             aspectRatio: 1,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: NetworkImage(BaseApi.IMAGES_URL_DEV + myLikes.images.first),
-                fit: BoxFit.cover,
-                alignment: FractionalOffset.topCenter,
-              )),
+            child: CachedNetworkImage(
+              imageUrl: BaseApi.IMAGES_URL_DEV + myLikes?.images?.first ?? "",
+              fit: BoxFit.cover,
             ),
           ),
           isMyLike == 2 && !isPremium

@@ -34,7 +34,7 @@ class ChatSocket {
     _socket = await _manager.createInstance(options);
 
     _socket.onConnect((d){
-      _socket.emit('subscribe', [matchId]);
+      _socket.emit('subscribe', ['$matchId']);
     });
 
     _socket.on('messages', (data) {
@@ -44,7 +44,7 @@ class ChatSocket {
     _socket.connect();
 
     return _messageSubject.doOnCancel(() {
-      _socket.emit('unsubscribe', [matchId]);
+      _socket.emit('unsubscribe', ['$matchId']);
       _manager.clearInstance(_socket);
       _socket = null;
     });

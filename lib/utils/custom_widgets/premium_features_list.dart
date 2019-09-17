@@ -9,16 +9,16 @@ import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ListPremium extends StatefulWidget {
+class PremiumFeaturesList extends StatefulWidget {
   bool isFromRecommendation = false;
 
   @override
-  State<StatefulWidget> createState() => ListPremiumState();
+  State<StatefulWidget> createState() => PremiumFeaturesListState();
 
-  ListPremium(this.isFromRecommendation);
+  PremiumFeaturesList(this.isFromRecommendation);
 }
 
-class ListPremiumState extends State<ListPremium> {
+class PremiumFeaturesListState extends State<PremiumFeaturesList> {
   int _index = 0;
   SessionManager _sessionManager;
 

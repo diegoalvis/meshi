@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/pages/home/home_section.dart';
-import 'package:meshi/utils/custom_widgets/list_premium.dart';
+import 'package:meshi/utils/custom_widgets/premium_features_list.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 import '../app_icons.dart';
@@ -84,7 +84,7 @@ class PremiumPageState extends State<PremiumPage> {
                       ),
                     ),
                     Container(
-                      child: ListPremium(widget.isFromRecommendation),
+                      child: PremiumFeaturesList(widget.isFromRecommendation),
                       decoration: BoxDecoration(
                           color: Colors.white, borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
                     ),

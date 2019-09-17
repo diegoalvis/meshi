@@ -26,8 +26,7 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
 
   void connectSocket() async {
     final _obs = await _socket.connect(_match.idMatch);
-    _subs = _obs.listen((msg) => {
-      if (msg.fromUser != _me) dispatch(NewMessageEvent(msg))}, onError: (error) {
+    _subs = _obs.listen((msg) => {if (msg.fromUser != _me) dispatch(NewMessageEvent(msg))}, onError: (error) {
       print(error);
     });
   }
@@ -47,8 +46,7 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
       if (event is LoadedChatEvent) {
         final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
-        final remotes =
-            await _messageRepository.getMessages(_match.idMatch, from: _match.erasedDate?.millisecondsSinceEpoch);
+        final remotes = await _messageRepository.getMessages(_match.idMatch, from: _match?.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
       } else if (event is LoadPageEvent) {
         final remotes = await _messageRepository.getPreviousMessages(_match.idMatch,
@@ -82,7 +80,7 @@ class MessageState extends BaseState {
   bool newPage;
   bool newMessage;
 
-  MessageState(this.messages, this.me, {this.newPage = false, this.newMessage = false}) : super(props: messages);
+  MessageState(this.messages, this.me, {this.newPage = false, this.newMessage = false}) : super(props: [messages, me]);
 
   @override
   String toString() {

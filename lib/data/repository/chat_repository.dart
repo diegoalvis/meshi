@@ -20,8 +20,7 @@ class ChatRepository {
     return result.success;
   }
 
-  Future<List<Message>> getMessages(int matchId,
-      {int limit = 60, int from}) async {
+  Future<List<Message>> getMessages(int matchId, {int limit = 60, int from}) async {
     final result = await _api.getMessages(matchId, limit: limit, from:from);
     await _dao.removeAll(matchId);
     await _dao.insertAll(result.data);

@@ -17,6 +17,7 @@ import 'package:meshi/pages/register/advance/advanced_register_page.dart';
 import 'package:meshi/pages/register/basic/basic_register_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/custom_widgets/image_selector.dart';
+import 'package:meshi/utils/date_utils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
 class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
@@ -49,11 +50,15 @@ class ProfilePage extends StatelessWidget with HomeSection, InjectorWidgetMixin 
                         padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0, top: 8.0),
                         child: Column(
                           children: [
-                            Text(
-                              strings.myPictures,
-                              textAlign: TextAlign.right,
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "${(snapshot.data?.name ?? "")}",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(color: Theme.of(context).accentColor, fontSize: 15),
+                              ),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 12),
                             Row(
                               children: [
                                 ImageSelector(snapshot.data?.images?.elementAt(0) ?? null,

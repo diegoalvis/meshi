@@ -32,6 +32,7 @@ class ChatPage extends StatelessWidget {
 
 class ChatBody extends StatefulWidget {
   final UserMatch _matches;
+
   ChatBody(this._matches) : super(key: ValueKey("chat-body"));
 
   @override
@@ -42,7 +43,7 @@ class ChatBodyState extends State<ChatBody> {
   final TextEditingController _chatController = new TextEditingController();
   final DateFormat _dateFormat = DateFormat("d/M/y").add_jm();
   final DateFormat _timeFormat = DateFormat("jm");
-  bool showEmojis;
+  bool showEmojis = false;
 
   final UserMatch _matches;
 
@@ -57,18 +58,11 @@ class ChatBodyState extends State<ChatBody> {
 
   @override
   void initState() {
-    onWidgetDidBuild(() {
-      _bloc.connectSocket();
-      _bloc.dispatch(LoadedChatEvent());
-    });
     super.initState();
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60) {
         _bloc.dispatch(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
       }
-    });
-    setState(() {
-      showEmojis = false;
     });
   }
 
@@ -129,6 +123,7 @@ class ChatBodyState extends State<ChatBody> {
                 bloc: _bloc,
                 builder: (ctx, BaseState state) {
                   if (state is InitialState) {
+                    _bloc.connectSocket();
                     _bloc.dispatch(LoadedChatEvent());
                   }
                   if (state is ExitState) {
@@ -144,7 +139,7 @@ class ChatBodyState extends State<ChatBody> {
                     if (state.newPage) {
                       _data.addAll(state.messages);
                     } else if (state.newMessage) {
-                      if (_data?.first?.date?.isAtSameMomentAs(state.messages?.first?.date) != true) {
+                      if (_data.isEmpty || _data?.first?.date?.isAtSameMomentAs(state.messages?.first?.date) != true) {
                         _data.insert(0, state.messages[0]);
                       }
                     } else {
@@ -164,8 +159,7 @@ class ChatBodyState extends State<ChatBody> {
                 },
               ),
             ),
-            if (_matches.state == MATCH_BLOCKED)
-              Text("${_matches.name} ${strings.youHaveBeenBlocked}"),
+            if (_matches.state == MATCH_BLOCKED) Text("${_matches.name} ${strings.youHaveBeenBlocked}"),
             showEmojis
                 ? EmojiPicker(
                     rows: 3,
