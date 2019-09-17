@@ -46,9 +46,7 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
       if (event is LoadedChatEvent) {
         final local = await _messageRepository.getLocalMessages(_match.idMatch);
         yield MessageState(local, _me);
-//        final remotes = await _messageRepository.getMessages(_match.idMatch, from: _match?.erasedDate?.millisecondsSinceEpoch);
-//        todo fix 'from'
-        final remotes = await _messageRepository.getMessages(_match.idMatch);
+        final remotes = await _messageRepository.getMessages(_match.idMatch, from: _match?.erasedDate?.millisecondsSinceEpoch);
         yield MessageState(remotes, _me);
       } else if (event is LoadPageEvent) {
         final remotes = await _messageRepository.getPreviousMessages(_match.idMatch,

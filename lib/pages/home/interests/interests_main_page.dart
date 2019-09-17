@@ -5,7 +5,6 @@
 
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/interests/interests_bloc.dart';
 import 'package:meshi/pages/home/interests/mutual_page.dart';
@@ -21,6 +20,7 @@ class InterestsMainPage extends StatelessWidget with HomeSection {
     return InjectorWidget.bind(
       bindFunc: (binder) {
         final inj = InjectorWidget.of(context);
+        binder.bindLazySingleton((injector, params) => InterestsBloc(inj.get(), inj.get(), inj.get(), inj.get()));
         binder.bindFactory((injector, params) => InterestsBloc(inj.get(), inj.get(), inj.get(), inj.get()));
       },
       child: InterestsMainPageContainer(),
@@ -58,9 +58,7 @@ class _InterestsMainPageContainerState extends State<InterestsMainPageContainer>
     if(_bloc == null){
       _bloc = InjectorWidget.of(context).get();
     }
-    return BlocProvider(
-      bloc: _bloc,
-      child: DefaultTabController(
+    return DefaultTabController(
         length: 3,
         child: Scaffold(
             appBar: PreferredSize(
@@ -94,8 +92,7 @@ class _InterestsMainPageContainerState extends State<InterestsMainPageContainer>
                     isMyLike: 2),
               ],
             )),
-      ),
-    );
+      );
   }
 }
 

@@ -17,7 +17,7 @@ class ChatApi extends BaseApi {
       query['skipFrom'] = skipFrom;
     }
     if(from != null){
-      query['from'] = from;
+      query['from'] = from ~/ 1000;
     }
 
     return get("/chat/$match", query: query.isNotEmpty ? query : null).then((response) =>

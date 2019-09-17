@@ -1,6 +1,5 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meshi/data/api/base_api.dart';
 import 'package:meshi/data/api/chat_api.dart';
 import 'package:meshi/data/api/match_api.dart';
@@ -17,8 +16,8 @@ import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/data/sockets/chat_socket.dart';
 import 'package:meshi/data/sockets/user_socket.dart';
 import 'package:meshi/managers/location_manager.dart';
-import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/managers/notification_manager.dart';
+import 'package:meshi/managers/session_manager.dart';
 
 class AppModule implements Module {
   @override
