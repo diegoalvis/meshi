@@ -81,8 +81,6 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
     notificationManager = InjectorWidget.of(context).get<NotificationManager>();
-    notificationManager.setFcmListener(context);
-    notificationManager.subscribeToTopics();
     setState(() {
       notificationManager.onChangePageSubject.listen((pagePos) {
         setCurrentHomePage(pagePos, MyLocalizations.of(context).homeSections.elementAt(pagePos), context);

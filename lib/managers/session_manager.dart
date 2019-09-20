@@ -153,6 +153,7 @@ class SessionManager {
   }
 
   Future clear() async {
+    user = null;
     await database.cleanDB();
     final prefs = await preferences;
     await prefs.clear();

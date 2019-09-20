@@ -101,7 +101,8 @@ class SettingsPageState extends State<SettingsContainer> {
                                   onSelected: (selected) {
                                     final enable = selected == "yes";
                                     userPreferences.chat = enable;
-                                    _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                    _bloc.dispatch(
+                                        SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                   }),
                             ),
                           ],
@@ -125,7 +126,8 @@ class SettingsPageState extends State<SettingsContainer> {
                                   onSelected: (selected) {
                                     final enable = selected == "yes";
                                     userPreferences.match = enable;
-                                    _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                    _bloc.dispatch(
+                                        SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                   }),
                             ),
                           ],
@@ -149,7 +151,8 @@ class SettingsPageState extends State<SettingsContainer> {
                                   onSelected: (selected) {
                                     final enable = selected == "yes";
                                     userPreferences.reward = enable;
-                                    _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                    _bloc.dispatch(
+                                        SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                     if (enable) {
                                       _bloc.notificationManager.subscribeToTopic(TOPIC_REWARD);
                                     } else {
@@ -211,7 +214,7 @@ class SettingsPageState extends State<SettingsContainer> {
               content: Text(strings.confirmDeactivateAccount),
               actions: <Widget>[
                 FlatButton(
-                  child:  Text(strings.deactivateText),
+                  child: Text(strings.deactivateText),
                   onPressed: () {
                     final userRepository = InjectorWidget.of(context).get<UserRepository>();
                     userRepository.deactivateAccount();
@@ -219,7 +222,7 @@ class SettingsPageState extends State<SettingsContainer> {
                   },
                 ),
                 FlatButton(
-                  child:  Text(strings.cancelButtonMay),
+                  child: Text(strings.cancelButtonMay),
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
@@ -230,7 +233,8 @@ class SettingsPageState extends State<SettingsContainer> {
 
   void clearSession(BuildContext context) async {
     await _bloc.closeSession();
-    Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false);
+    Future.delayed(Duration(milliseconds: 500),
+        () => Navigator.pushNamedAndRemoveUntil(context, LOGIN_ROUTE, (Route<dynamic> route) => false));
   }
 
   Widget settingItem(BuildContext context, String route, String itemName) {

@@ -28,7 +28,7 @@ dependencies:
   equatable: ^0.2.3
   carousel_slider: ^1.3.0
   qr_flutter: ^2.0.0
-  firebase_messaging: ^5.1.0
+  firebase_messaging: 5.1.4
   speech_bubble: ^0.0.1
   drop_cap_text: ^1.0.1
   flutter_offline: ^0.2.4

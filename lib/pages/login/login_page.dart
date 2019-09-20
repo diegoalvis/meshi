@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
         controller.forward();
         return;
       }
-      await Future.delayed(Duration(seconds: loading ? 0 : 2));
+      await Future.delayed(Duration(milliseconds: loading ? 0 : 1500));
       switch (user.state) {
         case User.NEW_USER:
           Navigator.of(context).pushReplacementNamed(REGISTER_ROUTE);
