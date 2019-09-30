@@ -31,14 +31,14 @@ import 'basic/basic_page_1.dart';
 import 'basic/basic_page_2.dart';
 import 'basic/basic_page_3.dart';
 import 'basic/basic_page_4.dart';
-import 'form_section.dart';
+import '../form_section.dart';
 import 'habits/habits_page_1.dart';
 import 'habits/habits_page_2.dart';
 
-class AdvancedRegisterPage extends StatelessWidget with InjectorWidgetMixin {
+class AdvancedRegisterContainerPage extends StatelessWidget with InjectorWidgetMixin {
   final doWhenFinish;
 
-  const AdvancedRegisterPage({Key key, this.doWhenFinish}) : super(key: key);
+  const AdvancedRegisterContainerPage({Key key, this.doWhenFinish}) : super(key: key);
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
@@ -147,7 +147,11 @@ class _FormPageState extends State<FormContainer> {
                     : Builder(
                         builder: (contextInt) => FlatButton(
                           onPressed: () => !(pages.elementAt(currentPagePos - 1) as FormSection).isInfoComplete()
-                              ? Scaffold.of(contextInt).showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
+                              ? Scaffold.of(contextInt).showSnackBar(SnackBar(
+                                  content: Text((pages.elementAt(currentPagePos - 1) as FormSection).requiredOptions() == 0
+                                      ? strings.incompleteInformation
+                                      : strings.getIncompleteFormErrorMessage(
+                                          (pages.elementAt(currentPagePos - 1) as FormSection).requiredOptions()))))
                               : setState(() {
                                   currentPagePos++;
                                   if (currentPagePos > TOTAL_PAGES) {

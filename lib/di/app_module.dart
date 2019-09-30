@@ -41,8 +41,7 @@ class AppModule implements Module {
       ..bindLazySingleton((injector, params) => ChatSocket())
       ..bindLazySingleton((injector, params) => UserSocket())
       // REPOSITORY
-      ..bindFactory(
-          (injector, params) => MatchRepository(injector.get(), injector.get(), injector.get(), injector.get()))
+      ..bindFactory((injector, params) => MatchRepository(injector.get(), injector.get(), injector.get(), injector.get()))
       ..bindFactory((injector, params) => UserRepository(injector.get(), injector.get()))
       ..bindFactory((injector, params) => RewardRepository(injector.get(), injector.get()))
       ..bindFactory((injector, params) => ChatRepository(injector.get(), injector.get(), injector.get()));

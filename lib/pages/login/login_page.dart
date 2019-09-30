@@ -68,6 +68,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
           Navigator.of(context).pushReplacementNamed(REGISTER_ROUTE);
           break;
         case User.BASIC_USER:
+          Navigator.of(context).pushReplacementNamed(FORM_ROUTE);
+          break;
         case User.ADVANCED_USER:
           Navigator.of(context).pushReplacementNamed(HOME_ROUTE);
           break;

@@ -64,19 +64,20 @@ class WelcomePage extends StatelessWidget with InjectorWidgetMixin {
             SizedBox(height: 20),
             Row(
               children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: FlatButton(
-                      onPressed: () => Navigator.of(context).pushReplacementNamed(HOME_ROUTE),
-                      child: Text(
-                        strings.logIn.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                      ),
-                    ),
-                  ),
-                ),
+                Spacer(),
+//                Expanded(
+//                  child: Container(
+//                    alignment: Alignment.center,
+//                    child: FlatButton(
+//                      onPressed: () => Navigator.of(context).pushReplacementNamed(HOME_ROUTE),
+//                      child: Text(
+//                        strings.logIn.toUpperCase(),
+//                        textAlign: TextAlign.center,
+//                        style: TextStyle(color: Theme.of(context).accentColor),
+//                      ),
+//                    ),
+//                  ),
+//                ),
                 Expanded(
                   child: Container(
                     alignment: Alignment.center,

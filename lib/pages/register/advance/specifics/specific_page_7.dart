@@ -6,8 +6,8 @@
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/deepening.dart';
 import 'package:meshi/utils/enum_utils.dart';
-import '../advanced_register_page.dart';
-import '../form_section.dart';
+import '../advanced_register_container_page.dart';
+import '../../form_section.dart';
 import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/localiztions.dart';
 
@@ -17,6 +17,9 @@ class SpecificsFormPageSeven extends StatelessWidget with FormSection {
 
   @override
   bool isInfoComplete() => infoComplete;
+
+  @override
+  int requiredOptions() => 3;
 
   @override
   Widget build(BuildContext context) {

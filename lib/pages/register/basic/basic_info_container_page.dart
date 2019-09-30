@@ -8,43 +8,43 @@ import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:meshi/main.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
-import 'package:meshi/pages/register/advance/form_section.dart';
+import 'package:meshi/pages/register/form_section.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_1.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_2.dart';
 import 'package:meshi/pages/register/basic/basic_info_page_3.dart';
-import 'package:meshi/pages/register/register_bloc.dart';
+import 'package:meshi/pages/register/basic/basic_info_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-class BasicRegisterPage extends StatelessWidget with InjectorWidgetMixin {
+class BasicInfoContainerPage extends StatelessWidget with InjectorWidgetMixin {
   final doWhenFinish;
 
-  const BasicRegisterPage({Key key, this.doWhenFinish}) : super(key: key);
+  const BasicInfoContainerPage({Key key, this.doWhenFinish}) : super(key: key);
 
   @override
   Widget buildWithInjector(BuildContext context, Injector injector) {
-    final bloc = RegisterBloc(injector.get(), injector.get(), injector.get(), doWhenFinish);
+    final bloc = BasicInfoBloc(injector.get(), injector.get(), injector.get(), doWhenFinish);
     return RegisterContainer(bloc: bloc);
   }
 }
 
-class RegisterBlocProvider extends InheritedWidget {
-  final RegisterBloc bloc;
+class BasicInfoBlocProvider extends InheritedWidget {
+  final BasicInfoBloc bloc;
   final Widget child;
 
-  RegisterBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
+  BasicInfoBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
 
-  static RegisterBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(RegisterBlocProvider) as RegisterBlocProvider);
+  static BasicInfoBlocProvider of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(BasicInfoBlocProvider) as BasicInfoBlocProvider);
   }
 
   @override
-  bool updateShouldNotify(RegisterBlocProvider oldWidget) => true;
+  bool updateShouldNotify(BasicInfoBlocProvider oldWidget) => true;
 }
 
 // Widget
 class RegisterContainer extends StatefulWidget {
-  final RegisterBloc bloc;
+  final BasicInfoBloc bloc;
 
   const RegisterContainer({Key key, this.bloc}) : super(key: key);
 
@@ -53,7 +53,7 @@ class RegisterContainer extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterContainer> {
-  final RegisterBloc _bloc;
+  final BasicInfoBloc _bloc;
   FormSection currentPage;
   List<FormSection> pages;
   BuildContext buildContext;
@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterContainer> {
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.all(24.0),
-        child: RegisterBlocProvider(
+        child: BasicInfoBlocProvider(
           bloc: _bloc,
           child: Column(
             children: [
@@ -160,8 +160,10 @@ class _RegisterPageState extends State<RegisterContainer> {
                       : Builder(
                           builder: (contextInt) => FlatButton(
                                 onPressed: () => !currentPage.isInfoComplete()
-                                    ? Scaffold.of(contextInt)
-                                        .showSnackBar(SnackBar(content: Text(strings.incompleteInformation)))
+                                    ? Scaffold.of(contextInt).showSnackBar(SnackBar(
+                                        content: Text(currentPage.requiredOptions() == 0
+                                            ? strings.incompleteInformation
+                                            : strings.getIncompleteFormErrorMessage(currentPage.requiredOptions()))))
                                     : setState(() {
                                         currentPageIndex++;
                                         if (currentPageIndex > pages.length) {

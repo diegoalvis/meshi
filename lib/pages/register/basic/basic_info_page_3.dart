@@ -5,8 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:meshi/data/models/user.dart';
-import 'package:meshi/pages/register/advance/form_section.dart';
-import 'package:meshi/pages/register/basic/basic_register_page.dart';
+import 'package:meshi/pages/register/form_section.dart';
+import 'package:meshi/pages/register/basic/basic_info_container_page.dart';
 
 import 'package:meshi/utils/localiztions.dart';
 
@@ -23,14 +23,14 @@ class BasicInfoPageThree extends StatefulWidget with FormSection {
 class _BasicInfoPageThreeState extends State<BasicInfoPageThree> {
 
   final _focusDescription = FocusNode();
-  final _focusOcuppation = FocusNode();
+  final _focusOccupation = FocusNode();
   final _focusFreeTime = FocusNode();
   final _focusInterests = FocusNode();
 
   @override
   void didUpdateWidget(BasicInfoPageThree oldWidget) {
     _focusDescription.unfocus();
-    _focusOcuppation.unfocus();
+    _focusOccupation.unfocus();
     _focusFreeTime.unfocus();
     _focusInterests.unfocus();
     super.didUpdateWidget(oldWidget);
@@ -39,7 +39,7 @@ class _BasicInfoPageThreeState extends State<BasicInfoPageThree> {
   @override
   Widget build(BuildContext context) {
     final strings = MyLocalizations.of(context);
-    final bloc = RegisterBlocProvider.of(context).bloc;
+    final bloc = BasicInfoBlocProvider.of(context).bloc;
     return StreamBuilder<User>(
         stream: bloc.userStream,
         initialData: bloc.session.user,
@@ -101,7 +101,7 @@ class _BasicInfoPageThreeState extends State<BasicInfoPageThree> {
                   focusNode: _focusFreeTime,
                   onEditingComplete: () {
                     _focusFreeTime.unfocus();
-                    FocusScope.of(context).requestFocus(_focusOcuppation);
+                    FocusScope.of(context).requestFocus(_focusOccupation);
                   },
                 ),
                 SizedBox(height: 25),
@@ -113,9 +113,9 @@ class _BasicInfoPageThreeState extends State<BasicInfoPageThree> {
                   ),
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.sentences,
-                  focusNode: _focusOcuppation,
+                  focusNode: _focusOccupation,
                   onEditingComplete: () {
-                    _focusOcuppation.unfocus();
+                    _focusOccupation.unfocus();
                     FocusScope.of(context).requestFocus(_focusInterests);
                   },
                 ),

@@ -10,8 +10,8 @@ import 'package:meshi/utils/FormUtils.dart';
 import 'package:meshi/utils/custom_widgets/option_selector.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-import '../advanced_register_page.dart';
-import '../form_section.dart';
+import '../advanced_register_container_page.dart';
+import '../../form_section.dart';
 
 class SpecificsFormPageOne extends StatelessWidget with FormSection {
   bool infoComplete;

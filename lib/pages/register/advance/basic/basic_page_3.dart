@@ -8,8 +8,8 @@ import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/register/advance/form_bloc.dart';
 import 'package:meshi/utils/localiztions.dart';
 
-import '../advanced_register_page.dart';
-import '../form_section.dart';
+import '../advanced_register_container_page.dart';
+import '../../form_section.dart';
 
 class BasicFormPageThree extends StatelessWidget with FormSection {
   bool infoComplete;

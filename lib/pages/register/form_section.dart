@@ -5,4 +5,6 @@
 
 abstract class FormSection {
   bool isInfoComplete();
+
+  int requiredOptions() => 0;
 }

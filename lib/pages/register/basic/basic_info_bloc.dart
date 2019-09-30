@@ -14,7 +14,7 @@ import 'package:meshi/managers/session_manager.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-class RegisterBloc extends BaseBloc {
+class BasicInfoBloc extends BaseBloc {
   final _userSubject = PublishSubject<User>();
 
   final int doWhenFinish;
@@ -24,7 +24,7 @@ class RegisterBloc extends BaseBloc {
   final UserRepository repository;
   final RecomendationDao _recoDao;
 
-  RegisterBloc(this.repository, this._recoDao, SessionManager session, this.doWhenFinish) : super(session: session);
+  BasicInfoBloc(this.repository, this._recoDao, SessionManager session, this.doWhenFinish) : super(session: session);
 
   @override
   dispose() {

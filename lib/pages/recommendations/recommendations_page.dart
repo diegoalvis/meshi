@@ -15,7 +15,7 @@ import 'package:meshi/data/models/user.dart';
 import 'package:meshi/pages/bloc/base_bloc.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/recommendations/recommendations_bloc.dart';
-import 'package:meshi/pages/register/advance/advanced_register_page.dart';
+import 'package:meshi/pages/register/advance/advanced_register_container_page.dart';
 import 'package:meshi/utils/app_icons.dart';
 import 'package:meshi/utils/base_state.dart';
 import 'package:meshi/utils/custom_widgets/compatibility_indicator.dart';
@@ -119,7 +119,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AdvancedRegisterPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE)));
+                              builder: (context) => AdvancedRegisterContainerPage(doWhenFinish: BaseBloc.ACTION_POP_PAGE)));
                     },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     color: Theme.of(context).accentColor,

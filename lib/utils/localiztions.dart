@@ -308,9 +308,15 @@ class MyLocalizations {
 
   String get viewMore => _localizedSingleValues[locale.languageCode]['view_more'];
 
+  String getIncompleteFormErrorMessage(int requiredOptions) {
+    final singleLocalizations = _localizedSingleValues[locale.languageCode];
+    return "${singleLocalizations['select']} $requiredOptions ${singleLocalizations['options_to_continue']}";
+  }
+
   String getEnumDisplayName(String enumValue) => _localizedEnumValues[locale.languageCode][enumValue] ?? enumValue;
 
-  String getCompatibilityDisplayName(String enumValue) => _localizedCompatibilityValues[locale.languageCode][enumValue] ?? enumValue;
+  String getCompatibilityDisplayName(String enumValue) =>
+      _localizedCompatibilityValues[locale.languageCode][enumValue] ?? enumValue;
 
   String getUserProp(String property) => _localizedUserProps[locale.languageCode][property] ?? property;
 
@@ -335,7 +341,7 @@ class MyLocalizations {
       'im_not_interested': 'I´M NOT INTERESTED',
       'no_information_available': 'No information available',
       'questionnaire': 'Questionnaire',
-      'incomplete_information': 'Incomplete information',
+      'incomplete_information': 'Please complete the information to continue.',
       'musical_genre': '¿What is your favorite music genre?',
       'political_ideology': '¿What is your political ideology?',
       'themes_of_interest': '¿What are the topics of greatest interest to you?',
@@ -463,9 +469,11 @@ class MyLocalizations {
       "find_interest_in_you": "Find out who you are interested in",
       "premium_user": "Premium user",
       "view_more": "View more",
+      "select": "Choose",
+      "options_to_continue": "options to continue.",
     },
 
-/* Spanish text resources */
+    /* Spanish text resources */
     'es': {
       'you_and': 'Tu y ',
       'log_in_with': 'Ingresa con',
@@ -479,7 +487,7 @@ class MyLocalizations {
       'im_not_interested': 'NO ME INTERESA',
       'no_information_available': 'No hay información disponible',
       'questionnaire': 'Cuestionario',
-      'incomplete_information': 'Información incompleta',
+      'incomplete_information': 'Completa la información para continuar.',
       'musical_genre': '¿Cuál es tu género musical favorito?',
       'political_ideology': '¿Cuál es tu ideología política?',
       'themes_of_interest': '¿Cuáles son los temas de mayor interés para ti?',
@@ -546,7 +554,7 @@ class MyLocalizations {
       'my_pictures': 'Mis fotos',
       'complete_your_profile':
           'Danos más detalles de lo que eres y buscas. Queremos ser más asertivos al momento de mostrarte perfiles de otros usuarios.',
-      'about_me': 'Acerca de mi',
+      'about_me': 'Acerca de mí',
       'you_do_not_have_mutuals_yet': 'No tienes mutuos aún',
       'an_error_occurred': 'Ocurrió un error',
       'interested_on_me': 'LE INTERESO',
@@ -608,6 +616,8 @@ class MyLocalizations {
       "find_interest_in_you": "Entérate a quién le interesas",
       "premium_user": "Usuario premium",
       "view_more": "Ver más",
+      "select": "Elije",
+      "options_to_continue": "opciones para continuar.",
     },
   };
 
@@ -658,13 +668,13 @@ class MyLocalizations {
       'age': 'edad',
       'eduLevel': 'nivel estudios',
       'marriage': 'casad@',
-      'children': 'Hijos',
+      'children': 'hijos',
       'planChildren': 'le gustaría tener hijos',
       'priorities': 'prioridades',
       'clothingStyle': 'estilo de vestir',
       'activities': 'actividades',
       'topics': 'intereses',
-      'politics': 'ideología',
+      'politics': 'ideología política',
       'places': 'lugares favoritos',
       'music': 'música',
     }
@@ -766,9 +776,9 @@ class MyLocalizations {
       'rock': 'Rock',
       'salsa': 'Salsa',
       'crossover': 'Crossover',
-      'sexy' : 'Seductor',
+      'sexy': 'Seductor',
       'casual': 'Casual',
-      'light' : 'Loose and light',
+      'light': 'Loose and light',
       'elegant': 'Elegant',
       'own': 'Original',
       'sport': 'Sport',
@@ -789,7 +799,7 @@ class MyLocalizations {
       'experiences': 'Experiences',
       'professional': 'Professionals',
       'social': 'Social',
-      'politics': 'Politics',
+      'politic': 'Politics',
       'history': 'History',
       'music': 'Music',
       'show': 'Show',
@@ -825,8 +835,8 @@ class MyLocalizations {
       'rock': 'Rock',
       'salsa': 'Salsa',
       'crossover': 'Crossover',
-      'sexy' : 'Seductor',
-      'light' : 'Suelto y ligero',
+      'sexy': 'Seductor',
+      'light': 'Suelto y ligero',
       'own': 'Propio',
       'elegant': 'Elegante',
       'casual': 'Casual',
@@ -848,7 +858,7 @@ class MyLocalizations {
       'experiences': 'Experiencias',
       'professional': 'Profesionales',
       'social': 'Sociales',
-      'politics': 'Ideología',
+      'politic': 'Ideología política',
       'history': 'Historia',
       'music': 'Música',
       'show': 'Farándula',

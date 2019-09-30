@@ -17,10 +17,10 @@ import 'package:meshi/pages/home/rewards/select_partner_page.dart';
 import 'package:meshi/pages/home/settings/settings_page.dart';
 import 'package:meshi/pages/interes_profile_page/interests_profile_page.dart';
 import 'package:meshi/pages/login/login_page.dart';
-import 'package:meshi/pages/register/advance/advanced_register_page.dart';
-import 'package:meshi/pages/register/basic/basic_register_page.dart';
+import 'package:meshi/pages/register/advance/advanced_register_container_page.dart';
+import 'package:meshi/pages/register/basic/basic_info_container_page.dart';
 import 'package:meshi/pages/terms_and_condition_page.dart';
-import 'package:meshi/pages/welcome_page.dart';
+import 'package:meshi/pages/register/welcome/welcome_page.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/managers/notification_manager.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -55,6 +55,7 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
         navigatorKey: globalNavigatorKey,
         localizationsDelegates: [
           const MyLocalizationsDelegate(),
+          GlobalCupertinoLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           DefaultCupertinoLocalizations.delegate,
@@ -68,8 +69,8 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
         routes: <String, WidgetBuilder>{
           LOGIN_ROUTE: (BuildContext context) => LoginPage(),
           HOME_ROUTE: (BuildContext context) => HomePage(),
-          REGISTER_ROUTE: (BuildContext context) => BasicRegisterPage(),
-          FORM_ROUTE: (BuildContext context) => AdvancedRegisterPage(),
+          REGISTER_ROUTE: (BuildContext context) => BasicInfoContainerPage(),
+          FORM_ROUTE: (BuildContext context) => AdvancedRegisterContainerPage(),
           WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
           BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
           SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
