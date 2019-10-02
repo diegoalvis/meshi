@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:meshi/data/api/base_api.dart';
+import 'package:meshi/data/models/reward.dart';
 import 'package:meshi/data/models/reward_info.dart';
 import 'package:meshi/pages/home/home_section.dart';
 import 'package:meshi/pages/home/rewards/rewards_bloc.dart';
@@ -86,7 +87,7 @@ class RewardContainer extends StatelessWidget {
                             child: rewardInfo?.winner == true
                                 ? QrImage(data: "${BaseApi.BASE_URL_DEV}/winner/${rewardInfo?.joinId}")
                                 : GestureDetector(
-                                    onTap: () => buildShowMoreInfoDialog(context),
+                                    onTap: () => buildShowMoreInfoDialog(context, rewardInfo?.reward),
                                     child: Image.network(BaseApi.IMAGES_URL_DEV + (rewardInfo?.reward?.image ?? ""),
                                         fit: BoxFit.cover)),
                           ),
@@ -97,7 +98,7 @@ class RewardContainer extends StatelessWidget {
                                 child: Column(children: [
                                   SizedBox(height: 24.0),
                                   GestureDetector(
-                                    onTap: () => buildShowMoreInfoDialog(context),
+                                    onTap: () =>  buildShowMoreInfoDialog(context, rewardInfo?.reward),
                                     child: Text(
                                       rewardInfo?.winner == true
                                           ? "${strings.youAnd} ${rewardInfo?.couple?.name ?? ""} ${strings.wonAppointment}"
@@ -155,8 +156,7 @@ class RewardContainer extends StatelessWidget {
         });
   }
 
-  Future buildShowMoreInfoDialog(BuildContext context) {
-    final strings = MyLocalizations.of(context);
+  Future buildShowMoreInfoDialog(BuildContext context, Reward reward) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -166,7 +166,7 @@ class RewardContainer extends StatelessWidget {
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(strings.selectBestPictures),
+                  child: Text(reward.description),
                 ),
               ),
             ),

@@ -69,8 +69,8 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
         routes: <String, WidgetBuilder>{
           LOGIN_ROUTE: (BuildContext context) => LoginPage(),
           HOME_ROUTE: (BuildContext context) => HomePage(),
-          REGISTER_ROUTE: (BuildContext context) => BasicInfoContainerPage(),
-          FORM_ROUTE: (BuildContext context) => AdvancedRegisterContainerPage(),
+          BASIC_REGISTER_ROUTE: (BuildContext context) => BasicInfoContainerPage(),
+          ADVANCED_REGISTER_ROUTE: (BuildContext context) => AdvancedRegisterContainerPage(),
           WELCOME_ROUTE: (BuildContext context) => WelcomePage(),
           BRANDS_ROUTE: (BuildContext context) => BrandsPage(),
           SELECT_PARTNER_ROUTE: (BuildContext context) => SelectPartnerPage(),
@@ -88,8 +88,8 @@ class AppContainer extends StatelessWidget with InjectorWidgetMixin {
 // Route names
 const String LOGIN_ROUTE = '/';
 const String HOME_ROUTE = '/home';
-const String REGISTER_ROUTE = '/register';
-const String FORM_ROUTE = '/form';
+const String BASIC_REGISTER_ROUTE = '/basic_register';
+const String ADVANCED_REGISTER_ROUTE = '/advanced_register';
 const String WELCOME_ROUTE = "/welcome";
 const String BRANDS_ROUTE = "/brands";
 const String SELECT_PARTNER_ROUTE = "/select_partner";

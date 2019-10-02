@@ -32,6 +32,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
           child: Text(strings.okButton),
           onPressed: () {
             Navigator.of(context).pop();
+            Navigator.removeRoute(context, ModalRoute.of(context));
           },
         ),
       ],
@@ -58,8 +59,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
               matches = state.data;
             }
             if (state is SuccessState<bool> && state.data) {
-              Future.delayed(Duration(seconds: 3),
-                  () => Navigator.removeRoute(context, ModalRoute.of(context)));
+              Future.delayed(Duration(seconds: 3), () => Navigator.removeRoute(context, ModalRoute.of(context)));
               onWidgetDidBuild(() {
                 showDialog(context: context, builder: (cxt) => dialog);
               });
@@ -90,26 +90,19 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                               final item = matches.elementAt(index);
                               return ListTile(
                                 onTap: () {
-                                  bloc.dispatch(SelectPartnerEvent(
-                                      SelectPartnerEventType.selectPartner,
-                                      data: item));
+                                  bloc.dispatch(SelectPartnerEvent(SelectPartnerEventType.selectPartner, data: item));
                                 },
                                 title: Row(children: [
                                   ClipOval(
                                     child: Container(
                                       height: 50.0,
                                       width: 50.0,
-                                      child: Image.network(
-                                          BaseApi.IMAGES_URL_DEV +
-                                                  item.images?.elementAt(0) ??
-                                              "",
+                                      child: Image.network(BaseApi.IMAGES_URL_DEV + item.images?.elementAt(0) ?? "",
                                           fit: BoxFit.cover),
                                     ),
                                   ),
                                   SizedBox(width: 10),
-                                  Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(item.name)),
+                                  Align(alignment: Alignment.topLeft, child: Text(item.name)),
                                   Spacer(),
                                   matchSelected?.id == item.id
                                       ? Icon(
@@ -132,16 +125,11 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                                     : FlatButton(
                                         onPressed: () => matchSelected == null
                                             ? null
-                                            : bloc.dispatch(SelectPartnerEvent(
-                                                SelectPartnerEventType
-                                                    .updateInscription,
+                                            : bloc.dispatch(SelectPartnerEvent(SelectPartnerEventType.updateInscription,
                                                 data: matchSelected)),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0)),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                                         color: Theme.of(context).accentColor,
-                                        child: Text(
-                                            strings.participateByAppointment),
+                                        child: Text(strings.participateByAppointment),
                                       ),
                               ),
                       ],

@@ -82,7 +82,7 @@ class WelcomePage extends StatelessWidget with InjectorWidgetMixin {
                   child: Container(
                     alignment: Alignment.center,
                     child: FlatButton(
-                      onPressed: () => Navigator.of(context).pushReplacementNamed(FORM_ROUTE),
+                      onPressed: () => Navigator.of(context).pushReplacementNamed(ADVANCED_REGISTER_ROUTE),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                       color: Theme.of(context).accentColor,
                       child: Text(
