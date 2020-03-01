@@ -48,7 +48,6 @@ class UserApi extends BaseApi {
   Future<BaseResponse> deleteImage(String imageName) {
     return delete("/img" + imageName)
         .then((response) => processBasicResponse(response));
-    ;
   }
 
   Future<BaseResponse<int>> changeActive(bool active) {

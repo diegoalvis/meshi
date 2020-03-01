@@ -1,3 +1,8 @@
+/*
+ * Created by Diego Alvis
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'dart:async';
 
 import 'package:flutter/services.dart';

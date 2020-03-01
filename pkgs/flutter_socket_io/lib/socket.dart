@@ -1,3 +1,8 @@
+/*
+ * Created by Diego Alvis
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 import 'package:flutter/services.dart';
 import 'dart:convert' show jsonDecode;
 import 'dart:async';

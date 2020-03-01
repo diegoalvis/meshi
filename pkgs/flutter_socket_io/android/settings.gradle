@@ -1,2 +1,7 @@
 
+/*
+ * Created by Diego Alvis
+ * Copyright (c) 2019 - All rights reserved.
+ */
+
 rootProject.name = 'adhara_socket_io'
