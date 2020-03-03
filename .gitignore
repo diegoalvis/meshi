@@ -37,6 +37,11 @@ build/
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
