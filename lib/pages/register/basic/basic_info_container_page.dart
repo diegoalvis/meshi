@@ -35,7 +35,7 @@ class BasicInfoBlocProvider extends InheritedWidget {
   BasicInfoBlocProvider({Key key, @required this.bloc, this.child}) : super(key: key, child: child);
 
   static BasicInfoBlocProvider of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(BasicInfoBlocProvider) as BasicInfoBlocProvider);
+    return context.dependOnInheritedWidgetOfExactType(aspect: BasicInfoBlocProvider);
   }
 
   @override

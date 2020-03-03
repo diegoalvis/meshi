@@ -6,7 +6,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meshi/data/api/base_api.dart';
@@ -27,15 +26,11 @@ class ImageSelector extends StatelessWidget {
       aspectRatio: CropAspectRatio(ratioX: 1.3, ratioY: 1.0),
       maxWidth: 512,
       maxHeight: 512,
-    );
-    var result = await FlutterImageCompress.compressAndGetFile(
-      croppedFile.path,
-      croppedFile.path,
-      quality: 80,
+      compressQuality: 80,
     );
 
     if (image != null) {
-      image = result;
+      image = croppedFile;
       onImageSelected(image);
     }
   }

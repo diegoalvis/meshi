@@ -69,7 +69,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
     super.initState();
     _previousCategory = _currentCategory;
     _previousPage = _currentPage;
-    setCompleteProfileAlert();
+    // setCompleteProfileAlert();
   }
 
   @override

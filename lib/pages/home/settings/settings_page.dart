@@ -99,8 +99,7 @@ class SettingsPageState extends State<SettingsContainer> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(strings.newMessage,
-                                style:
-                                    TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
                           ),
                           //Spacer(),
                           Expanded(
@@ -110,8 +109,7 @@ class SettingsPageState extends State<SettingsContainer> {
                                 onSelected: (selected) {
                                   final enable = selected == "yes";
                                   userPreferences.chat = enable;
-                                  _bloc.dispatch(
-                                      SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                 }),
                           ),
                         ],
@@ -124,8 +122,7 @@ class SettingsPageState extends State<SettingsContainer> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(strings.newInterested,
-                                style:
-                                    TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
                           ),
                           //Spacer(),
                           Expanded(
@@ -135,8 +132,7 @@ class SettingsPageState extends State<SettingsContainer> {
                                 onSelected: (selected) {
                                   final enable = selected == "yes";
                                   userPreferences.match = enable;
-                                  _bloc.dispatch(
-                                      SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                 }),
                           ),
                         ],
@@ -149,8 +145,7 @@ class SettingsPageState extends State<SettingsContainer> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(strings.newDraw,
-                                style:
-                                    TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
                           ),
                           //Spacer(),
                           Expanded(
@@ -160,8 +155,7 @@ class SettingsPageState extends State<SettingsContainer> {
                                 onSelected: (selected) {
                                   final enable = selected == "yes";
                                   userPreferences.reward = enable;
-                                  _bloc.dispatch(
-                                      SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                   if (enable) {
                                     _bloc.notificationManager.subscribeToTopic(TOPIC_REWARD);
                                   } else {
@@ -208,7 +202,7 @@ class SettingsPageState extends State<SettingsContainer> {
                     ),
                     Divider(color: Theme.of(context).dividerColor),
                     Spacer(),
-                    Center(child: Text("v$_appVersionName"))
+                    Center(child: Text("v$_appVersionName", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)))
                   ],
                 );
         });
@@ -256,8 +250,8 @@ class SettingsPageState extends State<SettingsContainer> {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 6.0, bottom: 6.0),
-              child: Text(itemName,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+              child:
+                  Text(itemName, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
             ),
           ),
         ),
