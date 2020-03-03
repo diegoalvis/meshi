@@ -7,6 +7,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_version/get_version.dart';
 import 'package:meshi/data/models/user_preferences.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
@@ -37,7 +38,6 @@ class SettingsContainer extends StatefulWidget {
 
   SettingsContainer(this._bloc);
 
-  @override
   Widget getTitle(BuildContext context) {
     final strings = MyLocalizations.of(context);
     return Text(strings.homeSections[4]);
@@ -51,7 +51,17 @@ class SettingsPageState extends State<SettingsContainer> {
   final SettingsBloc _bloc;
   UserPreferences userPreferences;
 
+  String _appVersionName = "";
+
   SettingsPageState(this._bloc);
+
+  @override
+  void initState() {
+    GetVersion.projectVersion.then((versionName) {
+      setState(() => _appVersionName = versionName);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,139 +79,137 @@ class SettingsPageState extends State<SettingsContainer> {
 
           return userPreferences == null
               ? Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(strings.notifications,
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
-                              textAlign: TextAlign.left),
-                        ),
+              : Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(strings.notifications,
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
+                            textAlign: TextAlign.left),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: Text(strings.newMessage,
-                                  style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
-                            ),
-                            //Spacer(),
-                            Expanded(
-                              child: OptionSelector(
-                                  options: YesNoOptions,
-                                  optionSelected: userPreferences.chat ? YesNoOptions[0] : YesNoOptions[1],
-                                  onSelected: (selected) {
-                                    final enable = selected == "yes";
-                                    userPreferences.chat = enable;
-                                    _bloc.dispatch(
-                                        SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
-                                  }),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: Text(strings.newInterested,
-                                  style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
-                            ),
-                            //Spacer(),
-                            Expanded(
-                              child: OptionSelector(
-                                  options: YesNoOptions,
-                                  optionSelected: userPreferences.match ? YesNoOptions[0] : YesNoOptions[1],
-                                  onSelected: (selected) {
-                                    final enable = selected == "yes";
-                                    userPreferences.match = enable;
-                                    _bloc.dispatch(
-                                        SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
-                                  }),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: Text(strings.newDraw,
-                                  style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
-                            ),
-                            //Spacer(),
-                            Expanded(
-                              child: OptionSelector(
-                                  options: YesNoOptions,
-                                  optionSelected: userPreferences.reward ? YesNoOptions[0] : YesNoOptions[1],
-                                  onSelected: (selected) {
-                                    final enable = selected == "yes";
-                                    userPreferences.reward = enable;
-                                    _bloc.dispatch(
-                                        SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
-                                    if (enable) {
-                                      _bloc.notificationManager.subscribeToTopic(TOPIC_REWARD);
-                                    } else {
-                                      _bloc.notificationManager.unsubscribeFromTopic(TOPIC_REWARD);
-                                    }
-                                  }),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(color: Theme.of(context).dividerColor),
-                      settingItem(context, CONTACT_ROUTE, strings.contactUs),
-                      settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
-                      InkWell(
-                        onTap: () {
-                          onWidgetDidBuild(() {
-                            deactivateAccount(context);
-                          });
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
-                            child: Text(strings.deactivateAccount,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(strings.newMessage,
                                 style:
                                     TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
                           ),
-                        ),
+                          //Spacer(),
+                          Expanded(
+                            child: OptionSelector(
+                                options: YesNoOptions,
+                                optionSelected: userPreferences.chat ? YesNoOptions[0] : YesNoOptions[1],
+                                onSelected: (selected) {
+                                  final enable = selected == "yes";
+                                  userPreferences.chat = enable;
+                                  _bloc.dispatch(
+                                      SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                }),
+                          ),
+                        ],
                       ),
-                      Divider(color: Theme.of(context).dividerColor),
-                      InkWell(
-                        onTap: () {
-                          onWidgetDidBuild(() {
-                            clearSession(context);
-                          });
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
-                            child: Text(strings.signOut,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(strings.newInterested,
                                 style:
                                     TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
                           ),
+                          //Spacer(),
+                          Expanded(
+                            child: OptionSelector(
+                                options: YesNoOptions,
+                                optionSelected: userPreferences.match ? YesNoOptions[0] : YesNoOptions[1],
+                                onSelected: (selected) {
+                                  final enable = selected == "yes";
+                                  userPreferences.match = enable;
+                                  _bloc.dispatch(
+                                      SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(strings.newDraw,
+                                style:
+                                    TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                          ),
+                          //Spacer(),
+                          Expanded(
+                            child: OptionSelector(
+                                options: YesNoOptions,
+                                optionSelected: userPreferences.reward ? YesNoOptions[0] : YesNoOptions[1],
+                                onSelected: (selected) {
+                                  final enable = selected == "yes";
+                                  userPreferences.reward = enable;
+                                  _bloc.dispatch(
+                                      SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  if (enable) {
+                                    _bloc.notificationManager.subscribeToTopic(TOPIC_REWARD);
+                                  } else {
+                                    _bloc.notificationManager.unsubscribeFromTopic(TOPIC_REWARD);
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(color: Theme.of(context).dividerColor),
+                    settingItem(context, CONTACT_ROUTE, strings.contactUs),
+                    settingItem(context, TERM_AND_CONDITIONS, strings.termsAndConditions),
+                    InkWell(
+                      onTap: () {
+                        onWidgetDidBuild(() {
+                          deactivateAccount(context);
+                        });
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
+                          child: Text(strings.deactivateAccount,
+                              style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
                         ),
                       ),
-                      Divider(color: Theme.of(context).dividerColor),
-                    ],
-                  ),
+                    ),
+                    Divider(color: Theme.of(context).dividerColor),
+                    InkWell(
+                      onTap: () {
+                        onWidgetDidBuild(() {
+                          clearSession(context);
+                        });
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 6.0),
+                          child: Text(strings.signOut,
+                              style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontStyle: FontStyle.normal)),
+                        ),
+                      ),
+                    ),
+                    Divider(color: Theme.of(context).dividerColor),
+                    Spacer(),
+                    Center(child: Text("v$_appVersionName"))
+                  ],
                 );
         });
   }

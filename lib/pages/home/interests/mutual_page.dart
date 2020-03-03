@@ -3,7 +3,6 @@
  * Copyright (c) 2019 - All rights reserved.
  */
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -153,8 +152,8 @@ class MutualPage extends StatelessWidget {
                                           width: 50.0,
                                           child: GestureDetector(
                                             onTap: () => validatePremiumAndPerformAction(context, _bloc.session, match),
-                                            child: CachedNetworkImage(
-                                                imageUrl: BaseApi.IMAGES_URL_DEV +
+                                            child: Image.network(
+                                                BaseApi.IMAGES_URL_DEV +
                                                         match?.images?.firstWhere((image) => image != null) ??
                                                     "",
                                                 fit: BoxFit.cover),

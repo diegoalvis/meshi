@@ -6,6 +6,7 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:get_version/get_version.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/repository/user_repository.dart';
 import 'package:meshi/main.dart';
@@ -39,6 +40,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   BuildContext buildContext;
   TextEditingController txtController = TextEditingController();
 
+  String _appVersionName = "";
+
   _LoginPageState(this._bloc);
 
   @override
@@ -53,6 +56,10 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    GetVersion.projectVersion.then((versionName) {
+      setState(() => _appVersionName = versionName);
+    });
+
     _bloc.session.setCurrentChatId(-1);
     controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
@@ -175,7 +182,8 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
                         ),
                 ),
               ),
-            )
+            ),
+            Center(child: Text("v$_appVersionName", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 12)))
           ]),
         );
       },
