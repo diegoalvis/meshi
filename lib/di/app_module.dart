@@ -23,7 +23,7 @@ class AppModule implements Module {
   @override
   void configure(Binder binder) {
     binder
-      ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 15000)))
+      ..bindSingleton(Dio(BaseOptions(baseUrl: BaseApi.API_URL_DEV, receiveTimeout: 10000)))
       ..bindLazySingleton((injector, params) => SessionManager(injector.get()))
       ..bindLazySingleton((injector, params) => NotificationManager(injector.get(), injector.get()))
       ..bindLazySingleton((injector, params) => LocationManager())

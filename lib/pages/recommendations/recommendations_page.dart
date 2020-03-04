@@ -4,7 +4,6 @@
  */
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,23 +24,18 @@ import 'package:meshi/utils/custom_widgets/view_more_recommendations.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-class RecommendationsPage extends StatelessWidget with HomeSection, InjectorWidgetMixin {
+class RecommendationsPage extends StatefulWidget with HomeSection {
   @override
-  Widget buildWithInjector(BuildContext context, Injector injector) {
-    return InjectorWidget.bind(
-        bindFunc: (binder) {
-          binder.bindLazySingleton((inject, params) => RecommendationsBloc(injector.get(), injector.get(), injector.get()));
-        },
-        child: RecommendationsList());
-  }
+  _RecommendationsPageState createState() => _RecommendationsPageState();
 }
 
-class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
+class _RecommendationsPageState extends State<RecommendationsPage> {
   RecommendationsBloc _bloc;
 
   @override
-  Widget buildWithInjector(BuildContext context, Injector injector) {
-    _bloc = injector.get<RecommendationsBloc>();
+  Widget build(BuildContext context) {
+    final injector = InjectorWidget.of(context);
+    _bloc = RecommendationsBloc(injector.get(), injector.get(), injector.get());
     _bloc.sendLocation(context);
     bool isMaxComplete = false;
     List<Recomendation> users = [];
@@ -66,7 +60,7 @@ class RecommendationsList extends StatelessWidget with InjectorWidgetMixin {
                 if (state is SuccessState<List<Recomendation>>) {
                   users = state.data;
                   if (users.isEmpty) {
-                    Future.delayed(Duration(milliseconds: 2500), () {
+                    Future.delayed(Duration(milliseconds: 1500), () {
                       showCompleteProfileAlert(context);
                     });
                   }
