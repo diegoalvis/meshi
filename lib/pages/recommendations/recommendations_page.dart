@@ -4,7 +4,6 @@
  */
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,78 +24,88 @@ import 'package:meshi/utils/custom_widgets/view_more_recommendations.dart';
 import 'package:meshi/utils/localiztions.dart';
 import 'package:meshi/utils/widget_util.dart';
 
-class RecommendationsPage extends StatefulWidget with HomeSection {
+class RecommendationsPage extends StatelessWidget with HomeSection {
+  @override
+  Widget build(BuildContext context) {
+    final inject = InjectorWidget.of(context);
+    return InjectorWidget.bind(
+        bindFunc: (binder) {
+          binder.bindLazySingleton((injector, params) => RecommendationsBloc(inject.get(), inject.get(), inject.get()));
+        },
+        child: RecommendationsBody());
+  }
+}
+
+class RecommendationsBody extends StatefulWidget with HomeSection {
   @override
   _RecommendationsPageState createState() => _RecommendationsPageState();
 }
 
-class _RecommendationsPageState extends State<RecommendationsPage> {
+class _RecommendationsPageState extends State<RecommendationsBody> {
   RecommendationsBloc _bloc;
   bool _dialogShown = false;
 
   @override
   Widget build(BuildContext context) {
-    final injector = InjectorWidget.of(context);
-    _bloc = RecommendationsBloc(injector.get(), injector.get(), injector.get());
-    _bloc.sendLocation(context);
+    _bloc = InjectorWidget.of(context).get();
     bool isMaxComplete = false;
     List<Recomendation> users = [];
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);
-    return BlocListener(
-        listener: (context, state) {
-          if (state is SuccessState<List<Recomendation>> && state.data.isEmpty && !_dialogShown) {
-            setState(() {
-              _dialogShown = true;
-            });
-            Future.delayed(Duration(milliseconds: 1500), () {
-              showCompleteProfileAlert(context);
-            });
-          }
-        },
-        bloc: _bloc,
-        child: Scaffold(
-          body: Column(
-            children: <Widget>[
-              BlocBuilder(
-                  bloc: _bloc,
-                  builder: (context, state) {
-                    if (state is LoadingState) {
-                      return Flexible(
-                        child: Container(
-                            color: Theme.of(context).primaryColor,
-                            child: Center(
-                                child: CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
-                            ))),
-                      );
-                    }
-                    if (state is TriesCompleteState) {
-                      users = state.looked;
-                      isMaxComplete = state.isMaxComplete;
-                    }
-                    if (state is ErrorState) {
-                      onWidgetDidBuild(() {
-                        Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
-                      });
-                    }
-                    if (state is InitialState) {
-                      _bloc.add(GetRecommendationsEvent());
-                    }
-                    if (state is AddingMatchState) {
-                      idRecommendationAdded = state.idMatch;
-                    }
-                    return Flexible(
-                      child: Container(
-                          color: Theme.of(context).primaryColor,
-                          child: users.length > 0
-                              ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
-                              : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
-                    );
-                  }),
-            ],
-          ),
-        ));
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          BlocBuilder(
+            bloc: _bloc,
+              builder: (context, state) {
+            if (state is LoadingState) {
+              return Flexible(
+                child: Container(
+                    color: Theme.of(context).primaryColor,
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
+                    ))),
+              );
+            }
+            if (state is SuccessState<List<Recomendation>>) {
+              users = state.data;
+              if (users.isEmpty && !_dialogShown) {
+                setState(() {
+                  _dialogShown = true;
+                });
+                Future.delayed(Duration(milliseconds: 1500), () {
+                  showCompleteProfileAlert(context);
+                });
+              }
+            }
+            if (state is TriesCompleteState) {
+              users = state.looked;
+              isMaxComplete = state.isMaxComplete;
+            }
+            if (state is ErrorState) {
+              onWidgetDidBuild(() {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
+              });
+            }
+            if (state is InitialState) {
+              _bloc.sendLocation(context);
+              _bloc.add(GetRecommendationsEvent());
+            }
+            if (state is AddingMatchState) {
+              idRecommendationAdded = state.idMatch;
+            }
+            return Flexible(
+              child: Container(
+                  color: Theme.of(context).primaryColor,
+                  child: users.length > 0
+                      ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
+                      : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
+            );
+          }),
+        ],
+      ),
+    );
   }
 
   void showCompleteProfileAlert(BuildContext context) {
