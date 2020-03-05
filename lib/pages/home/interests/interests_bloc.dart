@@ -39,7 +39,7 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
     final _obs = await socket.connect(id);
     _subs = _obs.listen((msg) => {
           if (msg.fromUser != id) {
-            dispatch(InterestsEvent(InterestsEventType.newMessage, data: msg))
+            add(InterestsEvent(InterestsEventType.newMessage, data: msg))
           }
     }, onError: (error) {
       print(error);
@@ -47,9 +47,9 @@ class InterestsBloc extends BaseBloc<InterestsEvent, BaseState> {
   }
 
   @override
-  void dispose() {
+  Future<void> close() async {
     _subs.cancel();
-    super.dispose();
+    super.close();
   }
 
   @override

@@ -27,8 +27,8 @@ class BasicInfoBloc extends BaseBloc {
   BasicInfoBloc(this.repository, this._recoDao, SessionManager session, this.doWhenFinish) : super(session: session);
 
   @override
-  dispose() {
-    super.dispose();
+  close() {
+    super.close();
     _userSubject.close();
   }
 
@@ -56,7 +56,7 @@ class BasicInfoBloc extends BaseBloc {
 
   void addImage(File image, int index) {
     progressSubject.add(true);
-    Observable.fromFuture(image.readAsBytes())
+    Stream.fromFuture(image.readAsBytes())
         .map((imageBytes) => base64Encode(imageBytes))
         .flatMap((base64Image) => repository.uploadImage(base64Image, index).asStream())
         .doOnError(() => errorSubject.sink.add("Error trying to upload the image"))
@@ -119,7 +119,7 @@ class BasicInfoBloc extends BaseBloc {
     progressSubject.sink.add(false);
   }
 
-  Observable<int> updateUseInfo() {
+  Stream<int> updateUseInfo() {
     progressSubject.sink.add(true);
     return repository.updateUserBasicInfo(session.user).map((success) {
       if (success) {

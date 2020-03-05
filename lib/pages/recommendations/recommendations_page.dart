@@ -4,6 +4,7 @@
  */
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:dependencies_flutter/dependencies_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +32,7 @@ class RecommendationsPage extends StatefulWidget with HomeSection {
 
 class _RecommendationsPageState extends State<RecommendationsPage> {
   RecommendationsBloc _bloc;
+  bool _dialogShown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,56 +43,60 @@ class _RecommendationsPageState extends State<RecommendationsPage> {
     List<Recomendation> users = [];
     int idRecommendationAdded = -1;
     final strings = MyLocalizations.of(context);
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          BlocBuilder(
-              bloc: _bloc,
-              builder: (context, state) {
-                if (state is LoadingState) {
-                  return Flexible(
-                    child: Container(
-                        color: Theme.of(context).primaryColor,
-                        child: Center(
-                            child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
-                        ))),
-                  );
-                }
-                if (state is SuccessState<List<Recomendation>>) {
-                  users = state.data;
-                  if (users.isEmpty) {
-                    Future.delayed(Duration(milliseconds: 1500), () {
-                      showCompleteProfileAlert(context);
-                    });
-                  }
-                }
-                if (state is TriesCompleteState) {
-                  users = state.looked;
-                  isMaxComplete = state.isMaxComplete;
-                }
-                if (state is ErrorState) {
-                  onWidgetDidBuild(() {
-                    Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
-                  });
-                }
-                if (state is InitialState) {
-                  _bloc.dispatch(GetRecommendationsEvent());
-                }
-                if (state is AddingMatchState) {
-                  idRecommendationAdded = state.idMatch;
-                }
-                return Flexible(
-                  child: Container(
-                      color: Theme.of(context).primaryColor,
-                      child: users.length > 0
-                          ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
-                          : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
-                );
-              }),
-        ],
-      ),
-    );
+    return BlocListener(
+        listener: (context, state) {
+          if (state is SuccessState<List<Recomendation>> && state.data.isEmpty && !_dialogShown) {
+            setState(() {
+              _dialogShown = true;
+            });
+            Future.delayed(Duration(milliseconds: 1500), () {
+              showCompleteProfileAlert(context);
+            });
+          }
+        },
+        bloc: _bloc,
+        child: Scaffold(
+          body: Column(
+            children: <Widget>[
+              BlocBuilder(
+                  bloc: _bloc,
+                  builder: (context, state) {
+                    if (state is LoadingState) {
+                      return Flexible(
+                        child: Container(
+                            color: Theme.of(context).primaryColor,
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
+                            ))),
+                      );
+                    }
+                    if (state is TriesCompleteState) {
+                      users = state.looked;
+                      isMaxComplete = state.isMaxComplete;
+                    }
+                    if (state is ErrorState) {
+                      onWidgetDidBuild(() {
+                        Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
+                      });
+                    }
+                    if (state is InitialState) {
+                      _bloc.add(GetRecommendationsEvent());
+                    }
+                    if (state is AddingMatchState) {
+                      idRecommendationAdded = state.idMatch;
+                    }
+                    return Flexible(
+                      child: Container(
+                          color: Theme.of(context).primaryColor,
+                          child: users.length > 0
+                              ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
+                              : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
+                    );
+                  }),
+            ],
+          ),
+        ));
   }
 
   void showCompleteProfileAlert(BuildContext context) {
@@ -148,7 +154,7 @@ class _RecommendationsPageState extends State<RecommendationsPage> {
     items.add(ViewMoreRecommendations(() {
       isMaxComplete
           ? showDialog(barrierDismissible: true, context: context, builder: (BuildContext context) => PremiumPage(true))
-          : _bloc.dispatch(GetRecommendationsEvent(looked: recommendations));
+          : _bloc.add(GetRecommendationsEvent(looked: recommendations));
     }));
     return items;
   }
@@ -294,7 +300,7 @@ class _RecommendationsPageState extends State<RecommendationsPage> {
                           if (_bloc.session.user.state != User.ADVANCED_USER) {
                             showCompleteProfileAlert(context);
                           } else {
-                            _bloc.dispatch(DeleteInterestEvent(user));
+                            _bloc.add(DeleteInterestEvent(user));
                           }
                         },
                         child: Row(
@@ -314,7 +320,7 @@ class _RecommendationsPageState extends State<RecommendationsPage> {
                           if (_bloc.session.user.state != User.ADVANCED_USER) {
                             showCompleteProfileAlert(context);
                           } else {
-                            _bloc.dispatch(AddMatchEvent(user));
+                            _bloc.add(AddMatchEvent(user));
                           }
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),

@@ -61,7 +61,7 @@ class ChatBodyState extends State<ChatBody> {
     super.initState();
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent && _data.length >= 60) {
-        _bloc.dispatch(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
+        _bloc.add(LoadPageEvent(_data.last.date.millisecondsSinceEpoch));
       }
     });
   }
@@ -75,12 +75,12 @@ class ChatBodyState extends State<ChatBody> {
         matchId: _matches.idMatch);
 
     _chatController.clear();
-    _bloc.dispatch(SendMessageEvent(message));
+    _bloc.add(SendMessageEvent(message));
   }
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _bloc.close();
     _controller.dispose();
     _bloc.session.setCurrentChatId(-1);
     super.dispose();
@@ -99,9 +99,9 @@ class ChatBodyState extends State<ChatBody> {
             PopupMenuButton<int>(
                 onSelected: (value) {
                   if (value == 1) {
-                    _bloc.dispatch(ClearChatEvent(_matches.idMatch));
+                    _bloc.add(ClearChatEvent(_matches.idMatch));
                   } else {
-                    _bloc.dispatch(BlockMatchEvent(_matches.idMatch));
+                    _bloc.add(BlockMatchEvent(_matches.idMatch));
                   }
                 },
                 itemBuilder: (context) => [
@@ -124,7 +124,7 @@ class ChatBodyState extends State<ChatBody> {
                 builder: (ctx, BaseState state) {
                   if (state is InitialState) {
                     _bloc.connectSocket();
-                    _bloc.dispatch(LoadedChatEvent());
+                    _bloc.add(LoadedChatEvent());
                   }
                   if (state is ExitState) {
                     Navigator.pop(this.context);

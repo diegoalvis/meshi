@@ -26,7 +26,7 @@ class MutualPage extends StatelessWidget {
   List<int> blockMatch;
 
   Future<Null> _fetchRewardData() async {
-    _bloc.dispatch(InterestsEvent(InterestsEventType.refreshMutuals));
+    _bloc.add(InterestsEvent(InterestsEventType.refreshMutuals));
   }
 
   @override
@@ -46,7 +46,7 @@ class MutualPage extends StatelessWidget {
               FlatButton(
                 child: Text(strings.clearChat, style: TextStyle(color: Theme.of(context).primaryColor)),
                 onPressed: () {
-                  _bloc.dispatch(InterestsEvent(InterestsEventType.clearChat, data: matchId));
+                  _bloc.add(InterestsEvent(InterestsEventType.clearChat, data: matchId));
                   Navigator.of(context).pop();
                 },
               ),
@@ -75,7 +75,7 @@ class MutualPage extends StatelessWidget {
                               FlatButton(
                                 child: new Text(strings.confirmButton),
                                 onPressed: () {
-                                  _bloc.dispatch(
+                                  _bloc.add(
                                       InterestsEvent(InterestsEventType.blockMatch, data: blockMatch = [matchId, index]));
                                   Navigator.of(context).pop();
                                 },
@@ -94,7 +94,7 @@ class MutualPage extends StatelessWidget {
       bloc: _bloc,
       listener: (context, state) {
         if (state is InitialState) {
-          _bloc.dispatch(InterestsEvent(InterestsEventType.getMutals));
+          _bloc.add(InterestsEvent(InterestsEventType.getMutals));
         }
       },
       child: BlocBuilder(

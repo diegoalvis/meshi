@@ -22,7 +22,7 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
     final bloc = RewardBloc(injector.get<RewardRepository>(), injector.get());
     List<Brand> brands = List();
     Future<Null> _fetchBrands() async {
-      bloc.dispatch(RewardEventType.getBrands);
+      bloc.add(RewardEventType.getBrands);
     }
 
     return Scaffold(
@@ -34,7 +34,7 @@ class BrandsPage extends StatelessWidget with InjectorWidgetMixin {
                 brands = state.data;
               }
               if (state is InitialState) {
-                bloc.dispatch(RewardEventType.getBrands);
+                bloc.add(RewardEventType.getBrands);
               }
               if (state is LoadingState) {
                 return Center(child: CircularProgressIndicator());

@@ -28,17 +28,18 @@ class ChatBloc extends Bloc<ChatEvents, BaseState> {
     final _obs = await _socket.connect(_match.idMatch);
     _subs = _obs.listen((msg) => {
     if (msg.fromUser != _me) {
-        dispatch(NewMessageEvent(msg))
+        add(NewMessageEvent(msg))
     }
     }, onError: (error) {
     print(error);
     });
   }
 
+
   @override
-  void dispose() {
+  Future<Function> close() {
     _subs.cancel();
-    super.dispose();
+    return super.close();
   }
 
   @override

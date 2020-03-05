@@ -18,7 +18,7 @@ class UserSocket {
     _messageSubject = PublishSubject();
   }
 
-  Future<Observable<Message>> connect(int id) async {
+  Future<Stream<Message>> connect(int id) async {
 
     String url = SOCKET_BASE_URL;
     String namespace = SOCKET_NAMESPACE;

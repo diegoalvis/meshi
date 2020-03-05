@@ -65,8 +65,8 @@ class LoginBloc extends BaseBloc {
   }
 
   @override
-  dispose() {
-    super.dispose();
+  close() {
+    super.close();
     _userSubject.close();
   }
 }

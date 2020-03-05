@@ -53,7 +53,7 @@ class InterestsProfileBody extends StatelessWidget {
         bloc: _bloc,
         builder: (context, state) {
           if (state is InitialState) {
-            _bloc.dispatch(InterestsProfileEvents.getUserInfo);
+            _bloc.add(InterestsProfileEvents.getUserInfo);
           }
           /*if(state is PremiumState){
             isPremium = state.data;
@@ -190,7 +190,7 @@ class InterestsProfileBody extends StatelessWidget {
               children: <Widget>[
                 FlatButton(
                   onPressed: () {
-                    _bloc.dispatch(InterestsProfileEvents.DisLike);
+                    _bloc.add(InterestsProfileEvents.DisLike);
                   },
                   child: Row(
                     children: <Widget>[
@@ -207,7 +207,7 @@ class InterestsProfileBody extends StatelessWidget {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    _bloc.dispatch(InterestsProfileEvents.AddMatch);
+                    _bloc.add(InterestsProfileEvents.AddMatch);
                   },
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                   color: Theme.of(context).accentColor,
@@ -244,7 +244,7 @@ class InterestsProfileBody extends StatelessWidget {
                 Spacer(),
                 FlatButton(
                   onPressed: () {
-                    _bloc.dispatch(InterestsProfileEvents.DisLike);
+                    _bloc.add(InterestsProfileEvents.DisLike);
                   },
                   child: Row(
                     children: <Widget>[

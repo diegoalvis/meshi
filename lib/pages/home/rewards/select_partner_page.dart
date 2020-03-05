@@ -49,7 +49,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
             showSmallProgress = state is PerformingRequestState;
 
             if (state is InitialState) {
-              bloc.dispatch(
+              bloc.add(
                   SelectPartnerEvent(SelectPartnerEventType.getMatches));
             }
             if (state is LoadingState) {
@@ -90,7 +90,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                               final item = matches.elementAt(index);
                               return ListTile(
                                 onTap: () {
-                                  bloc.dispatch(SelectPartnerEvent(SelectPartnerEventType.selectPartner, data: item));
+                                  bloc.add(SelectPartnerEvent(SelectPartnerEventType.selectPartner, data: item));
                                 },
                                 title: Row(children: [
                                   ClipOval(
@@ -125,7 +125,7 @@ class SelectPartnerPage extends StatelessWidget with InjectorWidgetMixin {
                                     : FlatButton(
                                         onPressed: () => matchSelected == null
                                             ? null
-                                            : bloc.dispatch(SelectPartnerEvent(SelectPartnerEventType.updateInscription,
+                                            : bloc.add(SelectPartnerEvent(SelectPartnerEventType.updateInscription,
                                                 data: matchSelected)),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                                         color: Theme.of(context).accentColor,

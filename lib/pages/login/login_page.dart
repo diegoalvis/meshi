@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginForm> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _bloc.close();
     super.dispose();
   }
 

@@ -98,7 +98,7 @@ class _FormPageState extends State<FormContainer> {
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _bloc.close();
     super.dispose();
   }
 

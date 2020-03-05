@@ -78,7 +78,7 @@ class _RegisterPageState extends State<RegisterContainer> {
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _bloc.close();
     super.dispose();
   }
 

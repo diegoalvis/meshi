@@ -21,14 +21,14 @@ class ProfileBloc extends BaseBloc {
   ProfileBloc(this.repository, session) : super(session: session);
 
   @override
-  dispose() {
-    super.dispose();
+  close() {
+    super.close();
     _userSubject.close();
   }
 
   void addImage(File image, int index) {
     progressSubject.add(true);
-    Observable.fromFuture(image.readAsBytes())
+    Stream.fromFuture(image.readAsBytes())
         .map((imageBytes) => base64Encode(imageBytes))
         .flatMap((base64Image) => repository.uploadImage(base64Image, index).asStream())
         .handleError((error) => errorSubject.sink.add("Error trying to upload the image"))

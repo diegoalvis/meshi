@@ -25,8 +25,8 @@ class HomeBloc extends BaseBloc {
     _categorySelectedSubject.sink.add(category);
   }
 
-  void dispose() {
-    super.dispose();
+  Future<void> close() async {
+    super.close();
     _categorySelectedSubject.close();
     _userSubject.close();
   }

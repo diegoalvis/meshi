@@ -70,7 +70,7 @@ class SettingsPageState extends State<SettingsContainer> {
         bloc: _bloc,
         builder: (context, state) {
           if (state is InitialState) {
-            _bloc.dispatch(SettingsEvent(SettingsEventType.getUserPreferences));
+            _bloc.add(SettingsEvent(SettingsEventType.getUserPreferences));
           }
 
           if (state is SuccessState<UserPreferences>) {
@@ -109,7 +109,7 @@ class SettingsPageState extends State<SettingsContainer> {
                                 onSelected: (selected) {
                                   final enable = selected == "yes";
                                   userPreferences.chat = enable;
-                                  _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  _bloc.add(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                 }),
                           ),
                         ],
@@ -132,7 +132,7 @@ class SettingsPageState extends State<SettingsContainer> {
                                 onSelected: (selected) {
                                   final enable = selected == "yes";
                                   userPreferences.match = enable;
-                                  _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  _bloc.add(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                 }),
                           ),
                         ],
@@ -155,7 +155,7 @@ class SettingsPageState extends State<SettingsContainer> {
                                 onSelected: (selected) {
                                   final enable = selected == "yes";
                                   userPreferences.reward = enable;
-                                  _bloc.dispatch(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
+                                  _bloc.add(SettingsEvent(SettingsEventType.updateUserPreferences, data: userPreferences));
                                   if (enable) {
                                     _bloc.notificationManager.subscribeToTopic(TOPIC_REWARD);
                                   } else {

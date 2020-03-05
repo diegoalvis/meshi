@@ -29,7 +29,7 @@ class BaseInterestsPage extends StatelessWidget {
   BaseInterestsPage({Key key, this.title, this.eventType, this.refreshEventType, this.isMyLike}) : super(key: key);
 
   Future<Null> _refreshInterestsData() async {
-    _bloc.dispatch(InterestsEvent(refreshEventType));
+    _bloc.add(InterestsEvent(refreshEventType));
   }
 
   @override
@@ -37,13 +37,13 @@ class BaseInterestsPage extends StatelessWidget {
     _bloc = InjectorWidget.of(context).get();
     final strings = MyLocalizations.of(context);
     if (myLikes == null) {
-      _bloc.dispatch(InterestsEvent(eventType));
+      _bloc.add(InterestsEvent(eventType));
     }
     return BlocBuilder(
         bloc: _bloc,
         builder: (context, state) {
           if (state is InitialState) {
-            _bloc.dispatch(InterestsEvent(eventType));
+            _bloc.add(InterestsEvent(eventType));
           }
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());

@@ -8,7 +8,6 @@ import 'package:meshi/data/api/user_api.dart';
 import 'package:meshi/data/models/user.dart';
 import 'package:meshi/data/models/user_preferences.dart';
 import 'package:meshi/managers/session_manager.dart';
-import 'package:rxdart/rxdart.dart';
 
 class UserRepository {
   SessionManager _session;
@@ -35,33 +34,33 @@ class UserRepository {
     }).then((success) {
       return activeAccount();
     }).catchError((error) {
-      return Observable.error(error.toString());
+      return Stream.error(error.toString());
     });
   }
 
   /// Updates the user basic info
-  Observable<bool> updateUserBasicInfo(User user) {
-    return Observable.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
+  Stream<bool> updateUserBasicInfo(User user) {
+    return Stream.fromFuture(_api.updateUserBasicInfo(user)).map((response) {
       if (response?.success == true) {
         if (user.state != User.ADVANCED_USER) user.state = User.BASIC_USER;
         _session.saveUser(user);
       }
       return response?.success ?? false;
     }).handleError((error) {
-      return Observable.error(error.toString());
+      return Stream.error(error.toString());
     });
   }
 
   /// Updates the user advanced info
-  Observable<bool> updateUserAdvancedInfo(User user) {
-    return Observable.fromFuture(_api.updateUserAdvancedInfo(user)).map((response) {
+  Stream<bool> updateUserAdvancedInfo(User user) {
+    return Stream.fromFuture(_api.updateUserAdvancedInfo(user)).map((response) {
       if (response?.success == true) {
         user.state = User.ADVANCED_USER;
         _session.saveUser(user);
       }
       return response?.success ?? false;
     }).handleError((error) {
-      return Observable.error(error.toString());
+      return Stream.error(error.toString());
     });
   }
 
@@ -95,7 +94,7 @@ class UserRepository {
         _session.saveUser(user);
         return true;
       }
-      return Observable.error(error.toString());
+      return Stream.error(error.toString());
     });
   }
 

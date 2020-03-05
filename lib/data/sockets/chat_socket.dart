@@ -18,7 +18,7 @@ class ChatSocket {
     _messageSubject = PublishSubject();
   }
 
-  Future<Observable<Message>> connect(int matchId) async {
+  Future<Stream<Message>> connect(int matchId) async {
 
     String url = SOCKET_BASE_URL;
     String namespace = SOCKET_NAMESPACE;

@@ -105,7 +105,7 @@ class FormBloc extends BaseBloc {
     _deepeningSubject.sink.add(session.user.deepening);
   }
 
-  Observable<int> updateUserInfo() {
+  Stream<int> updateUserInfo() {
     progressSubject.sink.add(true);
     return repository.updateUserAdvancedInfo(session.user).map((success) {
       if (success) {
@@ -120,8 +120,8 @@ class FormBloc extends BaseBloc {
   }
 
   @override
-  dispose() {
-    super.dispose();
+  close() {
+    super.close();
     _userSubject.close();
     _basicsSubject.close();
     _habitsSubject.close();

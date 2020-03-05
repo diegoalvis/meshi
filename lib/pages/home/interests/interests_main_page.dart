@@ -47,7 +47,7 @@ class _InterestsMainPageContainerState extends State<InterestsMainPageContainer>
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _bloc.close();
     super.dispose();
   }
 

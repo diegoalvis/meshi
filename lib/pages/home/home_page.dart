@@ -73,7 +73,7 @@ class HomePageState extends State<HomePage> with InjectorWidgetMixin {
 
   @override
   void dispose() {
-    _bloc.dispose();
+    _bloc.close();
     super.dispose();
   }
 

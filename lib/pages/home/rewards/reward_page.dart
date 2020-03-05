@@ -42,7 +42,7 @@ class RewardContainer extends StatelessWidget {
   RewardBloc _bloc;
 
   Future<Null> _fetchRewardData() async {
-    _bloc.dispatch(RewardEventType.getCurrent);
+    _bloc.add(RewardEventType.getCurrent);
   }
 
   @override

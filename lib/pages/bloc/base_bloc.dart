@@ -20,11 +20,12 @@ class BaseBloc<E, S> extends Bloc<E, S> {
   final successSubject = PublishSubject<String>();
   final progressSubject = PublishSubject<bool>();
 
-  void dispose() {
-    super.dispose();
+  @override
+  Future close() async {
     errorSubject.close();
     successSubject.close();
     progressSubject.close();
+    return super.close();
   }
 
   @override
@@ -34,6 +35,4 @@ class BaseBloc<E, S> extends Bloc<E, S> {
   Stream<S> mapEventToState(E event) {
     return null;
   }
-
-
 }
