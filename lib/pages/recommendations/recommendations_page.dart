@@ -56,53 +56,53 @@ class _RecommendationsPageState extends State<RecommendationsBody> {
       body: Column(
         children: <Widget>[
           BlocBuilder(
-            bloc: _bloc,
+              bloc: _bloc,
               builder: (context, state) {
-            if (state is LoadingState) {
-              return Flexible(
-                child: Container(
-                    color: Theme.of(context).primaryColor,
-                    child: Center(
-                        child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
-                    ))),
-              );
-            }
-            if (state is SuccessState<List<Recomendation>>) {
-              users = state.data;
-              if (users.isEmpty && !_dialogShown) {
-                setState(() {
-                  _dialogShown = true;
-                });
-                Future.delayed(Duration(milliseconds: 1500), () {
-                  showCompleteProfileAlert(context);
-                });
-              }
-            }
-            if (state is TriesCompleteState) {
-              users = state.looked;
-              isMaxComplete = state.isMaxComplete;
-            }
-            if (state is ErrorState) {
-              onWidgetDidBuild(() {
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
-              });
-            }
-            if (state is InitialState) {
-              _bloc.sendLocation(context);
-              _bloc.add(GetRecommendationsEvent());
-            }
-            if (state is AddingMatchState) {
-              idRecommendationAdded = state.idMatch;
-            }
-            return Flexible(
-              child: Container(
-                  color: Theme.of(context).primaryColor,
-                  child: users.length > 0
-                      ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
-                      : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
-            );
-          }),
+                if (state is LoadingState) {
+                  return Flexible(
+                    child: Container(
+                        color: Theme.of(context).primaryColor,
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.onPrimary),
+                        ))),
+                  );
+                }
+                if (state is SuccessState<List<Recomendation>>) {
+                  if (state.data.isEmpty && !_dialogShown) {
+                    users = state.data;
+                    Future.delayed(Duration(milliseconds: 1500), () {
+                      setState(() {
+                        _dialogShown = true;
+                      });
+                      showCompleteProfileAlert(context);
+                    });
+                  }
+                }
+                if (state is TriesCompleteState) {
+                  users = state.looked;
+                  isMaxComplete = state.isMaxComplete;
+                }
+                if (state is ErrorState) {
+                  onWidgetDidBuild(() {
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text(strings.anErrorOccurred)));
+                  });
+                }
+                if (state is InitialState) {
+                  _bloc.sendLocation(context);
+                  _bloc.add(GetRecommendationsEvent());
+                }
+                if (state is AddingMatchState) {
+                  idRecommendationAdded = state.idMatch;
+                }
+                return Flexible(
+                  child: Container(
+                      color: Theme.of(context).primaryColor,
+                      child: users.length > 0
+                          ? Container(child: recommendationsCarousel(context, users, idRecommendationAdded, isMaxComplete))
+                          : Center(child: Text(strings.noUsersAvailable, style: TextStyle(color: Colors.white)))),
+                );
+              }),
         ],
       ),
     );
